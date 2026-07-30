@@ -47,4 +47,40 @@ export const mockRunningSession:
         statusLabel: 'Készen áll',
       },
     ],
+    assistant: {
+      title: 'Mi történjen most?',
+      description:
+        'Kérj gyors segítséget, ha a játékosok meglepnek, vagy új ötletre van szükséged.',
+
+      options: [
+        {
+          action: 'unexpected-direction',
+          title: 'Más irányba mentek',
+          description:
+            'Adj három ötletet az új helyzethez.',
+          icon: '🧭',
+        },
+        {
+          action: 'quick-npc',
+          title: 'Új szereplő kell',
+          description:
+            'Találj ki gyorsan egy emlékezetes NPC-t.',
+          icon: '🎭',
+        },
+        {
+          action: 'pokemon-event',
+          title: 'Pokémonnal találkoztak',
+          description:
+            'Készíts egy rövid eseményt vagy kihívást.',
+          icon: '⚡',
+        },
+        {
+          action: 'continue-story',
+          title: 'Elakadtunk',
+          description:
+            'Javasolj három lehetséges folytatást.',
+          icon: '✨',
+        },
+      ],
+    },
   };

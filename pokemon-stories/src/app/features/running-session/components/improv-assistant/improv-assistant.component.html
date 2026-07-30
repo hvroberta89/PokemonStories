@@ -1,0 +1,70 @@
+<section
+  class="improv-assistant"
+  aria-labelledby="improv-assistant-title"
+>
+  <header class="improv-assistant__header">
+    <div class="improv-assistant__heading">
+      <span
+        class="improv-assistant__spark"
+        aria-hidden="true"
+      >
+        ✦
+      </span>
+
+      <div>
+        <p class="improv-assistant__eyebrow">
+          Mesélői segítség
+        </p>
+
+        <h2 id="improv-assistant-title">
+          {{ assistant().title }}
+        </h2>
+      </div>
+    </div>
+
+    <span class="improv-assistant__badge">
+      AI
+    </span>
+  </header>
+
+  <p class="improv-assistant__description">
+    {{ assistant().description }}
+  </p>
+
+  <div class="improv-assistant__options">
+    @for (
+      option of assistant().options;
+      track option.action
+    ) {
+      <button
+        type="button"
+        class="assistant-option"
+        (click)="selectAction(option.action)"
+      >
+        <span
+          class="assistant-option__icon"
+          aria-hidden="true"
+        >
+          {{ option.icon }}
+        </span>
+
+        <span class="assistant-option__content">
+          <strong>
+            {{ option.title }}
+          </strong>
+
+          <span>
+            {{ option.description }}
+          </span>
+        </span>
+
+        <span
+          class="assistant-option__arrow"
+          aria-hidden="true"
+        >
+          ›
+        </span>
+      </button>
+    }
+  </div>
+</section>

@@ -22,6 +22,8 @@ import {
 import {
   mockRunningSession,
 } from '../../mocks/running-session.mock';
+import { ImprovAssistantComponent } from '../../components/improv-assistant/improv-assistant.component';
+import { ImprovAssistantAction } from '../../components/improv-assistant/improv-assistant.model';
 
 @Component({
   selector: 'app-running-session-page',
@@ -30,6 +32,7 @@ import {
     StoryCardComponent,
     GoalCardComponent,
     CharactersStripComponent,
+    ImprovAssistantComponent,
     QuickDockComponent,
   ],
   templateUrl:
@@ -59,5 +62,14 @@ export class RunningSessionPageComponent {
     characterId: string,
   ): void {
     this.selectedCharacterId.set(characterId);
+  }
+
+  protected readonly selectedAssistantAction =
+    signal<ImprovAssistantAction | null>(null);
+
+  protected selectAssistantAction(
+    action: ImprovAssistantAction,
+  ): void {
+    this.selectedAssistantAction.set(action);
   }
 }

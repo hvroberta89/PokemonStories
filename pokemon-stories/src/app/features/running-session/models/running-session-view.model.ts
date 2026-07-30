@@ -4,6 +4,7 @@ import {
 import {
   GoalCardViewModel,
 } from '../components/goal-card/goal-card.model';
+import { ImprovAssistantViewModel } from '../components/improv-assistant/improv-assistant.model';
 import {
   StoryCardViewModel,
 } from '../components/story-card/story-card.model';
@@ -13,4 +14,5 @@ export interface RunningSessionViewModel {
   readonly goal: GoalCardViewModel;
   readonly characters:
     readonly CharacterStripItemViewModel[];
+  readonly assistant: ImprovAssistantViewModel;
 }

@@ -66,19 +66,12 @@ h1 {
   font-weight: 700;
 }
 
-.running-session-page__story {
-  width: min(100%, 58rem);
+.running-session-page__story,
+.running-session-page__goal,
+.running-session-page__characters,
+.running-session-page__assistant {
+  width: min(100%, 52rem);
   margin-inline: auto;
-}
-
-.running-session-page__goal {
-  width: min(100%, 52rem);
-  margin: 1rem auto 0;
-}
-
-.running-session-page__characters {
-  width: min(100%, 52rem);
-  margin: 1rem auto 0;
 }
 
 .running-session-page__dock {

@@ -41,6 +41,16 @@
         (characterSelected)="selectCharacter($event)"
       />
     </section>
+
+    <section
+      class="running-session-page__assistant"
+      aria-label="Mesélői segítség"
+    >
+      <app-improv-assistant
+        [assistant]="viewModel().assistant"
+        (actionSelected)="selectAssistantAction($event)"
+      />
+    </section>
   </section>
 
   <div class="running-session-page__dock">
