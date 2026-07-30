@@ -4,12 +4,24 @@ import {
   signal,
 } from '@angular/core';
 
-import { QuickDockComponent } from '../../components/quick-dock/quick-dock.component';
-import { QuickDockAction } from '../../components/quick-dock/quick-dock.model';
-import { StoryCardComponent } from '../../components/story-card/story-card.component';
-import { StoryCardViewModel } from '../../components/story-card/story-card.model';
-import { GoalCardComponent } from '../../components/goal-card/goal-card.component';
-import { GoalCardViewModel } from '../../components/goal-card/goal-card.model';
+import {
+  CharactersStripComponent,
+} from '../../components/characters-strip/characters-strip.component';
+import {
+  GoalCardComponent,
+} from '../../components/goal-card/goal-card.component';
+import {
+  QuickDockComponent,
+} from '../../components/quick-dock/quick-dock.component';
+import {
+  QuickDockAction,
+} from '../../components/quick-dock/quick-dock.model';
+import {
+  StoryCardComponent,
+} from '../../components/story-card/story-card.component';
+import {
+  mockRunningSession,
+} from '../../mocks/running-session.mock';
 
 @Component({
   selector: 'app-running-session-page',
@@ -17,40 +29,35 @@ import { GoalCardViewModel } from '../../components/goal-card/goal-card.model';
   imports: [
     StoryCardComponent,
     GoalCardComponent,
+    CharactersStripComponent,
     QuickDockComponent,
   ],
-  templateUrl: './running-session-page.component.html',
-  styleUrl: './running-session-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl:
+    './running-session-page.component.html',
+  styleUrl:
+    './running-session-page.component.scss',
+  changeDetection:
+    ChangeDetectionStrategy.OnPush,
 })
 export class RunningSessionPageComponent {
-  protected readonly currentStory =
-    signal<StoryCardViewModel>({
-      locationName: 'Virágmező',
-      narration:
-        'A szél finoman megmozgatja a virágokat. A távolban valami aranyszínűen csillan.',
-      imageUrl:
-        '/images/story-cards/flower-meadow.png',
-      imageAlt:
-        'Színes virágokkal borított napsütötte rét',
-      mood: 'exploration',
-    });
-
-  protected readonly currentGoal =
-    signal<GoalCardViewModel>({
-      title: 'Találjátok meg a Napviráglevelet',
-      description:
-        'Kövessétek az aranyszínű nyomokat a Virágmezőn.',
-      status: 'active',
-      progressLabel: '1 nyom megtalálva',
-    });
+  protected readonly viewModel =
+    signal(mockRunningSession);
 
   protected readonly selectedAction =
     signal<QuickDockAction | null>(null);
+
+  protected readonly selectedCharacterId =
+    signal<string | null>(null);
 
   protected selectQuickAction(
     action: QuickDockAction,
   ): void {
     this.selectedAction.set(action);
+  }
+
+  protected selectCharacter(
+    characterId: string,
+  ): void {
+    this.selectedCharacterId.set(characterId);
   }
 }

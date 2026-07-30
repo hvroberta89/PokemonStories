@@ -1,0 +1,59 @@
+<section
+  class="characters-strip"
+  aria-labelledby="characters-strip-title"
+>
+  <header class="characters-strip__header">
+    <div>
+      <p class="characters-strip__eyebrow">
+        Csapat
+      </p>
+
+      <h2 id="characters-strip-title">
+        Kalandorok
+      </h2>
+    </div>
+
+    <span class="characters-strip__count">
+      {{ characters().length }} játékos
+    </span>
+  </header>
+
+  <div class="characters-strip__list">
+    @for (
+      character of characters();
+      track character.id
+    ) {
+      <button
+        type="button"
+        class="character"
+        [attr.data-status]="character.status"
+        [attr.aria-label]="
+          character.name + ', ' + character.statusLabel
+        "
+        (click)="selectCharacter(character.id)"
+      >
+        <span class="character__avatar">
+          @if (character.avatarUrl) {
+            <img
+              [src]="character.avatarUrl"
+              [alt]="character.name"
+            >
+          } @else {
+            <span aria-hidden="true">
+              {{ character.initials }}
+            </span>
+          }
+
+          <span
+            class="character__status"
+            aria-hidden="true"
+          ></span>
+        </span>
+
+        <span class="character__name">
+          {{ character.name }}
+        </span>
+      </button>
+    }
+  </div>
+</section>

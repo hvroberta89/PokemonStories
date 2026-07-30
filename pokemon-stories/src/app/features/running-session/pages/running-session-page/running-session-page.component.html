@@ -13,18 +13,34 @@
     </span>
   </header>
 
-  <section
-    class="running-session-page__story"
-    aria-label="Aktuális történet"
-  >
-    <app-story-card [story]="currentStory()" />
-  </section>
+  <section class="running-session-page__content">
+    <section
+      class="running-session-page__story"
+      aria-label="Aktuális történet"
+    >
+      <app-story-card
+        [story]="viewModel().story"
+      />
+    </section>
 
-  <section
-    class="running-session-page__goal"
-    aria-label="Aktuális cél"
-  >
-    <app-goal-card [goal]="currentGoal()" />
+    <section
+      class="running-session-page__goal"
+      aria-label="Aktuális cél"
+    >
+      <app-goal-card
+        [goal]="viewModel().goal"
+      />
+    </section>
+
+    <section
+      class="running-session-page__characters"
+      aria-label="Kalandorok"
+    >
+      <app-characters-strip
+        [characters]="viewModel().characters"
+        (characterSelected)="selectCharacter($event)"
+      />
+    </section>
   </section>
 
   <div class="running-session-page__dock">
