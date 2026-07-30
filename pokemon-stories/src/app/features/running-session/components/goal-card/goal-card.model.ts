@@ -8,4 +8,5 @@ export interface GoalCardViewModel {
   readonly description: string;
   readonly status: GoalStatus;
   readonly progressLabel?: string;
+  readonly actionLabel: string;
 }

@@ -2,7 +2,15 @@
   class="goal-card"
   [attr.data-status]="goal().status"
 >
-  <div class="goal-card__icon" aria-hidden="true">
+  <div
+    class="goal-card__accent"
+    aria-hidden="true"
+  ></div>
+
+  <div
+    class="goal-card__icon"
+    aria-hidden="true"
+  >
     @switch (goal().status) {
       @case ('completed') {
         ✓
@@ -13,7 +21,7 @@
       }
 
       @default {
-        ◆
+        ◎
       }
     }
   </div>
@@ -23,7 +31,9 @@
       Aktuális cél
     </p>
 
-    <h2>{{ goal().title }}</h2>
+    <h2>
+      {{ goal().title }}
+    </h2>
 
     <p class="goal-card__description">
       {{ goal().description }}
@@ -35,4 +45,25 @@
       </span>
     }
   </div>
+
+  <button
+    type="button"
+    class="goal-card__action"
+    [attr.aria-label]="goal().actionLabel"
+    (click)="selectAction()"
+  >
+    <span
+      class="goal-card__action-icon"
+      aria-hidden="true"
+    >
+      🗺
+    </span>
+
+    <span
+      class="goal-card__action-arrow"
+      aria-hidden="true"
+    >
+      ›
+    </span>
+  </button>
 </article>

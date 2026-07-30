@@ -15,6 +15,7 @@ describe('GoalCardComponent', () => {
       'Kövessétek az aranyszínű nyomokat a Virágmezőn.',
     status: 'active',
     progressLabel: '1 nyom megtalálva',
+    actionLabel: 'Cél részleteinek megnyitása',
   };
 
   beforeEach(async () => {
@@ -37,5 +38,21 @@ describe('GoalCardComponent', () => {
     expect(element.textContent).toContain(
       '1 nyom megtalálva',
     );
+  });
+
+  it('emits the action event', () => {
+    const emitSpy = vi.spyOn(
+      fixture.componentInstance.actionSelected,
+      'emit',
+    );
+
+    const button =
+      fixture.nativeElement.querySelector(
+        '.goal-card__action',
+      ) as HTMLButtonElement;
+
+    button.click();
+
+    expect(emitSpy).toHaveBeenCalled();
   });
 });

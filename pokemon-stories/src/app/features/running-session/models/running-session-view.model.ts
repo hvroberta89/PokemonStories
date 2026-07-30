@@ -1,5 +1,5 @@
 import {
-  CharacterStripItemViewModel,
+  CharactersStripViewModel,
 } from '../components/characters-strip/characters-strip.model';
 import {
   GoalCardViewModel,
@@ -12,7 +12,6 @@ import {
 export interface RunningSessionViewModel {
   readonly story: StoryCardViewModel;
   readonly goal: GoalCardViewModel;
-  readonly characters:
-    readonly CharacterStripItemViewModel[];
+  readonly characters: CharactersStripViewModel;
   readonly assistant: ImprovAssistantViewModel;
 }

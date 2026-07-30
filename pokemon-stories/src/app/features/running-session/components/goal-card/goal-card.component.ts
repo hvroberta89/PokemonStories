@@ -2,9 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   input,
+  output,
 } from '@angular/core';
 
-import { GoalCardViewModel } from './goal-card.model';
+import {
+  GoalCardViewModel,
+} from './goal-card.model';
 
 @Component({
   selector: 'app-goal-card',
@@ -15,4 +18,10 @@ import { GoalCardViewModel } from './goal-card.model';
 })
 export class GoalCardComponent {
   readonly goal = input.required<GoalCardViewModel>();
+
+  readonly actionSelected = output<void>();
+
+  protected selectAction(): void {
+    this.actionSelected.emit();
+  }
 }

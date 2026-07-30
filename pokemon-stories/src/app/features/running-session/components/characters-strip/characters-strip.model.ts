@@ -12,3 +12,11 @@ export interface CharacterStripItemViewModel {
   readonly status: CharacterStatus;
   readonly statusLabel: string;
 }
+
+export interface CharactersStripViewModel {
+  readonly title: string;
+  readonly countLabel: string;
+  readonly addLabel: string;
+  readonly characters:
+    readonly CharacterStripItemViewModel[];
+}

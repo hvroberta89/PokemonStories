@@ -22,37 +22,42 @@ export const mockRunningSession:
     },
 
     goal: {
-      title:
-        'Találjátok meg a Napviráglevelet',
+      title: 'Találjátok meg a Napviráglevelet',
       description:
         'Kövessétek az aranyszínű nyomokat a Virágmezőn.',
       status: 'active',
       progressLabel: '1 nyom megtalálva',
+      actionLabel: 'Cél részleteinek megnyitása',
     },
 
-    characters: [
-      {
-        id: 'lili',
-        name: 'Lili',
-        initials: 'LI',
-        status: 'ready',
-        statusLabel: 'Készen áll',
-      },
-      {
-        id: 'marci',
-        name: 'Marci',
-        initials: 'MA',
-        status: 'thinking',
-        statusLabel: 'Gondolkodik',
-      },
-      {
-        id: 'piko',
-        name: 'Pikó',
-        initials: 'PI',
-        status: 'ready',
-        statusLabel: 'Készen áll',
-      },
-    ],
+    characters: {
+      title: 'Kalandorok',
+      countLabel: '3 játékos',
+      addLabel: 'Új karakter hozzáadása',
+      characters: [
+        {
+          id: 'lili',
+          name: 'Lili',
+          initials: 'LI',
+          status: 'ready',
+          statusLabel: 'Készen áll',
+        },
+        {
+          id: 'marci',
+          name: 'Marci',
+          initials: 'MA',
+          status: 'thinking',
+          statusLabel: 'Gondolkodik',
+        },
+        {
+          id: 'piko',
+          name: 'Pikó',
+          initials: 'PI',
+          status: 'ready',
+          statusLabel: 'Készen áll',
+        },
+      ],
+    },
     assistant: {
       title: 'Mi történjen most?',
       description:

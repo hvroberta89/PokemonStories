@@ -6,16 +6,19 @@ import {
 import {
   CharactersStripComponent,
 } from './characters-strip.component';
-
 import {
-  CharacterStripItemViewModel,
+  CharactersStripViewModel,
 } from './characters-strip.model';
 
 describe('CharactersStripComponent', () => {
-  let fixture: ComponentFixture<CharactersStripComponent>;
+  let fixture:
+    ComponentFixture<CharactersStripComponent>;
 
-  const characters:
-    readonly CharacterStripItemViewModel[] = [
+  const strip: CharactersStripViewModel = {
+    title: 'Kalandorok',
+    countLabel: '2 játékos',
+    addLabel: 'Új karakter hozzáadása',
+    characters: [
       {
         id: 'lili',
         name: 'Lili',
@@ -30,7 +33,8 @@ describe('CharactersStripComponent', () => {
         status: 'thinking',
         statusLabel: 'Gondolkodik',
       },
-    ];
+    ],
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -42,8 +46,8 @@ describe('CharactersStripComponent', () => {
     );
 
     fixture.componentRef.setInput(
-      'characters',
-      characters,
+      'strip',
+      strip,
     );
 
     fixture.detectChanges();
@@ -55,7 +59,9 @@ describe('CharactersStripComponent', () => {
 
     expect(element.textContent).toContain('Lili');
     expect(element.textContent).toContain('Marci');
-    expect(element.textContent).toContain('2 játékos');
+    expect(element.textContent).toContain(
+      '2 játékos',
+    );
   });
 
   it('emits the selected character id', () => {
@@ -66,11 +72,27 @@ describe('CharactersStripComponent', () => {
 
     const button =
       fixture.nativeElement.querySelector(
-        '.character',
+        '.character:not(.character--add)',
       ) as HTMLButtonElement;
 
     button.click();
 
     expect(emitSpy).toHaveBeenCalledWith('lili');
+  });
+
+  it('emits the add event', () => {
+    const emitSpy = vi.spyOn(
+      fixture.componentInstance.addSelected,
+      'emit',
+    );
+
+    const button =
+      fixture.nativeElement.querySelector(
+        '.character--add',
+      ) as HTMLButtonElement;
+
+    button.click();
+
+    expect(emitSpy).toHaveBeenCalled();
   });
 });

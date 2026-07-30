@@ -3,24 +3,39 @@
   aria-labelledby="characters-strip-title"
 >
   <header class="characters-strip__header">
-    <div>
-      <p class="characters-strip__eyebrow">
-        Csapat
-      </p>
+    <div class="characters-strip__heading">
+      <span
+        class="characters-strip__heading-icon"
+        aria-hidden="true"
+      >
+        👥
+      </span>
 
-      <h2 id="characters-strip-title">
-        Kalandorok
-      </h2>
+      <div>
+        <p class="characters-strip__eyebrow">
+          Jelenlévők
+        </p>
+
+        <h2 id="characters-strip-title">
+          {{ strip().title }}
+        </h2>
+      </div>
     </div>
 
-    <span class="characters-strip__count">
-      {{ characters().length }} játékos
-    </span>
+    <button
+      type="button"
+      class="characters-strip__details"
+      aria-label="Jelenlévők részleteinek megnyitása"
+      (click)="openDetails()"
+    >
+      <span>{{ strip().countLabel }}</span>
+      <span aria-hidden="true">›</span>
+    </button>
   </header>
 
   <div class="characters-strip__list">
     @for (
-      character of characters();
+      character of strip().characters;
       track character.id
     ) {
       <button
@@ -32,22 +47,43 @@
         "
         (click)="selectCharacter(character.id)"
       >
-        <span class="character__avatar">
-          @if (character.avatarUrl) {
-            <img
-              [src]="character.avatarUrl"
-              [alt]="character.name"
-            >
-          } @else {
-            <span aria-hidden="true">
-              {{ character.initials }}
-            </span>
-          }
+        <span class="character__avatar-shell">
+          <span class="character__avatar">
+            @if (character.avatarUrl) {
+              <img
+                [src]="character.avatarUrl"
+                [alt]="character.name"
+              >
+            } @else {
+              <span aria-hidden="true">
+                {{ character.initials }}
+              </span>
+            }
+          </span>
 
           <span
             class="character__status"
+            [attr.title]="character.statusLabel"
             aria-hidden="true"
-          ></span>
+          >
+            @switch (character.status) {
+              @case ('ready') {
+                ☺
+              }
+
+              @case ('thinking') {
+                …
+              }
+
+              @case ('injured') {
+                !
+              }
+
+              @default {
+                −
+              }
+            }
+          </span>
         </span>
 
         <span class="character__name">
@@ -55,5 +91,20 @@
         </span>
       </button>
     }
+
+    <button
+      type="button"
+      class="character character--add"
+      [attr.aria-label]="strip().addLabel"
+      (click)="addCharacter()"
+    >
+      <span class="character__add-avatar">
+        <span aria-hidden="true">+</span>
+      </span>
+
+      <span class="character__name">
+        Hozzáadás
+      </span>
+    </button>
   </div>
 </section>

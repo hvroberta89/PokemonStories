@@ -64,6 +64,14 @@ export class RunningSessionPageComponent {
     this.selectedCharacterId.set(characterId);
   }
 
+  protected addCharacter(): void {
+    console.log('Add character');
+  }
+
+  protected openCharacterDetails(): void {
+    console.log('Open character details');
+  }
+
   protected readonly selectedAssistantAction =
     signal<ImprovAssistantAction | null>(null);
 
@@ -71,5 +79,9 @@ export class RunningSessionPageComponent {
     action: ImprovAssistantAction,
   ): void {
     this.selectedAssistantAction.set(action);
+  }
+
+  protected openGoalDetails(): void {
+    console.log('Open goal details');
   }
 }

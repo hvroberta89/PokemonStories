@@ -103,6 +103,7 @@
     >
       <app-goal-card
         [goal]="viewModel().goal"
+        (actionSelected)="openGoalDetails()"
       />
     </section>
 
@@ -111,8 +112,10 @@
       aria-label="Kalandorok"
     >
       <app-characters-strip
-        [characters]="viewModel().characters"
+        [strip]="viewModel().characters"
         (characterSelected)="selectCharacter($event)"
+        (addSelected)="addCharacter()"
+        (detailsSelected)="openCharacterDetails()"
       />
     </section>
 

@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 
 import {
-  CharacterStripItemViewModel,
+  CharactersStripViewModel,
 } from './characters-strip.model';
 
 @Component({
@@ -17,12 +17,24 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharactersStripComponent {
-  readonly characters =
-    input.required<readonly CharacterStripItemViewModel[]>();
+  readonly strip =
+    input.required<CharactersStripViewModel>();
 
   readonly characterSelected = output<string>();
+  readonly addSelected = output<void>();
+  readonly detailsSelected = output<void>();
 
-  protected selectCharacter(characterId: string): void {
+  protected selectCharacter(
+    characterId: string,
+  ): void {
     this.characterSelected.emit(characterId);
+  }
+
+  protected addCharacter(): void {
+    this.addSelected.emit();
+  }
+
+  protected openDetails(): void {
+    this.detailsSelected.emit();
   }
 }
