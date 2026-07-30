@@ -6,13 +6,19 @@ export const mockRunningSession:
   RunningSessionViewModel = {
     story: {
       locationName: 'Virágmező',
-      narration:
+      locationIcon: '🌺',
+      narration: [
         'A szél finoman megmozgatja a virágokat. A távolban valami aranyszínűen csillan.',
+        'A fű között apró lábnyomok vezetnek az öreg tölgyfa irányába.',
+        'A bokrok mögül halk nesz hallatszik…',
+      ],
       imageUrl:
         '/images/story-cards/flower-meadow.png',
       imageAlt:
         'Színes virágokkal borított napsütötte rét',
       mood: 'exploration',
+      currentPage: 2,
+      pageCount: 4,
     },
 
     goal: {

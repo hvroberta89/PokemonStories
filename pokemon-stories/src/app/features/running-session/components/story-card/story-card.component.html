@@ -2,19 +2,96 @@
   class="story-card"
   [attr.data-mood]="story().mood"
 >
-  <div class="story-card__image-frame">
+  <div class="story-card__visual">
     <img
       class="story-card__image"
       [src]="story().imageUrl"
       [alt]="story().imageAlt"
     >
+
+    <div
+      class="story-card__image-shade"
+      aria-hidden="true"
+    ></div>
   </div>
 
-  <div class="story-card__content">
-    <p class="story-card__eyebrow">Aktuális helyszín</p>
-    <h2>{{ story().locationName }}</h2>
-    <p class="story-card__narration">
-      {{ story().narration }}
-    </p>
+  <div class="story-card__page">
+    <div
+      class="story-card__corner story-card__corner--top-left"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      class="story-card__corner story-card__corner--top-right"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      class="story-card__corner story-card__corner--bottom-left"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      class="story-card__corner story-card__corner--bottom-right"
+      aria-hidden="true"
+    ></div>
+
+    <header class="story-card__header">
+      <span
+        class="story-card__location-icon"
+        aria-hidden="true"
+      >
+        {{ story().locationIcon }}
+      </span>
+
+      <h2>
+        {{ story().locationName }}
+      </h2>
+    </header>
+
+    <div
+      class="story-card__divider"
+      aria-hidden="true"
+    >
+      <span></span>
+      <strong>◉</strong>
+      <span></span>
+    </div>
+
+    <div class="story-card__narration">
+      @for (
+        paragraph of story().narration;
+        track $index
+      ) {
+        <p>{{ paragraph }}</p>
+      }
+    </div>
+
+    <footer class="story-card__footer">
+      <div
+        class="story-card__pagination"
+        aria-label="Történetoldalak"
+      >
+        @for (
+          page of [].constructor(story().pageCount);
+          track $index
+        ) {
+          <span
+            class="story-card__page-dot"
+            [class.story-card__page-dot--active]="
+              $index + 1 === story().currentPage
+            "
+          ></span>
+        }
+      </div>
+
+      <button
+        type="button"
+        class="story-card__next"
+        aria-label="Következő történetrész"
+      >
+        <span aria-hidden="true">›</span>
+      </button>
+    </footer>
   </div>
 </article>

@@ -1,17 +1,91 @@
 <main class="running-session-page">
-  <header class="running-session-page__header">
-    <div>
-      <p class="running-session-page__eyebrow">
-        Pokémon Stories
-      </p>
+  <div class="running-session-page__background"></div>
 
-      <h1>Az eltűnt Napviráglevél</h1>
+  <header class="session-header">
+    <button
+      type="button"
+      class="session-header__menu"
+      aria-label="Menü megnyitása"
+    >
+      <span aria-hidden="true">☰</span>
+    </button>
+
+    <nav
+      class="session-header__breadcrumbs"
+      aria-label="Navigációs útvonal"
+    >
+      <span class="session-header__brand">
+        Pokémon kalandok
+      </span>
+
+      <span
+        class="session-header__separator"
+        aria-hidden="true"
+      >
+        ›
+      </span>
+
+      <span class="session-header__campaign">
+        Az eltűnt Napviráglevél
+      </span>
+
+      <span
+        class="session-header__separator"
+        aria-hidden="true"
+      >
+        ›
+      </span>
+
+      <strong class="session-header__location">
+        {{ viewModel().story.locationName }}
+      </strong>
+    </nav>
+
+    <button
+      type="button"
+      class="session-header__notes"
+      aria-label="Jegyzetek megnyitása"
+    >
+      <span aria-hidden="true">📝</span>
+      <span class="session-header__notification">
+        2
+      </span>
+    </button>
+  </header>
+
+  <section
+    class="session-meta"
+    aria-label="Kaland állapota"
+  >
+    <span class="session-meta__type">
+      <span aria-hidden="true">🌿</span>
+      Felfedezés
+    </span>
+
+    <div
+      class="session-meta__progress"
+      aria-label="Kaland előrehaladása"
+    >
+      <span class="session-meta__step session-meta__step--completed"></span>
+      <span class="session-meta__line session-meta__line--completed"></span>
+
+      <span class="session-meta__step session-meta__step--completed"></span>
+      <span class="session-meta__line session-meta__line--completed"></span>
+
+      <span class="session-meta__step session-meta__step--active"></span>
+      <span class="session-meta__line"></span>
+
+      <span class="session-meta__step"></span>
+      <span class="session-meta__line"></span>
+
+      <span class="session-meta__step"></span>
     </div>
 
-    <span class="running-session-page__status">
-      Kaland folyamatban
+    <span class="session-meta__timer">
+      <span aria-hidden="true">⏱</span>
+      00:42:15
     </span>
-  </header>
+  </section>
 
   <section class="running-session-page__content">
     <section
@@ -52,6 +126,14 @@
       />
     </section>
   </section>
+
+  <button
+    type="button"
+    class="quick-action-button"
+    aria-label="Gyors művelet"
+  >
+    <span aria-hidden="true">+</span>
+  </button>
 
   <div class="running-session-page__dock">
     <app-quick-dock

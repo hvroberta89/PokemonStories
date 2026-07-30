@@ -8,11 +8,18 @@ describe('StoryCardComponent', () => {
 
   const story: StoryCardViewModel = {
     locationName: 'Virágmező',
-    narration:
-      'A szél finoman megmozgatja a virágokat. A távolban valami aranyszínűen csillan.',
-    imageUrl: '/images/flower-meadow.webp',
-    imageAlt: 'Színes virágokkal borított napsütötte rét',
+    locationIcon: '🌺',
+    narration: [
+      'A szél finoman megmozgatja a virágokat.',
+      'A bokrok mögül halk nesz hallatszik.',
+    ],
+    imageUrl:
+      '/images/story-cards/flower-meadow.png',
+    imageAlt:
+      'Színes virágokkal borított napsütötte rét',
     mood: 'exploration',
+    currentPage: 2,
+    pageCount: 4,
   };
 
   beforeEach(async () => {
@@ -25,12 +32,28 @@ describe('StoryCardComponent', () => {
     fixture.detectChanges();
   });
 
-  it('renders the current story scene', () => {
-    const element = fixture.nativeElement as HTMLElement;
+  it('renders the current story', () => {
+    const element =
+      fixture.nativeElement as HTMLElement;
 
-    expect(element.textContent).toContain('Virágmező');
-    expect(element.textContent).toContain('A távolban');
-    expect(element.querySelector('img')?.getAttribute('src'))
-      .toBe('/images/flower-meadow.webp');
+    expect(element.textContent).toContain(
+      'Virágmező',
+    );
+
+    expect(element.textContent).toContain(
+      'A szél finoman megmozgatja a virágokat.',
+    );
+
+    expect(
+      element.querySelectorAll(
+        '.story-card__page-dot',
+      ),
+    ).toHaveLength(4);
+
+    expect(
+      element.querySelectorAll(
+        '.story-card__page-dot--active',
+      ),
+    ).toHaveLength(1);
   });
 });

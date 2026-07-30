@@ -1,0 +1,55 @@
+:root {
+  --font-family-body:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  --font-family-display:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  --color-page-background: #f7f1e5;
+  --color-page-background-soft: #fffaf0;
+
+  --color-surface: rgb(255 252 244 / 92%);
+  --color-surface-strong: #fffaf3;
+  --color-surface-muted: #f0eadc;
+
+  --color-text-primary: #17243b;
+  --color-text-secondary: #697083;
+  --color-text-muted: #9398a4;
+
+  --color-border: rgb(113 92 55 / 16%);
+  --color-border-strong: rgb(113 92 55 / 24%);
+
+  --color-primary: #6d9132;
+  --color-primary-strong: #49691e;
+  --color-primary-soft: #e4edcf;
+
+  --color-accent: #ffb91f;
+  --color-accent-strong: #e69500;
+  --color-accent-soft: #fff0b7;
+
+  --color-danger: #d94f4f;
+  --color-info: #2d84d6;
+
+  --radius-small: 0.8rem;
+  --radius-medium: 1.15rem;
+  --radius-large: 1.65rem;
+  --radius-pill: 999px;
+
+  --shadow-card:
+    0 0.75rem 2rem rgb(61 46 19 / 12%),
+    0 0.15rem 0.4rem rgb(61 46 19 / 9%);
+
+  --shadow-floating:
+    0 1rem 3rem rgb(28 34 28 / 22%),
+    0 0.2rem 0.6rem rgb(28 34 28 / 16%);
+
+  --content-width: 76rem;
+  --page-padding: clamp(1rem, 3vw, 2rem);
+}

@@ -1,0 +1,45 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--color-page-background);
+  font-family: var(--font-family-body);
+  color: var(--color-text-primary);
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgb(255 255 255 / 86%),
+      transparent 36rem
+    ),
+    linear-gradient(
+      180deg,
+      #fffaf0 0,
+      #f6efe0 45rem,
+      #edf1e1 100%
+    );
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}

@@ -1,14 +1,16 @@
 export type StoryMood =
   | 'exploration'
-  | 'battle'
   | 'mystery'
-  | 'reward'
-  | 'campfire';
+  | 'danger'
+  | 'peaceful';
 
 export interface StoryCardViewModel {
   readonly locationName: string;
-  readonly narration: string;
+  readonly locationIcon: string;
+  readonly narration: readonly string[];
   readonly imageUrl: string;
   readonly imageAlt: string;
   readonly mood: StoryMood;
+  readonly currentPage: number;
+  readonly pageCount: number;
 }
