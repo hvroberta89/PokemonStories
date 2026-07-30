@@ -1,0 +1,24 @@
+<nav
+  class="quick-dock"
+  aria-label="Kaland gyorsműveletek"
+>
+  @for (item of items; track item.action) {
+    <button
+      type="button"
+      class="quick-dock__item"
+      [attr.aria-label]="item.label"
+      (click)="selectAction(item.action)"
+    >
+      <span
+        class="quick-dock__icon"
+        aria-hidden="true"
+      >
+        {{ item.icon }}
+      </span>
+
+      <span class="quick-dock__label">
+        {{ item.label }}
+      </span>
+    </button>
+  }
+</nav>

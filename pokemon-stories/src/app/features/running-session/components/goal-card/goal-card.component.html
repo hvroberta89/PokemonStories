@@ -1,0 +1,38 @@
+<article
+  class="goal-card"
+  [attr.data-status]="goal().status"
+>
+  <div class="goal-card__icon" aria-hidden="true">
+    @switch (goal().status) {
+      @case ('completed') {
+        ✓
+      }
+
+      @case ('failed') {
+        !
+      }
+
+      @default {
+        ◆
+      }
+    }
+  </div>
+
+  <div class="goal-card__content">
+    <p class="goal-card__eyebrow">
+      Aktuális cél
+    </p>
+
+    <h2>{{ goal().title }}</h2>
+
+    <p class="goal-card__description">
+      {{ goal().description }}
+    </p>
+
+    @if (goal().progressLabel; as progressLabel) {
+      <span class="goal-card__progress">
+        {{ progressLabel }}
+      </span>
+    }
+  </div>
+</article>

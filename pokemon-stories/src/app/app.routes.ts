@@ -9,12 +9,19 @@ export const routes: Routes = [
       ).then(module => module.ProjectsPageComponent),
   },
   {
+    path: 'running-session',
+    loadComponent: () =>
+      import(
+        './features/running-session/pages/running-session-page/running-session-page.component'
+      ).then(module => module.RunningSessionPageComponent),
+  },
+  {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'projects',
+    redirectTo: 'running-session',
   },
   {
     path: '**',
-    redirectTo: 'projects',
+    redirectTo: 'running-session',
   },
 ];

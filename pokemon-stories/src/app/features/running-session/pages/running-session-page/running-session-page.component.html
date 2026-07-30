@@ -1,0 +1,35 @@
+<main class="running-session-page">
+  <header class="running-session-page__header">
+    <div>
+      <p class="running-session-page__eyebrow">
+        Pokémon Stories
+      </p>
+
+      <h1>Az eltűnt Napviráglevél</h1>
+    </div>
+
+    <span class="running-session-page__status">
+      Kaland folyamatban
+    </span>
+  </header>
+
+  <section
+    class="running-session-page__story"
+    aria-label="Aktuális történet"
+  >
+    <app-story-card [story]="currentStory()" />
+  </section>
+
+  <section
+    class="running-session-page__goal"
+    aria-label="Aktuális cél"
+  >
+    <app-goal-card [goal]="currentGoal()" />
+  </section>
+
+  <div class="running-session-page__dock">
+    <app-quick-dock
+      (actionSelected)="selectQuickAction($event)"
+    />
+  </div>
+</main>
