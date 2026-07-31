@@ -1,12 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  input,
   output,
 } from '@angular/core';
 
 import {
   QuickDockAction,
-  QuickDockItem,
+  QuickDockViewModel,
 } from './quick-dock.model';
 
 @Component({
@@ -17,32 +18,15 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuickDockComponent {
-  readonly actionSelected = output<QuickDockAction>();
+  readonly dock =
+    input.required<QuickDockViewModel>();
 
-  protected readonly items: readonly QuickDockItem[] = [
-    {
-      action: 'characters',
-      label: 'Karakterek',
-      icon: '👥',
-    },
-    {
-      action: 'notes',
-      label: 'Jegyzetek',
-      icon: '📖',
-    },
-    {
-      action: 'dice',
-      label: 'Dobókocka',
-      icon: '🎲',
-    },
-    {
-      action: 'settings',
-      label: 'Beállítások',
-      icon: '⚙️',
-    },
-  ];
+  readonly actionSelected =
+    output<QuickDockAction>();
 
-  protected selectAction(action: QuickDockAction): void {
+  protected selectAction(
+    action: QuickDockAction,
+  ): void {
     this.actionSelected.emit(action);
   }
 }

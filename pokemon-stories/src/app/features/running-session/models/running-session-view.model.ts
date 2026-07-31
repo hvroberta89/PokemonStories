@@ -5,6 +5,7 @@ import {
   GoalCardViewModel,
 } from '../components/goal-card/goal-card.model';
 import { ImprovAssistantViewModel } from '../components/improv-assistant/improv-assistant.model';
+import { QuickDockViewModel } from '../components/quick-dock/quick-dock.model';
 import { RecentEventsViewModel } from '../components/recent-events/recent-events.model';
 import {
   StoryCardViewModel,
@@ -16,4 +17,5 @@ export interface RunningSessionViewModel {
   readonly characters: CharactersStripViewModel;
   readonly recentEvents: RecentEventsViewModel;
   readonly assistant: ImprovAssistantViewModel;
+  readonly dock: QuickDockViewModel;
 }

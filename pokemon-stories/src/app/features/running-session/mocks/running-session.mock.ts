@@ -126,4 +126,34 @@ export const mockRunningSession:
         },
       ],
     },
+
+    dock: {
+      quickActionLabel: 'Gyors művelet',
+      items: [
+        {
+          action: 'notes',
+          label: 'Jegyzetek',
+          icon: '📘',
+          badge: 2,
+        },
+        {
+          action: 'rewards',
+          label: 'Jutalmak',
+          icon: '🎁',
+          badge: 1,
+        },
+        {
+          action: 'assistant',
+          label: 'AI segítő',
+          icon: '✦',
+          active: true,
+        },
+        {
+          action: 'inventory',
+          label: 'Várólista',
+          icon: '🗂️',
+          badge: 3,
+        },
+      ],
+    },
   };

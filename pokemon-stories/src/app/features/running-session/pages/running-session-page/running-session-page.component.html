@@ -141,7 +141,19 @@
 
   <div class="running-session-page__dock">
     <app-quick-dock
+      [dock]="viewModel().dock"
       (actionSelected)="selectQuickAction($event)"
     />
   </div>
+
+  <button
+    type="button"
+    class="quick-action-button"
+    [attr.aria-label]="
+      viewModel().dock.quickActionLabel
+    "
+    (click)="openQuickActions()"
+  >
+    <span aria-hidden="true">+</span>
+  </button>
 </main>

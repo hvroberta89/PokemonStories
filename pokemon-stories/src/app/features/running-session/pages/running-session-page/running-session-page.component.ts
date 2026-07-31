@@ -86,4 +86,8 @@ export class RunningSessionPageComponent {
   protected openGoalDetails(): void {
     console.log('Open goal details');
   }
+
+  protected openQuickActions(): void {
+    console.log('Open quick actions');
+  }
 }
