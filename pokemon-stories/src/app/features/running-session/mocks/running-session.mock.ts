@@ -6,7 +6,7 @@ export const mockRunningSession:
   RunningSessionViewModel = {
     story: {
       locationName: 'Virágmező',
-      locationIcon: '🌺',
+      locationIcon: 'environment-forest',
       narration: [
         'A szél finoman megmozgatja a virágokat. A távolban valami aranyszínűen csillan.',
         'A fű között apró lábnyomok vezetnek az öreg tölgyfa irányába.',

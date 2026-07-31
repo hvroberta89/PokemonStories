@@ -10,37 +10,42 @@
     >
 
     <div
-      class="story-card__image-shade"
+      class="story-card__visual-overlay"
       aria-hidden="true"
     ></div>
   </div>
 
-  <div class="story-card__page">
+  <section class="story-card__page">
     <div
+      class="story-card__inner-frame"
+      aria-hidden="true"
+    ></div>
+
+    <span
       class="story-card__corner story-card__corner--top-left"
       aria-hidden="true"
-    ></div>
+    ></span>
 
-    <div
+    <span
       class="story-card__corner story-card__corner--top-right"
       aria-hidden="true"
-    ></div>
+    ></span>
 
-    <div
+    <span
       class="story-card__corner story-card__corner--bottom-left"
       aria-hidden="true"
-    ></div>
+    ></span>
 
-    <div
+    <span
       class="story-card__corner story-card__corner--bottom-right"
       aria-hidden="true"
-    ></div>
+    ></span>
 
     <header class="story-card__header">
       <span class="story-card__location-icon">
         <ps-icon
-          name="environment-forest"
-          [size]="52"
+          [name]="story().locationIcon"
+          [size]="38"
           [decorative]="true"
         />
       </span>
@@ -55,9 +60,7 @@
       aria-hidden="true"
     >
       <span></span>
-
       <i></i>
-
       <span></span>
     </div>
 
@@ -100,5 +103,5 @@
         </span>
       </button>
     </footer>
-  </div>
+  </section>
 </article>
