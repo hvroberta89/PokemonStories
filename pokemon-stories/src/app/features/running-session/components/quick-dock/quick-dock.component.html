@@ -15,12 +15,13 @@
       (click)="selectAction(item.action)"
     >
       <span class="quick-dock__icon-shell">
-        <span
+        <ps-icon
           class="quick-dock__icon"
-          aria-hidden="true"
-        >
-          {{ item.icon }}
-        </span>
+          [name]="item.icon"
+          [size]="36"
+          [glowing]="item.active ?? false"
+          [decorative]="true"
+        />
 
         @if (item.badge; as badge) {
           <span

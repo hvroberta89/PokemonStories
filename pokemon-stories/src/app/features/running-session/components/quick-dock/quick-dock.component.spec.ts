@@ -20,13 +20,13 @@ describe('QuickDockComponent', () => {
       {
         action: 'notes',
         label: 'Jegyzetek',
-        icon: '📘',
+        icon: 'notes-scroll',
         badge: 2,
       },
       {
         action: 'assistant',
         label: 'AI segítő',
-        icon: '✦',
+        icon: 'ai-crystal',
         active: true,
       },
     ],
@@ -79,6 +79,23 @@ describe('QuickDockComponent', () => {
 
     expect(emitSpy).toHaveBeenCalledWith(
       'notes',
+    );
+  });
+
+  it('renders the shared icons', () => {
+    const icons =
+      fixture.nativeElement.querySelectorAll(
+        'ps-icon img',
+      ) as NodeListOf<HTMLImageElement>;
+
+    expect(icons.length).toBe(2);
+
+    expect(icons[0].src).toContain(
+      'notes-scroll.svg',
+    );
+
+    expect(icons[1].src).toContain(
+      'ai-crystal.svg',
     );
   });
 });

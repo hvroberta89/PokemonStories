@@ -1,3 +1,7 @@
+import {
+  type PsIconName,
+} from '../../../../shared/ui/icon/ps-icon.registry';
+
 export type QuickDockAction =
   | 'notes'
   | 'rewards'
@@ -7,7 +11,7 @@ export type QuickDockAction =
 export interface QuickDockItemViewModel {
   readonly action: QuickDockAction;
   readonly label: string;
-  readonly icon: string;
+  readonly icon: PsIconName;
   readonly badge?: number;
   readonly active?: boolean;
 }
