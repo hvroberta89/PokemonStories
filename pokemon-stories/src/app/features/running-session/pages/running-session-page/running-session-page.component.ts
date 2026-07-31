@@ -24,6 +24,7 @@ import {
 } from '../../mocks/running-session.mock';
 import { ImprovAssistantComponent } from '../../components/improv-assistant/improv-assistant.component';
 import { ImprovAssistantAction } from '../../components/improv-assistant/improv-assistant.model';
+import { RecentEventsComponent } from '../../components/recent-events/recent-events.component';
 
 @Component({
   selector: 'app-running-session-page',
@@ -32,7 +33,7 @@ import { ImprovAssistantAction } from '../../components/improv-assistant/improv-
     StoryCardComponent,
     GoalCardComponent,
     CharactersStripComponent,
-    ImprovAssistantComponent,
+    RecentEventsComponent,
     QuickDockComponent,
   ],
   templateUrl:
@@ -68,17 +69,18 @@ export class RunningSessionPageComponent {
     console.log('Add character');
   }
 
-  protected openCharacterDetails(): void {
-    console.log('Open character details');
+  protected selectRecentEvent(
+    eventId: string,
+  ): void {
+    console.log('Open recent event', eventId);
   }
 
-  protected readonly selectedAssistantAction =
-    signal<ImprovAssistantAction | null>(null);
+  protected openRecentEvents(): void {
+    console.log('Open recent events');
+  }
 
-  protected selectAssistantAction(
-    action: ImprovAssistantAction,
-  ): void {
-    this.selectedAssistantAction.set(action);
+  protected openCharacterDetails(): void {
+    console.log('Open character details');
   }
 
   protected openGoalDetails(): void {

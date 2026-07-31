@@ -1,0 +1,65 @@
+<section
+  class="recent-events"
+  aria-labelledby="recent-events-title"
+>
+  <header class="recent-events__header">
+    <div class="recent-events__heading">
+      <span
+        class="recent-events__heading-icon"
+        aria-hidden="true"
+      >
+        ◷
+      </span>
+
+      <h2 id="recent-events-title">
+        {{ recentEvents().title }}
+      </h2>
+    </div>
+
+    <button
+      type="button"
+      class="recent-events__details"
+      [attr.aria-label]="recentEvents().detailsLabel"
+      (click)="openDetails()"
+    >
+      <span>
+        {{ recentEvents().newEventsLabel }}
+      </span>
+
+      <span aria-hidden="true">
+        ›
+      </span>
+    </button>
+  </header>
+
+  <div class="recent-events__list">
+    @for (
+      event of recentEvents().events;
+      track event.id
+    ) {
+      <button
+        type="button"
+        class="recent-event"
+        [attr.data-type]="event.type"
+        (click)="selectEvent(event.id)"
+      >
+        <span
+          class="recent-event__icon"
+          aria-hidden="true"
+        >
+          {{ event.icon }}
+        </span>
+
+        <span class="recent-event__content">
+          <strong>
+            {{ event.title }}
+          </strong>
+
+          <span>
+            {{ event.timeLabel }}
+          </span>
+        </span>
+      </button>
+    }
+  </div>
+</section>

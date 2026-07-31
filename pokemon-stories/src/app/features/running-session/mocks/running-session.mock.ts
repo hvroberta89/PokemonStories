@@ -58,6 +58,38 @@ export const mockRunningSession:
         },
       ],
     },
+    recentEvents: {
+      title: 'Legutóbbi események',
+      newEventsLabel: '3 új esemény',
+      detailsLabel:
+        'Legutóbbi események megnyitása',
+      events: [
+        {
+          id: 'pikachu-approached',
+          type: 'encounter',
+          title:
+            'Pikachu volt általatok megközelítve.',
+          timeLabel: '3 perce',
+          icon: '◓',
+        },
+        {
+          id: 'professor-conversation',
+          type: 'conversation',
+          title:
+            'Beszélgettetek Elm professzorral.',
+          timeLabel: '8 perce',
+          icon: '💬',
+        },
+        {
+          id: 'potion-reward',
+          type: 'reward',
+          title:
+            '1 Potion került Marcihoz.',
+          timeLabel: '12 perce',
+          icon: '🧪',
+        },
+      ],
+    },
     assistant: {
       title: 'Mi történjen most?',
       description:

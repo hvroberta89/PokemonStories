@@ -120,12 +120,13 @@
     </section>
 
     <section
-      class="running-session-page__assistant"
-      aria-label="Mesélői segítség"
+      class="running-session-page__recent-events"
+      aria-label="Legutóbbi események"
     >
-      <app-improv-assistant
-        [assistant]="viewModel().assistant"
-        (actionSelected)="selectAssistantAction($event)"
+      <app-recent-events
+        [recentEvents]="viewModel().recentEvents"
+        (eventSelected)="selectRecentEvent($event)"
+        (detailsSelected)="openRecentEvents()"
       />
     </section>
   </section>
