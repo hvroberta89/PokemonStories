@@ -47,6 +47,7 @@
       aria-label="Jegyzetek megnyitása"
     >
       <span aria-hidden="true">📝</span>
+
       <span class="session-header__notification">
         2
       </span>
@@ -66,16 +67,45 @@
       class="session-meta__progress"
       aria-label="Kaland előrehaladása"
     >
-      <span class="session-meta__step session-meta__step--completed"></span>
-      <span class="session-meta__line session-meta__line--completed"></span>
+      <span
+        class="
+          session-meta__step
+          session-meta__step--completed
+        "
+      ></span>
 
-      <span class="session-meta__step session-meta__step--completed"></span>
-      <span class="session-meta__line session-meta__line--completed"></span>
+      <span
+        class="
+          session-meta__line
+          session-meta__line--completed
+        "
+      ></span>
 
-      <span class="session-meta__step session-meta__step--active"></span>
+      <span
+        class="
+          session-meta__step
+          session-meta__step--completed
+        "
+      ></span>
+
+      <span
+        class="
+          session-meta__line
+          session-meta__line--completed
+        "
+      ></span>
+
+      <span
+        class="
+          session-meta__step
+          session-meta__step--active
+        "
+      ></span>
+
       <span class="session-meta__line"></span>
 
       <span class="session-meta__step"></span>
+
       <span class="session-meta__line"></span>
 
       <span class="session-meta__step"></span>
@@ -164,10 +194,46 @@
     />
   }
 
+  @if (isRewardSheetOpen()) {
+    <app-reward-sheet
+      [recipients]="rewardRecipients()"
+      (dismissed)="closeRewardSheet()"
+      (saved)="saveReward($event)"
+    />
+  }
+
   @if (selectedRecentEvent(); as recentEvent) {
-  <app-recent-event-details
-    [event]="recentEvent"
-    (dismissed)="closeRecentEventDetails()"
-  />
-}
+    <app-recent-event-details
+      [event]="recentEvent"
+      (dismissed)="closeRecentEventDetails()"
+    />
+  }
+
+  @if (isRewardToastVisible()) {
+    @if (latestReward(); as reward) {
+      <ps-reward-toast
+        icon="reward-gift"
+        eyebrow="Új jutalom!"
+        [title]="
+          reward.recipientName +
+          ' jutalmat kapott'
+        "
+        [description]="
+          reward.amount +
+          ' × ' +
+          reward.rewardLabel
+        "
+        (closed)="closeRewardToast()"
+      />
+    }
+  }
+
+  @if (isRewardCenterOpen()) {
+    <app-reward-center
+      [items]="rewardQueue()"
+      [historyItems]="rewardHistory()"
+      (closed)="closeRewardCenter()"
+      (markedAsGiven)="markRewardAsGiven($event)"
+    />
+  }
 </main>

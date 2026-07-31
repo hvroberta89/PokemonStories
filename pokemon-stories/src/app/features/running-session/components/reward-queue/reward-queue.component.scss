@@ -1,0 +1,274 @@
+:host {
+  display: block;
+}
+
+.reward-queue {
+  display: block;
+}
+
+.reward-queue__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding:
+    1rem
+    1rem
+    0.75rem;
+  border-bottom:
+    1px solid
+    rgb(23 50 77 / 13%);
+}
+
+.reward-queue__heading {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.reward-queue__heading-icon {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border:
+    2px solid
+    #17324d;
+  border-radius: 0.9rem;
+  background:
+    linear-gradient(
+      145deg,
+      #fff4bf,
+      #f6c95d
+    );
+  box-shadow:
+    0 0.16rem 0
+    #896017;
+}
+
+.reward-queue__heading div {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.reward-queue__eyebrow {
+  color: #8a631b;
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.reward-queue h3 {
+  margin: 0;
+  color: #17324d;
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+  font-size: 1.15rem;
+}
+
+.reward-queue__content {
+  padding:
+    1rem
+    1rem
+    1.5rem;
+}
+
+.reward-queue__list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.reward-queue__item {
+  display: grid;
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem;
+  border:
+    2px solid
+    rgb(23 50 77 / 16%);
+  border-radius: 1.15rem;
+  background:
+    rgb(255 255 255 / 70%);
+  box-shadow:
+    0 0.2rem 0
+    rgb(23 50 77 / 11%);
+}
+
+.reward-queue__item--given {
+  opacity: 0.72;
+}
+
+.reward-queue__item-icon {
+  display: grid;
+  width: 3.25rem;
+  height: 3.25rem;
+  place-items: center;
+  border:
+    2px solid
+    #17324d;
+  border-radius: 1rem;
+  background:
+    linear-gradient(
+      145deg,
+      #fff8dc,
+      #ffd982
+    );
+}
+
+.reward-queue__item-copy {
+  display: grid;
+  min-width: 0;
+  gap: 0.15rem;
+}
+
+.reward-queue__recipient {
+  overflow: hidden;
+  color: #6b7c89;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reward-queue__item-copy strong {
+  overflow: hidden;
+  color: #17324d;
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+  font-size: 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reward-queue__status {
+  justify-self: start;
+  padding:
+    0.18rem
+    0.5rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+.reward-queue__status--unlocked {
+  background: #fff0b8;
+  color: #845e13;
+}
+
+.reward-queue__status--printed {
+  background: #dbeafe;
+  color: #245f91;
+}
+
+.reward-queue__status--given {
+  background: #dff1c8;
+  color: #416b27;
+}
+
+.reward-queue__action {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding:
+    0.5rem
+    0.7rem;
+  border:
+    2px solid
+    #17324d;
+  border-radius: 0.85rem;
+  background:
+    linear-gradient(
+      180deg,
+      #dff2ae,
+      #b9db70
+    );
+  box-shadow:
+    0 0.18rem 0
+    #54722d;
+  color: #17324d;
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.reward-queue__action:active {
+  box-shadow: none;
+  transform:
+    translateY(0.18rem);
+}
+
+.reward-queue__given-indicator {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  color: #517b31;
+}
+
+.reward-queue__empty {
+  display: grid;
+  justify-items: center;
+  padding:
+    2.5rem
+    1.25rem;
+  text-align: center;
+}
+
+.reward-queue__empty-icon {
+  display: grid;
+  width: 5rem;
+  height: 5rem;
+  margin-bottom: 1rem;
+  place-items: center;
+  border:
+    2px dashed
+    rgb(23 50 77 / 28%);
+  border-radius: 1.5rem;
+  background:
+    rgb(255 255 255 / 48%);
+}
+
+.reward-queue__empty strong {
+  color: #17324d;
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+  font-size: 1.1rem;
+}
+
+.reward-queue__empty p {
+  max-width: 18rem;
+  margin:
+    0.4rem
+    0
+    0;
+  color: #647581;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 26rem) {
+  .reward-queue__item {
+    grid-template-columns:
+      auto
+      minmax(0, 1fr);
+  }
+
+  .reward-queue__action,
+  .reward-queue__given-indicator {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}

@@ -1,0 +1,142 @@
+<div
+  class="reward-sheet__backdrop"
+  aria-hidden="true"
+  (click)="dismiss()"
+></div>
+
+<section
+  class="reward-sheet"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="reward-sheet-title"
+>
+  <div class="reward-sheet__handle"></div>
+
+  <header class="reward-sheet__header">
+    <div>
+      <span class="reward-sheet__eyebrow">
+        Kalandesemény
+      </span>
+
+      <h2 id="reward-sheet-title">
+        Mit találtak?
+      </h2>
+    </div>
+
+    <button
+      type="button"
+      class="reward-sheet__close"
+      aria-label="Jutalom bezárása"
+      (click)="dismiss()"
+    >
+      ×
+    </button>
+  </header>
+
+  <div class="reward-sheet__options">
+    @for (
+      reward of rewardOptions;
+      track reward.type
+    ) {
+      <button
+        type="button"
+        class="reward-option"
+        [class.reward-option--selected]="
+          selectedRewardType() === reward.type
+        "
+        (click)="selectReward(reward.type)"
+      >
+        <span class="reward-option__icon">
+          <ps-icon
+            [name]="reward.icon"
+            [size]="25"
+            [decorative]="true"
+          />
+        </span>
+
+        <span>
+          {{ reward.label }}
+        </span>
+      </button>
+    }
+  </div>
+
+  <div class="reward-sheet__section">
+    <h3>Ki kapja?</h3>
+
+    <div class="reward-sheet__recipients">
+      @for (
+        recipient of recipients();
+        track recipient.id
+      ) {
+        <button
+          type="button"
+          class="recipient"
+          [class.recipient--selected]="
+            selectedRecipientId() ===
+            recipient.id
+          "
+          (click)="
+            selectRecipient(recipient.id)
+          "
+        >
+          <span class="recipient__avatar">
+            @if (recipient.avatarUrl) {
+              <img
+                [src]="recipient.avatarUrl"
+                [alt]="recipient.name"
+              />
+            } @else {
+              {{ recipient.name.charAt(0) }}
+            }
+          </span>
+
+          <span>
+            {{ recipient.name }}
+          </span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="reward-sheet__section">
+    <h3>Mennyiség</h3>
+
+    <div class="amount-picker">
+      <button
+        type="button"
+        aria-label="Mennyiség csökkentése"
+        (click)="decreaseAmount()"
+      >
+        −
+      </button>
+
+      <strong>
+        {{ amount() }}
+      </strong>
+
+      <button
+        type="button"
+        aria-label="Mennyiség növelése"
+        (click)="increaseAmount()"
+      >
+        +
+      </button>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    class="reward-sheet__submit"
+    [disabled]="!canSave()"
+    (click)="save()"
+  >
+    <ps-icon
+      name="reward-gift"
+      [size]="21"
+      [decorative]="true"
+    />
+
+    Átadás
+  </button>
+</section>

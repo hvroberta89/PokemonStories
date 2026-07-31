@@ -1,0 +1,165 @@
+<div
+  class="reward-center__backdrop"
+  (click)="closed.emit()"
+></div>
+
+<section
+  class="reward-center"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="reward-center-title"
+>
+  <header class="reward-center__header">
+    <div class="reward-center__heading">
+      <span class="reward-center__heading-icon">
+        <ps-icon
+          [name]="icon()"
+          [size]="30"
+        />
+      </span>
+
+      <div class="reward-center__heading-copy">
+        <span class="reward-center__eyebrow">
+          Jutalomközpont
+        </span>
+
+        <h2 id="reward-center-title">
+          {{ title() }}
+        </h2>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="reward-center__close"
+      aria-label="Jutalomközpont bezárása"
+      (click)="closed.emit()"
+    >
+      ×
+    </button>
+  </header>
+
+  <nav
+    class="reward-center__tabs"
+    aria-label="Jutalomközpont nézetei"
+  >
+    <button
+      type="button"
+      class="reward-center__tab"
+      [class.reward-center__tab--active]="
+        activeTab() === 'queue'
+      "
+      [attr.aria-current]="
+        activeTab() === 'queue'
+          ? 'page'
+          : null
+      "
+      (click)="selectTab('queue')"
+    >
+      <ps-icon
+        name="queue-box"
+        [size]="20"
+      />
+
+      Várólista
+
+      @if (items().length > 0) {
+        <span class="reward-center__badge">
+          {{ items().length }}
+        </span>
+      }
+    </button>
+
+    <button
+      type="button"
+      class="reward-center__tab"
+      [class.reward-center__tab--active]="
+        activeTab() === 'print'
+      "
+      [attr.aria-current]="
+        activeTab() === 'print'
+          ? 'page'
+          : null
+      "
+      (click)="selectTab('print')"
+    >
+      <ps-icon
+        name="printer"
+        [size]="20"
+      />
+
+      Nyomtatás
+    </button>
+
+    <button
+      type="button"
+      class="reward-center__tab"
+      [class.reward-center__tab--active]="
+        activeTab() === 'history'
+      "
+      [attr.aria-current]="
+        activeTab() === 'history'
+          ? 'page'
+          : null
+      "
+      (click)="selectTab('history')"
+    >
+      <ps-icon
+        name="achievement-star"
+        [size]="20"
+      />
+
+      Előzmények
+
+      @if (historyItems().length > 0) {
+        <span class="reward-center__badge">
+          {{ historyItems().length }}
+        </span>
+      }
+    </button>
+  </nav>
+
+  <div class="reward-center__content">
+    @switch (activeTab()) {
+
+      @case ('queue') {
+        <app-reward-queue
+          [items]="items()"
+          (markedAsGiven)="
+            markedAsGiven.emit($event)
+          "
+        />
+      }
+
+      @case ('print') {
+        <section class="reward-center__placeholder">
+          <span
+            class="reward-center__placeholder-icon"
+          >
+            <ps-icon
+              name="printer"
+              [size]="46"
+            />
+          </span>
+
+          <strong>
+            Nyomtatás hamarosan
+          </strong>
+
+          <p>
+            Innen lehet majd a jutalomkártyákat
+            nyomtatásra küldeni, újranyomtatni
+            és kezelni a nyomtatási várólistát.
+          </p>
+        </section>
+      }
+
+      @case ('history') {
+        <app-reward-history
+          [items]="historyItems()"
+        />
+      }
+
+    }
+  </div>
+</section>

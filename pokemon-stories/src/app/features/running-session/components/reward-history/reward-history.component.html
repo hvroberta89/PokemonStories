@@ -1,0 +1,84 @@
+<section
+  class="reward-history"
+  aria-labelledby="reward-history-title"
+>
+  <header class="reward-history__header">
+    <span class="reward-history__header-icon">
+      <ps-icon
+        name="achievement-star"
+        [size]="26"
+      />
+    </span>
+
+    <div>
+      <span class="reward-history__eyebrow">
+        Előzmények
+      </span>
+
+      <h3 id="reward-history-title">
+        Átadott jutalmak
+      </h3>
+    </div>
+  </header>
+
+  <div class="reward-history__content">
+    @if (items().length === 0) {
+      <div class="reward-history__empty">
+        <span class="reward-history__empty-icon">
+          <ps-icon
+            name="achievement-star"
+            [size]="46"
+          />
+        </span>
+
+        <strong>
+          Még nincs átadott jutalom
+        </strong>
+
+        <p>
+          Az átadott jutalmak itt jelennek majd meg.
+        </p>
+      </div>
+    } @else {
+      <div class="reward-history__list">
+        @for (
+          item of items();
+          track item.id
+        ) {
+          <article class="reward-history__item">
+            <span class="reward-history__item-icon">
+              <ps-icon
+                [name]="item.icon"
+                [size]="34"
+              />
+            </span>
+
+            <div class="reward-history__item-copy">
+              <span class="reward-history__recipient">
+                {{ item.recipientName }}
+              </span>
+
+              <strong>
+                +{{ item.amount }}
+                {{ item.rewardLabel }}
+              </strong>
+
+              <span class="reward-history__time">
+                {{ item.givenAtLabel }}
+              </span>
+            </div>
+
+            <span class="reward-history__status">
+              <ps-icon
+                name="success-check"
+                [size]="20"
+              />
+
+              Átadva
+            </span>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</section>

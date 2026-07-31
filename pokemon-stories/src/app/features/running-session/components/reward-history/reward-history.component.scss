@@ -1,0 +1,188 @@
+:host {
+  display: block;
+}
+
+.reward-history__header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding:
+    1rem
+    1rem
+    0.75rem;
+  border-bottom:
+    1px solid
+    rgb(23 50 77 / 13%);
+}
+
+.reward-history__header-icon {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border:
+    2px solid
+    #17324d;
+  border-radius: 0.9rem;
+  background:
+    linear-gradient(
+      145deg,
+      #fff4bf,
+      #f6c95d
+    );
+  box-shadow:
+    0 0.16rem 0
+    #896017;
+}
+
+.reward-history__eyebrow {
+  display: block;
+  color: #8a631b;
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.reward-history h3 {
+  margin: 0;
+  color: #17324d;
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+  font-size: 1.15rem;
+}
+
+.reward-history__content {
+  padding:
+    1rem
+    1rem
+    1.5rem;
+}
+
+.reward-history__list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.reward-history__item {
+  display: grid;
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem;
+  border:
+    2px solid
+    rgb(23 50 77 / 16%);
+  border-radius: 1.15rem;
+  background:
+    rgb(255 255 255 / 70%);
+  box-shadow:
+    0 0.2rem 0
+    rgb(23 50 77 / 11%);
+}
+
+.reward-history__item-icon {
+  display: grid;
+  width: 3.1rem;
+  height: 3.1rem;
+  place-items: center;
+  border:
+    2px solid
+    #17324d;
+  border-radius: 1rem;
+  background:
+    linear-gradient(
+      145deg,
+      #eef8da,
+      #cfe99a
+    );
+}
+
+.reward-history__item-copy {
+  display: grid;
+  min-width: 0;
+  gap: 0.15rem;
+}
+
+.reward-history__recipient {
+  color: #6b7c89;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.reward-history__item-copy strong {
+  color: #17324d;
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+  font-size: 1rem;
+}
+
+.reward-history__time {
+  color: #71808b;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.reward-history__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding:
+    0.35rem
+    0.55rem;
+  border-radius: 999px;
+  background: #dff1c8;
+  color: #416b27;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.reward-history__empty {
+  display: grid;
+  justify-items: center;
+  padding:
+    2.5rem
+    1.25rem;
+  text-align: center;
+}
+
+.reward-history__empty-icon {
+  display: grid;
+  width: 5rem;
+  height: 5rem;
+  margin-bottom: 1rem;
+  place-items: center;
+  border:
+    2px dashed
+    rgb(23 50 77 / 28%);
+  border-radius: 1.5rem;
+  background:
+    rgb(255 255 255 / 48%);
+}
+
+.reward-history__empty strong {
+  color: #17324d;
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+  font-size: 1.1rem;
+}
+
+.reward-history__empty p {
+  max-width: 18rem;
+  margin:
+    0.4rem
+    0
+    0;
+  color: #647581;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}

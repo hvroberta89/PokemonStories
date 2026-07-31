@@ -1,0 +1,119 @@
+<section
+  class="reward-queue"
+  aria-labelledby="reward-queue-title"
+>
+  <header class="reward-queue__header">
+    <div class="reward-queue__heading">
+      <span class="reward-queue__heading-icon">
+        <ps-icon
+          name="queue-box"
+          [size]="26"
+        />
+      </span>
+
+      <div>
+        <span class="reward-queue__eyebrow">
+          Jutalmak
+        </span>
+
+        <h3 id="reward-queue-title">
+          Átadásra vár
+        </h3>
+      </div>
+    </div>
+  </header>
+
+  <div class="reward-queue__content">
+    @if (items().length === 0) {
+      <div class="reward-queue__empty">
+        <span class="reward-queue__empty-icon">
+          <ps-icon
+            name="reward-box"
+            [size]="46"
+          />
+        </span>
+
+        <strong>
+          Nincs várakozó jutalom
+        </strong>
+
+        <p>
+          A játék közben megszerzett jutalmak
+          itt jelennek majd meg.
+        </p>
+      </div>
+    } @else {
+      <div class="reward-queue__list">
+        @for (
+          item of items();
+          track item.id
+        ) {
+          <article
+            class="reward-queue__item"
+            [class.reward-queue__item--given]="
+              item.status === 'given'
+            "
+          >
+            <span class="reward-queue__item-icon">
+              <ps-icon
+                [name]="item.icon"
+                [size]="36"
+              />
+            </span>
+
+            <div class="reward-queue__item-copy">
+              <span class="reward-queue__recipient">
+                {{ item.recipientName }}
+              </span>
+
+              <strong>
+                +{{ item.amount }}
+                {{ item.rewardLabel }}
+              </strong>
+
+              <span
+                class="reward-queue__status"
+                [class.reward-queue__status--unlocked]="
+                  item.status === 'unlocked'
+                "
+                [class.reward-queue__status--printed]="
+                  item.status === 'printed'
+                "
+                [class.reward-queue__status--given]="
+                  item.status === 'given'
+                "
+              >
+                {{ statusLabel(item) }}
+              </span>
+            </div>
+
+            @if (item.status !== 'given') {
+              <button
+                type="button"
+                class="reward-queue__action"
+                (click)="markAsGiven(item.id)"
+              >
+                <ps-icon
+                  name="success-check"
+                  [size]="20"
+                />
+
+                Átadva
+              </button>
+            } @else {
+              <span
+                class="reward-queue__given-indicator"
+                aria-label="A jutalom átadva"
+              >
+                <ps-icon
+                  name="printed-check"
+                  [size]="24"
+                />
+              </span>
+            }
+          </article>
+        }
+      </div>
+    }
+  </div>
+</section>
