@@ -4,11 +4,12 @@
 >
   <header class="recent-events__header">
     <div class="recent-events__heading">
-      <span
-        class="recent-events__heading-icon"
-        aria-hidden="true"
-      >
-        ◷
+      <span class="recent-events__heading-icon">
+        <ps-icon
+          name="timeline-scroll"
+          [size]="24"
+          [decorative]="true"
+        />
       </span>
 
       <h2 id="recent-events-title">
@@ -43,11 +44,12 @@
         [attr.data-type]="event.type"
         (click)="selectEvent(event.id)"
       >
-        <span
-          class="recent-event__icon"
-          aria-hidden="true"
-        >
-          {{ event.icon }}
+        <span class="recent-event__icon">
+          <ps-icon
+            [name]="event.icon"
+            [size]="28"
+            [decorative]="true"
+          />
         </span>
 
         <span class="recent-event__content">

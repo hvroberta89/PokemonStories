@@ -41,19 +41,17 @@
   width: 3.35rem;
   height: 3.35rem;
   margin: 0 1rem;
+  border: 1px solid rgb(109 145 50 / 20%);
   border-radius: 50%;
   background:
     linear-gradient(
       145deg,
-      #8db94c,
-      #5c862b
+      rgb(255 255 255 / 94%),
+      rgb(229 239 210 / 92%)
     );
   box-shadow:
-    0 0.3rem 0.8rem rgb(73 105 30 / 20%),
-    inset 0 1px 0 rgb(255 255 255 / 34%);
-  color: white;
-  font-size: 1.65rem;
-  font-weight: 900;
+    0 0.3rem 0.8rem rgb(73 105 30 / 16%),
+    inset 0 1px 0 rgb(255 255 255 / 72%);
 }
 
 .goal-card__content {
@@ -104,7 +102,9 @@ h2 {
 .goal-card__action {
   align-self: stretch;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns:
+    auto
+    auto;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
@@ -131,6 +131,11 @@ h2 {
         rgb(235 239 218 / 90%),
         rgb(226 234 204 / 76%)
       );
+
+    .goal-card__action-icon {
+      background: rgb(109 145 50 / 16%);
+      transform: translateY(-0.08rem);
+    }
   }
 
   &:active {
@@ -152,7 +157,9 @@ h2 {
   height: 2.65rem;
   border-radius: 50%;
   background: rgb(109 145 50 / 10%);
-  font-size: 1.3rem;
+  transition:
+    background 150ms ease,
+    transform 150ms ease;
 }
 
 .goal-card__action-arrow {
@@ -161,14 +168,26 @@ h2 {
 }
 
 .goal-card[data-status='completed'] {
-  .goal-card__accent,
-  .goal-card__icon {
+  .goal-card__accent {
     background:
       linear-gradient(
         180deg,
         #55a778,
         #347854
       );
+  }
+
+  .goal-card__icon {
+    border-color: rgb(52 120 84 / 20%);
+    background:
+      linear-gradient(
+        145deg,
+        rgb(255 255 255 / 94%),
+        rgb(220 239 227 / 94%)
+      );
+    box-shadow:
+      0 0.3rem 0.8rem rgb(52 120 84 / 16%),
+      inset 0 1px 0 rgb(255 255 255 / 72%);
   }
 
   .goal-card__eyebrow,
@@ -180,17 +199,33 @@ h2 {
     background: #dcefe3;
     color: #347854;
   }
+
+  .goal-card__action-icon {
+    background: rgb(52 120 84 / 10%);
+  }
 }
 
 .goal-card[data-status='failed'] {
-  .goal-card__accent,
-  .goal-card__icon {
+  .goal-card__accent {
     background:
       linear-gradient(
         180deg,
         #dc6b63,
         #a93d38
       );
+  }
+
+  .goal-card__icon {
+    border-color: rgb(169 61 56 / 20%);
+    background:
+      linear-gradient(
+        145deg,
+        rgb(255 255 255 / 94%),
+        rgb(247 222 219 / 94%)
+      );
+    box-shadow:
+      0 0.3rem 0.8rem rgb(169 61 56 / 16%),
+      inset 0 1px 0 rgb(255 255 255 / 72%);
   }
 
   .goal-card__eyebrow,
@@ -201,6 +236,10 @@ h2 {
   .goal-card__progress {
     background: #f7dedb;
     color: #a93d38;
+  }
+
+  .goal-card__action-icon {
+    background: rgb(169 61 56 / 10%);
   }
 }
 
@@ -217,7 +256,6 @@ h2 {
     width: 2.9rem;
     height: 2.9rem;
     margin-inline: 0.8rem;
-    font-size: 1.35rem;
   }
 
   .goal-card__content {
@@ -251,7 +289,6 @@ h2 {
     width: 2.55rem;
     height: 2.55rem;
     margin-inline: 0.65rem;
-    font-size: 1.2rem;
   }
 
   .goal-card__content {
@@ -278,6 +315,5 @@ h2 {
   .goal-card__action-icon {
     width: 2.35rem;
     height: 2.35rem;
-    font-size: 1.15rem;
   }
 }

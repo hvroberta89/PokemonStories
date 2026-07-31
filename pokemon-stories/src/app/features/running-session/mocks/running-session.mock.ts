@@ -70,7 +70,7 @@ export const mockRunningSession:
           title:
             'Pikachu volt általatok megközelítve.',
           timeLabel: '3 perce',
-          icon: '◓',
+          icon: 'encounter-claw'
         },
         {
           id: 'professor-conversation',
@@ -78,7 +78,7 @@ export const mockRunningSession:
           title:
             'Beszélgettetek Elm professzorral.',
           timeLabel: '8 perce',
-          icon: '💬',
+          icon: 'npc-dialogue'
         },
         {
           id: 'potion-reward',
@@ -86,7 +86,7 @@ export const mockRunningSession:
           title:
             '1 Potion került Marcihoz.',
           timeLabel: '12 perce',
-          icon: '🧪',
+          icon: 'items-potion'        
         },
       ],
     },

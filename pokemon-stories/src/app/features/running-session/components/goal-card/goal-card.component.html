@@ -7,21 +7,30 @@
     aria-hidden="true"
   ></div>
 
-  <div
-    class="goal-card__icon"
-    aria-hidden="true"
-  >
+  <div class="goal-card__icon">
     @switch (goal().status) {
       @case ('completed') {
-        ✓
+        <ps-icon
+          name="success-check"
+          [size]="30"
+          [decorative]="true"
+        />
       }
 
       @case ('failed') {
-        !
+        <ps-icon
+          name="warning-triangle"
+          [size]="30"
+          [decorative]="true"
+        />
       }
 
       @default {
-        ◎
+        <ps-icon
+          name="goal-target"
+          [size]="30"
+          [decorative]="true"
+        />
       }
     }
   </div>
@@ -52,11 +61,12 @@
     [attr.aria-label]="goal().actionLabel"
     (click)="selectAction()"
   >
-    <span
-      class="goal-card__action-icon"
-      aria-hidden="true"
-    >
-      🗺
+    <span class="goal-card__action-icon">
+      <ps-icon
+        name="exploration-footprints"
+        [size]="24"
+        [decorative]="true"
+      />
     </span>
 
     <span

@@ -4,11 +4,12 @@
 >
   <header class="characters-strip__header">
     <div class="characters-strip__heading">
-      <span
-        class="characters-strip__heading-icon"
-        aria-hidden="true"
-      >
-        👥
+      <span class="characters-strip__heading-icon">
+        <ps-icon
+          name="characters-group"
+          [size]="24"
+          [decorative]="true"
+        />
       </span>
 
       <div>
@@ -28,8 +29,13 @@
       aria-label="Jelenlévők részleteinek megnyitása"
       (click)="openDetails()"
     >
-      <span>{{ strip().countLabel }}</span>
-      <span aria-hidden="true">›</span>
+      <span>
+        {{ strip().countLabel }}
+      </span>
+
+      <span aria-hidden="true">
+        ›
+      </span>
     </button>
   </header>
 
@@ -68,7 +74,7 @@
           >
             @switch (character.status) {
               @case ('ready') {
-                ☺
+                ✓
               }
 
               @case ('thinking') {
@@ -99,7 +105,9 @@
       (click)="addCharacter()"
     >
       <span class="character__add-avatar">
-        <span aria-hidden="true">+</span>
+        <span aria-hidden="true">
+          +
+        </span>
       </span>
 
       <span class="character__name">

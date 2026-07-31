@@ -1,3 +1,5 @@
+import { PsIconName } from "../../../../shared/ui/public-api";
+
 export type RecentEventType =
   | 'encounter'
   | 'conversation'
@@ -9,7 +11,7 @@ export interface RecentEventItemViewModel {
   readonly type: RecentEventType;
   readonly title: string;
   readonly timeLabel: string;
-  readonly icon: string;
+  readonly icon: PsIconName;
 }
 
 export interface RecentEventsViewModel {
@@ -17,5 +19,5 @@ export interface RecentEventsViewModel {
   readonly newEventsLabel: string;
   readonly detailsLabel: string;
   readonly events:
-    readonly RecentEventItemViewModel[];
+  readonly RecentEventItemViewModel[];
 }

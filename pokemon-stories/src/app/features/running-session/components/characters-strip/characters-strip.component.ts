@@ -8,10 +8,12 @@ import {
 import {
   CharactersStripViewModel,
 } from './characters-strip.model';
+import { PsIconComponent } from '../../../../shared/ui/public-api';
 
 @Component({
   selector: 'app-characters-strip',
   standalone: true,
+    imports: [PsIconComponent],
   templateUrl: './characters-strip.component.html',
   styleUrl: './characters-strip.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

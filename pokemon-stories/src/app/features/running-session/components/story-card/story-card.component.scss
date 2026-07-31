@@ -76,9 +76,10 @@
   position: absolute;
   inset: 0.65rem;
   border: 1px solid rgb(164 127 68 / 17%);
-  border-radius: calc(var(--radius-large) - 0.5rem);
+  border-radius:
+    calc(var(--radius-large) - 0.5rem);
   pointer-events: none;
-  content: "";
+  content: '';
 }
 
 .story-card__header {
@@ -103,25 +104,29 @@
   place-items: center;
   width: 5rem;
   height: 5rem;
-  border: 2px solid rgb(164 127 68 / 28%);
+  padding: 0.55rem;
+  border: 2px solid rgb(164 127 68 / 24%);
   border-radius: 50%;
   background:
     radial-gradient(
       circle at 35% 30%,
-      #fffdf6,
-      #efe3c7
+      rgb(255 255 255 / 96%),
+      rgb(239 227 199 / 92%)
     );
   box-shadow:
     0 0.4rem 1rem rgb(93 65 20 / 10%),
-    inset 0 0 0 0.45rem rgb(255 255 255 / 55%);
-  font-size: 2.45rem;
+    inset 0 0 0 0.45rem
+      rgb(255 255 255 / 55%);
 }
 
 .story-card__divider {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns:
+    1fr
+    auto
+    1fr;
   align-items: center;
   width: min(100%, 24rem);
   margin: 1.5rem auto;
@@ -147,8 +152,17 @@
     }
   }
 
-  strong {
-    font-size: 0.85rem;
+  i {
+    display: block;
+    width: 0.65rem;
+    height: 0.65rem;
+    border: 2px solid
+      rgb(169 130 63 / 52%);
+    border-radius: 50%;
+    background: rgb(255 250 237 / 96%);
+    box-shadow:
+      0 0 0 0.22rem
+      rgb(169 130 63 / 10%);
   }
 }
 
@@ -174,7 +188,10 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns:
+    1fr
+    auto
+    1fr;
   align-items: center;
   margin-top: auto;
   padding-top: 1.5rem;
@@ -228,7 +245,8 @@
   }
 
   &:focus-visible {
-    outline: 3px solid rgb(109 145 50 / 48%);
+    outline: 3px solid
+      rgb(109 145 50 / 48%);
     outline-offset: 2px;
   }
 }
@@ -245,7 +263,7 @@
   &::after {
     position: absolute;
     background: #a9854a;
-    content: "";
+    content: '';
   }
 
   &::before {
@@ -352,7 +370,7 @@
   .story-card__location-icon {
     width: 4rem;
     height: 4rem;
-    font-size: 2rem;
+    padding: 0.45rem;
   }
 
   .story-card__header h2 {

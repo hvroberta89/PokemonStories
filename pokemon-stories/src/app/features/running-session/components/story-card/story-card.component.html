@@ -37,11 +37,12 @@
     ></div>
 
     <header class="story-card__header">
-      <span
-        class="story-card__location-icon"
-        aria-hidden="true"
-      >
-        {{ story().locationIcon }}
+      <span class="story-card__location-icon">
+        <ps-icon
+          name="environment-forest"
+          [size]="52"
+          [decorative]="true"
+        />
       </span>
 
       <h2>
@@ -54,7 +55,9 @@
       aria-hidden="true"
     >
       <span></span>
-      <strong>◉</strong>
+
+      <i></i>
+
       <span></span>
     </div>
 
@@ -63,7 +66,9 @@
         paragraph of story().narration;
         track $index
       ) {
-        <p>{{ paragraph }}</p>
+        <p>
+          {{ paragraph }}
+        </p>
       }
     </div>
 
@@ -90,7 +95,9 @@
         class="story-card__next"
         aria-label="Következő történetrész"
       >
-        <span aria-hidden="true">›</span>
+        <span aria-hidden="true">
+          ›
+        </span>
       </button>
     </footer>
   </div>

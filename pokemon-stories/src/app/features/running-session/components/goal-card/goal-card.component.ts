@@ -8,10 +8,12 @@ import {
 import {
   GoalCardViewModel,
 } from './goal-card.model';
+import { PsIconComponent } from '../../../../shared/ui/public-api';
 
 @Component({
   selector: 'app-goal-card',
   standalone: true,
+  imports: [PsIconComponent],
   templateUrl: './goal-card.component.html',
   styleUrl: './goal-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

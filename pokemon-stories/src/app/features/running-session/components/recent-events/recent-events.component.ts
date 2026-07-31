@@ -8,10 +8,12 @@ import {
 import {
   RecentEventsViewModel,
 } from './recent-events.model';
+import { PsIconComponent } from '../../../../shared/ui/public-api';
 
 @Component({
   selector: 'app-recent-events',
   standalone: true,
+  imports: [PsIconComponent],
   templateUrl: './recent-events.component.html',
   styleUrl: './recent-events.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
