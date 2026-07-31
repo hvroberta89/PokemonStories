@@ -1,0 +1,72 @@
+.ps-empty-state {
+  display: grid;
+  max-width: 680px;
+  min-height: 360px;
+  padding: 38px 26px;
+  place-items: center;
+  align-content: center;
+  text-align: center;
+  border: 2px dashed #d79a22;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top, rgb(255 213 106 / 22%), transparent 44%),
+    linear-gradient(180deg, #fffaf0, #fff4d7);
+}
+
+.ps-empty-state__illustration {
+  display: grid;
+  width: 126px;
+  height: 126px;
+  place-items: center;
+  border: 3px solid #d79a22;
+  border-radius: 38px;
+  background: rgb(255 255 255 / 58%);
+  box-shadow:
+    0 4px 0 #6e4a12,
+    0 14px 30px rgb(23 50 77 / 16%);
+  transform: rotate(-2deg);
+}
+
+.ps-empty-state h2 {
+  margin: 24px 0 8px;
+  color: #17324d;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.55rem, 3vw, 2.25rem);
+}
+
+.ps-empty-state p {
+  max-width: 52ch;
+  margin: 0;
+  color: #536777;
+  line-height: 1.6;
+}
+
+.ps-empty-state button {
+  display: inline-flex;
+  margin-top: 24px;
+  padding: 11px 17px;
+  align-items: center;
+  gap: 9px;
+  border: 2px solid #17324d;
+  border-radius: 15px;
+  background: linear-gradient(180deg, #ffdf82, #d79a22);
+  color: #17324d;
+  font: inherit;
+  font-weight: 900;
+  box-shadow: 0 4px 0 #17324d;
+  cursor: pointer;
+}
+
+.ps-empty-state button:hover {
+  transform: translateY(-1px);
+}
+
+.ps-empty-state button:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #17324d;
+}
+
+.ps-empty-state button:focus-visible {
+  outline: 4px solid rgb(77 131 184 / 40%);
+  outline-offset: 4px;
+}

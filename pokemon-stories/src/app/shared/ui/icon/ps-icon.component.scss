@@ -1,0 +1,69 @@
+:host {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.ps-icon {
+  --ps-icon-size: 36px;
+
+  position: relative;
+  display: inline-grid;
+  width: var(--ps-icon-size);
+  height: var(--ps-icon-size);
+  place-items: center;
+  flex: 0 0 auto;
+  isolation: isolate;
+}
+
+.ps-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+.ps-icon--glowing::before {
+  position: absolute;
+  inset: 12%;
+  z-index: -1;
+  content: '';
+  border-radius: 50%;
+  background: rgb(255 213 106 / 55%);
+  filter: blur(calc(var(--ps-icon-size) * 0.18));
+  animation: ps-icon-glow 1.8s ease-in-out infinite alternate;
+}
+
+.ps-icon--pulse {
+  animation: ps-icon-pulse 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ps-icon--glowing::before,
+  .ps-icon--pulse {
+    animation: none;
+  }
+}
+
+@keyframes ps-icon-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes ps-icon-glow {
+  from {
+    opacity: 0.45;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 0.9;
+    transform: scale(1.08);
+  }
+}

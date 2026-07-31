@@ -1,0 +1,125 @@
+:host {
+  display: block;
+}
+
+.ps-reward-toast {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  max-width: 520px;
+  padding: 14px 14px 14px 12px;
+  align-items: center;
+  gap: 13px;
+  overflow: hidden;
+  border: 3px solid #d79a22;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 20% 20%, rgb(255 255 255 / 75%), transparent 28%),
+    linear-gradient(135deg, #fff8de, #ffe39b);
+  box-shadow:
+    0 5px 0 #6e4a12,
+    0 16px 34px rgb(23 50 77 / 24%);
+}
+
+.ps-reward-toast__icon {
+  display: grid;
+  width: 76px;
+  height: 76px;
+  place-items: center;
+  border: 2px solid #17324d;
+  border-radius: 22px;
+  background: rgb(255 255 255 / 58%);
+}
+
+.ps-reward-toast__copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  color: #17324d;
+}
+
+.ps-reward-toast__eyebrow {
+  color: #8a631b;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ps-reward-toast strong {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.16rem;
+}
+
+.ps-reward-toast__copy > span:last-child:not(.ps-reward-toast__eyebrow) {
+  color: #536777;
+  font-size: 0.88rem;
+}
+
+.ps-reward-toast__close {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  align-self: start;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(23 50 77 / 10%);
+  color: #17324d;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ps-reward-toast__close:hover {
+  background: rgb(23 50 77 / 18%);
+}
+
+.ps-reward-toast__spark {
+  position: absolute;
+  color: #d79a22;
+  font-size: 1.15rem;
+  animation: ps-reward-spark 1.8s ease-in-out infinite;
+}
+
+.ps-reward-toast__spark--one {
+  top: 6px;
+  left: 91px;
+}
+
+.ps-reward-toast__spark--two {
+  right: 52px;
+  bottom: 8px;
+  animation-delay: 0.6s;
+}
+
+@keyframes ps-reward-spark {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85) rotate(0deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.18) rotate(12deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ps-reward-toast__spark {
+    animation: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .ps-reward-toast {
+    grid-template-columns: auto 1fr;
+  }
+
+  .ps-reward-toast__close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+}

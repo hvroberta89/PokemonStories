@@ -1,0 +1,43 @@
+:host {
+  display: inline-flex;
+}
+
+.ps-status-badge {
+  display: inline-flex;
+  min-height: 32px;
+  padding: 4px 11px 4px 7px;
+  align-items: center;
+  gap: 7px;
+  border: 2px solid #17324d;
+  border-radius: 999px;
+  color: #17324d;
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 0 rgb(23 50 77 / 85%);
+}
+
+.ps-status-badge--success {
+  background: #dff1d2;
+}
+
+.ps-status-badge--warning {
+  background: #fff0b2;
+}
+
+.ps-status-badge--danger {
+  background: #ffd9d5;
+}
+
+.ps-status-badge--info {
+  background: #dceefa;
+}
+
+.ps-status-badge--neutral {
+  padding-left: 11px;
+  background: #fff4d7;
+}
+
+.ps-status-badge--magic {
+  background: linear-gradient(90deg, #eadfff, #fff2c9);
+}
