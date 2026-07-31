@@ -1,3 +1,4 @@
+import { QuickActionMenuVm } from '../components/quick-action-menu/quick-action-menu.model';
 import {
   RunningSessionViewModel,
 } from '../models/running-session-view.model';
@@ -69,24 +70,30 @@ export const mockRunningSession:
           type: 'encounter',
           title:
             'Pikachu volt általatok megközelítve.',
+          content:
+            'A Virágmező szélén egy óvatos Pikachu figyelte a csapatot. A játékosok lassan közelítették meg, ezért nem menekült el.',
           timeLabel: '3 perce',
-          icon: 'encounter-claw'
+          icon: 'encounter-claw',
         },
         {
           id: 'professor-conversation',
           type: 'conversation',
           title:
             'Beszélgettetek Elm professzorral.',
+          content:
+            'Elm professzor elmondta, hogy a Napviráglevél különösen erős fényt bocsát ki naplemente előtt.',
           timeLabel: '8 perce',
-          icon: 'npc-dialogue'
+          icon: 'npc-dialogue',
         },
         {
           id: 'potion-reward',
           type: 'reward',
           title:
             '1 Potion került Marcihoz.',
+          content:
+            'Marci egy Potion jutalmat kapott, amelyet később egy sérült Pokémon gyógyítására használhat fel.',
           timeLabel: '12 perce',
-          icon: 'items-potion'        
+          icon: 'items-potion',
         },
       ],
     },
@@ -156,4 +163,49 @@ export const mockRunningSession:
         },
       ],
     },
+  };
+
+  export const mockQuickActionMenu:
+  QuickActionMenuVm = {
+    title: 'Mit szeretnél hozzáadni?',
+    subtitle:
+      'Válassz egy gyors műveletet a történet folytatásához.',
+    actions: [
+      {
+        type: 'note',
+        label: 'Jegyzet',
+        description: 'Rögzíts valamit gyorsan.',
+        icon: 'notes-scroll',
+      },
+      {
+        type: 'npc',
+        label: 'Új szereplő',
+        description: 'Hozz létre egy gyors NPC-t.',
+        icon: 'new-npc',
+      },
+      {
+        type: 'event',
+        label: 'Esemény',
+        description: 'Adj új fordulatot a történethez.',
+        icon: 'quick-event-dice',
+      },
+      {
+        type: 'reward',
+        label: 'Jutalom',
+        description: 'Oldj fel átadható jutalmat.',
+        icon: 'reward-gift',
+      },
+      {
+        type: 'ai',
+        label: 'AI segítség',
+        description: 'Kérj improvizációs ötleteket.',
+        icon: 'ai-crystal',
+      },
+      {
+        type: 'item',
+        label: 'Tárgy',
+        description: 'Adj tárgyat vagy felszerelést.',
+        icon: 'items-potion',
+      },
+    ],
   };

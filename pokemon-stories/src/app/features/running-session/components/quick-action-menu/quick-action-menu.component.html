@@ -1,0 +1,76 @@
+<div
+  class="quick-action-menu__backdrop"
+  aria-hidden="true"
+  (click)="dismiss()"
+></div>
+
+<section
+  class="quick-action-menu"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="quick-action-menu-title"
+>
+  <header class="quick-action-menu__header">
+    <div>
+      <p class="quick-action-menu__eyebrow">
+        Gyors művelet
+      </p>
+
+      <h2 id="quick-action-menu-title">
+        {{ menu().title }}
+      </h2>
+
+      <p class="quick-action-menu__subtitle">
+        {{ menu().subtitle }}
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="quick-action-menu__close"
+      aria-label="Gyors műveletek bezárása"
+      (click)="dismiss()"
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+  </header>
+
+  <div class="quick-action-menu__actions">
+    @for (
+      action of menu().actions;
+      track action.type
+    ) {
+      <button
+        type="button"
+        class="quick-action"
+        [attr.data-action]="action.type"
+        (click)="selectAction(action.type)"
+      >
+        <span class="quick-action__icon">
+          <ps-icon
+            [name]="action.icon"
+            [size]="29"
+            [decorative]="true"
+          />
+        </span>
+
+        <span class="quick-action__content">
+          <strong>
+            {{ action.label }}
+          </strong>
+
+          <span>
+            {{ action.description }}
+          </span>
+        </span>
+
+        <span
+          class="quick-action__arrow"
+          aria-hidden="true"
+        >
+          ›
+        </span>
+      </button>
+    }
+  </div>
+</section>

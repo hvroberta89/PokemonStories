@@ -131,14 +131,6 @@
     </section>
   </section>
 
-  <button
-    type="button"
-    class="quick-action-button"
-    aria-label="Gyors művelet"
-  >
-    <span aria-hidden="true">+</span>
-  </button>
-
   <div class="running-session-page__dock">
     <app-quick-dock
       [dock]="viewModel().dock"
@@ -156,4 +148,26 @@
   >
     <span aria-hidden="true">+</span>
   </button>
+
+  @if (isQuickActionMenuOpen()) {
+    <app-quick-action-menu
+      [menu]="quickActionMenu()"
+      (actionSelected)="selectQuickMenuAction($event)"
+      (dismissed)="closeQuickActions()"
+    />
+  }
+
+  @if (isQuickNoteOpen()) {
+    <app-quick-note
+      (saved)="saveQuickNote($event)"
+      (dismissed)="closeQuickNote()"
+    />
+  }
+
+  @if (selectedRecentEvent(); as recentEvent) {
+  <app-recent-event-details
+    [event]="recentEvent"
+    (dismissed)="closeRecentEventDetails()"
+  />
+}
 </main>

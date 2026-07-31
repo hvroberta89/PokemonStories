@@ -1,0 +1,76 @@
+<div
+  class="event-details__backdrop"
+  aria-hidden="true"
+  (click)="dismiss()"
+></div>
+
+<section
+  class="event-details"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="event-details-title"
+>
+  <div class="event-details__handle"></div>
+
+  <header class="event-details__header">
+    <div class="event-details__heading">
+      <span
+        class="event-details__icon"
+        [attr.data-type]="event().type"
+      >
+        <ps-icon
+          [name]="event().icon"
+          [size]="29"
+          [decorative]="true"
+        />
+      </span>
+
+      <div class="event-details__heading-content">
+        <span class="event-details__type">
+          {{ getTypeLabel(event().type) }}
+        </span>
+
+        <h2 id="event-details-title">
+          {{ event().title }}
+        </h2>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="event-details__close"
+      aria-label="Esemény részleteinek bezárása"
+      (click)="dismiss()"
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+  </header>
+
+  <div class="event-details__meta">
+    <ps-icon
+      name="timeline-scroll"
+      [size]="17"
+      [decorative]="true"
+    />
+
+    <span>
+      {{ event().timeLabel }}
+    </span>
+  </div>
+
+  <div class="event-details__content">
+    <p>
+      {{ event().content }}
+    </p>
+  </div>
+
+  <footer class="event-details__footer">
+    <button
+      type="button"
+      class="event-details__done"
+      (click)="dismiss()"
+    >
+      Rendben
+    </button>
+  </footer>
+</section>

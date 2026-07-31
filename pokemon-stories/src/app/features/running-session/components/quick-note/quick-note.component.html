@@ -1,0 +1,104 @@
+<div
+  class="quick-note__backdrop"
+  aria-hidden="true"
+  (click)="dismiss()"
+></div>
+
+<section
+  class="quick-note"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="quick-note-title"
+>
+  <header class="quick-note__header">
+    <div class="quick-note__heading">
+      <span class="quick-note__heading-icon">
+        <ps-icon
+          name="add-note"
+          [size]="25"
+          [decorative]="true"
+        />
+      </span>
+
+      <div>
+        <p class="quick-note__eyebrow">
+          Gyors művelet
+        </p>
+
+        <h2 id="quick-note-title">
+          Új jegyzet
+        </h2>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="quick-note__close"
+      aria-label="Jegyzet bezárása"
+      (click)="dismiss()"
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+  </header>
+
+  <div class="quick-note__types">
+    @for (
+      noteType of noteTypes;
+      track noteType.type
+    ) {
+      <button
+        type="button"
+        class="quick-note__type"
+        [class.quick-note__type--active]="
+          selectedType() === noteType.type
+        "
+        (click)="selectType(noteType.type)"
+      >
+        {{ noteType.label }}
+      </button>
+    }
+  </div>
+
+  <label class="quick-note__field">
+    <span class="quick-note__label">
+      Mit szeretnél megjegyezni?
+    </span>
+
+    <textarea
+      rows="6"
+      maxlength="600"
+      placeholder="Például: A Napviráglevél mellett apró kék lábnyomokat találtak..."
+      [ngModel]="content()"
+      (ngModelChange)="updateContent($event)"
+    ></textarea>
+
+    <span class="quick-note__counter">
+      {{ content().length }} / 600
+    </span>
+  </label>
+
+  <footer class="quick-note__footer">
+    <button
+      type="button"
+      class="quick-note__cancel"
+      (click)="dismiss()"
+    >
+      Mégse
+    </button>
+
+    <button
+      type="button"
+      class="quick-note__save"
+      [disabled]="!content().trim()"
+      (click)="save()"
+    >
+      <ps-icon
+        name="saved-scroll"
+        [size]="19"
+        [decorative]="true"
+      />
+
+      Jegyzet mentése
+    </button>
+  </footer>
+</section>

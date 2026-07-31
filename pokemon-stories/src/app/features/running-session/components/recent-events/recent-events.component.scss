@@ -320,3 +320,14 @@ h2 {
     font-size: 0.72rem;
   }
 }
+
+.recent-event[data-type='note'] {
+  .recent-event__icon {
+    background:
+      linear-gradient(
+        145deg,
+        #f3ead2,
+        #e4d1a2
+      );
+  }
+}
