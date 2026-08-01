@@ -45,11 +45,12 @@
       type="button"
       class="session-header__notes"
       aria-label="Jegyzetek megnyitása"
+      (click)="openRecentEvents()"
     >
       <span aria-hidden="true">📝</span>
 
       <span class="session-header__notification">
-        2
+        {{ viewModel().recentEvents.events.length }}
       </span>
     </button>
   </header>
@@ -115,6 +116,22 @@
       <span aria-hidden="true">⏱</span>
       00:42:15
     </span>
+
+    <button
+      type="button"
+      class="session-meta__end"
+      aria-label="Session befejezése"
+      (click)="openSessionEndSheet()"
+    >
+      <ps-icon
+        name="campfire"
+        [size]="20"
+      />
+
+      <span>
+        Befejezés
+      </span>
+    </button>
   </section>
 
   <section class="running-session-page__content">
@@ -237,8 +254,6 @@
     />
   }
 
-  <!-- Assistant Sheet -->
-
   @if (isAssistantOpen()) {
     <app-assistant-sheet
       [assistant]="assistant()"
@@ -248,8 +263,6 @@
       "
     />
   }
-
-  <!-- Assistant Prompt -->
 
   @if (
     isAssistantPromptOpen() &&
@@ -268,8 +281,6 @@
       "
     />
   }
-
-  <!-- Assistant Results -->
 
   @if (
     isAssistantResultsOpen() &&
@@ -295,8 +306,44 @@
       [title]="
         selection.suggestion.title
       "
-      (closed)="
-        closeAssistantToast()
+      (closed)="closeAssistantToast()"
+    />
+  }
+
+  @if (isSessionTimelineOpen()) {
+    <app-session-timeline
+      [events]="
+        viewModel().recentEvents.events
+      "
+      (closed)="closeSessionTimeline()"
+      (eventSelected)="
+        selectTimelineEvent($event)
+      "
+    />
+  }
+
+  @if (isSessionEndSheetOpen()) {
+    <app-session-end-sheet
+      [summary]="sessionEndSummary()"
+      (closed)="closeSessionEndSheet()"
+      (confirmed)="completeSession()"
+    />
+  }
+
+  @if (isSessionSummaryOpen()) {
+    <app-session-summary
+      [summary]="sessionSummary()"
+      (closeSelected)="
+        closeSessionSummary()
+      "
+      (timelineSelected)="
+        openSummaryTimeline()
+      "
+      (rewardsSelected)="
+        openSummaryRewards()
+      "
+      (newSessionSelected)="
+        startNewSession()
       "
     />
   }

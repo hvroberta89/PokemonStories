@@ -1,0 +1,114 @@
+<div
+  class="session-timeline__backdrop"
+  (click)="closed.emit()"
+></div>
+
+<section
+  class="session-timeline"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="session-timeline-title"
+>
+  <header class="session-timeline__header">
+    <div class="session-timeline__heading">
+      <span class="session-timeline__heading-icon">
+        <ps-icon
+          name="timeline-scroll"
+          [size]="30"
+        />
+      </span>
+
+      <div>
+        <span class="session-timeline__eyebrow">
+          Kalandnapló
+        </span>
+
+        <h2 id="session-timeline-title">
+          Session eseményei
+        </h2>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="session-timeline__close"
+      aria-label="Kalandnapló bezárása"
+      (click)="closed.emit()"
+    >
+      ×
+    </button>
+  </header>
+
+  <div class="session-timeline__content">
+    @if (events().length === 0) {
+      <div class="session-timeline__empty">
+        <span class="session-timeline__empty-icon">
+          <ps-icon
+            name="timeline-scroll"
+            [size]="48"
+          />
+        </span>
+
+        <strong>
+          Még nincs esemény
+        </strong>
+
+        <p>
+          A jegyzetek, jutalmak és elfogadott
+          asszisztensötletek itt jelennek majd meg.
+        </p>
+      </div>
+    } @else {
+      <ol class="session-timeline__list">
+        @for (
+          event of events();
+          track event.id;
+          let isLast = $last
+        ) {
+          <li class="session-timeline__entry">
+            <div class="session-timeline__rail">
+              <span class="session-timeline__marker">
+                <ps-icon
+                  [name]="event.icon"
+                  [size]="22"
+                />
+              </span>
+
+              @if (!isLast) {
+                <span
+                  class="session-timeline__line"
+                  aria-hidden="true"
+                ></span>
+              }
+            </div>
+
+            <button
+              type="button"
+              class="session-timeline__card"
+              (click)="
+                eventSelected.emit(event.id)
+              "
+            >
+              <span class="session-timeline__time">
+                {{ event.timeLabel }}
+              </span>
+
+              <strong>
+                {{ event.title }}
+              </strong>
+
+              <p>
+                {{ event.content }}
+              </p>
+
+              <span class="session-timeline__details">
+                Részletek
+                <span aria-hidden="true">›</span>
+              </span>
+            </button>
+          </li>
+        }
+      </ol>
+    }
+  </div>
+</section>

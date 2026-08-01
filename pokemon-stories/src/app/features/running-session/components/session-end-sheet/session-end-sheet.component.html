@@ -1,0 +1,154 @@
+<div
+  class="session-end-sheet__backdrop"
+  (click)="closed.emit()"
+></div>
+
+<section
+  class="session-end-sheet"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="session-end-title"
+>
+  <header class="session-end-sheet__header">
+    <div class="session-end-sheet__heading">
+      <span class="session-end-sheet__heading-icon">
+        <ps-icon
+          name="campfire"
+          [size]="32"
+        />
+      </span>
+
+      <div>
+        <span class="session-end-sheet__eyebrow">
+          Session lezárása
+        </span>
+
+        <h2 id="session-end-title">
+          Befejezitek a kalandot?
+        </h2>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="session-end-sheet__close"
+      aria-label="Ablak bezárása"
+      (click)="closed.emit()"
+    >
+      ×
+    </button>
+  </header>
+
+  <div class="session-end-sheet__content">
+    <p class="session-end-sheet__description">
+      A session eseményei és jutalmai
+      megmaradnak, majd elkészítjük a kaland
+      összefoglalóját.
+    </p>
+
+    <div class="session-end-sheet__stats">
+      <article class="session-end-sheet__stat">
+        <span class="session-end-sheet__stat-icon">
+          <ps-icon
+            name="timeline-scroll"
+            [size]="26"
+          />
+        </span>
+
+        <div>
+          <strong>
+            {{ summary().eventCount }}
+          </strong>
+
+          <span>
+            esemény
+          </span>
+        </div>
+      </article>
+
+      <article class="session-end-sheet__stat">
+        <span class="session-end-sheet__stat-icon">
+          <ps-icon
+            name="queue-box"
+            [size]="26"
+          />
+        </span>
+
+        <div>
+          <strong>
+            {{ summary().queuedRewardCount }}
+          </strong>
+
+          <span>
+            várakozó jutalom
+          </span>
+        </div>
+      </article>
+
+      <article class="session-end-sheet__stat">
+        <span class="session-end-sheet__stat-icon">
+          <ps-icon
+            name="printed-check"
+            [size]="26"
+          />
+        </span>
+
+        <div>
+          <strong>
+            {{ summary().givenRewardCount }}
+          </strong>
+
+          <span>
+            átadott jutalom
+          </span>
+        </div>
+      </article>
+    </div>
+
+    @if (summary().queuedRewardCount > 0) {
+      <aside class="session-end-sheet__warning">
+        <span class="session-end-sheet__warning-icon">
+          <ps-icon
+            name="warning-triangle"
+            [size]="24"
+          />
+        </span>
+
+        <p>
+          Maradt átadásra váró jutalom.
+          Ezeket később is megtalálod
+          a Jutalomközpontban.
+        </p>
+      </aside>
+    }
+
+    <div class="session-end-sheet__actions">
+      <button
+        type="button"
+        class="
+          session-end-sheet__button
+          session-end-sheet__button--secondary
+        "
+        (click)="closed.emit()"
+      >
+        Még folytatjuk
+      </button>
+
+      <button
+        type="button"
+        class="
+          session-end-sheet__button
+          session-end-sheet__button--primary
+        "
+        (click)="confirmed.emit()"
+      >
+        <ps-icon
+          name="success-check"
+          [size]="22"
+        />
+
+        Session befejezése
+      </button>
+    </div>
+  </div>
+</section>

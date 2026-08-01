@@ -1,13 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   signal,
 } from '@angular/core';
 
-import {
-  PsRewardToastComponent,
-} from '../../../../shared/ui/public-api';
+import { PsRewardToastComponent, PsIconComponent } from '../../../../shared/ui/public-api';
 
 import {
   AssistantSheetComponent,
@@ -107,6 +106,10 @@ import type {
 } from '../../components/assistant-results/assistant-results.model';
 import { AssistantSuggestionToastComponent } from '../../components/assistant-suggestion-toast/assistant-suggestion-toast.component';
 import { RunningSessionStore } from '../../services/running-session.store';
+import { SessionTimelineComponent } from '../../components/session-timeline/session-timeline.component';
+import { SessionEndSheetComponent } from '../../components/session-end-sheet/session-end-sheet.component';
+import { SessionSummaryComponent } from '../../components/session-summary/session-summary.component';
+import { SessionSummaryViewModel } from '../../components/session-summary/session-summary.model';
 
 @Component({
   selector: 'app-running-session-page',
@@ -127,7 +130,11 @@ import { RunningSessionStore } from '../../services/running-session.store';
     RewardCenterComponent,
     RewardSheetComponent,
     StoryCardComponent,
-  ],
+    SessionTimelineComponent,
+    SessionEndSheetComponent,
+    SessionSummaryComponent,
+    PsIconComponent
+],
   templateUrl:
     './running-session-page.component.html',
   styleUrl:
@@ -186,6 +193,15 @@ export class RunningSessionPageComponent {
     signal<RecentEventItemViewModel | null>(
       null,
     );
+
+  protected readonly isSessionTimelineOpen =
+    signal(false);
+
+  protected readonly isSessionEndSheetOpen =
+    signal(false);
+
+  protected readonly isSessionSummaryOpen =
+    signal(false);
 
   // ---------------------------------------------------------------------------
   // Overlay state
@@ -329,7 +345,11 @@ export class RunningSessionPageComponent {
   }
 
   protected openRecentEvents(): void {
-    console.log('Open recent events');
+    this.isSessionTimelineOpen.set(true);
+  }
+
+  protected closeSessionTimeline(): void {
+    this.isSessionTimelineOpen.set(false);
   }
 
   // ---------------------------------------------------------------------------
@@ -653,6 +673,177 @@ export class RunningSessionPageComponent {
   }
 
   // ---------------------------------------------------------------------------
+  // Timeline actions
+  // ---------------------------------------------------------------------------
+
+  protected selectTimelineEvent(
+    eventId: string,
+  ): void {
+    this.closeSessionTimeline();
+    this.selectRecentEvent(eventId);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Session end actions
+  // ---------------------------------------------------------------------------
+
+  protected readonly sessionEndSummary =
+    computed(() => ({
+      eventCount:
+        this.store.eventCount(),
+
+      queuedRewardCount:
+        this.store.queuedRewardCount(),
+
+      givenRewardCount:
+        this.store.givenRewardCount(),
+    }));
+
+  protected openSessionEndSheet(): void {
+    this.isSessionEndSheetOpen.set(true);
+  }
+
+  protected closeSessionEndSheet(): void {
+    this.isSessionEndSheetOpen.set(false);
+  }
+
+  protected completeSession(): void {
+    this.store.completeSession();
+
+    this.closeSessionEndSheet();
+
+    this.isSessionSummaryOpen.set(
+      true,
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Session summary actions
+  // ---------------------------------------------------------------------------
+
+  protected readonly sessionSummary =
+    computed<SessionSummaryViewModel>(
+      () => {
+        const session =
+          this.store.session();
+
+        const startedAt =
+          new Date(session.startedAt);
+
+        const completedAt =
+          session.completedAt
+            ? new Date(
+                session.completedAt,
+              )
+            : new Date();
+
+        return {
+          sessionId:
+            session.sessionId,
+
+          adventureTitle:
+            'Az eltűnt Napviráglevél',
+
+          locationName:
+            session
+              .viewModel
+              .story
+              .locationName,
+
+          startedAtLabel:
+            this.formatDateTime(
+              startedAt,
+            ),
+
+          completedAtLabel:
+            this.formatDateTime(
+              completedAt,
+            ),
+
+          durationLabel:
+            this.formatDuration(
+              startedAt,
+              completedAt,
+            ),
+
+          eventCount:
+            session
+              .viewModel
+              .recentEvents
+              .events
+              .length,
+
+          queuedRewardCount:
+            session
+              .rewardQueue
+              .length,
+
+          givenRewardCount:
+            session
+              .rewardHistory
+              .length,
+
+          events:
+            session
+              .viewModel
+              .recentEvents
+              .events,
+
+          queuedRewards:
+            session.rewardQueue,
+
+          givenRewards:
+            session.rewardHistory,
+        };
+      },
+    );
+
+  protected closeSessionSummary(): void {
+    this.isSessionSummaryOpen.set(
+      false,
+    );
+  }
+
+  protected openSummaryTimeline(): void {
+    this.isSessionSummaryOpen.set(
+      false,
+    );
+
+    this.isSessionTimelineOpen.set(
+      true,
+    );
+  }
+
+  protected openSummaryRewards(): void {
+    this.isSessionSummaryOpen.set(
+      false,
+    );
+
+    this.openRewardCenter();
+  }
+
+  protected startNewSession(): void {
+    this.store.restartSession();
+
+    this.selectedRecentEvent.set(null);
+    this.selectedCharacterId.set(null);
+    this.selectedAction.set(null);
+    this.selectedQuickAction.set(null);
+
+    this.isSessionSummaryOpen.set(
+      false,
+    );
+
+    this.isSessionTimelineOpen.set(
+      false,
+    );
+
+    this.isRewardCenterOpen.set(
+      false,
+    );
+  }
+
+  // ---------------------------------------------------------------------------
   // Private helpers
   // ---------------------------------------------------------------------------
 
@@ -937,5 +1128,55 @@ export class RunningSessionPageComponent {
         },
         3000,
       );
+  }
+
+  private formatDateTime(
+    date: Date,
+  ): string {
+    return new Intl.DateTimeFormat(
+      'hu-HU',
+      {
+        hour:
+          '2-digit',
+        minute:
+          '2-digit',
+      },
+    ).format(date);
+  }
+
+  private formatDuration(
+    startedAt: Date,
+    completedAt: Date,
+  ): string {
+    const durationInMilliseconds =
+      Math.max(
+        0,
+        completedAt.getTime() -
+          startedAt.getTime(),
+      );
+
+    const totalMinutes =
+      Math.floor(
+        durationInMilliseconds /
+          60_000,
+      );
+
+    const hours =
+      Math.floor(
+        totalMinutes / 60,
+      );
+
+    const minutes =
+      totalMinutes % 60;
+
+    if (hours === 0) {
+      return `${minutes} perc`;
+    }
+
+    if (minutes === 0) {
+      return `${hours} óra`;
+    }
+
+    return `${hours} óra ${minutes} perc`;
   }
 }
