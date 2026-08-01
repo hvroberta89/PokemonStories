@@ -12,6 +12,9 @@ describe('RecentEventDetailsComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(RecentEventDetailsComponent);
+    fixture.componentRef.setInput('event', {
+      id: 'event', type: 'note', title: 'Note', content: 'Content', timeLabel: 'Now', icon: 'add-note',
+    });
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -12,6 +12,7 @@ describe('AssistantSuggestionToastComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(AssistantSuggestionToastComponent);
+    fixture.componentRef.setInput('title', 'Suggestion added');
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

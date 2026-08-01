@@ -12,6 +12,7 @@ describe('RewardQueueComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(RewardQueueComponent);
+    fixture.componentRef.setInput('items', []);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

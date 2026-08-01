@@ -12,6 +12,9 @@ describe('AssistantResultsComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(AssistantResultsComponent);
+    fixture.componentRef.setInput('results', {
+      type: 'event', eyebrow: 'Assistant', title: 'Results', description: 'Description', suggestions: [],
+    });
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

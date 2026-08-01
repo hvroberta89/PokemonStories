@@ -12,6 +12,7 @@ describe('SessionTimelineComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(SessionTimelineComponent);
+    fixture.componentRef.setInput('events', []);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

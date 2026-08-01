@@ -12,6 +12,7 @@ describe('QuickActionMenuComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(QuickActionMenuComponent);
+    fixture.componentRef.setInput('menu', { title: 'Actions', subtitle: 'Choose an action', actions: [] });
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

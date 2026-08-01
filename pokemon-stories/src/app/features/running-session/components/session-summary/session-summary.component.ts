@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostListener,
   input,
   output,
 } from '@angular/core';
@@ -43,6 +44,11 @@ export class SessionSummaryComponent {
 
   readonly closeSelected =
     output<void>();
+
+  @HostListener('document:keydown.escape')
+  protected closeOnEscape(): void {
+    this.close();
+  }
 
   protected openTimeline(): void {
     this.timelineSelected.emit();

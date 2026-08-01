@@ -12,6 +12,9 @@ describe('AssistantSheetComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(AssistantSheetComponent);
+    fixture.componentRef.setInput('assistant', {
+      location: 'Forest', objective: 'Explore', hints: [], likelyQuestions: [], quickActions: [],
+    });
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

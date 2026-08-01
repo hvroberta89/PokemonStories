@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   inject,
   signal,
 } from '@angular/core';
@@ -153,6 +154,9 @@ export class RunningSessionPageComponent {
   private readonly store =
     inject(RunningSessionStore);
 
+  private readonly destroyRef =
+    inject(DestroyRef);
+
   // ---------------------------------------------------------------------------
   // Timeout handles
   // ---------------------------------------------------------------------------
@@ -162,6 +166,15 @@ export class RunningSessionPageComponent {
 
   private assistantToastTimeoutId:
     number | null = null;  
+
+  private assistantPromptTimeoutId:
+    number | null = null;
+
+  constructor() {
+    this.destroyRef.onDestroy(() => {
+      this.clearTimeouts();
+    });
+  }
 
   // ---------------------------------------------------------------------------
   // Page data
@@ -593,8 +606,12 @@ export class RunningSessionPageComponent {
   ): void {
     this.isAssistantPromptLoading.set(true);
 
-    window.setTimeout(
+    this.clearAssistantPromptTimeout();
+
+    this.assistantPromptTimeoutId = window.setTimeout(
       () => {
+        this.assistantPromptTimeoutId = null;
+
         this.assistantResults.set(
           this.createMockAssistantResults(
             draft,
@@ -1126,8 +1143,23 @@ export class RunningSessionPageComponent {
         () => {
           this.closeAssistantToast();
         },
-        3000,
-      );
+      3000,
+    );
+  }
+
+  private clearTimeouts(): void {
+    this.closeRewardToast();
+    this.closeAssistantToast();
+    this.clearAssistantPromptTimeout();
+  }
+
+  private clearAssistantPromptTimeout(): void {
+    if (this.assistantPromptTimeoutId === null) {
+      return;
+    }
+
+    window.clearTimeout(this.assistantPromptTimeoutId);
+    this.assistantPromptTimeoutId = null;
   }
 
   private formatDateTime(

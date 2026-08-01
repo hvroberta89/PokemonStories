@@ -12,6 +12,12 @@ describe('SessionSummaryComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(SessionSummaryComponent);
+    fixture.componentRef.setInput('summary', {
+      sessionId: 'session', adventureTitle: 'Adventure', locationName: 'Forest',
+      startedAtLabel: '10:00', completedAtLabel: '11:00', durationLabel: '1 hour',
+      eventCount: 0, queuedRewardCount: 0, givenRewardCount: 0,
+      events: [], queuedRewards: [], givenRewards: [],
+    });
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

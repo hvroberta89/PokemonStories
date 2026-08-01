@@ -12,6 +12,9 @@ describe('SessionEndSheetComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(SessionEndSheetComponent);
+    fixture.componentRef.setInput('summary', {
+      eventCount: 0, queuedRewardCount: 0, givenRewardCount: 0,
+    });
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
