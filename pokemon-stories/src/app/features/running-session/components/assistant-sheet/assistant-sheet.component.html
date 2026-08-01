@@ -1,0 +1,194 @@
+<div
+  class="assistant-sheet__backdrop"
+  (click)="closed.emit()"
+></div>
+
+<section
+  class="assistant-sheet"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="assistant-sheet-title"
+>
+  <header class="assistant-sheet__header">
+    <div class="assistant-sheet__heading">
+      <span class="assistant-sheet__heading-icon">
+        <ps-icon
+          name="ai-crystal"
+          [size]="30"
+        />
+      </span>
+
+      <div class="assistant-sheet__heading-copy">
+        <span class="assistant-sheet__eyebrow">
+          Mesélői segítség
+        </span>
+
+        <h2 id="assistant-sheet-title">
+          Kalandsegítő
+        </h2>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="assistant-sheet__close"
+      aria-label="Kalandsegítő bezárása"
+      (click)="closed.emit()"
+    >
+      ×
+    </button>
+  </header>
+
+  <div class="assistant-sheet__content">
+    <section class="assistant-sheet__summary">
+      <article class="assistant-sheet__summary-card">
+        <span class="assistant-sheet__card-icon">
+          <ps-icon
+            name="location-pin"
+            [size]="24"
+          />
+        </span>
+
+        <div class="assistant-sheet__summary-copy">
+          <span class="assistant-sheet__label">
+            Jelenlegi helyszín
+          </span>
+
+          <strong>
+            {{ assistant().location }}
+          </strong>
+        </div>
+      </article>
+
+      <article class="assistant-sheet__summary-card">
+        <span class="assistant-sheet__card-icon">
+          <ps-icon
+            name="goal-target"
+            [size]="24"
+          />
+        </span>
+
+        <div class="assistant-sheet__summary-copy">
+          <span class="assistant-sheet__label">
+            Jelenlegi cél
+          </span>
+
+          <strong>
+            {{ assistant().objective }}
+          </strong>
+        </div>
+      </article>
+    </section>
+
+    <section class="assistant-sheet__section">
+      <header class="assistant-sheet__section-header">
+        <span class="assistant-sheet__section-icon">
+          <ps-icon
+            name="exploration-footprints"
+            [size]="22"
+          />
+        </span>
+
+        <div class="assistant-sheet__section-heading">
+          <span class="assistant-sheet__label">
+            Mesélői segítség
+          </span>
+
+          <h3>
+            Ha elakadnak
+          </h3>
+        </div>
+      </header>
+
+      <ul class="assistant-sheet__list">
+        @for (
+          hint of assistant().hints;
+          track hint
+        ) {
+          <li>
+            {{ hint }}
+          </li>
+        }
+      </ul>
+    </section>
+
+    <section class="assistant-sheet__section">
+      <header class="assistant-sheet__section-header">
+        <span class="assistant-sheet__section-icon">
+          <ps-icon
+            name="npc-dialogue"
+            [size]="22"
+          />
+        </span>
+
+        <div class="assistant-sheet__section-heading">
+          <span class="assistant-sheet__label">
+            Felkészülés
+          </span>
+
+          <h3>
+            Várható kérdések
+          </h3>
+        </div>
+      </header>
+
+      <ul class="assistant-sheet__list">
+        @for (
+          question of assistant().likelyQuestions;
+          track question
+        ) {
+          <li>
+            {{ question }}
+          </li>
+        }
+      </ul>
+    </section>
+
+    <section class="assistant-sheet__section">
+      <header class="assistant-sheet__section-header">
+        <span class="assistant-sheet__section-icon">
+          <ps-icon
+            name="quick-event-dice"
+            [size]="22"
+          />
+        </span>
+
+        <div class="assistant-sheet__section-heading">
+          <span class="assistant-sheet__label">
+            Azonnali lehetőségek
+          </span>
+
+          <h3>
+            Gyors ötletek
+          </h3>
+        </div>
+      </header>
+
+      <div class="assistant-sheet__actions">
+        @for (
+          action of assistant().quickActions;
+          track action.id
+        ) {
+          <button
+            type="button"
+            class="assistant-sheet__action"
+            (click)="
+              actionSelected.emit(action.id)
+            "
+          >
+            <span class="assistant-sheet__action-icon">
+              <ps-icon
+                [name]="action.icon"
+                [size]="24"
+              />
+            </span>
+
+            <span class="assistant-sheet__action-label">
+              {{ action.label }}
+            </span>
+          </button>
+        }
+      </div>
+    </section>
+  </div>
+</section>

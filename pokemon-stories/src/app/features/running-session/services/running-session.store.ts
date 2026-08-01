@@ -1,0 +1,320 @@
+import {
+  computed,
+  effect,
+  inject,
+  Injectable,
+  signal,
+} from '@angular/core';
+
+import type {
+  RecentEventItemViewModel,
+} from '../components/recent-events/recent-events.model';
+import type {
+  RewardHistoryItemViewModel,
+} from '../components/reward-history/reward-history.model';
+import type {
+  RewardQueueItemViewModel,
+} from '../components/reward-queue/reward-queue.model';
+import type {
+  RunningSessionState,
+} from '../models/running-session-state.model';
+import type {
+  RunningSessionViewModel,
+} from '../models/running-session-view.model';
+import {
+  mockRunningSession,
+} from '../mocks/running-session.mock';
+import {
+  RunningSessionStorageService,
+} from './running-session-storage.service';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class RunningSessionStore {
+  private readonly storage =
+    inject(
+      RunningSessionStorageService,
+    );
+
+  private readonly state =
+    signal<RunningSessionState>(
+      this.createInitialState(),
+    );
+
+  readonly session =
+    this.state.asReadonly();
+
+  readonly viewModel =
+    computed(
+      () =>
+        this.state().viewModel,
+    );
+
+  readonly rewardQueue =
+    computed(
+      () =>
+        this.state().rewardQueue,
+    );
+
+  readonly rewardHistory =
+    computed(
+      () =>
+        this.state().rewardHistory,
+    );
+
+  readonly status =
+    computed(
+      () =>
+        this.state().status,
+    );
+
+  readonly isCompleted =
+    computed(
+      () =>
+        this.state().status ===
+        'completed',
+    );
+
+  readonly eventCount =
+    computed(
+      () =>
+        this.state()
+          .viewModel
+          .recentEvents
+          .events
+          .length,
+    );
+
+  readonly queuedRewardCount =
+    computed(
+      () =>
+        this.state()
+          .rewardQueue
+          .length,
+    );
+
+  readonly givenRewardCount =
+    computed(
+      () =>
+        this.state()
+          .rewardHistory
+          .length,
+    );
+
+  constructor() {
+    effect(() => {
+      this.storage.save(
+        this.state(),
+      );
+    });
+  }
+
+  addRecentEvent(
+    recentEvent:
+      RecentEventItemViewModel,
+  ): void {
+    this.state.update(
+      currentState => {
+        const currentEvents =
+          currentState
+            .viewModel
+            .recentEvents
+            .events;
+
+        const updatedEvents = [
+          recentEvent,
+          ...currentEvents,
+        ];
+
+        return {
+          ...currentState,
+          viewModel: {
+            ...currentState.viewModel,
+            recentEvents: {
+              ...currentState
+                .viewModel
+                .recentEvents,
+              newEventsLabel:
+                this.createEventCountLabel(
+                  updatedEvents.length,
+                ),
+              events:
+                updatedEvents,
+            },
+          },
+        };
+      },
+    );
+  }
+
+  enqueueReward(
+    reward:
+      RewardQueueItemViewModel,
+  ): void {
+    this.state.update(
+      currentState => ({
+        ...currentState,
+        rewardQueue: [
+          reward,
+          ...currentState
+            .rewardQueue,
+        ],
+      }),
+    );
+  }
+
+  markRewardAsGiven(
+    rewardId: string,
+  ): void {
+    this.state.update(
+      currentState => {
+        const reward =
+          currentState
+            .rewardQueue
+            .find(
+              item =>
+                item.id ===
+                rewardId,
+            );
+
+        if (!reward) {
+          return currentState;
+        }
+
+        const historyItem:
+          RewardHistoryItemViewModel = {
+            id:
+              reward.id,
+            recipientName:
+              reward.recipientName,
+            rewardLabel:
+              reward.rewardLabel,
+            amount:
+              reward.amount,
+            icon:
+              reward.icon,
+            givenAtLabel:
+              'Most',
+          };
+
+        return {
+          ...currentState,
+          rewardQueue:
+            currentState
+              .rewardQueue
+              .filter(
+                item =>
+                  item.id !==
+                  rewardId,
+              ),
+          rewardHistory: [
+            historyItem,
+            ...currentState
+              .rewardHistory,
+          ],
+        };
+      },
+    );
+  }
+
+  completeSession(): void {
+    this.state.update(
+      currentState => {
+        if (
+          currentState.status ===
+          'completed'
+        ) {
+          return currentState;
+        }
+
+        return {
+          ...currentState,
+          status:
+            'completed',
+          completedAt:
+            new Date()
+              .toISOString(),
+        };
+      },
+    );
+  }
+
+  restartSession(): void {
+    const initialState =
+      this.createDefaultState();
+
+    this.state.set(
+      initialState,
+    );
+  }
+
+  clearSession(): void {
+    this.storage.clear();
+
+    this.state.set(
+      this.createDefaultState(),
+    );
+  }
+
+  updateViewModel(
+    update:
+      (
+        current:
+          RunningSessionViewModel,
+      ) => RunningSessionViewModel,
+  ): void {
+    this.state.update(
+      currentState => ({
+        ...currentState,
+        viewModel:
+          update(
+            currentState.viewModel,
+          ),
+      }),
+    );
+  }
+
+  private createInitialState():
+    RunningSessionState {
+    const storedState =
+      this.storage.load();
+
+    if (
+      storedState?.status ===
+      'running'
+    ) {
+      return storedState;
+    }
+
+    return this.createDefaultState();
+  }
+
+  private createDefaultState():
+    RunningSessionState {
+    return {
+      schemaVersion: 1,
+      sessionId:
+        crypto.randomUUID(),
+      status:
+        'running',
+      startedAt:
+        new Date()
+          .toISOString(),
+      completedAt:
+        null,
+      viewModel:
+        structuredClone(
+          mockRunningSession,
+        ),
+      rewardQueue: [],
+      rewardHistory: [],
+    };
+  }
+
+  private createEventCountLabel(
+    eventCount: number,
+  ): string {
+    return `${eventCount} esemény`;
+  }
+}

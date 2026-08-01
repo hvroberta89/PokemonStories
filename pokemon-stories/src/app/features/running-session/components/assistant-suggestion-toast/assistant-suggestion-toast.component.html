@@ -1,0 +1,40 @@
+<aside
+  class="assistant-toast"
+  role="status"
+  aria-live="polite"
+>
+  <div class="assistant-toast__icon">
+    <ps-icon
+      name="ai-crystal"
+      [decorative]="true"
+    />
+  </div>
+
+  <div class="assistant-toast__content">
+    <strong class="assistant-toast__eyebrow">
+      Kalandsegítő
+    </strong>
+
+    <p class="assistant-toast__title">
+      {{ title() }}
+    </p>
+
+    <span class="assistant-toast__message">
+      Az új esemény bekerült a történetbe.
+    </span>
+  </div>
+
+  <button
+    class="assistant-toast__close"
+    type="button"
+    aria-label="Értesítés bezárása"
+    (click)="close()"
+  >
+    ×
+  </button>
+
+  <span
+    class="assistant-toast__progress"
+    aria-hidden="true"
+  ></span>
+</aside>

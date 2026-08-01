@@ -236,4 +236,68 @@
       (markedAsGiven)="markRewardAsGiven($event)"
     />
   }
+
+  <!-- Assistant Sheet -->
+
+  @if (isAssistantOpen()) {
+    <app-assistant-sheet
+      [assistant]="assistant()"
+      (closed)="closeAssistant()"
+      (actionSelected)="
+        handleAssistantAction($event)
+      "
+    />
+  }
+
+  <!-- Assistant Prompt -->
+
+  @if (
+    isAssistantPromptOpen() &&
+    selectedAssistantPrompt();
+    as prompt
+  ) {
+    <app-assistant-prompt
+      [prompt]="prompt"
+      [isLoading]="
+        isAssistantPromptLoading()
+      "
+      (closed)="closeAssistantPrompt()"
+      (back)="backToAssistant()"
+      (submitted)="
+        submitAssistantPrompt($event)
+      "
+    />
+  }
+
+  <!-- Assistant Results -->
+
+  @if (
+    isAssistantResultsOpen() &&
+    assistantResults();
+    as results
+  ) {
+    <app-assistant-results
+      [results]="results"
+      (closed)="closeAssistantResults()"
+      (back)="backToAssistantPrompt()"
+      (selected)="
+        selectAssistantSuggestion($event)
+      "
+    />
+  }
+
+  @if (
+    isAssistantToastVisible() &&
+    acceptedAssistantSuggestion();
+    as selection
+  ) {
+    <app-assistant-suggestion-toast
+      [title]="
+        selection.suggestion.title
+      "
+      (closed)="
+        closeAssistantToast()
+      "
+    />
+  }
 </main>

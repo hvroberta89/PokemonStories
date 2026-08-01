@@ -1,0 +1,386 @@
+:host {
+  position: fixed;
+  z-index: 80;
+  inset: 0;
+  display: block;
+}
+
+.assistant-results__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    rgb(18 35 49 / 64%);
+  animation:
+    assistant-results-backdrop-enter
+    180ms ease-out;
+}
+
+.assistant-results {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  max-height:
+    calc(100dvh - 1rem);
+  overflow: hidden;
+  border:
+    3px solid
+    #17324d;
+  border-bottom: 0;
+  border-radius:
+    1.75rem
+    1.75rem
+    0
+    0;
+  background:
+    linear-gradient(
+      180deg,
+      #fffdf7,
+      #f2e8cf
+    );
+  box-shadow:
+    0 -0.8rem 2.75rem
+    rgb(18 35 49 / 36%);
+  animation:
+    assistant-results-enter
+    220ms
+    cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+}
+
+.assistant-results__header {
+  display: grid;
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding:
+    1rem
+    1rem
+    0.9rem;
+  border-bottom:
+    1px solid
+    rgb(23 50 77 / 14%);
+}
+
+.assistant-results__heading {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.assistant-results__heading-icon {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border:
+    2px solid
+    #17324d;
+  border-radius: 1rem;
+  background:
+    linear-gradient(
+      145deg,
+      #e8dcff,
+      #b89ced
+    );
+  box-shadow:
+    0 0.2rem 0
+    #69499b;
+}
+
+.assistant-results__heading-copy {
+  display: grid;
+  min-width: 0;
+  gap: 0.1rem;
+}
+
+.assistant-results__eyebrow,
+.assistant-results__card-number {
+  color: #73529b;
+  font-size: 0.67rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.assistant-results h2,
+.assistant-results h3 {
+  margin: 0;
+  color: #17324d;
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+}
+
+.assistant-results h2 {
+  overflow: hidden;
+  font-size: 1.22rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assistant-results h3 {
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.assistant-results__back,
+.assistant-results__close {
+  display: grid;
+  width: 2.7rem;
+  height: 2.7rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border:
+    2px solid
+    #17324d;
+  border-radius: 999px;
+  background:
+    rgb(255 255 255 / 78%);
+  box-shadow:
+    0 0.15rem 0
+    rgb(23 50 77 / 30%);
+  color: #17324d;
+  font: inherit;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.assistant-results__back {
+  font-size: 1.25rem;
+}
+
+.assistant-results__close {
+  font-size: 1.6rem;
+}
+
+.assistant-results__back:active,
+.assistant-results__close:active {
+  box-shadow: none;
+  transform:
+    translateY(0.15rem);
+}
+
+.assistant-results__content {
+  display: grid;
+  max-height:
+    calc(100dvh - 7.5rem);
+  gap: 1rem;
+  padding:
+    1rem
+    1rem
+    1.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.assistant-results__description {
+  margin: 0;
+  color: #3e5364;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.assistant-results__suggestions {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.assistant-results__card {
+  display: grid;
+  gap: 0.85rem;
+  padding: 0.95rem;
+  border:
+    2px solid
+    rgb(23 50 77 / 16%);
+  border-radius: 1.2rem;
+  background:
+    rgb(255 255 255 / 68%);
+  box-shadow:
+    0 0.2rem 0
+    rgb(23 50 77 / 12%);
+}
+
+.assistant-results__card-header {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.assistant-results__card-icon {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border:
+    2px solid
+    #17324d;
+  border-radius: 0.95rem;
+  background:
+    linear-gradient(
+      145deg,
+      #f2ebff,
+      #cdb7ef
+    );
+}
+
+.assistant-results__card-heading {
+  display: grid;
+  min-width: 0;
+  gap: 0.15rem;
+}
+
+.assistant-results__card-description {
+  margin: 0;
+  color: #3e5364;
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.assistant-results__select {
+  display: flex;
+  width: 100%;
+  min-height: 3.35rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1rem;
+  border:
+    2px solid
+    #17324d;
+  border-radius: 0.95rem;
+  background:
+    linear-gradient(
+      180deg,
+      #d9f2d6,
+      #a7dca5
+    );
+  box-shadow:
+    0 0.22rem 0
+    #5b9160;
+  color: #17324d;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.assistant-results__select:active {
+  box-shadow: none;
+  transform:
+    translateY(0.22rem);
+}
+
+.assistant-results__tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0.85rem;
+  border:
+    2px solid
+    rgb(115 82 155 / 20%);
+  border-radius: 1rem;
+  background:
+    rgb(232 220 255 / 48%);
+}
+
+.assistant-results__tip-icon {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border:
+    2px solid
+    rgb(23 50 77 / 35%);
+  border-radius: 0.8rem;
+  background:
+    rgb(255 255 255 / 62%);
+}
+
+.assistant-results__tip p {
+  margin: 0;
+  color: #4c4163;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+@keyframes assistant-results-enter {
+  from {
+    opacity: 0;
+    transform:
+      translateY(2rem);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes assistant-results-backdrop-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 42rem) {
+  .assistant-results {
+    right: 1rem;
+    bottom: 1rem;
+    left: auto;
+    width:
+      min(
+        36rem,
+        calc(100vw - 2rem)
+      );
+    border-bottom:
+      3px solid
+      #17324d;
+    border-radius: 1.75rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .assistant-results__header {
+    gap: 0.5rem;
+    padding-inline: 0.75rem;
+  }
+
+  .assistant-results__heading-icon {
+    width: 2.7rem;
+    height: 2.7rem;
+  }
+
+  .assistant-results h2 {
+    font-size: 1.05rem;
+  }
+
+  .assistant-results__back,
+  .assistant-results__close {
+    width: 2.45rem;
+    height: 2.45rem;
+  }
+}
