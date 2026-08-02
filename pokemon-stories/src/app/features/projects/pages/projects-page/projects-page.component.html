@@ -10,7 +10,7 @@
       </span>
     </a>
 
-    <button class="projects-page__create" type="button">
+    <button class="projects-page__create" type="button" (click)="openCreateProject()">
       <ps-icon name="add-spark" [size]="22" />
       Új projekt
     </button>
@@ -49,6 +49,7 @@
         title="A következő világod itt kezdődik"
         description="Hozz létre egy projektet, és kezdj el kalandokat, karaktereket és közös emlékeket építeni."
         actionLabel="Projekt létrehozása"
+        (action)="openCreateProject()"
       />
     </div>
   } @else {

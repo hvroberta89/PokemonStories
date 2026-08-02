@@ -1,8 +1,5 @@
 import { projectId } from '../value-objects/project-id';
-import {
-  CreateProjectProps,
-  Project,
-} from './project';
+import { CreateProjectProps, Project } from './project';
 
 describe('Project', () => {
   it('should create an active project', () => {
@@ -12,12 +9,8 @@ describe('Project', () => {
 
     if (result.isSuccess) {
       expect(result.value.id).toBe('project-1');
-      expect(result.value.name).toBe(
-        'Pokémon kalandok a gyerekekkel',
-      );
-      expect(result.value.description).toBe(
-        'Közös Pokémon történetek és kalandok.',
-      );
+      expect(result.value.name).toBe('Pokémon kalandok a gyerekekkel');
+      expect(result.value.description).toBe('Közös Pokémon történetek és kalandok.');
       expect(result.value.status).toBe('active');
     }
   });
@@ -31,12 +24,8 @@ describe('Project', () => {
     expect(result.isSuccess).toBe(true);
 
     if (result.isSuccess) {
-      expect(result.value.name).toBe(
-        'Kanto kezdő kampány',
-      );
-      expect(result.value.description).toBe(
-        'Első kalandjaink Kanto világában.',
-      );
+      expect(result.value.name).toBe('Kanto kezdő kampány');
+      expect(result.value.description).toBe('Első kalandjaink Kanto világában.');
     }
   });
 
@@ -73,23 +62,21 @@ describe('Project', () => {
 
     if (!result.isSuccess) {
       expect(result.error.code).toBe('INVALID_PROJECT');
-      expect(result.error.message).toContain(
-        'name cannot be empty',
-      );
+      expect(result.error.message).toContain('name cannot be empty');
     }
   });
 
-  it('should reject a name longer than 100 characters', () => {
+  it('should reject a name longer than 80 characters', () => {
     const result = createProject({
-      name: 'a'.repeat(101),
+      name: 'a'.repeat(81),
     });
 
     expect(result.isSuccess).toBe(false);
   });
 
-  it('should reject a description longer than 1000 characters', () => {
+  it('should reject a description longer than 500 characters', () => {
     const result = createProject({
-      description: 'a'.repeat(1001),
+      description: 'a'.repeat(501),
     });
 
     expect(result.isSuccess).toBe(false);
@@ -106,14 +93,11 @@ describe('Project', () => {
   });
 });
 
-function createProject(
-  overrides: Partial<CreateProjectProps> = {},
-) {
+function createProject(overrides: Partial<CreateProjectProps> = {}) {
   return Project.create({
     id: projectId('project-1'),
     name: 'Pokémon kalandok a gyerekekkel',
-    description:
-      'Közös Pokémon történetek és kalandok.',
+    description: 'Közös Pokémon történetek és kalandok.',
     ...overrides,
   });
 }

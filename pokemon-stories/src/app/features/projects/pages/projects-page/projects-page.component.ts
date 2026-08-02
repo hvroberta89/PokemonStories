@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ProjectsStore } from '../../store/projects.store';
 import { ProjectCardComponent } from '../../components/project-card/project-card.component';
@@ -15,6 +16,7 @@ import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
   providers: [ProjectsStore],
 })
 export class ProjectsPageComponent implements OnInit {
+  private readonly router = inject(Router);
   protected readonly store = inject(ProjectsStore);
 
   ngOnInit(): void {
@@ -23,5 +25,9 @@ export class ProjectsPageComponent implements OnInit {
 
   protected retryLoading(): void {
     void this.store.load();
+  }
+
+  protected openCreateProject(): void {
+    void this.router.navigate(['/projects/new']);
   }
 }

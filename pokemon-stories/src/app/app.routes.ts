@@ -3,10 +3,23 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'projects',
-    loadComponent: () =>
-      import('./features/projects/pages/projects-page/projects-page.component').then(
-        (module) => module.ProjectsPageComponent,
-      ),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import('./features/projects/pages/projects-page/projects-page.component').then(
+            (module) => module.ProjectsPageComponent,
+          ),
+      },
+      {
+        path: 'new',
+        loadComponent: () =>
+          import('./features/projects/pages/create-project-page/create-project-page.component').then(
+            (module) => module.CreateProjectPageComponent,
+          ),
+      },
+    ],
   },
   {
     path: 'running-session',
