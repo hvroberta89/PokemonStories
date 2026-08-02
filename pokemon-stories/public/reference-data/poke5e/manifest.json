@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "Poke5e",
+    "url": "https://poke5e.app/",
+    "version": "1.12.4",
+    "commit": "9d89c0c7b7afed30bf038353707b519e8f648c03",
+    "usage": "Non-commercial fan use only"
+  },
+  "importedAt": "2026-08-02T20:19:57.578Z",
+  "datasets": {
+    "pokemon": {
+      "path": "pokemon.json",
+      "records": 1139,
+      "sourceSha256": "a7bc210cce4e57a4cfb8c47ffe16039fbff2a1c765cd86e0dad64938f8664f6f",
+      "sha256": "69c811d77cf9497e200f7ed40717cec6c034d40bd3b7f86573dea7da75c67dfe",
+      "excludedRecords": 12
+    },
+    "moves": {
+      "path": "moves.json",
+      "records": 830,
+      "sourceSha256": "19784c1b77a546288cd10a7ffb6133213a7fb0f348b97d6ba5d0539cd8a459b5",
+      "sha256": "4e5c0a069a452d85f2db286b800fe6c3c2b6e02385dc847ad8034e2e9012fe4f"
+    },
+    "abilities": {
+      "path": "abilities.json",
+      "records": 311,
+      "sourceSha256": "d21314037b603cf06acd008713e9095472038aace1b1ed677c700361403e83b6",
+      "sha256": "77fe18de7b65ef4e0367f9a5dede9667959f98c753601614e9682aee98823ed4",
+      "excludedRecords": 19
+    },
+    "items": {
+      "path": "items.json",
+      "records": 366,
+      "sourceSha256": "76522df9d48241751abe0afe43d7b64151d93c82758a51507b69e85d68c3d2e7",
+      "sha256": "141745d355dc618c23fb094b478baba3185d3f30e31fc5e2472ee5ca42834c51"
+    },
+    "technicalMachines": {
+      "path": "technical-machines.json",
+      "records": 256,
+      "derivedFrom": "moves",
+      "sha256": "1a44f30e3f83003c19d5226f0d0e4d0586f6db15789082c6df647a0fd4abf3cd"
+    }
+  },
+  "validation": {
+    "unresolvedMoveReferences": [
+      {
+        "pokemonId": "giratina-altered-forme",
+        "group": "formchange",
+        "moveId": "giratinas-default-form-is-altered-forme-when-it-is-given-a-griseous-orb-to-hold"
+      },
+      {
+        "pokemonId": "giratina-altered-forme",
+        "group": "formchange",
+        "moveId": "or-any-time-it-is-in-its-home-plane"
+      },
+      {
+        "pokemonId": "giratina-altered-forme",
+        "group": "formchange",
+        "moveId": "the-distortion-world"
+      },
+      {
+        "pokemonId": "giratina-altered-forme",
+        "group": "formchange",
+        "moveId": "it-takes-on-the-origin-forme"
+      }
+    ],
+    "unresolvedTechnicalMachineReferences": []
+  }
+}
