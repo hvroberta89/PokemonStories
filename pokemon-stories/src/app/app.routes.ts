@@ -4,24 +4,24 @@ export const routes: Routes = [
   {
     path: 'projects',
     loadComponent: () =>
-      import(
-        './features/projects/pages/projects-page/projects-page.component'
-      ).then(module => module.ProjectsPageComponent),
+      import('./features/projects/pages/projects-page/projects-page.component').then(
+        (module) => module.ProjectsPageComponent,
+      ),
   },
   {
     path: 'running-session',
     loadComponent: () =>
-      import(
-        './features/running-session/pages/running-session-page/running-session-page.component'
-      ).then(module => module.RunningSessionPageComponent),
+      import('./features/running-session/pages/running-session-page/running-session-page.component').then(
+        (module) => module.RunningSessionPageComponent,
+      ),
   },
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'running-session',
+    redirectTo: 'projects',
   },
   {
     path: '**',
-    redirectTo: 'running-session',
+    redirectTo: 'projects',
   },
 ];
