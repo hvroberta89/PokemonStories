@@ -4,6 +4,8 @@ import { PsIconComponent } from '../../../../shared/ui/public-api';
 
 import type { SessionSummaryViewModel } from './session-summary.model';
 
+export type AdventureReviewDecision = 'keep-ready' | 'complete-adventure';
+
 @Component({
   selector: 'app-session-summary',
   standalone: true,
@@ -15,7 +17,7 @@ import type { SessionSummaryViewModel } from './session-summary.model';
 export class SessionSummaryComponent {
   readonly summary = input.required<SessionSummaryViewModel>();
 
-  readonly reviewCompleted = output<void>();
+  readonly reviewCompleted = output<AdventureReviewDecision>();
 
   readonly timelineSelected = output<void>();
 
@@ -36,8 +38,8 @@ export class SessionSummaryComponent {
     this.rewardsSelected.emit();
   }
 
-  protected completeReview(): void {
-    this.reviewCompleted.emit();
+  protected completeReview(decision: AdventureReviewDecision): void {
+    this.reviewCompleted.emit(decision);
   }
 
   protected close(): void {

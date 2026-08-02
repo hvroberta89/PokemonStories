@@ -284,19 +284,19 @@
       <button
         type="button"
         class="session-summary__button session-summary__button--secondary"
-        (click)="close()"
+        (click)="completeReview('keep-ready')"
       >
-        Összefoglaló bezárása
+        Folytatható marad
       </button>
 
       <button
         type="button"
         class="session-summary__button session-summary__button--primary"
-        (click)="completeReview()"
+        (click)="completeReview('complete-adventure')"
       >
         <ps-icon name="success-check" [size]="23" />
 
-        Áttekintés befejezése
+        Kaland lezárása
       </button>
     </div>
   </div>

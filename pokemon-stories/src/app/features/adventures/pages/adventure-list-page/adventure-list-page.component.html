@@ -1,0 +1,126 @@
+<main class="adventures-page">
+  @if (store.isLoading()) {
+    <section class="adventures-page__state" aria-live="polite">
+      <ps-icon name="pending-hourglass" [size]="64" />
+      <h1>Betöltjük a kalandokat…</h1>
+    </section>
+  } @else if (store.isNotFound()) {
+    <section class="adventures-page__state">
+      <ps-icon name="warning-triangle" [size]="64" />
+      <h1>Ez a projekt nem található</h1>
+      <a routerLink="/projects">Projektjeim</a>
+    </section>
+  } @else if (store.hasError()) {
+    <section class="adventures-page__state">
+      <ps-icon name="error-cross" [size]="64" />
+      <h1>A kalandokat most nem sikerült betölteni</h1>
+      <button type="button" (click)="retry()">Újrapróbálom</button>
+    </section>
+  } @else {
+    <header class="adventures-page__header">
+      <a [routerLink]="['/projects', projectId]">← Projekt Dashboard</a>
+      <div>
+        <p>{{ store.projectName() }}</p>
+        <h1>Kalandok</h1>
+        <span>{{ store.adventures().length }} történet ebben a világban</span>
+      </div>
+      <a
+        class="adventures-page__create"
+        [routerLink]="['/projects', projectId, 'adventures', 'new']"
+        ><ps-icon name="add-spark" [size]="22" /> Új kaland</a
+      >
+    </header>
+
+    @if (store.adventures().length === 0) {
+      <section class="adventures-page__empty">
+        <ps-icon name="adventures-book" [size]="80" />
+        <h2>Az első kalandod itt kezdődik</h2>
+        <p>Alkoss egy történetet, készítsd elő, majd vidd el a játékasztalhoz.</p>
+        <a [routerLink]="['/projects', projectId, 'adventures', 'new']">Kaland létrehozása</a>
+      </section>
+    } @else {
+      @if (store.readyAdventures().length) {
+        <ng-container
+          [ngTemplateOutlet]="adventureSection"
+          [ngTemplateOutletContext]="{
+            title: 'Játékra kész',
+            eyebrow: 'Következő session',
+            icon: 'play-pokeball',
+            adventures: store.readyAdventures(),
+            kind: 'ready',
+          }"
+        />
+      }
+      @if (store.draftAdventures().length) {
+        <ng-container
+          [ngTemplateOutlet]="adventureSection"
+          [ngTemplateOutletContext]="{
+            title: 'Tervezés alatt',
+            eyebrow: 'Műhely',
+            icon: 'edit-quill',
+            adventures: store.draftAdventures(),
+            kind: 'draft',
+          }"
+        />
+      }
+      @if (store.completedAdventures().length) {
+        <ng-container
+          [ngTemplateOutlet]="adventureSection"
+          [ngTemplateOutletContext]="{
+            title: 'Befejezett kalandok',
+            eyebrow: 'Kampánytörténet',
+            icon: 'achievement-star',
+            adventures: store.completedAdventures(),
+            kind: 'completed',
+          }"
+        />
+      }
+    }
+  }
+</main>
+
+<ng-template
+  #adventureSection
+  let-title="title"
+  let-eyebrow="eyebrow"
+  let-icon="icon"
+  let-adventures="adventures"
+  let-kind="kind"
+>
+  <section class="adventure-group">
+    <header>
+      <ps-icon [name]="icon" [size]="34" />
+      <div>
+        <p>{{ eyebrow }}</p>
+        <h2>{{ title }}</h2>
+      </div>
+      <span>{{ adventures.length }}</span>
+    </header>
+    <div class="adventure-grid">
+      @for (adventure of adventures; track trackAdventure($index, adventure)) {
+        <article class="adventure-card" [attr.data-status]="kind">
+          <div class="adventure-card__art"><ps-icon [name]="icon" [size]="58" /></div>
+          <div class="adventure-card__content">
+            <span
+              >{{ adventure.minimumAge }}–{{ adventure.maximumAge }} év ·
+              {{ adventure.sessionLengthMinutes }} perc</span
+            >
+            <h3>{{ adventure.title }}</h3>
+            <p>{{ adventure.premise }}</p>
+            @if (kind === 'ready') {
+              <a [routerLink]="['/projects', projectId, 'adventures', adventure.id, 'prepare']"
+                >Session előkészítése →</a
+              >
+            } @else if (kind === 'draft') {
+              <a [routerLink]="['/projects', projectId, 'adventures', adventure.id]"
+                >Tervezés folytatása →</a
+              >
+            } @else {
+              <a [routerLink]="['/projects', projectId, 'sessions']">Session történet →</a>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+</ng-template>

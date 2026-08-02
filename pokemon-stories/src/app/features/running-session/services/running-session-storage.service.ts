@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 
 import type { RunningSessionState } from '../models/running-session-state.model';
 import {
+  CompletedProjectSessionDetail,
   CompletedProjectSessionSummary,
   ProjectSessionReader,
   ProjectSessionSummary,
@@ -105,6 +106,40 @@ export class RunningSessionStorageService implements ProjectSessionReader {
         rewardCount: state.rewardHistory.length + state.rewardQueue.length,
       }))
       .sort((left, right) => right.completedAt.localeCompare(left.completedAt));
+  }
+
+  findCompletedById(projectId: ProjectId, sessionId: string): CompletedProjectSessionDetail | null {
+    const state = this.loadHistory().find(
+      (item) => item.projectId === projectId && item.sessionId === sessionId,
+    );
+    if (!state) return null;
+    return {
+      sessionId: state.sessionId,
+      projectId,
+      adventureId: state.adventureId!,
+      adventureTitle: state.adventureTitle!,
+      finalSceneTitle: state.viewModel.story.locationName,
+      startedAt: state.startedAt,
+      completedAt: state.completedAt!,
+      eventCount: state.viewModel.recentEvents.events.length,
+      rewardCount: state.rewardHistory.length + state.rewardQueue.length,
+      narration: state.viewModel.story.narration,
+      sceneTitles: state.scenes?.map((scene) => scene.title) ?? [
+        state.viewModel.story.locationName,
+      ],
+      events: state.viewModel.recentEvents.events.map((event) => ({
+        id: event.id,
+        title: event.title,
+        content: event.content,
+        timeLabel: event.timeLabel,
+      })),
+      rewards: [...state.rewardHistory, ...state.rewardQueue].map((reward) => ({
+        id: reward.id,
+        recipientName: reward.recipientName,
+        rewardLabel: reward.rewardLabel,
+        amount: reward.amount,
+      })),
+    };
   }
 
   private isBrowser(): boolean {

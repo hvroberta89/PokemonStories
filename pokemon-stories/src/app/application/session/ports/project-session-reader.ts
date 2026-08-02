@@ -23,7 +23,25 @@ export interface CompletedProjectSessionSummary {
   readonly rewardCount: number;
 }
 
+export interface CompletedProjectSessionDetail extends CompletedProjectSessionSummary {
+  readonly narration: readonly string[];
+  readonly sceneTitles: readonly string[];
+  readonly events: readonly {
+    readonly id: string;
+    readonly title: string;
+    readonly content: string;
+    readonly timeLabel: string;
+  }[];
+  readonly rewards: readonly {
+    readonly id: string;
+    readonly recipientName: string;
+    readonly rewardLabel: string;
+    readonly amount: number;
+  }[];
+}
+
 export interface ProjectSessionReader {
   findByProject(projectId: ProjectId): ProjectSessionSummary | null;
   listCompletedByProject(projectId: ProjectId): readonly CompletedProjectSessionSummary[];
+  findCompletedById(projectId: ProjectId, sessionId: string): CompletedProjectSessionDetail | null;
 }

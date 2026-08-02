@@ -302,6 +302,26 @@ describe('AdventurePlan', () => {
     expect(removed.value.readiness.isReady).toBe(false);
   });
 
+  it('should only complete an adventure after it becomes ready', () => {
+    const draft = createAdventurePlan();
+    if (!draft.isSuccess) throw draft.error;
+    expect(draft.value.complete().isSuccess).toBe(false);
+    const withOpening = draft.value.addScene({
+      id: adventureSceneId('scene-1'),
+      title: 'Virágos tisztás',
+      description: 'Egy összetört fészek hever az öreg fa alatt.',
+      goal: 'Találjátok meg az eltűnt tojást.',
+    });
+    if (!withOpening.isSuccess) throw withOpening.error;
+    const ready = withOpening.value.markReady();
+    if (!ready.isSuccess) throw ready.error;
+
+    const completed = ready.value.complete();
+
+    expect(completed.isSuccess).toBe(true);
+    if (completed.isSuccess) expect(completed.value.status).toBe('completed');
+  });
+
   it('should belong to a project', () => {
     const result = createAdventurePlan({
       projectId: projectId('kanto-project'),

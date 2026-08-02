@@ -114,9 +114,28 @@ export class AdventurePlan {
     );
   }
 
+  complete(): Outcome<AdventurePlan, InvalidAdventurePlanError> {
+    if (this.status !== 'ready') {
+      return failure(new InvalidAdventurePlanError('Only a ready adventure can be completed.'));
+    }
+    return success(
+      new AdventurePlan(
+        this.id,
+        this.projectId,
+        this.title,
+        this.premise,
+        this.audienceProfile,
+        'completed',
+        this.scenes,
+        this.story,
+      ),
+    );
+  }
+
   updateFoundation(
     props: UpdateAdventureFoundationProps,
   ): Outcome<AdventurePlan, InvalidAdventurePlanError> {
+    if (!this.isEditable()) return this.notEditable();
     const title = props.title.trim();
     const premise = props.premise.trim();
     const titleValidation = AdventurePlan.validateTitle(title);
@@ -142,6 +161,7 @@ export class AdventurePlan {
   }
 
   addScene(props: AddAdventureSceneProps): Outcome<AdventurePlan, InvalidAdventurePlanError> {
+    if (!this.isEditable()) return this.notEditable();
     const title = props.title.trim();
     const description = props.description.trim();
     const goal = props.goal.trim();
@@ -192,6 +212,7 @@ export class AdventurePlan {
   }
 
   updateStory(props: UpdateAdventureStoryProps): Outcome<AdventurePlan, InvalidAdventurePlanError> {
+    if (!this.isEditable()) return this.notEditable();
     const story = Object.freeze({
       opening: this.normalizeStoryBlock(props.opening),
       development: this.normalizeStoryBlock(props.development),
@@ -221,6 +242,7 @@ export class AdventurePlan {
     sceneId: AdventureSceneId,
     props: UpdateAdventureSceneProps,
   ): Outcome<AdventurePlan, InvalidAdventurePlanError> {
+    if (!this.isEditable()) return this.notEditable();
     const index = this.scenes.findIndex((scene) => scene.id === sceneId);
     if (index < 0) return this.sceneNotFound();
     const validated = this.validateScene(props);
@@ -235,6 +257,7 @@ export class AdventurePlan {
   }
 
   removeScene(sceneId: AdventureSceneId): Outcome<AdventurePlan, InvalidAdventurePlanError> {
+    if (!this.isEditable()) return this.notEditable();
     if (!this.scenes.some((scene) => scene.id === sceneId)) return this.sceneNotFound();
     const remaining = this.scenes.filter((scene) => scene.id !== sceneId);
     const hasOpeningScene = remaining.some((scene) => scene.isOpening);
@@ -255,6 +278,7 @@ export class AdventurePlan {
     sceneId: AdventureSceneId,
     direction: 'up' | 'down',
   ): Outcome<AdventurePlan, InvalidAdventurePlanError> {
+    if (!this.isEditable()) return this.notEditable();
     const index = this.scenes.findIndex((scene) => scene.id === sceneId);
     if (index < 0) return this.sceneNotFound();
     const targetIndex = direction === 'up' ? index - 1 : index + 1;
@@ -267,6 +291,7 @@ export class AdventurePlan {
   }
 
   selectOpeningScene(sceneId: AdventureSceneId): Outcome<AdventurePlan, InvalidAdventurePlanError> {
+    if (!this.isEditable()) return this.notEditable();
     if (!this.scenes.some((scene) => scene.id === sceneId)) return this.sceneNotFound();
     return success(
       this.withScenes(
@@ -328,6 +353,14 @@ export class AdventurePlan {
 
   private sceneNotFound(): Outcome<never, InvalidAdventurePlanError> {
     return failure(new InvalidAdventurePlanError('The scene does not exist in this adventure.'));
+  }
+
+  private isEditable(): boolean {
+    return this.status === 'draft' || this.status === 'ready';
+  }
+
+  private notEditable(): Outcome<never, InvalidAdventurePlanError> {
+    return failure(new InvalidAdventurePlanError('A completed adventure cannot be edited.'));
   }
 
   private static validateTitle(title: string): Outcome<void, InvalidAdventurePlanError> {

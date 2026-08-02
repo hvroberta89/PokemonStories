@@ -20,10 +20,24 @@ export const routes: Routes = [
           ),
       },
       {
+        path: ':projectId/sessions/:sessionId',
+        loadComponent: () =>
+          import('./features/session-history/pages/session-detail-page/session-detail-page.component').then(
+            (module) => module.SessionDetailPageComponent,
+          ),
+      },
+      {
         path: ':projectId/sessions',
         loadComponent: () =>
           import('./features/session-history/pages/session-history-page/session-history-page.component').then(
             (module) => module.SessionHistoryPageComponent,
+          ),
+      },
+      {
+        path: ':projectId/adventures',
+        loadComponent: () =>
+          import('./features/adventures/pages/adventure-list-page/adventure-list-page.component').then(
+            (module) => module.AdventureListPageComponent,
           ),
       },
       {

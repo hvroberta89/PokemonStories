@@ -9,6 +9,7 @@ describe('SessionHistoryStore', () => {
   it('loads completed sessions for the selected project', () => {
     const reader: ProjectSessionReader = {
       findByProject: () => null,
+      findCompletedById: () => null,
       listCompletedByProject: (id) => [
         {
           sessionId: 'session-1',

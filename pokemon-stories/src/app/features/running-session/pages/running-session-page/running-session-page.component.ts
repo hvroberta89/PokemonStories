@@ -66,7 +66,12 @@ import { Router } from '@angular/router';
 import { SessionTimelineComponent } from '../../components/session-timeline/session-timeline.component';
 import { SessionEndSheetComponent } from '../../components/session-end-sheet/session-end-sheet.component';
 import { SessionSummaryComponent } from '../../components/session-summary/session-summary.component';
+import type { AdventureReviewDecision } from '../../components/session-summary/session-summary.component';
 import { SessionSummaryViewModel } from '../../components/session-summary/session-summary.model';
+import { CompleteAdventureHandler } from '../../../../application/adventure/commands/complete-adventure/complete-adventure.handler';
+import { ADVENTURE_PLAN_REPOSITORY } from '../../../../application/adventure/tokens/adventure-plan.tokens';
+import { adventurePlanId } from '../../../../domain/adventure/value-objects/adventure-plan-id';
+import { projectId } from '../../../../domain/project/value-objects/project-id';
 
 @Component({
   selector: 'app-running-session-page',
@@ -105,6 +110,9 @@ export class RunningSessionPageComponent {
 
   private readonly store = inject(RunningSessionStore);
   private readonly router = inject(Router);
+  private readonly completeAdventure = new CompleteAdventureHandler(
+    inject(ADVENTURE_PLAN_REPOSITORY),
+  );
 
   protected readonly adventureTitle = computed(
     () => this.store.session().adventureTitle ?? 'Az eltűnt Napviráglevél',
@@ -609,7 +617,16 @@ export class RunningSessionPageComponent {
     if (this.store.isReviewPending()) this.leaveSession();
   }
 
-  protected completeSessionReview(): void {
+  protected async completeSessionReview(decision: AdventureReviewDecision): Promise<void> {
+    const session = this.store.session();
+    if (decision === 'complete-adventure') {
+      if (!session.projectId || !session.adventureId) return;
+      const result = await this.completeAdventure.execute({
+        projectId: projectId(session.projectId),
+        adventurePlanId: adventurePlanId(session.adventureId),
+      });
+      if (!result.isSuccess) return;
+    }
     this.store.completeReview();
     this.isSessionSummaryOpen.set(false);
     this.leaveSession();

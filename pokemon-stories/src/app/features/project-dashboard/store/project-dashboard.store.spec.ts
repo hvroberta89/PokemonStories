@@ -37,6 +37,9 @@ class MemoryRunningSessionReader implements ProjectSessionReader {
   listCompletedByProject(): readonly [] {
     return [];
   }
+  findCompletedById(): null {
+    return null;
+  }
 }
 
 describe('ProjectDashboardStore', () => {

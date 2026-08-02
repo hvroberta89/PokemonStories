@@ -27,7 +27,13 @@
         <h1>{{ adventure.title }}</h1>
       </div>
       <span class="designer__status" [class.designer__status--ready]="adventure.status === 'ready'">
-        {{ adventure.status === 'ready' ? 'Játékra kész' : 'Tervezés alatt' }}
+        {{
+          adventure.status === 'completed'
+            ? 'Befejezett'
+            : adventure.status === 'ready'
+              ? 'Játékra kész'
+              : 'Tervezés alatt'
+        }}
       </span>
     </section>
 
@@ -258,11 +264,13 @@
         <p class="eyebrow">Készenlét</p>
         <h2>
           {{
-            adventure.status === 'ready'
-              ? 'Játékra kész'
-              : adventure.readiness.isReady
-                ? 'Minden kötelező elem kész'
-                : 'Még egy fontos lépés'
+            adventure.status === 'completed'
+              ? 'Befejezett kaland'
+              : adventure.status === 'ready'
+                ? 'Játékra kész'
+                : adventure.readiness.isReady
+                  ? 'Minden kötelező elem kész'
+                  : 'Még egy fontos lépés'
           }}
         </h2>
         <div
@@ -272,7 +280,9 @@
           <span></span>
         </div>
         <p>
-          @if (adventure.status === 'ready') {
+          @if (adventure.status === 'completed') {
+            Ez a kaland lezárult. A megőrzött sessionöket a Session történetben találod.
+          } @else if (adventure.status === 'ready') {
             A kaland készen áll az előkészítésre. Az opcionális részeket később is gazdagíthatod.
           } @else if (adventure.readiness.isReady) {
             Van Premise, nyitójelenet és elsődleges cél. Te döntöd el, mikor legyen játékra kész.
@@ -280,7 +290,11 @@
             A Foundation kész. Legalább egy nyitójelenet és annak célja szükséges a játékhoz.
           }
         </p>
-        @if (adventure.status === 'ready') {
+        @if (adventure.status === 'completed') {
+          <button type="button" disabled>
+            <ps-icon name="achievement-star" [size]="22" /> Befejezett kaland
+          </button>
+        } @else if (adventure.status === 'ready') {
           <a
             class="designer__prepare-link"
             [routerLink]="['/projects', projectId, 'adventures', adventureId, 'prepare']"

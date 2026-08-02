@@ -43,6 +43,6 @@ describe('SessionSummaryComponent', () => {
       .querySelector<HTMLButtonElement>('.session-summary__button--primary')
       ?.click();
 
-    expect(completed).toHaveBeenCalledOnce();
+    expect(completed).toHaveBeenCalledWith('complete-adventure');
   });
 });

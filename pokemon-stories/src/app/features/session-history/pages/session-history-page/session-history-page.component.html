@@ -21,7 +21,10 @@
   } @else {
     <section class="history-page__list" aria-label="Befejezett sessionök">
       @for (session of store.sessions(); track session.sessionId) {
-        <article class="history-card">
+        <a
+          class="history-card"
+          [routerLink]="['/projects', projectId, 'sessions', session.sessionId]"
+        >
           <div class="history-card__mark"><ps-icon name="achievement-star" [size]="44" /></div>
           <div class="history-card__content">
             <p>{{ formatDate(session.completedAt) }}</p>
@@ -41,7 +44,7 @@
             </div>
           </div>
           <ps-icon name="success-check" [size]="30" />
-        </article>
+        </a>
       }
     </section>
   }

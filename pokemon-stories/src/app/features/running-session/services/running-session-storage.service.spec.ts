@@ -63,5 +63,9 @@ describe('RunningSessionStorageService', () => {
     const history = service.listCompletedByProject(projectId('project-1'));
     expect(history).toHaveLength(1);
     expect(history[0]?.adventureTitle).toBe('Az elveszett tojás');
+    expect(service.findCompletedById(projectId('project-1'), 'session-1')?.sessionId).toBe(
+      'session-1',
+    );
+    expect(service.findCompletedById(projectId('another-project'), 'session-1')).toBeNull();
   });
 });
