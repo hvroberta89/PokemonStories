@@ -20,6 +20,20 @@ export const routes: Routes = [
           ),
       },
       {
+        path: ':projectId/characters/:characterId',
+        loadComponent: () =>
+          import('./features/characters/pages/character-detail-page/character-detail-page.component').then(
+            (module) => module.CharacterDetailPageComponent,
+          ),
+      },
+      {
+        path: ':projectId/characters',
+        loadComponent: () =>
+          import('./features/characters/pages/character-list-page/character-list-page.component').then(
+            (module) => module.CharacterListPageComponent,
+          ),
+      },
+      {
         path: ':projectId/sessions/:sessionId',
         loadComponent: () =>
           import('./features/session-history/pages/session-detail-page/session-detail-page.component').then(

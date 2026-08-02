@@ -1,0 +1,155 @@
+<main class="detail-page">
+  @if (store.isLoading()) {
+    <section class="detail-page__state">
+      <ps-icon name="pending-hourglass" [size]="64" />
+      <h1>Megnyitjuk a karaktert…</h1>
+    </section>
+  } @else if (store.isNotFound()) {
+    <section class="detail-page__state">
+      <ps-icon name="warning-triangle" [size]="64" />
+      <h1>Ez a karakter nem található</h1>
+      <a [routerLink]="['/projects', projectId, 'characters']">Vissza a karakterekhez</a>
+    </section>
+  } @else if (store.hasError()) {
+    <section class="detail-page__state">
+      <ps-icon name="error-cross" [size]="64" />
+      <h1>A karaktert most nem sikerült megnyitni</h1>
+    </section>
+  } @else if (store.character(); as character) {
+    <nav>
+      <a [routerLink]="['/projects', projectId]">Projekt</a><span>›</span
+      ><a [routerLink]="['/projects', projectId, 'characters']">Karakterek</a><span>›</span
+      ><strong>{{ character.name }}</strong>
+    </nav>
+    <header class="character-hero" [class.archived]="character.status === 'archived'">
+      <div class="character-hero__avatar">{{ initials(character.name) }}</div>
+      <div>
+        <p>{{ character.status === 'active' ? 'Aktív trainer' : 'Archivált karakter' }}</p>
+        <h1>{{ character.name }}</h1>
+        <span>{{
+          character.description || 'Ennek a karakternek még nincs rövid bemutatkozása.'
+        }}</span>
+      </div>
+      <button type="button" (click)="editing.set(!editing())">
+        <ps-icon name="edit-quill" [size]="22" />
+        {{ editing() ? 'Szerkesztés bezárása' : 'Szerkesztés' }}
+      </button>
+    </header>
+    @if (editing()) {
+      <section class="editor">
+        <header>
+          <p>Karakterlap</p>
+          <h2>Identitás és történeti irány</h2>
+        </header>
+        <div class="editor__grid">
+          <label
+            >Név
+            <input type="text" maxlength="80" [value]="name()" (input)="update('name', $event)" />
+            @if (submitted() && !name().trim()) {
+              <small>Adj nevet a karakternek.</small>
+            }</label
+          ><label
+            >Rövid leírás
+            <textarea
+              rows="3"
+              maxlength="300"
+              [value]="description()"
+              (input)="update('description', $event)"
+            ></textarea></label
+          ><label
+            >Személyiség
+            <textarea
+              rows="5"
+              maxlength="1000"
+              [value]="personalityNotes()"
+              (input)="update('personalityNotes', $event)"
+            ></textarea></label
+          ><label
+            >Célok
+            <textarea
+              rows="5"
+              maxlength="1000"
+              [value]="goals()"
+              (input)="update('goals', $event)"
+            ></textarea></label
+          ><label class="wide"
+            >Mesélői jegyzetek
+            <textarea
+              rows="5"
+              maxlength="1000"
+              [value]="storyNotes()"
+              (input)="update('storyNotes', $event)"
+            ></textarea>
+          </label>
+        </div>
+        @if (store.errorMessage()) {
+          <p class="editor__error">{{ store.errorMessage() }}</p>
+        }
+        <button class="editor__save" type="button" [disabled]="store.isSaving()" (click)="save()">
+          <ps-icon name="saved-scroll" [size]="22" />
+          {{ store.isSaving() ? 'Mentés…' : 'Módosítások mentése' }}
+        </button>
+      </section>
+    } @else {
+      <div class="detail-page__grid">
+        <section class="story-card">
+          <p>Személyiség</p>
+          <h2>Ki ő a történetben?</h2>
+          <span>{{
+            character.personalityNotes || 'A személyiségjegyeket még nem dolgoztátok ki.'
+          }}</span>
+        </section>
+        <section class="story-card">
+          <p>Célok</p>
+          <h2>Mi hajtja előre?</h2>
+          <span>{{ character.goals || 'A karakter céljai még nincsenek rögzítve.' }}</span>
+        </section>
+        <section class="story-card wide">
+          <p>Mesélői jegyzetek</p>
+          <h2>Fontos történeti szálak</h2>
+          <span>{{
+            character.storyNotes || 'Még nincs külön mesélői jegyzet ehhez a karakterhez.'
+          }}</span>
+        </section>
+      </div>
+    }
+    <section class="archive-panel">
+      <div>
+        <p>
+          {{ character.status === 'active' ? 'Karakter archiválása' : 'Visszatérés a kalandokhoz' }}
+        </p>
+        <span>{{
+          character.status === 'active'
+            ? 'A története és későbbi gyűjteménye megmarad.'
+            : 'A karakter újra megjelenik az aktív választókban.'
+        }}</span>
+      </div>
+      @if (character.status === 'active') {
+        <button type="button" (click)="archiveConfirmOpen.set(true)">Archiválás</button>
+      } @else {
+        <button type="button" (click)="toggleArchive()">Visszaállítás</button>
+      }
+    </section>
+  }
+</main>
+@if (archiveConfirmOpen() && store.character(); as character) {
+  <div class="confirm__backdrop" (click)="archiveConfirmOpen.set(false)">
+    <section
+      class="confirm"
+      role="alertdialog"
+      aria-modal="true"
+      (click)="$event.stopPropagation()"
+    >
+      <ps-icon name="archive-box" [size]="48" />
+      <h2>Archiválod {{ character.name }} karakterét?</h2>
+      <p>
+        A kalandjai, jutalmai és kampánytörténete megmaradnak. Az aktív választókból viszont
+        eltűnik.
+      </p>
+      <div>
+        <button type="button" (click)="archiveConfirmOpen.set(false)">Mégse</button
+        ><button type="button" (click)="toggleArchive()">Archiválás</button>
+      </div>
+    </section>
+  </div>
+}

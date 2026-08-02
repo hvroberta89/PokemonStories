@@ -6,6 +6,7 @@ import type { RewardQueueItemViewModel } from '../components/reward-queue/reward
 import type { RunningSessionState } from '../models/running-session-state.model';
 import type { RunningSessionViewModel } from '../models/running-session-view.model';
 import { AdventurePlan } from '../../../domain/adventure/models/adventure-plan';
+import { Character } from '../../../domain/character/models/character';
 import { mockRunningSession } from '../mocks/running-session.mock';
 import { RunningSessionStorageService } from './running-session-storage.service';
 
@@ -41,7 +42,7 @@ export class RunningSessionStore {
     });
   }
 
-  startFromAdventure(adventure: AdventurePlan): void {
+  startFromAdventure(adventure: AdventurePlan, participants: readonly Character[] = []): void {
     const openingScene = adventure.scenes.find((scene) => scene.isOpening) ?? adventure.scenes[0];
 
     if (!openingScene || adventure.status !== 'ready') {
@@ -69,6 +70,22 @@ export class RunningSessionStore {
         newEventsLabel: 'Még nincs esemény',
         events: [],
       },
+      characters: {
+        ...defaults.characters,
+        countLabel: `${participants.length} játékos`,
+        characters: participants.map((character) => ({
+          id: character.id,
+          name: character.name,
+          initials: character.name
+            .split(/\s+/)
+            .slice(0, 2)
+            .map((part) => part[0])
+            .join('')
+            .toLocaleUpperCase('hu'),
+          status: 'ready',
+          statusLabel: 'Készen áll',
+        })),
+      },
     };
 
     this.state.set({
@@ -84,6 +101,7 @@ export class RunningSessionStore {
         goal: scene.goal,
       })),
       currentSceneIndex: adventure.scenes.indexOf(openingScene),
+      participants: participants.map((character) => ({ id: character.id, name: character.name })),
       status: 'running',
       startedAt: new Date().toISOString(),
       completedAt: null,

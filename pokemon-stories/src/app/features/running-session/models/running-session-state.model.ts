@@ -11,6 +11,11 @@ export interface RunningSessionScene {
   readonly goal: string;
 }
 
+export interface RunningSessionParticipant {
+  readonly id: string;
+  readonly name: string;
+}
+
 export interface RunningSessionState {
   readonly schemaVersion: 2;
 
@@ -25,6 +30,8 @@ export interface RunningSessionState {
   readonly scenes?: readonly RunningSessionScene[];
 
   readonly currentSceneIndex?: number;
+
+  readonly participants?: readonly RunningSessionParticipant[];
 
   readonly status: RunningSessionStatus;
 

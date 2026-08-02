@@ -30,6 +30,9 @@
             <p>{{ formatDate(session.completedAt) }}</p>
             <h2>{{ session.adventureTitle }}</h2>
             <span>Utolsó jelenet: {{ session.finalSceneTitle }}</span>
+            @if (session.participantNames?.length) {
+              <span>Résztvevők: {{ session.participantNames?.join(', ') }}</span>
+            }
             <div class="history-card__facts">
               <span
                 ><strong>{{ duration(session.startedAt, session.completedAt) }}</strong>

@@ -1,6 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ADVENTURE_PLAN_READER } from '../../../application/adventure/tokens/adventure-plan.tokens';
+import {
+  ADVENTURE_PLAN_READER,
+  ADVENTURE_PLAN_REPOSITORY,
+} from '../../../application/adventure/tokens/adventure-plan.tokens';
+import {
+  CHARACTER_READER,
+  CHARACTER_REPOSITORY,
+} from '../../../application/character/tokens/character.tokens';
 import { AudienceProfile } from '../../../domain/audience/models/audience-profile';
 import { AgeRange } from '../../../domain/audience/value-objects/age-range';
 import { AdventurePlan } from '../../../domain/adventure/models/adventure-plan';
@@ -9,6 +16,7 @@ import { adventureSceneId } from '../../../domain/adventure/value-objects/advent
 import { projectId } from '../../../domain/project/value-objects/project-id';
 import { InMemoryAdventurePlanRepository } from '../../../infrastructure/adventure/repositories/in-memory-adventure-plan.repository';
 import { SessionPreparationStore } from './session-preparation.store';
+import { InMemoryCharacterRepository } from '../../../infrastructure/character/repositories/in-memory-character.repository';
 
 describe('SessionPreparationStore', () => {
   let repository: InMemoryAdventurePlanRepository;
@@ -20,6 +28,9 @@ describe('SessionPreparationStore', () => {
       providers: [
         SessionPreparationStore,
         { provide: ADVENTURE_PLAN_READER, useValue: repository },
+        { provide: ADVENTURE_PLAN_REPOSITORY, useValue: repository },
+        { provide: CHARACTER_READER, useValue: new InMemoryCharacterRepository() },
+        { provide: CHARACTER_REPOSITORY, useValue: new InMemoryCharacterRepository() },
       ],
     });
     store = TestBed.inject(SessionPreparationStore);

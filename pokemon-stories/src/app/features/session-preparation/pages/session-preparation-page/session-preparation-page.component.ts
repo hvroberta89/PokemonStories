@@ -6,6 +6,7 @@ import { projectId } from '../../../../domain/project/value-objects/project-id';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
 import { RunningSessionStore } from '../../../running-session/services/running-session.store';
 import { SessionPreparationStore } from '../../store/session-preparation.store';
+import { CharacterId } from '../../../../domain/character/value-objects/character-id';
 
 @Component({
   selector: 'app-session-preparation-page',
@@ -27,6 +28,8 @@ export class SessionPreparationPageComponent {
   );
   protected readonly narrativeReviewed = signal(false);
   protected readonly practicalsReviewed = signal(false);
+  protected readonly selectedCharacterIds = signal<readonly CharacterId[]>([]);
+  protected readonly rememberTeam = signal(true);
   protected readonly reviewCount = computed(
     () => Number(this.narrativeReviewed()) + Number(this.practicalsReviewed()),
   );
@@ -34,9 +37,14 @@ export class SessionPreparationPageComponent {
     const scenes = this.store.adventure()?.scenes ?? [];
     return scenes.find((scene) => scene.isOpening) ?? scenes[0];
   });
+  protected readonly selectedCharacters = computed(() =>
+    this.store
+      .characters()
+      .filter((character) => this.selectedCharacterIds().includes(character.id)),
+  );
 
   constructor() {
-    void this.store.load(this.projectId, this.adventureId);
+    void this.load();
   }
 
   protected toggleNarrative(event: Event): void {
@@ -51,10 +59,40 @@ export class SessionPreparationPageComponent {
     void this.store.load(this.projectId, this.adventureId);
   }
 
-  protected startSession(): void {
+  protected toggleCharacter(id: CharacterId): void {
+    this.selectedCharacterIds.update((ids) =>
+      ids.includes(id) ? ids.filter((item) => item !== id) : [...ids, id],
+    );
+  }
+
+  protected async startSession(): Promise<void> {
     const adventure = this.store.adventure();
     if (!adventure) return;
-    this.runningSession.startFromAdventure(adventure);
+    if (
+      this.rememberTeam() &&
+      !(await this.store.rememberTeam(
+        this.projectId,
+        this.adventureId,
+        this.selectedCharacterIds(),
+      ))
+    ) {
+      return;
+    }
+    this.runningSession.startFromAdventure(adventure, this.selectedCharacters());
     void this.router.navigate(['/running-session']);
+  }
+
+  protected initials(name: string): string {
+    return name
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join('')
+      .toLocaleUpperCase('hu');
+  }
+
+  private async load(): Promise<void> {
+    await this.store.load(this.projectId, this.adventureId);
+    this.selectedCharacterIds.set(this.store.adventure()?.expectedCharacterIds ?? []);
   }
 }
