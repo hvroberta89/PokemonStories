@@ -26,6 +26,7 @@
     </header>
 
     <section class="collection-page__summary" aria-label="Gyűjtemény összesítő">
+      <article><strong>{{ store.latestSessionCount() }}</strong><span>legutóbbi Session</span></article>
       <article><strong>{{ store.totalCount() }}</strong><span>megszerzett</span></article>
       <article><strong>{{ store.pendingCount() }}</strong><span>átadásra vár</span></article>
       <article><strong>{{ store.givenCount() }}</strong><span>átadva</span></article>
@@ -47,7 +48,7 @@
         <span>Címzett</span>
         <select (change)="setRecipient($event)">
           <option value="all">Mindenki</option>
-          @for (recipient of store.recipients(); track recipient) { <option [value]="recipient">{{ recipient }}</option> }
+          @for (recipient of store.recipients(); track recipient.id) { <option [value]="recipient.id">{{ recipient.name }}</option> }
         </select>
       </label>
     </section>

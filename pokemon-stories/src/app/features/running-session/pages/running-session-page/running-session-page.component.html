@@ -150,6 +150,7 @@
   @if (isRewardSheetOpen()) {
     <app-reward-sheet
       [recipients]="rewardRecipients()"
+      [preparedRewards]="preparedRewards()"
       (dismissed)="closeRewardSheet()"
       (saved)="saveReward($event)"
     />

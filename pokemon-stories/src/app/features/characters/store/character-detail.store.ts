@@ -9,6 +9,8 @@ import {
 import { Character } from '../../../domain/character/models/character';
 import { CharacterId } from '../../../domain/character/value-objects/character-id';
 import { ProjectId } from '../../../domain/project/value-objects/project-id';
+import { REWARD_GRANT_REPOSITORY } from '../../../application/reward/tokens/reward-grant.tokens';
+import type { RewardGrant } from '../../../domain/reward/models/reward-grant';
 
 type CharacterDetailStatus = 'idle' | 'loading' | 'loaded' | 'saving' | 'not-found' | 'error';
 
@@ -27,6 +29,8 @@ export class CharacterDetailStore {
   private readonly statusState = signal<CharacterDetailStatus>('idle');
   private readonly characterState = signal<Character | null>(null);
   private readonly errorState = signal<string | null>(null);
+  private readonly rewardRepository = inject(REWARD_GRANT_REPOSITORY);
+  private readonly rewardsState = signal<readonly RewardGrant[]>([]);
 
   readonly status = this.statusState.asReadonly();
   readonly character = this.characterState.asReadonly();
@@ -35,16 +39,26 @@ export class CharacterDetailStore {
   readonly isSaving = computed(() => this.status() === 'saving');
   readonly isNotFound = computed(() => this.status() === 'not-found');
   readonly hasError = computed(() => this.status() === 'error');
+  readonly rewards = this.rewardsState.asReadonly();
+  readonly recentRewards = computed(() => this.rewards().slice(0, 4));
+  readonly pendingRewardCount = computed(
+    () => this.rewards().filter((reward) => reward.value.deliveryStatus === 'pending').length,
+  );
+  readonly givenRewardCount = computed(() => this.rewards().length - this.pendingRewardCount());
 
   async load(projectId: ProjectId, id: CharacterId): Promise<void> {
     this.statusState.set('loading');
     try {
-      const character = await this.getHandler.execute(projectId, id);
+      const [character, projectRewards] = await Promise.all([
+        this.getHandler.execute(projectId, id),
+        this.rewardRepository.findByProject(projectId),
+      ]);
       if (!character) {
         this.statusState.set('not-found');
         return;
       }
       this.characterState.set(character);
+      this.rewardsState.set(projectRewards.filter((reward) => reward.value.recipientId === id));
       this.statusState.set('loaded');
     } catch {
       this.statusState.set('error');

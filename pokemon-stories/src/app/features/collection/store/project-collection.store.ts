@@ -25,20 +25,37 @@ export class ProjectCollectionStore {
   readonly isNotFound = computed(() => this.status() === 'not-found');
   readonly hasError = computed(() => this.status() === 'error');
   readonly recipients = computed(() => {
-    const names = this.grantsState().map((grant) => grant.value.recipientName);
-    return [...new Set(names)].sort((a, b) => a.localeCompare(b, 'hu'));
+    const recipients = new Map<string, string>();
+    for (const grant of this.grantsState()) {
+      recipients.set(
+        grant.value.recipientId ?? `scope:${grant.value.recipientName}`,
+        grant.value.recipientName,
+      );
+    }
+    return [...recipients]
+      .map(([id, name]) => ({ id, name }))
+      .sort((a, b) => a.name.localeCompare(b.name, 'hu'));
   });
   readonly grants = computed(() =>
     this.grantsState().filter(({ value }) => {
       const typeMatches = this.typeFilter() === 'all' || value.type === this.typeFilter();
       const recipientMatches =
-        this.recipientFilter() === 'all' || value.recipientName === this.recipientFilter();
+        this.recipientFilter() === 'all' ||
+        (value.recipientId ?? `scope:${value.recipientName}`) === this.recipientFilter();
       const deliveryMatches =
         this.deliveryFilter() === 'all' || value.deliveryStatus === this.deliveryFilter();
       return typeMatches && recipientMatches && deliveryMatches;
     }),
   );
   readonly totalCount = computed(() => this.grantsState().length);
+  readonly latestSessionGrants = computed(() => {
+    const grants = this.grantsState();
+    const latestSessionId = grants[0]?.value.sessionId;
+    return latestSessionId
+      ? grants.filter((grant) => grant.value.sessionId === latestSessionId)
+      : [];
+  });
+  readonly latestSessionCount = computed(() => this.latestSessionGrants().length);
   readonly pendingCount = computed(
     () => this.grantsState().filter((grant) => grant.value.deliveryStatus === 'pending').length,
   );

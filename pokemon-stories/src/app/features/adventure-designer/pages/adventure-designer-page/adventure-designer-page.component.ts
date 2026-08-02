@@ -9,6 +9,7 @@ import { AdventureScene } from '../../../../domain/adventure/models/adventure-sc
 import { projectId } from '../../../../domain/project/value-objects/project-id';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
 import { AdventureDesignerStore } from '../../store/adventure-designer.store';
+import type { RewardType } from '../../../../domain/reward/models/reward-grant';
 
 @Component({
   selector: 'app-adventure-designer-page',
@@ -43,6 +44,12 @@ export class AdventureDesignerPageComponent {
   protected readonly storyDevelopment = signal('');
   protected readonly storyClimax = signal('');
   protected readonly storyResolution = signal('');
+  protected readonly rewardType = signal<RewardType>('item');
+  protected readonly rewardLabel = signal('');
+  protected readonly rewardAmount = signal(1);
+  protected readonly rewardSceneId = signal('');
+  protected readonly rewardPhysicalStatus = signal<'queued' | 'skipped'>('queued');
+  protected readonly rewardSubmitted = signal(false);
 
   constructor() {
     void this.load();
@@ -186,6 +193,25 @@ export class AdventureDesignerPageComponent {
 
   protected markAdventureReady(): void {
     void this.store.markReady(this.projectId, this.adventureId);
+  }
+
+  protected async addPreparedReward(): Promise<void> {
+    this.rewardSubmitted.set(true);
+    if (!this.rewardLabel().trim()) return;
+    const success = await this.store.addPreparedReward({
+      projectId: this.projectId,
+      adventureId: this.adventureId,
+      sceneId: this.rewardSceneId() ? (this.rewardSceneId() as AdventureSceneId) : undefined,
+      type: this.rewardType(),
+      label: this.rewardLabel(),
+      amount: this.rewardAmount(),
+      physicalStatus: this.rewardPhysicalStatus(),
+    });
+    if (success) {
+      this.rewardLabel.set('');
+      this.rewardAmount.set(1);
+      this.rewardSubmitted.set(false);
+    }
   }
 
   private async load(): Promise<void> {

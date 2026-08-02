@@ -221,6 +221,8 @@ export class RunningSessionPageComponent {
     })),
   );
 
+  protected readonly preparedRewards = this.store.availablePreparedRewards;
+
   // ---------------------------------------------------------------------------
   // Assistant state
   // ---------------------------------------------------------------------------
@@ -389,16 +391,12 @@ export class RunningSessionPageComponent {
     this.isRewardSheetOpen.set(false);
   }
 
-  protected saveReward(reward: RewardDraft): void {
-    const recentEvent = this.recentEventFactory.createReward(reward);
-
-    const queueItem = this.createRewardQueueItem(reward);
-
-    this.latestReward.set(reward);
-
-    this.store.enqueueReward(queueItem);
-
-    this.addRecentEvent(recentEvent);
+  protected saveReward(rewards: readonly RewardDraft[]): void {
+    for (const reward of rewards) {
+      this.latestReward.set(reward);
+      this.store.enqueueReward(this.createRewardQueueItem(reward));
+      this.addRecentEvent(this.recentEventFactory.createReward(reward));
+    }
 
     this.closeRewardSheet();
     this.showRewardToast();
@@ -812,18 +810,14 @@ export class RunningSessionPageComponent {
       id: crypto.randomUUID(),
       recipientId: reward.recipientId,
       recipientName: reward.recipientName,
-      rewardType: this.toGrantType(reward.rewardType),
+      rewardType: reward.rewardType,
       rewardLabel: reward.rewardLabel,
       amount: reward.amount,
       icon: 'reward-gift',
       status: 'unlocked',
+      physicalStatus: reward.physicalStatus,
+      preparedRewardId: reward.preparedRewardId,
     };
-  }
-
-  private toGrantType(type: RewardDraft['rewardType']): 'item' | 'quest-item' | 'achievement' {
-    if (type === 'quest-item') return 'quest-item';
-    if (type === 'xp') return 'achievement';
-    return 'item';
   }
 
   private addRecentEvent(recentEvent: RecentEventItemViewModel): void {

@@ -19,6 +19,10 @@ import { AdventurePlan } from '../../../domain/adventure/models/adventure-plan';
 import { AdventurePlanId } from '../../../domain/adventure/value-objects/adventure-plan-id';
 import { ProjectId } from '../../../domain/project/value-objects/project-id';
 import { ID_GENERATOR } from '../../../application/project/tokens/id-generator.token';
+import { PREPARED_REWARD_REPOSITORY } from '../../../application/reward/tokens/prepared-reward.tokens';
+import { PreparedReward } from '../../../domain/reward/models/prepared-reward';
+import type { RewardType } from '../../../domain/reward/models/reward-grant';
+import type { AdventureSceneId } from '../../../domain/adventure/value-objects/adventure-scene-id';
 
 export type DesignerStatus =
   'idle' | 'loading' | 'ready' | 'saving' | 'saved' | 'not-found' | 'error';
@@ -52,6 +56,9 @@ export class AdventureDesignerStore {
   private readonly statusState = signal<DesignerStatus>('idle');
   private readonly adventureState = signal<AdventurePlan | null>(null);
   private readonly errorState = signal<string | null>(null);
+  private readonly preparedRewardRepository = inject(PREPARED_REWARD_REPOSITORY);
+  private readonly ids = inject(ID_GENERATOR);
+  private readonly preparedRewardsState = signal<readonly PreparedReward[]>([]);
 
   readonly status = this.statusState.asReadonly();
   readonly adventure = this.adventureState.asReadonly();
@@ -59,6 +66,7 @@ export class AdventureDesignerStore {
   readonly isLoading = computed(() => this.status() === 'loading');
   readonly isSaving = computed(() => this.status() === 'saving');
   readonly isNotFound = computed(() => this.status() === 'not-found');
+  readonly preparedRewards = this.preparedRewardsState.asReadonly();
 
   async load(projectId: ProjectId, adventureId: AdventurePlanId): Promise<void> {
     this.statusState.set('loading');
@@ -69,10 +77,45 @@ export class AdventureDesignerStore {
         return;
       }
       this.adventureState.set(adventure);
+      this.preparedRewardsState.set(
+        await this.preparedRewardRepository.findByAdventure(projectId, adventureId),
+      );
       this.statusState.set('ready');
     } catch {
       this.statusState.set('error');
       this.errorState.set('A kalandot most nem sikerült betölteni.');
+    }
+  }
+
+  async addPreparedReward(input: {
+    readonly projectId: ProjectId;
+    readonly adventureId: AdventurePlanId;
+    readonly sceneId?: AdventureSceneId;
+    readonly type: RewardType;
+    readonly label: string;
+    readonly amount: number;
+    readonly physicalStatus: 'queued' | 'skipped';
+  }): Promise<boolean> {
+    this.statusState.set('saving');
+    try {
+      const reward = PreparedReward.create({ ...input, id: this.ids.generate() });
+      await this.preparedRewardRepository.save(reward);
+      this.preparedRewardsState.update((items) => [...items, reward]);
+      this.statusState.set('saved');
+      return true;
+    } catch {
+      this.errorState.set('Az előkészített jutalmat most nem sikerült elmenteni.');
+      this.statusState.set('ready');
+      return false;
+    }
+  }
+
+  async removePreparedReward(projectId: ProjectId, rewardId: string): Promise<void> {
+    try {
+      await this.preparedRewardRepository.remove(projectId, rewardId);
+      this.preparedRewardsState.update((items) => items.filter((item) => item.value.id !== rewardId));
+    } catch {
+      this.errorState.set('Az előkészített jutalmat most nem sikerült törölni.');
     }
   }
 

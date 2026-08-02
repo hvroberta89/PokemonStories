@@ -27,12 +27,17 @@ export class ProjectCollectionPageComponent {
     { value: 'pokemon', label: 'Pokémon' },
     { value: 'item', label: 'Tárgy' },
     { value: 'badge', label: 'Jelvény' },
+    { value: 'outfit', label: 'Öltözék' },
     { value: 'achievement', label: 'Teljesítmény' },
     { value: 'quest-item', label: 'Küldetéstárgy' },
+    { value: 'card', label: 'Kártya' },
+    { value: 'sticker', label: 'Matrica' },
+    { value: 'narrative', label: 'Történeti jutalom' },
     { value: 'custom', label: 'Egyedi' },
   ];
 
   constructor() {
+    this.store.recipientFilter.set(this.route.snapshot.queryParamMap.get('characterId') ?? 'all');
     void this.store.load(this.projectId);
   }
 
@@ -55,6 +60,9 @@ export class ProjectCollectionPageComponent {
       case 'outfit': return 'clothing-shirt';
       case 'achievement': return 'achievement-star';
       case 'quest-item': return 'quest-card';
+      case 'card': return 'npc-card';
+      case 'sticker': return 'reward-gift';
+      case 'narrative': return 'timeline-scroll';
       default: return 'items-potion';
     }
   }

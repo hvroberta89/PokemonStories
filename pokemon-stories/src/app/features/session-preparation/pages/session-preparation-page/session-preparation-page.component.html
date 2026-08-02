@@ -81,6 +81,12 @@
             }
           </ol>
         </section>
+        @if (store.preparedRewards().length) {
+          <section class="scene-list" aria-labelledby="prepared-rewards-title">
+            <div class="section-heading"><div><p class="eyebrow">Jutalomterv</p><h2 id="prepared-rewards-title">Előkészített jutalmak</h2></div><span>{{ store.preparedRewards().length }} db</span></div>
+            <ol>@for (reward of store.preparedRewards(); track reward.value.id) { <li><ps-icon name="reward-gift" [size]="24" /><div><strong>{{ reward.value.label }}</strong><small>{{ reward.value.amount }} db</small></div></li> }</ol>
+          </section>
+        }
       </section>
 
       <aside class="checklist" aria-labelledby="checklist-title">

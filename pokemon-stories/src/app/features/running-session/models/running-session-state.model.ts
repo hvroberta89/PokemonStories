@@ -1,6 +1,7 @@
 import type { RewardHistoryItemViewModel } from '../components/reward-history/reward-history.model';
 import type { RewardQueueItemViewModel } from '../components/reward-queue/reward-queue.model';
 import type { RunningSessionViewModel } from './running-session-view.model';
+import type { PreparedRewardProps } from '../../../domain/reward/models/prepared-reward';
 
 export type RunningSessionStatus = 'running' | 'review-pending' | 'completed';
 
@@ -32,6 +33,7 @@ export interface RunningSessionState {
   readonly currentSceneIndex?: number;
 
   readonly participants?: readonly RunningSessionParticipant[];
+  readonly preparedRewards?: readonly PreparedRewardProps[];
 
   readonly status: RunningSessionStatus;
 

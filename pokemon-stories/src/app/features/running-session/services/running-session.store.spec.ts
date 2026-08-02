@@ -10,6 +10,7 @@ import { RunningSessionStorageService } from './running-session-storage.service'
 import { RunningSessionStore } from './running-session.store';
 import { Character } from '../../../domain/character/models/character';
 import { characterId } from '../../../domain/character/value-objects/character-id';
+import { PreparedReward } from '../../../domain/reward/models/prepared-reward';
 
 describe('RunningSessionStore', () => {
   it('starts a clean session from the ready adventure opening scene', () => {
@@ -51,7 +52,52 @@ describe('RunningSessionStore', () => {
     store.completeReview();
     expect(store.status()).toBe('completed');
   });
+
+  it('makes only current-scene and anytime prepared rewards available', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        RunningSessionStore,
+        {
+          provide: RunningSessionStorageService,
+          useValue: { load: () => null, save: () => undefined, clear: () => undefined },
+        },
+      ],
+    });
+    const store = TestBed.inject(RunningSessionStore);
+    const adventure = createReadyAdventure();
+
+    store.startFromAdventure(adventure, [], [
+      createPreparedReward('anytime-reward'),
+      createPreparedReward('opening-reward', adventure.scenes[0]!.id),
+      createPreparedReward('second-scene-reward', adventure.scenes[1]!.id),
+    ]);
+
+    expect(store.availablePreparedRewards().map((reward) => reward.id)).toEqual([
+      'anytime-reward',
+      'opening-reward',
+    ]);
+
+    store.nextScene();
+
+    expect(store.availablePreparedRewards().map((reward) => reward.id)).toEqual([
+      'anytime-reward',
+      'second-scene-reward',
+    ]);
+  });
 });
+
+function createPreparedReward(id: string, sceneId?: ReturnType<typeof adventureSceneId>): PreparedReward {
+  return PreparedReward.create({
+    id,
+    projectId: projectId('project-1'),
+    adventureId: adventurePlanId('adventure-1'),
+    sceneId,
+    type: 'badge',
+    label: id,
+    amount: 1,
+    physicalStatus: 'queued',
+  });
+}
 
 function createReadyAdventure(): AdventurePlan {
   const ageRange = AgeRange.create(7, 9);

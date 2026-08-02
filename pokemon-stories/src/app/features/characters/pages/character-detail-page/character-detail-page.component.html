@@ -113,6 +113,42 @@
         </section>
       </div>
     }
+    <section class="character-rewards" aria-labelledby="character-rewards-title">
+      <header>
+        <div>
+          <p>Gyűjtemény</p>
+          <h2 id="character-rewards-title">{{ character.name }} jutalmai</h2>
+        </div>
+        @if (store.rewards().length > 0) {
+          <div class="character-rewards__counts">
+            <span><strong>{{ store.rewards().length }}</strong> megszerzett</span>
+            @if (store.pendingRewardCount() > 0) {
+              <span class="is-pending"><strong>{{ store.pendingRewardCount() }}</strong> átadásra vár</span>
+            }
+          </div>
+        }
+      </header>
+      @if (store.recentRewards().length === 0) {
+        <div class="character-rewards__empty">
+          <ps-icon name="treasure-chest" [size]="48" />
+          <div><strong>Még nincs személyes jutalom</strong><span>A Session során feloldott jutalmak itt jelennek meg.</span></div>
+        </div>
+      } @else {
+        <div class="character-rewards__grid">
+          @for (reward of store.recentRewards(); track reward.value.id) {
+            <a [routerLink]="['/projects', projectId, 'collection', reward.value.id]">
+              <span class="character-rewards__icon"><ps-icon [name]="rewardIcon(reward.value.type)" [size]="30" /></span>
+              <span><strong>{{ reward.value.label }}</strong><small>{{ reward.value.amount }} db · {{ reward.value.deliveryStatus === 'given' ? 'Átadva' : 'Átadásra vár' }}</small></span>
+            </a>
+          }
+        </div>
+        <a
+          class="character-rewards__all"
+          [routerLink]="['/projects', projectId, 'collection']"
+          [queryParams]="{ characterId: character.id }"
+        >Összes jutalom megtekintése →</a>
+      }
+    </section>
     <section class="archive-panel">
       <div>
         <p>

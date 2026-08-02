@@ -9,6 +9,8 @@ import { characterId } from '../../../domain/character/value-objects/character-i
 import { projectId } from '../../../domain/project/value-objects/project-id';
 import { InMemoryCharacterRepository } from '../../../infrastructure/character/repositories/in-memory-character.repository';
 import { CharacterDetailStore } from './character-detail.store';
+import { REWARD_GRANT_REPOSITORY } from '../../../application/reward/tokens/reward-grant.tokens';
+import { RewardGrant } from '../../../domain/reward/models/reward-grant';
 
 describe('CharacterDetailStore', () => {
   it('updates and archives the project character without losing story data', async () => {
@@ -20,11 +22,21 @@ describe('CharacterDetailStore', () => {
     });
     if (!created.isSuccess) throw created.error;
     await repository.save(created.value);
+    const reward = RewardGrant.create({
+      id: 'reward-1', projectId: projectId('project-1'), sessionId: 'session-1',
+      adventureId: 'adventure-1', recipientId: 'character-1', recipientName: 'Emma',
+      type: 'badge', label: 'Erdei segítő', amount: 1,
+      physicalStatus: 'queued', deliveryStatus: 'pending',
+    });
     TestBed.configureTestingModule({
       providers: [
         CharacterDetailStore,
         { provide: CHARACTER_READER, useValue: repository },
         { provide: CHARACTER_REPOSITORY, useValue: repository },
+        {
+          provide: REWARD_GRANT_REPOSITORY,
+          useValue: { findByProject: async () => [reward], findById: async () => reward, saveAll: async () => undefined },
+        },
       ],
     });
     const store = TestBed.inject(CharacterDetailStore);
@@ -44,5 +56,7 @@ describe('CharacterDetailStore', () => {
     );
     expect(store.character()?.status).toBe('archived');
     expect(store.character()?.storyNotes).toContain('hidat');
+    expect(store.recentRewards()[0]?.value.label).toBe('Erdei segítő');
+    expect(store.pendingRewardCount()).toBe(1);
   });
 });

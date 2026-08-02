@@ -14,6 +14,8 @@ import { Character } from '../../../domain/character/models/character';
 import { SetAdventureCharactersHandler } from '../../../application/adventure/commands/set-adventure-characters/set-adventure-characters.handler';
 import { ADVENTURE_PLAN_REPOSITORY } from '../../../application/adventure/tokens/adventure-plan.tokens';
 import { CharacterId } from '../../../domain/character/value-objects/character-id';
+import { PREPARED_REWARD_REPOSITORY } from '../../../application/reward/tokens/prepared-reward.tokens';
+import type { PreparedReward } from '../../../domain/reward/models/prepared-reward';
 
 export type SessionPreparationStatus = 'idle' | 'loading' | 'loaded' | 'not-found' | 'error';
 
@@ -28,10 +30,13 @@ export class SessionPreparationStore {
   private readonly statusState = signal<SessionPreparationStatus>('idle');
   private readonly adventureState = signal<AdventurePlan | null>(null);
   private readonly charactersState = signal<readonly Character[]>([]);
+  private readonly preparedRewardRepository = inject(PREPARED_REWARD_REPOSITORY);
+  private readonly preparedRewardsState = signal<readonly PreparedReward[]>([]);
 
   readonly status = this.statusState.asReadonly();
   readonly adventure = this.adventureState.asReadonly();
   readonly characters = this.charactersState.asReadonly();
+  readonly preparedRewards = this.preparedRewardsState.asReadonly();
   readonly isLoading = computed(() => this.status() === 'loading');
   readonly isNotFound = computed(() => this.status() === 'not-found');
   readonly hasError = computed(() => this.status() === 'error');
@@ -53,6 +58,9 @@ export class SessionPreparationStore {
         (await this.listCharacters.execute(projectId)).filter(
           (character) => character.status === 'active',
         ),
+      );
+      this.preparedRewardsState.set(
+        await this.preparedRewardRepository.findByAdventure(projectId, adventureId),
       );
       this.statusState.set('loaded');
     } catch {

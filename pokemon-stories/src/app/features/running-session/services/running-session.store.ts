@@ -14,6 +14,8 @@ import { SessionSyncConflictError } from '../../../application/session/ports/ses
 import { REWARD_GRANT_REPOSITORY } from '../../../application/reward/tokens/reward-grant.tokens';
 import { RewardGrant } from '../../../domain/reward/models/reward-grant';
 import { projectId } from '../../../domain/project/value-objects/project-id';
+import type { PreparedReward } from '../../../domain/reward/models/prepared-reward';
+import { PREPARED_REWARD_REPOSITORY } from '../../../application/reward/tokens/prepared-reward.tokens';
 
 export type SessionSyncStatus = 'local-only' | 'syncing' | 'synced' | 'offline' | 'conflict';
 
@@ -25,6 +27,7 @@ export class RunningSessionStore {
   private readonly cloud = inject(SESSION_CLOUD_REPOSITORY);
   private readonly destroyRef = inject(DestroyRef);
   private readonly rewardGrants = inject(REWARD_GRANT_REPOSITORY);
+  private readonly preparedRewards = inject(PREPARED_REWARD_REPOSITORY);
   private syncTimer: ReturnType<typeof setTimeout> | undefined;
   private retryTimer: ReturnType<typeof setTimeout> | undefined;
   private readonly syncStatusState = signal<SessionSyncStatus>('local-only');
@@ -39,6 +42,15 @@ export class RunningSessionStore {
   readonly rewardQueue = computed(() => this.state().rewardQueue);
 
   readonly rewardHistory = computed(() => this.state().rewardHistory);
+
+  readonly availablePreparedRewards = computed(() => {
+    const session = this.state();
+    const currentScene = session.scenes?.[session.currentSceneIndex ?? 0];
+
+    return (session.preparedRewards ?? []).filter(
+      (reward) => !reward.sceneId || reward.sceneId === currentScene?.id,
+    );
+  });
 
   readonly status = computed(() => this.state().status);
 
@@ -60,7 +72,11 @@ export class RunningSessionStore {
     this.registerBrowserSyncEvents();
   }
 
-  startFromAdventure(adventure: AdventurePlan, participants: readonly Character[] = []): void {
+  startFromAdventure(
+    adventure: AdventurePlan,
+    participants: readonly Character[] = [],
+    preparedRewards: readonly PreparedReward[] = [],
+  ): void {
     const openingScene = adventure.scenes.find((scene) => scene.isOpening) ?? adventure.scenes[0];
 
     if (!openingScene || adventure.status !== 'ready') {
@@ -120,6 +136,7 @@ export class RunningSessionStore {
       })),
       currentSceneIndex: adventure.scenes.indexOf(openingScene),
       participants: participants.map((character) => ({ id: character.id, name: character.name })),
+      preparedRewards: preparedRewards.map((reward) => reward.value),
       status: 'running',
       startedAt: new Date().toISOString(),
       completedAt: null,
@@ -220,6 +237,8 @@ export class RunningSessionStore {
         amount: reward.amount,
         icon: reward.icon,
         givenAtLabel: 'Most',
+        physicalStatus: reward.physicalStatus === 'queued' ? 'printed' : reward.physicalStatus,
+        preparedRewardId: reward.preparedRewardId,
       };
 
       return {
@@ -342,12 +361,13 @@ export class RunningSessionStore {
         projectId: projectId(state.projectId!),
         sessionId: state.sessionId,
         adventureId: state.adventureId!,
+        preparedRewardId: reward.preparedRewardId,
         recipientId: reward.recipientId,
         recipientName: reward.recipientName,
         type: reward.rewardType ?? 'custom',
         label: reward.rewardLabel,
         amount: reward.amount,
-        physicalStatus: reward.status === 'printed' ? 'printed' : 'queued',
+        physicalStatus: reward.physicalStatus ?? (reward.status === 'printed' ? 'printed' : 'queued'),
         deliveryStatus: 'pending',
       }),
     );
@@ -357,16 +377,27 @@ export class RunningSessionStore {
         projectId: projectId(state.projectId!),
         sessionId: state.sessionId,
         adventureId: state.adventureId!,
+        preparedRewardId: reward.preparedRewardId,
         recipientId: reward.recipientId,
         recipientName: reward.recipientName,
         type: reward.rewardType ?? 'custom',
         label: reward.rewardLabel,
         amount: reward.amount,
-        physicalStatus: 'printed',
+        physicalStatus: reward.physicalStatus ?? 'printed',
         deliveryStatus: 'given',
       }),
     );
     await this.rewardGrants.saveAll([...queued, ...given]);
+    const preparedRewardIds = [...new Set(
+      [...state.rewardQueue, ...state.rewardHistory]
+        .map((reward) => reward.preparedRewardId)
+        .filter((rewardId): rewardId is string => Boolean(rewardId)),
+    )];
+    await this.preparedRewards.markUnlocked(
+      projectId(state.projectId),
+      preparedRewardIds,
+      state.sessionId,
+    );
   }
 
   private async restoreFromCloud(): Promise<void> {

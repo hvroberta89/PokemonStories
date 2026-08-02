@@ -201,6 +201,28 @@
           </form>
         </section>
 
+        <section id="rewards" class="designer__panel prepared-rewards">
+          <div class="designer__panel-heading">
+            <div><p class="eyebrow">Jutalomterv</p><h2>Előkészített jutalmak</h2><p>A tulajdonjog csak a Session közbeni feloldáskor jön létre.</p></div>
+            <span class="story-panel__optional">{{ store.preparedRewards().length }} előkészítve</span>
+          </div>
+          <form class="prepared-rewards__form" (submit)="$event.preventDefault(); addPreparedReward()">
+            <label>Típus<select [value]="rewardType()" (change)="rewardType.set($any($event.target).value)">
+              <option value="pokemon">Pokémon</option><option value="item">Tárgy</option><option value="badge">Jelvény</option><option value="outfit">Öltözék</option><option value="achievement">Teljesítmény</option><option value="quest-item">Küldetéstárgy</option><option value="card">Kártya</option><option value="sticker">Matrica</option><option value="narrative">Történeti</option><option value="custom">Egyedi</option>
+            </select></label>
+            <label class="wide">Név<input type="text" maxlength="120" placeholder="Például: Erdei segítő jelvény" [value]="rewardLabel()" (input)="rewardLabel.set($any($event.target).value)" />@if (rewardSubmitted() && !rewardLabel().trim()) { <small>Adj nevet a jutalomnak.</small> }</label>
+            <label>Jelenet<select [value]="rewardSceneId()" (change)="rewardSceneId.set($any($event.target).value)"><option value="">Bármikor</option>@for (scene of adventure.scenes; track scene.id) { <option [value]="scene.id">{{ scene.title }}</option> }</select></label>
+            <label>Mennyiség<input type="number" min="1" max="99" [value]="rewardAmount()" (input)="rewardAmount.set(+$any($event.target).value)" /></label>
+            <label>Forma<select [value]="rewardPhysicalStatus()" (change)="rewardPhysicalStatus.set($any($event.target).value)"><option value="queued">Nyomtatásra vár</option><option value="skipped">Csak digitális</option></select></label>
+            <button type="submit" [disabled]="store.isSaving()"><ps-icon name="add-spark" [size]="21" /> Előkészítés</button>
+          </form>
+          @if (store.preparedRewards().length) {
+            <div class="prepared-rewards__list">@for (reward of store.preparedRewards(); track reward.value.id) {
+              <article><ps-icon name="reward-gift" [size]="28" /><span><strong>{{ reward.value.label }}</strong><small>{{ reward.value.amount }} db · {{ reward.value.sceneId ? 'Jelenethez kötve' : 'Bármikor feloldható' }}</small></span><button type="button" aria-label="Jutalom törlése" (click)="store.removePreparedReward(projectId, reward.value.id)">×</button></article>
+            }</div>
+          }
+        </section>
+
         @if (adventure.scenes.length > 0) {
           <section class="designer__scenes" aria-labelledby="scenes-heading">
             <div class="designer__scenes-heading">
