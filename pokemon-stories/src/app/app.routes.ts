@@ -20,6 +20,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: ':projectId/sessions',
+        loadComponent: () =>
+          import('./features/session-history/pages/session-history-page/session-history-page.component').then(
+            (module) => module.SessionHistoryPageComponent,
+          ),
+      },
+      {
         path: ':projectId/adventures/new',
         loadComponent: () =>
           import('./features/adventure-designer/pages/create-adventure-page/create-adventure-page.component').then(

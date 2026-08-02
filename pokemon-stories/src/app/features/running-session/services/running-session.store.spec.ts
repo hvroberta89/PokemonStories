@@ -35,6 +35,11 @@ describe('RunningSessionStore', () => {
     expect(store.viewModel().goal.title).toBe('Kövessétek a lábnyomokat.');
     expect(store.viewModel().recentEvents.events[0]?.title).toBe('Jelenetváltás: Erdei ösvény');
     expect(store.nextScene()).toBe(false);
+
+    store.completeSession();
+    expect(store.status()).toBe('review-pending');
+    store.completeReview();
+    expect(store.status()).toBe('completed');
   });
 });
 

@@ -1,7 +1,4 @@
-<div
-  class="session-summary__backdrop"
-  (click)="close()"
-></div>
+<div class="session-summary__backdrop" (click)="close()"></div>
 
 <section
   class="session-summary"
@@ -12,26 +9,18 @@
   <header class="session-summary__header">
     <div class="session-summary__heading">
       <span class="session-summary__heading-icon">
-        <ps-icon
-          name="achievement-star"
-          [size]="34"
-        />
+        <ps-icon name="achievement-star" [size]="34" />
       </span>
 
       <div class="session-summary__heading-copy">
-        <span class="session-summary__eyebrow">
-          Session összefoglaló
-        </span>
+        <span class="session-summary__eyebrow"> Session összefoglaló </span>
 
         <h2 id="session-summary-title">
           {{ summary().adventureTitle }}
         </h2>
 
         <span class="session-summary__location">
-          <ps-icon
-            name="location-pin"
-            [size]="16"
-          />
+          <ps-icon name="location-pin" [size]="16" />
 
           {{ summary().locationName }}
         </span>
@@ -49,41 +38,23 @@
   </header>
 
   <div class="session-summary__content">
-    <section
-      class="session-summary__hero"
-      aria-label="Session adatai"
-    >
+    <section class="session-summary__hero" aria-label="Session adatai">
       <span class="session-summary__hero-icon">
-        <ps-icon
-          name="campfire"
-          [size]="46"
-        />
+        <ps-icon name="campfire" [size]="46" />
       </span>
 
       <div class="session-summary__hero-copy">
-        <span class="session-summary__hero-eyebrow">
-          A kaland véget ért
-        </span>
+        <span class="session-summary__hero-eyebrow"> A kaland véget ért </span>
 
-        <strong>
-          Szép munka, mesélő!
-        </strong>
+        <strong> Szép munka, mesélő! </strong>
 
-        <p>
-          Az események, jutalmak és fontos pillanatok
-          elmentésre kerültek.
-        </p>
+        <p>Az események, jutalmak és fontos pillanatok elmentésre kerültek.</p>
       </div>
     </section>
 
-    <section
-      class="session-summary__time"
-      aria-label="Session időadatai"
-    >
+    <section class="session-summary__time" aria-label="Session időadatai">
       <article class="session-summary__time-item">
-        <span>
-          Kezdés
-        </span>
+        <span> Kezdés </span>
 
         <strong>
           {{ summary().startedAtLabel }}
@@ -91,9 +62,7 @@
       </article>
 
       <article class="session-summary__time-item">
-        <span>
-          Befejezés
-        </span>
+        <span> Befejezés </span>
 
         <strong>
           {{ summary().completedAtLabel }}
@@ -101,9 +70,7 @@
       </article>
 
       <article class="session-summary__time-item">
-        <span>
-          Időtartam
-        </span>
+        <span> Időtartam </span>
 
         <strong>
           {{ summary().durationLabel }}
@@ -111,20 +78,10 @@
       </article>
     </section>
 
-    <section
-      class="session-summary__stats"
-      aria-label="Session statisztikák"
-    >
-      <button
-        type="button"
-        class="session-summary__stat"
-        (click)="openTimeline()"
-      >
+    <section class="session-summary__stats" aria-label="Session statisztikák">
+      <button type="button" class="session-summary__stat" (click)="openTimeline()">
         <span class="session-summary__stat-icon">
-          <ps-icon
-            name="timeline-scroll"
-            [size]="28"
-          />
+          <ps-icon name="timeline-scroll" [size]="28" />
         </span>
 
         <span class="session-summary__stat-copy">
@@ -132,29 +89,15 @@
             {{ summary().eventCount }}
           </strong>
 
-          <span>
-            esemény
-          </span>
+          <span> esemény </span>
         </span>
 
-        <span
-          class="session-summary__stat-arrow"
-          aria-hidden="true"
-        >
-          ›
-        </span>
+        <span class="session-summary__stat-arrow" aria-hidden="true"> › </span>
       </button>
 
-      <button
-        type="button"
-        class="session-summary__stat"
-        (click)="openRewards()"
-      >
+      <button type="button" class="session-summary__stat" (click)="openRewards()">
         <span class="session-summary__stat-icon">
-          <ps-icon
-            name="queue-box"
-            [size]="28"
-          />
+          <ps-icon name="queue-box" [size]="28" />
         </span>
 
         <span class="session-summary__stat-copy">
@@ -162,29 +105,15 @@
             {{ summary().queuedRewardCount }}
           </strong>
 
-          <span>
-            várakozó jutalom
-          </span>
+          <span> várakozó jutalom </span>
         </span>
 
-        <span
-          class="session-summary__stat-arrow"
-          aria-hidden="true"
-        >
-          ›
-        </span>
+        <span class="session-summary__stat-arrow" aria-hidden="true"> › </span>
       </button>
 
-      <button
-        type="button"
-        class="session-summary__stat"
-        (click)="openRewards()"
-      >
+      <button type="button" class="session-summary__stat" (click)="openRewards()">
         <span class="session-summary__stat-icon">
-          <ps-icon
-            name="printed-check"
-            [size]="28"
-          />
+          <ps-icon name="printed-check" [size]="28" />
         </span>
 
         <span class="session-summary__stat-copy">
@@ -192,41 +121,23 @@
             {{ summary().givenRewardCount }}
           </strong>
 
-          <span>
-            átadott jutalom
-          </span>
+          <span> átadott jutalom </span>
         </span>
 
-        <span
-          class="session-summary__stat-arrow"
-          aria-hidden="true"
-        >
-          ›
-        </span>
+        <span class="session-summary__stat-arrow" aria-hidden="true"> › </span>
       </button>
     </section>
 
-    <section
-      class="session-summary__section"
-      aria-labelledby="session-summary-events-title"
-    >
+    <section class="session-summary__section" aria-labelledby="session-summary-events-title">
       <header class="session-summary__section-header">
         <div>
-          <span class="session-summary__section-eyebrow">
-            Kalandnapló
-          </span>
+          <span class="session-summary__section-eyebrow"> Kalandnapló </span>
 
-          <h3 id="session-summary-events-title">
-            Fontos pillanatok
-          </h3>
+          <h3 id="session-summary-events-title">Fontos pillanatok</h3>
         </div>
 
         @if (summary().events.length > 0) {
-          <button
-            type="button"
-            class="session-summary__section-action"
-            (click)="openTimeline()"
-          >
+          <button type="button" class="session-summary__section-action" (click)="openTimeline()">
             Összes esemény
           </button>
         }
@@ -235,35 +146,21 @@
       @if (summary().events.length === 0) {
         <div class="session-summary__empty">
           <span class="session-summary__empty-icon">
-            <ps-icon
-              name="timeline-scroll"
-              [size]="38"
-            />
+            <ps-icon name="timeline-scroll" [size]="38" />
           </span>
 
           <div>
-            <strong>
-              Nincs rögzített esemény
-            </strong>
+            <strong> Nincs rögzített esemény </strong>
 
-            <p>
-              Ehhez a sessionhöz még nem tartozik
-              kalandnapló-bejegyzés.
-            </p>
+            <p>Ehhez a sessionhöz még nem tartozik kalandnapló-bejegyzés.</p>
           </div>
         </div>
       } @else {
         <ol class="session-summary__event-list">
-          @for (
-            event of summary().events.slice(0, 3);
-            track event.id
-          ) {
+          @for (event of summary().events.slice(0, 3); track event.id) {
             <li class="session-summary__event">
               <span class="session-summary__event-icon">
-                <ps-icon
-                  [name]="event.icon"
-                  [size]="22"
-                />
+                <ps-icon [name]="event.icon" [size]="22" />
               </span>
 
               <div class="session-summary__event-copy">
@@ -285,56 +182,31 @@
       }
     </section>
 
-    <section
-      class="session-summary__section"
-      aria-labelledby="session-summary-rewards-title"
-    >
+    <section class="session-summary__section" aria-labelledby="session-summary-rewards-title">
       <header class="session-summary__section-header">
         <div>
-          <span class="session-summary__section-eyebrow">
-            Jutalmak
-          </span>
+          <span class="session-summary__section-eyebrow"> Jutalmak </span>
 
-          <h3 id="session-summary-rewards-title">
-            A session jutalmai
-          </h3>
+          <h3 id="session-summary-rewards-title">A session jutalmai</h3>
         </div>
 
-        @if (
-          summary().queuedRewards.length > 0 ||
-          summary().givenRewards.length > 0
-        ) {
-          <button
-            type="button"
-            class="session-summary__section-action"
-            (click)="openRewards()"
-          >
+        @if (summary().queuedRewards.length > 0 || summary().givenRewards.length > 0) {
+          <button type="button" class="session-summary__section-action" (click)="openRewards()">
             Jutalomközpont
           </button>
         }
       </header>
 
-      @if (
-        summary().queuedRewards.length === 0 &&
-        summary().givenRewards.length === 0
-      ) {
+      @if (summary().queuedRewards.length === 0 && summary().givenRewards.length === 0) {
         <div class="session-summary__empty">
           <span class="session-summary__empty-icon">
-            <ps-icon
-              name="reward-box"
-              [size]="38"
-            />
+            <ps-icon name="reward-box" [size]="38" />
           </span>
 
           <div>
-            <strong>
-              Nem került jutalom kiosztásra
-            </strong>
+            <strong> Nem került jutalom kiosztásra </strong>
 
-            <p>
-              Ebben a sessionben még nem oldottatok fel
-              vagy adtatok át jutalmat.
-            </p>
+            <p>Ebben a sessionben még nem oldottatok fel vagy adtatok át jutalmat.</p>
           </div>
         </div>
       } @else {
@@ -342,9 +214,7 @@
           @if (summary().queuedRewards.length > 0) {
             <section class="session-summary__reward-group">
               <header>
-                <span>
-                  Átadásra vár
-                </span>
+                <span> Átadásra vár </span>
 
                 <strong>
                   {{ summary().queuedRewards.length }}
@@ -352,16 +222,10 @@
               </header>
 
               <div class="session-summary__reward-list">
-                @for (
-                  reward of summary().queuedRewards.slice(0, 3);
-                  track reward.id
-                ) {
+                @for (reward of summary().queuedRewards.slice(0, 3); track reward.id) {
                   <article class="session-summary__reward">
                     <span class="session-summary__reward-icon">
-                      <ps-icon
-                        [name]="reward.icon"
-                        [size]="24"
-                      />
+                      <ps-icon [name]="reward.icon" [size]="24" />
                     </span>
 
                     <div>
@@ -383,9 +247,7 @@
           @if (summary().givenRewards.length > 0) {
             <section class="session-summary__reward-group">
               <header>
-                <span>
-                  Átadva
-                </span>
+                <span> Átadva </span>
 
                 <strong>
                   {{ summary().givenRewards.length }}
@@ -393,16 +255,10 @@
               </header>
 
               <div class="session-summary__reward-list">
-                @for (
-                  reward of summary().givenRewards.slice(0, 3);
-                  track reward.id
-                ) {
+                @for (reward of summary().givenRewards.slice(0, 3); track reward.id) {
                   <article class="session-summary__reward">
                     <span class="session-summary__reward-icon">
-                      <ps-icon
-                        [name]="reward.icon"
-                        [size]="24"
-                      />
+                      <ps-icon [name]="reward.icon" [size]="24" />
                     </span>
 
                     <div>
@@ -427,10 +283,7 @@
     <div class="session-summary__actions">
       <button
         type="button"
-        class="
-          session-summary__button
-          session-summary__button--secondary
-        "
+        class="session-summary__button session-summary__button--secondary"
         (click)="close()"
       >
         Összefoglaló bezárása
@@ -438,18 +291,12 @@
 
       <button
         type="button"
-        class="
-          session-summary__button
-          session-summary__button--primary
-        "
-        (click)="startNewSession()"
+        class="session-summary__button session-summary__button--primary"
+        (click)="completeReview()"
       >
-        <ps-icon
-          name="play-pokeball"
-          [size]="23"
-        />
+        <ps-icon name="success-check" [size]="23" />
 
-        Új session indítása
+        Áttekintés befejezése
       </button>
     </div>
   </div>

@@ -7,7 +7,7 @@ import { PROJECT_READER } from '../../../application/project/tokens/project.toke
 import { projectId } from '../../../domain/project/value-objects/project-id';
 import { ActiveProjectStore } from '../../projects/store/active-project.store';
 import { ProjectDashboardViewModel } from '../models/project-dashboard-view.model';
-import { ACTIVE_RUNNING_SESSION_READER } from '../../../application/session/tokens/active-running-session.tokens';
+import { PROJECT_SESSION_READER } from '../../../application/session/tokens/project-session.tokens';
 
 type DashboardLoadingStatus = 'idle' | 'loading' | 'loaded' | 'not-found' | 'error';
 
@@ -15,7 +15,7 @@ type DashboardLoadingStatus = 'idle' | 'loading' | 'loaded' | 'not-found' | 'err
 export class ProjectDashboardStore {
   private readonly projectReader = inject(PROJECT_READER);
   private readonly activeProjectStore = inject(ActiveProjectStore);
-  private readonly activeSessionReader = inject(ACTIVE_RUNNING_SESSION_READER);
+  private readonly sessionReader = inject(PROJECT_SESSION_READER);
   private readonly adventureHandler = new ListAdventurePlansByProjectHandler(
     inject(ADVENTURE_PLAN_READER),
   );
@@ -44,7 +44,7 @@ export class ProjectDashboardStore {
       }
 
       const adventures = await this.adventureHandler.execute({ projectId: id });
-      const activeSession = this.activeSessionReader.findByProject(id);
+      const projectSession = this.sessionReader.findByProject(id);
       const summary: ProjectSummary = {
         id: project.id,
         name: project.name,
@@ -56,8 +56,11 @@ export class ProjectDashboardStore {
       this.dashboardState.set({
         project: summary,
         adventureCount: adventures.length,
-        primaryAction: activeSession
-          ? { kind: 'resume-session', session: activeSession }
+        primaryAction: projectSession
+          ? {
+              kind: projectSession.status === 'running' ? 'resume-session' : 'review-session',
+              session: projectSession,
+            }
           : this.resolvePrimaryAction(adventures),
       });
       this.loadingState.set('loaded');

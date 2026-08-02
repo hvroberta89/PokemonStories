@@ -3,18 +3,20 @@ import { isPlatformBrowser } from '@angular/common';
 
 import type { RunningSessionState } from '../models/running-session-state.model';
 import {
-  ActiveRunningSessionReader,
-  ActiveRunningSessionSummary,
-} from '../../../application/session/ports/active-running-session-reader';
+  CompletedProjectSessionSummary,
+  ProjectSessionReader,
+  ProjectSessionSummary,
+} from '../../../application/session/ports/project-session-reader';
 import { ProjectId } from '../../../domain/project/value-objects/project-id';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RunningSessionStorageService implements ActiveRunningSessionReader {
+export class RunningSessionStorageService implements ProjectSessionReader {
   private readonly platformId = inject(PLATFORM_ID);
 
   private readonly storageKey = 'pokemon-stories.running-session';
+  private readonly historyStorageKey = 'pokemon-stories.session-history';
 
   load(): RunningSessionState | null {
     if (!this.isBrowser()) {
@@ -28,7 +30,7 @@ export class RunningSessionStorageService implements ActiveRunningSessionReader 
     }
 
     try {
-      const parsedValue: unknown = JSON.parse(storedValue);
+      const parsedValue: unknown = this.migrate(JSON.parse(storedValue));
 
       if (!this.isRunningSessionState(parsedValue)) {
         this.clear();
@@ -51,6 +53,7 @@ export class RunningSessionStorageService implements ActiveRunningSessionReader 
 
     try {
       window.localStorage.setItem(this.storageKey, JSON.stringify(state));
+      if (state.status === 'completed') this.archive(state);
     } catch (error) {
       console.error('A Running Session mentése sikertelen.', error);
     }
@@ -64,11 +67,11 @@ export class RunningSessionStorageService implements ActiveRunningSessionReader 
     window.localStorage.removeItem(this.storageKey);
   }
 
-  findByProject(projectId: ProjectId): ActiveRunningSessionSummary | null {
+  findByProject(projectId: ProjectId): ProjectSessionSummary | null {
     const state = this.load();
     if (
       !state ||
-      state.status !== 'running' ||
+      state.status === 'completed' ||
       state.projectId !== projectId ||
       !state.adventureId ||
       !state.adventureTitle
@@ -83,7 +86,25 @@ export class RunningSessionStorageService implements ActiveRunningSessionReader 
       currentSceneTitle: state.viewModel.story.locationName,
       currentGoal: state.viewModel.goal.title,
       startedAt: state.startedAt,
+      status: state.status,
     };
+  }
+
+  listCompletedByProject(projectId: ProjectId): readonly CompletedProjectSessionSummary[] {
+    return this.loadHistory()
+      .filter((state) => state.projectId === projectId)
+      .map((state) => ({
+        sessionId: state.sessionId,
+        projectId,
+        adventureId: state.adventureId!,
+        adventureTitle: state.adventureTitle!,
+        finalSceneTitle: state.viewModel.story.locationName,
+        startedAt: state.startedAt,
+        completedAt: state.completedAt!,
+        eventCount: state.viewModel.recentEvents.events.length,
+        rewardCount: state.rewardHistory.length + state.rewardQueue.length,
+      }))
+      .sort((left, right) => right.completedAt.localeCompare(left.completedAt));
   }
 
   private isBrowser(): boolean {
@@ -98,7 +119,7 @@ export class RunningSessionStorageService implements ActiveRunningSessionReader 
     const candidate = value as Partial<RunningSessionState>;
 
     return (
-      candidate.schemaVersion === 1 &&
+      candidate.schemaVersion === 2 &&
       typeof candidate.sessionId === 'string' &&
       (candidate.projectId === undefined || typeof candidate.projectId === 'string') &&
       (candidate.adventureId === undefined || typeof candidate.adventureId === 'string') &&
@@ -108,7 +129,9 @@ export class RunningSessionStorageService implements ActiveRunningSessionReader 
         (typeof candidate.currentSceneIndex === 'number' &&
           Number.isInteger(candidate.currentSceneIndex) &&
           candidate.currentSceneIndex >= 0)) &&
-      (candidate.status === 'running' || candidate.status === 'completed') &&
+      (candidate.status === 'running' ||
+        candidate.status === 'review-pending' ||
+        candidate.status === 'completed') &&
       typeof candidate.startedAt === 'string' &&
       (candidate.completedAt === null || typeof candidate.completedAt === 'string') &&
       typeof candidate.viewModel === 'object' &&
@@ -116,5 +139,40 @@ export class RunningSessionStorageService implements ActiveRunningSessionReader 
       Array.isArray(candidate.rewardQueue) &&
       Array.isArray(candidate.rewardHistory)
     );
+  }
+
+  private migrate(value: unknown): unknown {
+    if (typeof value !== 'object' || value === null) return value;
+    const candidate = value as { schemaVersion?: unknown; status?: unknown };
+    if (candidate.schemaVersion !== 1) return value;
+    return {
+      ...candidate,
+      schemaVersion: 2,
+      status: candidate.status === 'completed' ? 'review-pending' : candidate.status,
+    };
+  }
+
+  private archive(state: RunningSessionState): void {
+    const history = this.loadHistory().filter((item) => item.sessionId !== state.sessionId);
+    window.localStorage.setItem(this.historyStorageKey, JSON.stringify([...history, state]));
+  }
+
+  private loadHistory(): RunningSessionState[] {
+    try {
+      const value: unknown = JSON.parse(
+        window.localStorage.getItem(this.historyStorageKey) ?? '[]',
+      );
+      if (!Array.isArray(value)) return [];
+      return value
+        .map((item) => this.migrate(item))
+        .filter(
+          (item): item is RunningSessionState =>
+            this.isRunningSessionState(item) &&
+            item.status === 'completed' &&
+            Boolean(item.projectId && item.adventureId && item.adventureTitle && item.completedAt),
+        );
+    } catch {
+      return [];
+    }
   }
 }

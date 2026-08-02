@@ -163,7 +163,7 @@ export class RunningSessionPageComponent {
 
   protected readonly isSessionEndSheetOpen = signal(false);
 
-  protected readonly isSessionSummaryOpen = signal(false);
+  protected readonly isSessionSummaryOpen = signal(this.store.isReviewPending());
 
   // ---------------------------------------------------------------------------
   // Overlay state
@@ -606,6 +606,13 @@ export class RunningSessionPageComponent {
 
   protected closeSessionSummary(): void {
     this.isSessionSummaryOpen.set(false);
+    if (this.store.isReviewPending()) this.leaveSession();
+  }
+
+  protected completeSessionReview(): void {
+    this.store.completeReview();
+    this.isSessionSummaryOpen.set(false);
+    this.leaveSession();
   }
 
   protected openSummaryTimeline(): void {
@@ -618,21 +625,6 @@ export class RunningSessionPageComponent {
     this.isSessionSummaryOpen.set(false);
 
     this.openRewardCenter();
-  }
-
-  protected startNewSession(): void {
-    this.store.restartSession();
-
-    this.selectedRecentEvent.set(null);
-    this.selectedCharacterId.set(null);
-    this.selectedAction.set(null);
-    this.selectedQuickAction.set(null);
-
-    this.isSessionSummaryOpen.set(false);
-
-    this.isSessionTimelineOpen.set(false);
-
-    this.isRewardCenterOpen.set(false);
   }
 
   // ---------------------------------------------------------------------------

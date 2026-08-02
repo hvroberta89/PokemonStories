@@ -66,6 +66,19 @@
             <ps-icon name="play-pokeball" [size]="112" />
           </div>
         }
+        @case ('review-session') {
+          <div class="dashboard-page__primary-copy">
+            <p class="dashboard-page__eyebrow">Áttekintésre vár</p>
+            <h2 id="next-step-title">{{ dashboard.primaryAction.session.adventureTitle }}</h2>
+            <p>A session véget ért. Nézd át az eseményeket és a jutalmakat, mielőtt továbblépsz.</p>
+            <button type="button" (click)="resumeSession()">
+              <ps-icon name="timeline-scroll" [size]="24" /> Session áttekintése
+            </button>
+          </div>
+          <div class="dashboard-page__primary-art" aria-hidden="true">
+            <ps-icon name="achievement-star" [size]="112" />
+          </div>
+        }
         @case ('create-adventure') {
           <div class="dashboard-page__primary-copy">
             <p class="dashboard-page__eyebrow">Az első lépés</p>
@@ -124,6 +137,9 @@
       </div>
 
       <div class="dashboard-page__quick-grid">
+        <a [routerLink]="['/projects', dashboard.project.id, 'sessions']">
+          <ps-icon name="timeline-scroll" [size]="42" /><span>Session történet</span>
+        </a>
         <button type="button">
           <ps-icon name="adventures-book" [size]="42" /><span>Kalandok</span>
         </button>

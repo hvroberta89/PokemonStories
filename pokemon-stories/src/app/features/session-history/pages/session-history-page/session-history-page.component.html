@@ -1,0 +1,48 @@
+<main class="history-page">
+  <header class="history-page__header">
+    <a [routerLink]="['/projects', projectId]">← Projekt Dashboard</a>
+    <div class="history-page__title">
+      <span><ps-icon name="timeline-scroll" [size]="42" /></span>
+      <div>
+        <p>Megőrzött kalandok</p>
+        <h1>Session történet</h1>
+      </div>
+    </div>
+    <p>A befejezett játékalkalmak, fontos pillanatok és kiosztott jutalmak egy helyen.</p>
+  </header>
+
+  @if (store.sessions().length === 0) {
+    <section class="history-page__empty">
+      <ps-icon name="campfire" [size]="72" />
+      <h2>Az első történet még előtted áll</h2>
+      <p>A lezárt és áttekintett sessionök itt alkotják majd a projekt kalandnaplóját.</p>
+      <a [routerLink]="['/projects', projectId]">Vissza a projekthez</a>
+    </section>
+  } @else {
+    <section class="history-page__list" aria-label="Befejezett sessionök">
+      @for (session of store.sessions(); track session.sessionId) {
+        <article class="history-card">
+          <div class="history-card__mark"><ps-icon name="achievement-star" [size]="44" /></div>
+          <div class="history-card__content">
+            <p>{{ formatDate(session.completedAt) }}</p>
+            <h2>{{ session.adventureTitle }}</h2>
+            <span>Utolsó jelenet: {{ session.finalSceneTitle }}</span>
+            <div class="history-card__facts">
+              <span
+                ><strong>{{ duration(session.startedAt, session.completedAt) }}</strong>
+                játékidő</span
+              >
+              <span
+                ><strong>{{ session.eventCount }}</strong> esemény</span
+              >
+              <span
+                ><strong>{{ session.rewardCount }}</strong> jutalom</span
+              >
+            </div>
+          </div>
+          <ps-icon name="success-check" [size]="30" />
+        </article>
+      }
+    </section>
+  }
+</main>

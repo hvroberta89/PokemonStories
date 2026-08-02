@@ -2,7 +2,7 @@ import type { RewardHistoryItemViewModel } from '../components/reward-history/re
 import type { RewardQueueItemViewModel } from '../components/reward-queue/reward-queue.model';
 import type { RunningSessionViewModel } from './running-session-view.model';
 
-export type RunningSessionStatus = 'running' | 'completed';
+export type RunningSessionStatus = 'running' | 'review-pending' | 'completed';
 
 export interface RunningSessionScene {
   readonly id: string;
@@ -12,7 +12,7 @@ export interface RunningSessionScene {
 }
 
 export interface RunningSessionState {
-  readonly schemaVersion: 1;
+  readonly schemaVersion: 2;
 
   readonly sessionId: string;
 

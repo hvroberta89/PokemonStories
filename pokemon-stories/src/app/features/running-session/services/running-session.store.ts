@@ -27,7 +27,7 @@ export class RunningSessionStore {
 
   readonly status = computed(() => this.state().status);
 
-  readonly isCompleted = computed(() => this.state().status === 'completed');
+  readonly isReviewPending = computed(() => this.state().status === 'review-pending');
 
   readonly eventCount = computed(() => this.state().viewModel.recentEvents.events.length);
 
@@ -72,7 +72,7 @@ export class RunningSessionStore {
     };
 
     this.state.set({
-      schemaVersion: 1,
+      schemaVersion: 2,
       sessionId: crypto.randomUUID(),
       projectId: adventure.projectId,
       adventureId: adventure.id,
@@ -194,16 +194,24 @@ export class RunningSessionStore {
 
   completeSession(): void {
     this.state.update((currentState) => {
-      if (currentState.status === 'completed') {
+      if (currentState.status !== 'running') {
         return currentState;
       }
 
       return {
         ...currentState,
-        status: 'completed',
+        status: 'review-pending',
         completedAt: new Date().toISOString(),
       };
     });
+  }
+
+  completeReview(): void {
+    this.state.update((currentState) =>
+      currentState.status === 'review-pending'
+        ? { ...currentState, status: 'completed' }
+        : currentState,
+    );
   }
 
   restartSession(): void {
@@ -228,7 +236,7 @@ export class RunningSessionStore {
   private createInitialState(): RunningSessionState {
     const storedState = this.storage.load();
 
-    if (storedState?.status === 'running') {
+    if (storedState) {
       return storedState;
     }
 
@@ -237,7 +245,7 @@ export class RunningSessionStore {
 
   private createDefaultState(): RunningSessionState {
     return {
-      schemaVersion: 1,
+      schemaVersion: 2,
       sessionId: crypto.randomUUID(),
       status: 'running',
       startedAt: new Date().toISOString(),

@@ -155,7 +155,8 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 0.85rem;
 }
-.dashboard-page__quick-grid button {
+.dashboard-page__quick-grid button,
+.dashboard-page__quick-grid a {
   display: grid;
   min-height: 8rem;
   padding: 1rem 0.5rem;
@@ -170,8 +171,10 @@
   cursor: pointer;
   box-shadow: var(--shadow-card);
   backdrop-filter: blur(12px);
+  text-decoration: none;
 }
-.dashboard-page__quick-grid button:hover {
+.dashboard-page__quick-grid button:hover,
+.dashboard-page__quick-grid a:hover {
   border-color: var(--color-primary);
   background: var(--color-primary-soft);
 }
@@ -248,9 +251,6 @@ a:focus-visible {
   }
   .dashboard-page__quick-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-  .dashboard-page__quick-grid button:last-child {
-    grid-column: 1 / -1;
   }
 }
 @media (max-width: 28rem) {

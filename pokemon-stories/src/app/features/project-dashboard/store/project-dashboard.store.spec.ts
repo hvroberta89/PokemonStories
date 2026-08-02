@@ -11,10 +11,10 @@ import { InMemoryProjectRepository } from '../../../infrastructure/project/repos
 import { ActiveProjectStore } from '../../projects/store/active-project.store';
 import { ProjectDashboardStore } from './project-dashboard.store';
 import {
-  ActiveRunningSessionReader,
-  ActiveRunningSessionSummary,
-} from '../../../application/session/ports/active-running-session-reader';
-import { ACTIVE_RUNNING_SESSION_READER } from '../../../application/session/tokens/active-running-session.tokens';
+  ProjectSessionReader,
+  ProjectSessionSummary,
+} from '../../../application/session/ports/project-session-reader';
+import { PROJECT_SESSION_READER } from '../../../application/session/tokens/project-session.tokens';
 
 class MemoryActiveProjectStorage implements ActiveProjectStorage {
   value: ProjectId | null = null;
@@ -29,10 +29,13 @@ class MemoryActiveProjectStorage implements ActiveProjectStorage {
   }
 }
 
-class MemoryRunningSessionReader implements ActiveRunningSessionReader {
-  value: ActiveRunningSessionSummary | null = null;
-  findByProject(id: ProjectId): ActiveRunningSessionSummary | null {
+class MemoryRunningSessionReader implements ProjectSessionReader {
+  value: ProjectSessionSummary | null = null;
+  findByProject(id: ProjectId): ProjectSessionSummary | null {
     return this.value?.projectId === id ? this.value : null;
+  }
+  listCompletedByProject(): readonly [] {
+    return [];
   }
 }
 
@@ -57,7 +60,7 @@ describe('ProjectDashboardStore', () => {
           provide: ACTIVE_PROJECT_STORAGE,
           useValue: new MemoryActiveProjectStorage(),
         },
-        { provide: ACTIVE_RUNNING_SESSION_READER, useValue: sessions },
+        { provide: PROJECT_SESSION_READER, useValue: sessions },
       ],
     });
     store = TestBed.inject(ProjectDashboardStore);
@@ -98,10 +101,31 @@ describe('ProjectDashboardStore', () => {
       currentSceneTitle: 'Virágos tisztás',
       currentGoal: 'Találjátok meg a tojást.',
       startedAt: new Date().toISOString(),
+      status: 'running',
     };
 
     await store.load('project-1');
 
     expect(store.dashboard()?.primaryAction.kind).toBe('resume-session');
+  });
+
+  it('should prioritize reviewing a completed project session', async () => {
+    const result = Project.create({ id: projectId('project-1'), name: 'Kanto kalandok' });
+    if (!result.isSuccess) throw result.error;
+    await projects.save(result.value);
+    sessions.value = {
+      sessionId: 'session-1',
+      projectId: projectId('project-1'),
+      adventureId: 'adventure-1',
+      adventureTitle: 'Az elveszett tojás',
+      currentSceneTitle: 'Öreg híd',
+      currentGoal: 'Vigyétek haza a tojást.',
+      startedAt: new Date().toISOString(),
+      status: 'review-pending',
+    };
+
+    await store.load('project-1');
+
+    expect(store.dashboard()?.primaryAction.kind).toBe('review-session');
   });
 });
