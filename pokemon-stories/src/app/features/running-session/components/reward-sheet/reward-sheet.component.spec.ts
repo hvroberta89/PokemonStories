@@ -12,6 +12,7 @@ describe('RewardSheetComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(RewardSheetComponent);
+    fixture.componentRef.setInput('recipients', []);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

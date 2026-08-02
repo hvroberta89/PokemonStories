@@ -1,0 +1,111 @@
+<main class="create-project-page">
+  <header class="create-project-page__header">
+    <a routerLink="/projects" class="create-project-page__back">
+      <span aria-hidden="true">←</span>
+      Projektjeim
+    </a>
+
+    <a class="create-project-page__brand" routerLink="/projects" aria-label="Pokémon Stories">
+      <ps-icon name="play-pokeball" [size]="34" />
+      <strong>Pokémon Stories</strong>
+    </a>
+  </header>
+
+  <section class="create-project-page__layout">
+    <div class="create-project-page__form-column">
+      <div class="create-project-page__intro">
+        <p class="create-project-page__eyebrow">Új kalandvilág</p>
+        <h1>Hol kezdődjön a történet?</h1>
+        <p>
+          Most csak az alapokat add meg. Karaktereket, helyszíneket és kalandokat később is
+          alkothatsz.
+        </p>
+      </div>
+
+      <form (submit)="$event.preventDefault(); createProject()" novalidate>
+        <div class="field">
+          <div class="field__heading">
+            <label for="project-name">Projekt neve</label>
+            <span>{{ name().length }}/80</span>
+          </div>
+          <input
+            id="project-name"
+            name="project-name"
+            type="text"
+            maxlength="80"
+            autocomplete="off"
+            placeholder="Például: Kalandok a Smaragd-szigeten"
+            [value]="name()"
+            [attr.aria-invalid]="nameError() ? 'true' : null"
+            [attr.aria-describedby]="nameError() ? 'project-name-error' : 'project-name-hint'"
+            (input)="updateName($event)"
+          />
+          @if (nameError(); as error) {
+            <p id="project-name-error" class="field__error" role="alert">{{ error }}</p>
+          } @else {
+            <p id="project-name-hint" class="field__hint">
+              Ezt a nevet fogod látni, amikor visszatérsz a közös világotokba.
+            </p>
+          }
+        </div>
+
+        <div class="field">
+          <div class="field__heading">
+            <label for="project-description">Rövid koncepció <small>Opcionális</small></label>
+            <span>{{ description().length }}/500</span>
+          </div>
+          <textarea
+            id="project-description"
+            name="project-description"
+            maxlength="500"
+            rows="5"
+            placeholder="Miről szóljon ez a világ? Kiknek készül? Milyen hangulata legyen?"
+            [value]="description()"
+            (input)="updateDescription($event)"
+          ></textarea>
+          <p class="field__hint">
+            Egy-két mondat elég ahhoz, hogy később könnyen felidézd az alapötletet.
+          </p>
+        </div>
+
+        @if (store.errorMessage(); as errorMessage) {
+          <div class="create-project-page__error" role="alert">
+            <ps-icon name="error-cross" [size]="28" />
+            <div>
+              <strong>A projekt nem jött létre</strong>
+              <p>{{ errorMessage }} A megadott információid megmaradtak.</p>
+            </div>
+          </div>
+        }
+
+        <div class="create-project-page__actions">
+          <a routerLink="/projects">Mégse</a>
+          <button type="submit" [disabled]="store.creating()">
+            @if (store.creating()) {
+              <span class="create-project-page__spinner" aria-hidden="true"></span>
+              Projekt létrehozása…
+            } @else {
+              <ps-icon name="add-spark" [size]="23" />
+              Projekt létrehozása
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <aside class="create-project-page__preview" aria-label="A projekt felépítése">
+      <div class="create-project-page__preview-art" aria-hidden="true">
+        <ps-icon name="world-map" [size]="92" />
+      </div>
+      <div class="create-project-page__preview-content">
+        <p>Ebben a világban születnek majd</p>
+        <ul>
+          <li><ps-icon name="adventures-book" [size]="28" /> emlékezetes kalandok</li>
+          <li><ps-icon name="character-profile" [size]="28" /> visszatérő hősök és barátok</li>
+          <li><ps-icon name="location-pin" [size]="28" /> felfedezésre váró helyszínek</li>
+          <li><ps-icon name="achievement-star" [size]="28" /> kézzelfogható jutalmak</li>
+        </ul>
+      </div>
+    </aside>
+  </section>
+</main>

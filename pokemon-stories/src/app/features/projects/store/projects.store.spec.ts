@@ -5,7 +5,7 @@ import {
   PROJECT_REPOSITORY,
 } from '../../../application/project/tokens/project.tokens';
 import { InMemoryProjectRepository } from '../../../infrastructure/project/repositories/in-memory-project.repository';
-import { FixedIdGenerator } from '../../../infrastructure/shared/identifiers/fixed-id.generator';
+import { SequentialIdGenerator } from '../../../infrastructure/shared/identifiers/sequential-id.generator';
 import { ProjectsStore } from './projects.store';
 import { ID_GENERATOR } from '../../../application/project/tokens/id-generator.token';
 
@@ -29,7 +29,7 @@ describe('ProjectsStore', () => {
         },
         {
           provide: ID_GENERATOR,
-          useValue: new FixedIdGenerator('project-1'),
+          useValue: new SequentialIdGenerator('project'),
         },
       ],
     });
@@ -52,9 +52,7 @@ describe('ProjectsStore', () => {
     });
 
     expect(store.projects().length).toBe(1);
-    expect(store.projects()[0].name).toBe(
-      'Kanto kalandok',
-    );
+    expect(store.projects()[0].name).toBe('Kanto kalandok');
     expect(store.loadingStatus()).toBe('loaded');
     expect(store.hasProjects()).toBe(true);
   });
@@ -62,8 +60,7 @@ describe('ProjectsStore', () => {
   it('should create a project', async () => {
     const success = await store.create({
       name: 'Pokémon kalandok',
-      description:
-        'Közös történetek a gyerekekkel.',
+      description: 'Közös történetek a gyerekekkel.',
     });
 
     expect(success).toBe(true);
@@ -72,8 +69,7 @@ describe('ProjectsStore', () => {
       {
         id: 'project-1',
         name: 'Pokémon kalandok',
-        description:
-          'Közös történetek a gyerekekkel.',
+        description: 'Közös történetek a gyerekekkel.',
         status: 'active',
       },
     ]);
@@ -86,12 +82,10 @@ describe('ProjectsStore', () => {
 
     expect(success).toBe(false);
     expect(store.projects()).toEqual([]);
-    expect(store.errorMessage()).toBe(
-      'A projekt neve nem lehet üres.',
-    );
+    expect(store.errorMessage()).toBe('A projekt neve nem lehet üres.');
   });
 
-  it('should expose an error for a duplicate name', async () => {
+  it('should allow duplicate project names', async () => {
     await store.create({
       name: 'Kanto kalandok',
     });
@@ -100,11 +94,9 @@ describe('ProjectsStore', () => {
       name: 'KANTO KALANDOK',
     });
 
-    expect(success).toBe(false);
-    expect(store.projects().length).toBe(1);
-    expect(store.errorMessage()).toBe(
-      'Már létezik projekt ezzel a névvel.',
-    );
+    expect(success).toBe(true);
+    expect(store.projects().length).toBe(2);
+    expect(store.errorMessage()).toBeUndefined();
   });
 
   it('should clear the current error', async () => {

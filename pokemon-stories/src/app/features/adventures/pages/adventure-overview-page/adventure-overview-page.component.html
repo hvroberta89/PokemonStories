@@ -1,0 +1,162 @@
+<main class="overview-page">
+  @if (store.isLoading()) {
+    <section class="overview-page__state" aria-live="polite">
+      <ps-icon name="pending-hourglass" [size]="64" />
+      <h1>Megnyitjuk a kalandot…</h1>
+    </section>
+  } @else if (store.isNotFound()) {
+    <section class="overview-page__state">
+      <ps-icon name="warning-triangle" [size]="64" />
+      <h1>Ez a kaland nem található</h1>
+      <a [routerLink]="['/projects', projectId, 'adventures']">Vissza a kalandokhoz</a>
+    </section>
+  } @else if (store.hasError()) {
+    <section class="overview-page__state">
+      <ps-icon name="error-cross" [size]="64" />
+      <h1>A kalandot most nem sikerült megnyitni</h1>
+      <button type="button" (click)="retry()">Újrapróbálom</button>
+    </section>
+  } @else if (store.adventure(); as adventure) {
+    <nav class="overview-page__breadcrumb">
+      <a [routerLink]="['/projects', projectId]">Projekt</a><span>›</span
+      ><a [routerLink]="['/projects', projectId, 'adventures']">Kalandok</a><span>›</span
+      ><strong>{{ adventure.title }}</strong>
+    </nav>
+    <header class="overview-hero" [attr.data-status]="adventure.status">
+      <div class="overview-hero__art">
+        <ps-icon
+          [name]="
+            adventure.status === 'completed'
+              ? 'achievement-star'
+              : adventure.status === 'ready'
+                ? 'play-pokeball'
+                : 'adventures-book'
+          "
+          [size]="92"
+        />
+      </div>
+      <div class="overview-hero__content">
+        <p>
+          {{
+            adventure.status === 'completed'
+              ? 'Befejezett kaland'
+              : adventure.status === 'ready'
+                ? 'Játékra kész'
+                : 'Tervezés alatt'
+          }}
+        </p>
+        <h1>{{ adventure.title }}</h1>
+        <span>{{ adventure.premise }}</span>
+        <div class="overview-hero__facts">
+          <span
+            >{{ adventure.audienceProfile.ageRange.minimum }}–{{
+              adventure.audienceProfile.ageRange.maximum
+            }}
+            év</span
+          ><span>{{ adventure.audienceProfile.sessionLengthMinutes }} perc</span
+          ><span>{{ adventure.scenes.length }} jelenet</span>
+        </div>
+        @if (adventure.status === 'draft') {
+          <a [routerLink]="['/projects', projectId, 'adventures', adventureId, 'design']"
+            ><ps-icon name="edit-quill" [size]="22" /> Tervezés folytatása</a
+          >
+        } @else if (adventure.status === 'ready') {
+          <a [routerLink]="['/projects', projectId, 'adventures', adventureId, 'prepare']"
+            ><ps-icon name="play-pokeball" [size]="22" /> Session előkészítése</a
+          >
+        } @else if (store.latestSession(); as session) {
+          <a [routerLink]="['/projects', projectId, 'sessions', session.sessionId]"
+            ><ps-icon name="timeline-scroll" [size]="22" /> Legutóbbi session</a
+          >
+        } @else {
+          <a [routerLink]="['/projects', projectId, 'sessions']"
+            ><ps-icon name="timeline-scroll" [size]="22" /> Session történet</a
+          >
+        }
+      </div>
+    </header>
+    <div class="overview-page__layout">
+      <section class="overview-section">
+        <header>
+          <p>Történeti útvonal</p>
+          <h2>Jelenetek</h2>
+        </header>
+        @if (adventure.scenes.length) {
+          <ol>
+            @for (scene of adventure.scenes; track scene.id; let index = $index) {
+              <li [class.opening]="scene.isOpening">
+                <span>{{ index + 1 }}</span>
+                <div>
+                  <strong>{{ scene.title }}</strong>
+                  <p>{{ scene.description }}</p>
+                  <small>{{ scene.goal }}</small>
+                </div>
+                @if (scene.isOpening) {
+                  <em>Kezdés</em>
+                }
+              </li>
+            }
+          </ol>
+        } @else {
+          <div class="overview-section__empty">
+            <ps-icon name="scene-landscape" [size]="46" />
+            <p>Még nincs jelenet. A Designerben készítheted el a kaland nyitányát.</p>
+          </div>
+        }
+      </section>
+      <aside>
+        <section class="overview-section">
+          <header>
+            <p>Készenlét</p>
+            <h2>Kötelező elemek</h2>
+          </header>
+          <ul class="readiness">
+            <li class="done"><ps-icon name="success-check" [size]="22" /> Premise</li>
+            <li [class.done]="!adventure.readiness.missingRequired.includes('opening-scene')">
+              <ps-icon
+                [name]="
+                  adventure.readiness.missingRequired.includes('opening-scene')
+                    ? 'pending-hourglass'
+                    : 'success-check'
+                "
+                [size]="22"
+              />
+              Nyitójelenet
+            </li>
+            <li [class.done]="!adventure.readiness.missingRequired.includes('opening-scene-goal')">
+              <ps-icon
+                [name]="
+                  adventure.readiness.missingRequired.includes('opening-scene-goal')
+                    ? 'pending-hourglass'
+                    : 'success-check'
+                "
+                [size]="22"
+              />
+              Elsődleges cél
+            </li>
+          </ul>
+        </section>
+        <section class="overview-section">
+          <header>
+            <p>Történetív</p>
+            <h2>Fő pontok</h2>
+          </header>
+          <dl>
+            <div>
+              <dt>Nyitány</dt>
+              <dd>{{ adventure.story.opening || 'Még nincs kidolgozva.' }}</dd>
+            </div>
+            <div>
+              <dt>Csúcspont</dt>
+              <dd>{{ adventure.story.climax || 'Még nincs kidolgozva.' }}</dd>
+            </div>
+            <div>
+              <dt>Lezárás</dt>
+              <dd>{{ adventure.story.resolution || 'Még nincs kidolgozva.' }}</dd>
+            </div>
+          </dl>
+        </section>
+      </aside>
+    </div>
+  }
+</main>

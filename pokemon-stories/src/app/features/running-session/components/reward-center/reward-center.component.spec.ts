@@ -12,6 +12,8 @@ describe('RewardCenterComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(RewardCenterComponent);
+    fixture.componentRef.setInput('items', []);
+    fixture.componentRef.setInput('historyItems', []);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

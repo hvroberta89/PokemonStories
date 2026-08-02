@@ -1,71 +1,80 @@
-<section class="projects-page">
+<main class="projects-page">
   <header class="projects-page__header">
-    <div>
-      <p class="projects-page__eyebrow">
-        Pokémon Stories
-      </p>
+    <a class="projects-page__brand" href="/projects" aria-label="Pokémon Stories kezdőlap">
+      <span class="projects-page__brand-mark" aria-hidden="true">
+        <ps-icon name="play-pokeball" [size]="36" />
+      </span>
+      <span>
+        <strong>Pokémon Stories</strong>
+        <small>A történeteitek otthona</small>
+      </span>
+    </a>
 
-      <h1>Projektjeim</h1>
-
-      <p>
-        Egy projekt egy közös világ kalandokkal,
-        karakterekkel és helyszínekkel.
-      </p>
-    </div>
-
-    <button type="button">
+    <button class="projects-page__create" type="button" (click)="openCreateProject()">
+      <ps-icon name="add-spark" [size]="22" />
       Új projekt
     </button>
   </header>
 
+  <section class="projects-page__intro" aria-labelledby="projects-title">
+    <p class="projects-page__eyebrow">Válassz egy világot</p>
+    <h1 id="projects-title">Merre folytatódjon a kaland?</h1>
+    <p>A projektjeid őrzik a közös történeteket, hősöket és emlékezetes pillanatokat.</p>
+  </section>
+
   @if (store.isLoading()) {
-    <p>Projektek betöltése…</p>
-  } @else if (store.errorMessage(); as errorMessage) {
-    <div role="alert">
-      <p>{{ errorMessage }}</p>
-
-      <button
-        type="button"
-        (click)="store.clearError()"
-      >
-        Bezárás
-      </button>
-    </div>
-  } @else if (!store.hasProjects()) {
-    <section class="projects-page__empty-state">
-      <h2>Még nincs projekted</h2>
-
-      <p>
-        Hozd létre az első világot, amelyben a
-        Pokémon-kalandjaitok játszódnak.
-      </p>
-
-      <button type="button">
-        Első projekt létrehozása
-      </button>
-    </section>
-  } @else {
-    <div class="projects-page__grid">
-      @for (
-        project of store.projects();
-        track project.id
-      ) {
-        <article class="project-card">
-          <h2>{{ project.name }}</h2>
-
-          @if (project.description) {
-            <p>{{ project.description }}</p>
-          } @else {
-            <p class="project-card__placeholder">
-              Nincs leírás.
-            </p>
-          }
-
-          <span>
-            {{ project.status }}
-          </span>
-        </article>
+    <section class="projects-page__grid" aria-label="Projektek betöltése" aria-busy="true">
+      @for (item of [1, 2, 3]; track item) {
+        <div class="project-skeleton" aria-hidden="true">
+          <span class="project-skeleton__art"></span>
+          <span class="project-skeleton__title"></span>
+          <span class="project-skeleton__line"></span>
+          <span class="project-skeleton__line project-skeleton__line--short"></span>
+        </div>
       }
+      <span class="visually-hidden">Projektek betöltése…</span>
+    </section>
+  } @else if (store.errorMessage(); as errorMessage) {
+    <section class="projects-page__error" role="alert">
+      <span class="projects-page__error-icon"><ps-icon name="error-cross" [size]="42" /></span>
+      <div>
+        <h2>Nem sikerült betölteni a projektjeidet</h2>
+        <p>{{ errorMessage }} A kalandjaid biztonságban vannak.</p>
+      </div>
+      <button type="button" (click)="retryLoading()">Újrapróbálás</button>
+    </section>
+  } @else if (!store.hasProjects()) {
+    <div class="projects-page__empty">
+      <ps-empty-state
+        title="A következő világod itt kezdődik"
+        description="Hozz létre egy projektet, és kezdj el kalandokat, karaktereket és közös emlékeket építeni."
+        actionLabel="Projekt létrehozása"
+        (action)="openCreateProject()"
+      />
     </div>
+  } @else {
+    <section class="projects-page__content" aria-labelledby="available-projects-title">
+      <div class="projects-page__section-heading">
+        <div>
+          <p class="projects-page__eyebrow">Visszatérés</p>
+          <h2 id="available-projects-title">Projektjeid</h2>
+        </div>
+        <span>{{ store.projects().length }} aktív projekt</span>
+      </div>
+
+      <div class="projects-page__grid">
+        @for (project of store.projects(); track project.id) {
+          <app-project-card [project]="project" (openProject)="openProject(project.id)" />
+        }
+      </div>
+    </section>
   }
-</section>
+
+  <footer class="projects-page__footer">
+    <button type="button" class="projects-page__archived">
+      <ps-icon name="archive-box" [size]="24" />
+      Archivált projektek
+    </button>
+    <p>A telefon támogatja a kalandot. A kaland az asztalnál történik.</p>
+  </footer>
+</main>

@@ -7,16 +7,11 @@ describe('StoryCardComponent', () => {
   let fixture: ComponentFixture<StoryCardComponent>;
 
   const story: StoryCardViewModel = {
-    locationName: 'Virágmező',
-    locationIcon: '🌺',
-    narration: [
-      'A szél finoman megmozgatja a virágokat.',
-      'A bokrok mögül halk nesz hallatszik.',
-    ],
-    imageUrl:
-      '/images/story-cards/flower-meadow.png',
-    imageAlt:
-      'Színes virágokkal borított napsütötte rét',
+    locationName: 'Flower meadow',
+    locationIcon: 'environment-forest',
+    narration: ['The wind gently moves the flowers.', 'A quiet rustle comes from the bushes.'],
+    imageUrl: '/images/story-cards/flower-meadow.png',
+    imageAlt: 'A sunny meadow covered in colourful flowers',
     mood: 'exploration',
     currentPage: 2,
     pageCount: 4,
@@ -33,27 +28,22 @@ describe('StoryCardComponent', () => {
   });
 
   it('renders the current story', () => {
-    const element =
-      fixture.nativeElement as HTMLElement;
+    const element = fixture.nativeElement as HTMLElement;
 
-    expect(element.textContent).toContain(
-      'Virágmező',
-    );
+    expect(element.textContent).toContain('Flower meadow');
+    expect(element.textContent).toContain('The wind gently moves the flowers.');
+    expect(element.querySelectorAll('.story-card__page-dot')).toHaveLength(4);
+    expect(element.querySelectorAll('.story-card__page-dot--active')).toHaveLength(1);
+  });
 
-    expect(element.textContent).toContain(
-      'A szél finoman megmozgatja a virágokat.',
-    );
+  it('requests the next scene from the parent', () => {
+    const emitted = vi.fn();
+    fixture.componentInstance.nextSelected.subscribe(emitted);
 
-    expect(
-      element.querySelectorAll(
-        '.story-card__page-dot',
-      ),
-    ).toHaveLength(4);
+    (fixture.nativeElement as HTMLElement)
+      .querySelector<HTMLButtonElement>('.story-card__next')
+      ?.click();
 
-    expect(
-      element.querySelectorAll(
-        '.story-card__page-dot--active',
-      ),
-    ).toHaveLength(1);
+    expect(emitted).toHaveBeenCalledOnce();
   });
 });

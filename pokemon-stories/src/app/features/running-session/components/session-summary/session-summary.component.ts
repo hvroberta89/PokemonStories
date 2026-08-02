@@ -1,48 +1,34 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, input, output } from '@angular/core';
 
-import {
-  PsIconComponent,
-} from '../../../../shared/ui/public-api';
+import { PsIconComponent } from '../../../../shared/ui/public-api';
 
-import type {
-  SessionSummaryViewModel,
-} from './session-summary.model';
+import type { SessionSummaryViewModel } from './session-summary.model';
+
+export type AdventureReviewDecision = 'keep-ready' | 'complete-adventure';
 
 @Component({
   selector: 'app-session-summary',
   standalone: true,
-  imports: [
-    PsIconComponent,
-  ],
-  templateUrl:
-    './session-summary.component.html',
-  styleUrl:
-    './session-summary.component.scss',
-  changeDetection:
-    ChangeDetectionStrategy.OnPush,
+  imports: [PsIconComponent],
+  templateUrl: './session-summary.component.html',
+  styleUrl: './session-summary.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SessionSummaryComponent {
-  readonly summary =
-    input.required<
-      SessionSummaryViewModel
-    >();
+  readonly summary = input.required<SessionSummaryViewModel>();
 
-  readonly newSessionSelected =
-    output<void>();
+  readonly reviewCompleted = output<AdventureReviewDecision>();
 
-  readonly timelineSelected =
-    output<void>();
+  readonly timelineSelected = output<void>();
 
-  readonly rewardsSelected =
-    output<void>();
+  readonly rewardsSelected = output<void>();
 
-  readonly closeSelected =
-    output<void>();
+  readonly closeSelected = output<void>();
+
+  @HostListener('document:keydown.escape')
+  protected closeOnEscape(): void {
+    this.close();
+  }
 
   protected openTimeline(): void {
     this.timelineSelected.emit();
@@ -52,8 +38,8 @@ export class SessionSummaryComponent {
     this.rewardsSelected.emit();
   }
 
-  protected startNewSession(): void {
-    this.newSessionSelected.emit();
+  protected completeReview(decision: AdventureReviewDecision): void {
+    this.reviewCompleted.emit(decision);
   }
 
   protected close(): void {

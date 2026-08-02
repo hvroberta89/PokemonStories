@@ -1,8 +1,4 @@
-import {
-  failure,
-  Outcome,
-  success,
-} from '../../shared/outcome/outcome';
+import { failure, Outcome, success } from '../../shared/outcome/outcome';
 import { InvalidProjectError } from '../errors/invalid-project.error';
 import { ProjectId } from '../value-objects/project-id';
 import { ProjectStatus } from './project-status';
@@ -14,8 +10,8 @@ export interface CreateProjectProps {
 }
 
 export class Project {
-  private static readonly maximumNameLength = 100;
-  private static readonly maximumDescriptionLength = 1000;
+  private static readonly maximumNameLength = 80;
+  private static readonly maximumDescriptionLength = 500;
 
   private constructor(
     public readonly id: ProjectId,
@@ -26,13 +22,9 @@ export class Project {
     Object.freeze(this);
   }
 
-  static create(
-    props: CreateProjectProps,
-  ): Outcome<Project, InvalidProjectError> {
+  static create(props: CreateProjectProps): Outcome<Project, InvalidProjectError> {
     const name = props.name.trim();
-    const description = this.normalizeDescription(
-      props.description,
-    );
+    const description = this.normalizeDescription(props.description);
 
     const nameValidation = this.validateName(name);
 
@@ -40,46 +32,28 @@ export class Project {
       return nameValidation;
     }
 
-    const descriptionValidation =
-      this.validateDescription(description);
+    const descriptionValidation = this.validateDescription(description);
 
     if (!descriptionValidation.isSuccess) {
       return descriptionValidation;
     }
 
-    return success(
-      new Project(
-        props.id,
-        name,
-        description,
-        'active',
-      ),
-    );
+    return success(new Project(props.id, name, description, 'active'));
   }
 
-  private static normalizeDescription(
-    description: string | undefined,
-  ): string | undefined {
+  private static normalizeDescription(description: string | undefined): string | undefined {
     if (description === undefined) {
       return undefined;
     }
 
     const normalizedDescription = description.trim();
 
-    return normalizedDescription.length === 0
-      ? undefined
-      : normalizedDescription;
+    return normalizedDescription.length === 0 ? undefined : normalizedDescription;
   }
 
-  private static validateName(
-    name: string,
-  ): Outcome<void, InvalidProjectError> {
+  private static validateName(name: string): Outcome<void, InvalidProjectError> {
     if (name.length === 0) {
-      return failure(
-        new InvalidProjectError(
-          'The project name cannot be empty.',
-        ),
-      );
+      return failure(new InvalidProjectError('The project name cannot be empty.'));
     }
 
     if (name.length > Project.maximumNameLength) {
@@ -96,10 +70,7 @@ export class Project {
   private static validateDescription(
     description: string | undefined,
   ): Outcome<void, InvalidProjectError> {
-    if (
-      description !== undefined &&
-      description.length > Project.maximumDescriptionLength
-    ) {
+    if (description !== undefined && description.length > Project.maximumDescriptionLength) {
       return failure(
         new InvalidProjectError(
           `The project description cannot exceed ${Project.maximumDescriptionLength} characters.`,

@@ -1,0 +1,46 @@
+<article class="project-card">
+  <div class="project-card__art" aria-hidden="true">
+    <span class="project-card__sun"></span>
+    <span class="project-card__hill project-card__hill--back"></span>
+    <span class="project-card__hill project-card__hill--front"></span>
+    <ps-icon name="world-map" [size]="64" />
+  </div>
+
+  <div class="project-card__content">
+    <div class="project-card__heading">
+      <div>
+        <p class="project-card__label">Kalandvilág</p>
+        <h2>{{ project().name }}</h2>
+      </div>
+
+      <span class="project-card__status">
+        <span aria-hidden="true"></span>
+        Aktív
+      </span>
+    </div>
+
+    @if (project().description) {
+      <p class="project-card__description">{{ project().description }}</p>
+    } @else {
+      <p class="project-card__description project-card__description--empty">
+        Ez a világ készen áll az első történetére.
+      </p>
+    }
+
+    <div class="project-card__footer">
+      <span class="project-card__hint">
+        <ps-icon name="adventures-book" [size]="24" />
+        Folytasd a történetet
+      </span>
+
+      <button
+        type="button"
+        [attr.aria-label]="project().name + ' megnyitása'"
+        (click)="openProject.emit()"
+      >
+        Megnyitás
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  </div>
+</article>

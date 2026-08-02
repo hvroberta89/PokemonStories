@@ -15,17 +15,15 @@ body {
   min-height: 100%;
   margin: 0;
   background:
-    radial-gradient(
-      circle at top left,
-      rgb(255 255 255 / 86%),
-      transparent 36rem
-    ),
-    linear-gradient(
-      180deg,
-      #fffaf0 0,
-      #f6efe0 45rem,
-      #edf1e1 100%
-    );
+    radial-gradient(circle at 12% 4%, rgb(255 255 255 / 96%), transparent 28rem),
+    radial-gradient(circle at 88% 18%, rgb(255 229 165 / 25%), transparent 24rem),
+    linear-gradient(180deg, #fffaf1 0, #f4ecde 60%, #e8edd9 100%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-text-primary);
 }
 
 button,

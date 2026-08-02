@@ -1,4 +1,1 @@
-export type AdventurePlanStatus =
-  | 'draft'
-  | 'ready'
-  | 'archived';
+export type AdventurePlanStatus = 'draft' | 'ready' | 'completed' | 'archived';

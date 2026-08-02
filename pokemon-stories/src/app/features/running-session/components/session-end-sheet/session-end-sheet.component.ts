@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostListener,
   input,
   output,
 } from '@angular/core';
@@ -37,4 +38,9 @@ export class SessionEndSheetComponent {
 
   readonly confirmed =
     output<void>();
+
+  @HostListener('document:keydown.escape')
+  protected closeOnEscape(): void {
+    this.closed.emit();
+  }
 }

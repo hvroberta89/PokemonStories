@@ -12,6 +12,10 @@ describe('AssistantPromptComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(AssistantPromptComponent);
+    fixture.componentRef.setInput('prompt', {
+      type: 'event', eyebrow: 'Assistant', title: 'Create event', description: 'Description',
+      placeholder: 'Context', icon: 'quick-event-dice', submitLabel: 'Create',
+    });
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

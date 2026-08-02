@@ -1,5 +1,6 @@
 import { InMemoryProjectRepository } from '../../../../infrastructure/project/repositories/in-memory-project.repository';
 import { FixedIdGenerator } from '../../../../infrastructure/shared/identifiers/fixed-id.generator';
+import { SequentialIdGenerator } from '../../../../infrastructure/shared/identifiers/sequential-id.generator';
 import { CreateProjectHandler } from './create-project.handler';
 
 describe('CreateProjectHandler', () => {
@@ -9,10 +10,7 @@ describe('CreateProjectHandler', () => {
   beforeEach(() => {
     repository = new InMemoryProjectRepository();
 
-    handler = new CreateProjectHandler(
-      repository,
-      new FixedIdGenerator('project-1'),
-    );
+    handler = new CreateProjectHandler(repository, new SequentialIdGenerator('project'));
   });
 
   it('should create and save a project', async () => {
@@ -33,10 +31,7 @@ describe('CreateProjectHandler', () => {
   });
 
   it('should create the project with a generated identifier', async () => {
-    handler = new CreateProjectHandler(
-      repository,
-      new FixedIdGenerator('generated-project-id'),
-    );
+    handler = new CreateProjectHandler(repository, new FixedIdGenerator('generated-project-id'));
 
     const result = await handler.execute({
       name: 'Kanto kalandok',
@@ -63,7 +58,7 @@ describe('CreateProjectHandler', () => {
     expect(repository.getAll().length).toBe(0);
   });
 
-  it('should reject a duplicate project name', async () => {
+  it('should allow project names to be reused', async () => {
     const firstResult = await handler.execute({
       name: 'Kanto kalandok',
     });
@@ -74,18 +69,11 @@ describe('CreateProjectHandler', () => {
       name: 'Kanto kalandok',
     });
 
-    expect(secondResult.isSuccess).toBe(false);
-
-    if (!secondResult.isSuccess) {
-      expect(secondResult.error.code).toBe(
-        'PROJECT_NAME_ALREADY_EXISTS',
-      );
-    }
-
-    expect(repository.getAll().length).toBe(1);
+    expect(secondResult.isSuccess).toBe(true);
+    expect(repository.getAll().length).toBe(2);
   });
 
-  it('should treat names case-insensitively', async () => {
+  it('should allow project names that only differ in casing', async () => {
     await handler.execute({
       name: 'Kanto kalandok',
     });
@@ -94,16 +82,10 @@ describe('CreateProjectHandler', () => {
       name: 'KANTO KALANDOK',
     });
 
-    expect(result.isSuccess).toBe(false);
-
-    if (!result.isSuccess) {
-      expect(result.error.code).toBe(
-        'PROJECT_NAME_ALREADY_EXISTS',
-      );
-    }
+    expect(result.isSuccess).toBe(true);
   });
 
-  it('should ignore surrounding whitespace when checking names', async () => {
+  it('should normalize surrounding whitespace without requiring a unique name', async () => {
     await handler.execute({
       name: 'Kanto kalandok',
     });
@@ -112,12 +94,12 @@ describe('CreateProjectHandler', () => {
       name: '  Kanto kalandok  ',
     });
 
-    expect(result.isSuccess).toBe(false);
+    expect(result.isSuccess).toBe(true);
   });
 
   it('should not save a project when creation fails', async () => {
     const result = await handler.execute({
-      name: 'a'.repeat(101),
+      name: 'a'.repeat(81),
     });
 
     expect(result.isSuccess).toBe(false);

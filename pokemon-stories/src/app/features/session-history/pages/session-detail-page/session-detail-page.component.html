@@ -1,0 +1,92 @@
+<main class="detail-page">
+  @if (store.isNotFound()) {
+    <section class="detail-page__empty">
+      <ps-icon name="warning-triangle" [size]="64" />
+      <h1>Ez a session nem található</h1>
+      <p>Lehet, hogy másik projekthez tartozik, vagy már nem érhető el ezen az eszközön.</p>
+      <a [routerLink]="['/projects', projectId, 'sessions']">Vissza a session történethez</a>
+    </section>
+  } @else if (store.session(); as session) {
+    <nav class="detail-page__breadcrumb">
+      <a [routerLink]="['/projects', projectId]">Projekt</a><span>›</span>
+      <a [routerLink]="['/projects', projectId, 'sessions']">Session történet</a><span>›</span>
+      <strong>{{ session.adventureTitle }}</strong>
+    </nav>
+
+    <header class="detail-page__hero">
+      <span><ps-icon name="achievement-star" [size]="54" /></span>
+      <div>
+        <p>Befejezett kaland</p>
+        <h1>{{ session.adventureTitle }}</h1>
+        <small>{{ formatDate(session.completedAt) }}</small>
+      </div>
+    </header>
+
+    <div class="detail-page__layout">
+      <section class="detail-page__story">
+        <article class="story-panel">
+          <p class="eyebrow">Session történet</p>
+          <h2>{{ session.finalSceneTitle }}</h2>
+          @for (paragraph of session.narration; track $index) {
+            <p>{{ paragraph }}</p>
+          }
+        </article>
+
+        <section class="timeline-panel">
+          <div class="section-heading">
+            <ps-icon name="timeline-scroll" [size]="32" />
+            <div>
+              <p class="eyebrow">Kalandnapló</p>
+              <h2>Fontos pillanatok</h2>
+            </div>
+          </div>
+          @if (session.events.length) {
+            <ol>
+              @for (event of session.events; track event.id) {
+                <li>
+                  <span></span>
+                  <div>
+                    <strong>{{ event.title }}</strong>
+                    <p>{{ event.content }}</p>
+                    <small>{{ event.timeLabel }}</small>
+                  </div>
+                </li>
+              }
+            </ol>
+          } @else {
+            <p class="muted">Ehhez a sessionhöz nem került külön esemény a naplóba.</p>
+          }
+        </section>
+      </section>
+
+      <aside>
+        <section class="route-panel">
+          <p class="eyebrow">Bejárt út</p>
+          <h2>Jelenetek</h2>
+          <ol>
+            @for (scene of session.sceneTitles; track $index) {
+              <li>
+                <span>{{ $index + 1 }}</span
+                >{{ scene }}
+              </li>
+            }
+          </ol>
+        </section>
+        <section class="reward-panel">
+          <p class="eyebrow">Jutalmak</p>
+          <h2>{{ session.rewardCount }} jutalom</h2>
+          @for (reward of session.rewards; track reward.id) {
+            <div>
+              <ps-icon name="reward-gift" [size]="26" /><span
+                ><strong>{{ reward.recipientName }}</strong
+                ><small>+{{ reward.amount }} {{ reward.rewardLabel }}</small></span
+              >
+            </div>
+          } @empty {
+            <p class="muted">Nem került jutalom kiosztásra.</p>
+          }
+        </section>
+      </aside>
+    </div>
+  }
+</main>

@@ -1,0 +1,135 @@
+<main class="preparation-page">
+  @if (store.isLoading()) {
+    <section class="preparation-page__state" aria-live="polite">
+      <ps-icon name="pending-hourglass" size="lg" />
+      <h1>Összekészítjük a kalandot…</h1>
+    </section>
+  } @else if (store.isNotFound()) {
+    <section class="preparation-page__state">
+      <ps-icon name="warning-triangle" size="lg" />
+      <h1>Ez a kaland még nem készíthető elő</h1>
+      <p>Nyisd meg a Designert, és ellenőrizd a kötelező történetelemeket.</p>
+      <a [routerLink]="['/projects', projectId, 'adventures', adventureId, 'design']"
+        >Vissza a Designerhez</a
+      >
+    </section>
+  } @else if (store.hasError()) {
+    <section class="preparation-page__state">
+      <ps-icon name="error-cross" size="lg" />
+      <h1>Az előkészítés most nem tölthető be</h1>
+      <button type="button" (click)="retry()">Újrapróbálom</button>
+    </section>
+  } @else if (store.adventure(); as adventure) {
+    <nav class="preparation-page__breadcrumb" aria-label="Morzsamenü">
+      <a [routerLink]="['/projects', projectId]">Projekt</a><span>›</span>
+      <a [routerLink]="['/projects', projectId, 'adventures', adventureId]">{{ adventure.title }}</a
+      ><span>›</span>
+      <strong>Előkészítés</strong>
+    </nav>
+
+    <header class="preparation-page__hero">
+      <div>
+        <p class="eyebrow">Session előkészítése</p>
+        <h1>{{ adventure.title }}</h1>
+        <p>{{ adventure.premise }}</p>
+      </div>
+      <div class="preparation-page__score">
+        <strong>{{ reviewCount() }}/2</strong><span>áttekintve</span>
+      </div>
+    </header>
+
+    <div class="preparation-page__layout">
+      <section class="preparation-page__main">
+        @if (openingScene(); as scene) {
+          <article class="opening-card">
+            <div class="opening-card__art" aria-hidden="true">
+              <ps-icon name="scene-landscape" [size]="104" />
+            </div>
+            <div class="opening-card__content">
+              <p class="eyebrow">Nyitójelenet</p>
+              <h2>{{ scene.title }}</h2>
+              <p>{{ scene.description }}</p>
+              <div class="opening-card__goal">
+                <ps-icon name="goal-target" [size]="32" /><span
+                  ><small>Elsődleges cél</small>{{ scene.goal }}</span
+                >
+              </div>
+            </div>
+          </article>
+        }
+
+        <section class="scene-list" aria-labelledby="route-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Kalandív</p>
+              <h2 id="route-title">A session útvonala</h2>
+            </div>
+            <span>{{ adventure.scenes.length }} jelenet</span>
+          </div>
+          <ol>
+            @for (scene of adventure.scenes; track scene.id; let index = $index) {
+              <li [class.scene-list__opening]="scene.isOpening">
+                <span>{{ index + 1 }}</span>
+                <div>
+                  <strong>{{ scene.title }}</strong
+                  ><small>{{ scene.goal }}</small>
+                </div>
+                @if (scene.isOpening) {
+                  <em>Kezdés</em>
+                }
+              </li>
+            }
+          </ol>
+        </section>
+      </section>
+
+      <aside class="checklist" aria-labelledby="checklist-title">
+        <p class="eyebrow">Gyors ellenőrzés</p>
+        <h2 id="checklist-title">Készen állsz</h2>
+        <p>Ezek segítenek magabiztosan indulni, de egyik sem akadályozza a játékot.</p>
+        <label
+          ><input
+            type="checkbox"
+            [checked]="narrativeReviewed()"
+            (change)="toggleNarrative($event)"
+          /><span
+            ><strong>Narratív kontextus</strong
+            ><small>Átnéztem a Premise-t, a kezdést és a célokat.</small></span
+          ></label
+        >
+        <label
+          ><input
+            type="checkbox"
+            [checked]="practicalsReviewed()"
+            (change)="togglePracticals($event)"
+          /><span
+            ><strong>Gyakorlati kellékek</strong
+            ><small>Átgondoltam az NPC-ket, jutalmakat és nyomtatható elemeket.</small></span
+          ></label
+        >
+        <div class="checklist__facts">
+          <div>
+            <ps-icon name="wait-hourglass" [size]="28" /><span
+              ><small>Időtartam</small
+              >{{ adventure.audienceProfile.sessionLengthMinutes }} perc</span
+            >
+          </div>
+          <div>
+            <ps-icon name="characters-group" [size]="28" /><span
+              ><small>Jelenetek</small>{{ adventure.scenes.length }} állomás</span
+            >
+          </div>
+        </div>
+        <button type="button" (click)="startSession()">
+          <ps-icon name="play-pokeball" [size]="24" /> Session indítása
+        </button>
+        <small class="checklist__help"
+          >Az ellenőrzőlista ajánlás: akkor is elindulhatsz, ha nincs kipipálva.</small
+        >
+        <a [routerLink]="['/projects', projectId, 'adventures', adventureId, 'design']"
+          >Tovább szerkesztem</a
+        >
+      </aside>
+    </div>
+  }
+</main>
