@@ -1,6 +1,7 @@
 import { AudienceProfile, AudienceProfileProps } from '../../audience/models/audience-profile';
 import { AgeRange } from '../../audience/value-objects/age-range';
 import { projectId } from '../../project/value-objects/project-id';
+import { adventureSceneId } from '../value-objects/adventure-scene-id';
 import { adventurePlanId } from '../value-objects/adventure-plan-id';
 import { AdventurePlan, CreateAdventurePlanProps } from './adventure-plan';
 
@@ -123,6 +124,117 @@ describe('AdventurePlan', () => {
     expect(updatedResult.value.audienceProfile).toBe(audienceProfile);
     expect(updatedResult.value.id).toBe(originalResult.value.id);
     expect(originalResult.value.title).not.toBe('A titkos liget');
+  });
+
+  it('should add the first scene as the opening scene', () => {
+    const adventureResult = createAdventurePlan();
+    expect(adventureResult.isSuccess).toBe(true);
+    if (!adventureResult.isSuccess) return;
+
+    const result = adventureResult.value.addScene({
+      id: adventureSceneId('scene-1'),
+      title: 'Virágos tisztás',
+      description: 'Egy összetört fészek hever az öreg fa alatt.',
+      goal: 'Találjátok meg az eltűnt tojást.',
+    });
+
+    expect(result.isSuccess).toBe(true);
+    if (!result.isSuccess) return;
+    expect(result.value.scenes).toHaveLength(1);
+    expect(result.value.scenes[0].isOpening).toBe(true);
+    expect(result.value.scenes[0].order).toBe(0);
+    expect(adventureResult.value.scenes).toEqual([]);
+  });
+
+  it('should require a goal for every scene', () => {
+    const adventureResult = createAdventurePlan();
+    expect(adventureResult.isSuccess).toBe(true);
+    if (!adventureResult.isSuccess) return;
+
+    const result = adventureResult.value.addScene({
+      id: adventureSceneId('scene-1'),
+      title: 'Virágos tisztás',
+      description: 'Egy összetört fészek hever az öreg fa alatt.',
+      goal: '   ',
+    });
+
+    expect(result.isSuccess).toBe(false);
+  });
+
+  it('should reorder scenes without changing the opening scene', () => {
+    const adventureResult = createAdventurePlan();
+    if (!adventureResult.isSuccess) throw adventureResult.error;
+    const first = adventureResult.value.addScene({
+      id: adventureSceneId('scene-1'),
+      title: 'Első',
+      description: 'Első leírás.',
+      goal: 'Első cél.',
+    });
+    if (!first.isSuccess) throw first.error;
+    const second = first.value.addScene({
+      id: adventureSceneId('scene-2'),
+      title: 'Második',
+      description: 'Második leírás.',
+      goal: 'Második cél.',
+    });
+    if (!second.isSuccess) throw second.error;
+
+    const moved = second.value.moveScene(adventureSceneId('scene-2'), 'up');
+    expect(moved.isSuccess).toBe(true);
+    if (!moved.isSuccess) return;
+    expect(moved.value.scenes.map((scene) => scene.id)).toEqual(['scene-2', 'scene-1']);
+    expect(moved.value.scenes.find((scene) => scene.isOpening)?.id).toBe('scene-1');
+  });
+
+  it('should promote the first remaining scene when the opening scene is removed', () => {
+    const adventureResult = createAdventurePlan();
+    if (!adventureResult.isSuccess) throw adventureResult.error;
+    const first = adventureResult.value.addScene({
+      id: adventureSceneId('scene-1'),
+      title: 'Első',
+      description: 'Első leírás.',
+      goal: 'Első cél.',
+    });
+    if (!first.isSuccess) throw first.error;
+    const second = first.value.addScene({
+      id: adventureSceneId('scene-2'),
+      title: 'Második',
+      description: 'Második leírás.',
+      goal: 'Második cél.',
+    });
+    if (!second.isSuccess) throw second.error;
+
+    const removed = second.value.removeScene(adventureSceneId('scene-1'));
+    expect(removed.isSuccess).toBe(true);
+    if (!removed.isSuccess) return;
+    expect(removed.value.scenes[0].id).toBe('scene-2');
+    expect(removed.value.scenes[0].isOpening).toBe(true);
+    expect(removed.value.scenes[0].order).toBe(0);
+  });
+
+  it('should explicitly select exactly one opening scene', () => {
+    const adventureResult = createAdventurePlan();
+    if (!adventureResult.isSuccess) throw adventureResult.error;
+    const first = adventureResult.value.addScene({
+      id: adventureSceneId('scene-1'),
+      title: 'Első',
+      description: 'Első leírás.',
+      goal: 'Első cél.',
+    });
+    if (!first.isSuccess) throw first.error;
+    const second = first.value.addScene({
+      id: adventureSceneId('scene-2'),
+      title: 'Második',
+      description: 'Második leírás.',
+      goal: 'Második cél.',
+    });
+    if (!second.isSuccess) throw second.error;
+
+    const selected = second.value.selectOpeningScene(adventureSceneId('scene-2'));
+    expect(selected.isSuccess).toBe(true);
+    if (!selected.isSuccess) return;
+    expect(selected.value.scenes.filter((scene) => scene.isOpening)).toHaveLength(1);
+    expect(selected.value.scenes.find((scene) => scene.isOpening)?.id).toBe('scene-2');
   });
 
   it('should belong to a project', () => {

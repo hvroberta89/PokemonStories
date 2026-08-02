@@ -4,6 +4,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AudienceAgePresetId } from '../../../../domain/audience/presets/audience-age-preset';
 import { audienceAgePresets } from '../../../../domain/audience/presets/audience-age-presets';
 import { adventurePlanId } from '../../../../domain/adventure/value-objects/adventure-plan-id';
+import { AdventureSceneId } from '../../../../domain/adventure/value-objects/adventure-scene-id';
+import { AdventureScene } from '../../../../domain/adventure/models/adventure-scene';
 import { projectId } from '../../../../domain/project/value-objects/project-id';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
 import { AdventureDesignerStore } from '../../store/adventure-designer.store';
@@ -30,6 +32,13 @@ export class AdventureDesignerPageComponent {
   protected readonly audiencePresetId = signal<AudienceAgePresetId>('children');
   protected readonly sessionLengthMinutes = signal(60);
   protected readonly submitted = signal(false);
+  protected readonly sceneFormOpen = signal(false);
+  protected readonly sceneTitle = signal('');
+  protected readonly sceneDescription = signal('');
+  protected readonly sceneGoal = signal('');
+  protected readonly sceneSubmitted = signal(false);
+  protected readonly editingSceneId = signal<AdventureSceneId | null>(null);
+  protected readonly deletingSceneId = signal<AdventureSceneId | null>(null);
 
   constructor() {
     void this.load();
@@ -57,6 +66,94 @@ export class AdventureDesignerPageComponent {
       audiencePresetId: this.audiencePresetId(),
       sessionLengthMinutes: this.sessionLengthMinutes(),
     });
+  }
+
+  protected updateScene(field: 'title' | 'description' | 'goal', event: Event): void {
+    const value = (event.target as HTMLInputElement | HTMLTextAreaElement).value;
+    ({
+      title: this.sceneTitle,
+      description: this.sceneDescription,
+      goal: this.sceneGoal,
+    })[field].set(value);
+  }
+
+  protected async addScene(): Promise<void> {
+    this.sceneSubmitted.set(true);
+    if (!this.sceneTitle().trim() || !this.sceneDescription().trim() || !this.sceneGoal().trim()) {
+      return;
+    }
+    const input = {
+      title: this.sceneTitle(),
+      description: this.sceneDescription(),
+      goal: this.sceneGoal(),
+    };
+    const editingId = this.editingSceneId();
+    const success = editingId
+      ? await this.store.manageScene({
+          action: 'update',
+          projectId: this.projectId,
+          adventurePlanId: this.adventureId,
+          sceneId: editingId,
+          ...input,
+        })
+      : await this.store.addScene(this.projectId, this.adventureId, input);
+    if (success) {
+      this.sceneFormOpen.set(false);
+      this.sceneSubmitted.set(false);
+      this.sceneTitle.set('');
+      this.sceneDescription.set('');
+      this.sceneGoal.set('');
+      this.editingSceneId.set(null);
+    }
+  }
+
+  protected openNewScene(): void {
+    this.editingSceneId.set(null);
+    this.sceneTitle.set('');
+    this.sceneDescription.set('');
+    this.sceneGoal.set('');
+    this.sceneSubmitted.set(false);
+    this.sceneFormOpen.set(true);
+  }
+
+  protected editScene(scene: AdventureScene): void {
+    this.editingSceneId.set(scene.id);
+    this.sceneTitle.set(scene.title);
+    this.sceneDescription.set(scene.description);
+    this.sceneGoal.set(scene.goal);
+    this.sceneSubmitted.set(false);
+    this.sceneFormOpen.set(true);
+  }
+
+  protected moveScene(sceneId: AdventureSceneId, direction: 'up' | 'down'): void {
+    void this.store.manageScene({
+      action: 'move',
+      projectId: this.projectId,
+      adventurePlanId: this.adventureId,
+      sceneId,
+      direction,
+    });
+  }
+
+  protected selectOpeningScene(sceneId: AdventureSceneId): void {
+    void this.store.manageScene({
+      action: 'select-opening',
+      projectId: this.projectId,
+      adventurePlanId: this.adventureId,
+      sceneId,
+    });
+  }
+
+  protected async confirmDeleteScene(): Promise<void> {
+    const sceneId = this.deletingSceneId();
+    if (!sceneId) return;
+    const success = await this.store.manageScene({
+      action: 'remove',
+      projectId: this.projectId,
+      adventurePlanId: this.adventureId,
+      sceneId,
+    });
+    if (success) this.deletingSceneId.set(null);
   }
 
   private async load(): Promise<void> {

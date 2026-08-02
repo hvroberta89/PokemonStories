@@ -1,6 +1,9 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 
 import { UpdateAdventureFoundationHandler } from '../../../application/adventure/commands/update-adventure-foundation/update-adventure-foundation.handler';
+import { AddAdventureSceneHandler } from '../../../application/adventure/commands/add-adventure-scene/add-adventure-scene.handler';
+import { ManageAdventureSceneHandler } from '../../../application/adventure/commands/manage-adventure-scene/manage-adventure-scene.handler';
+import { ManageAdventureSceneCommand } from '../../../application/adventure/commands/manage-adventure-scene/manage-adventure-scene.command';
 import { GetAdventurePlanHandler } from '../../../application/adventure/queries/get-adventure-plan/get-adventure-plan.handler';
 import {
   ADVENTURE_PLAN_READER,
@@ -12,6 +15,7 @@ import { audienceAgePresets } from '../../../domain/audience/presets/audience-ag
 import { AdventurePlan } from '../../../domain/adventure/models/adventure-plan';
 import { AdventurePlanId } from '../../../domain/adventure/value-objects/adventure-plan-id';
 import { ProjectId } from '../../../domain/project/value-objects/project-id';
+import { ID_GENERATOR } from '../../../application/project/tokens/id-generator.token';
 
 export type DesignerStatus =
   'idle' | 'loading' | 'ready' | 'saving' | 'saved' | 'not-found' | 'error';
@@ -27,6 +31,13 @@ export interface FoundationDraft {
 export class AdventureDesignerStore {
   private readonly getHandler = new GetAdventurePlanHandler(inject(ADVENTURE_PLAN_READER));
   private readonly updateHandler = new UpdateAdventureFoundationHandler(
+    inject(ADVENTURE_PLAN_REPOSITORY),
+  );
+  private readonly addSceneHandler = new AddAdventureSceneHandler(
+    inject(ADVENTURE_PLAN_REPOSITORY),
+    inject(ID_GENERATOR),
+  );
+  private readonly manageSceneHandler = new ManageAdventureSceneHandler(
     inject(ADVENTURE_PLAN_REPOSITORY),
   );
   private readonly statusState = signal<DesignerStatus>('idle');
@@ -83,6 +94,54 @@ export class AdventureDesignerStore {
     } catch {
       this.statusState.set('ready');
       this.errorState.set('A módosításokat most nem sikerült elmenteni.');
+      return false;
+    }
+  }
+
+  async addScene(
+    projectId: ProjectId,
+    adventureId: AdventurePlanId,
+    input: { readonly title: string; readonly description: string; readonly goal: string },
+  ): Promise<boolean> {
+    this.statusState.set('saving');
+    this.errorState.set(null);
+    try {
+      const result = await this.addSceneHandler.execute({
+        projectId,
+        adventurePlanId: adventureId,
+        ...input,
+      });
+      if (!result.isSuccess) {
+        this.statusState.set('ready');
+        this.errorState.set(this.messageFor(result.error.code));
+        return false;
+      }
+      this.adventureState.set(result.value);
+      this.statusState.set('saved');
+      return true;
+    } catch {
+      this.statusState.set('ready');
+      this.errorState.set('A jelenetet most nem sikerült elmenteni.');
+      return false;
+    }
+  }
+
+  async manageScene(command: ManageAdventureSceneCommand): Promise<boolean> {
+    this.statusState.set('saving');
+    this.errorState.set(null);
+    try {
+      const result = await this.manageSceneHandler.execute(command);
+      if (!result.isSuccess) {
+        this.statusState.set('ready');
+        this.errorState.set('A jelenet módosítása nem sikerült.');
+        return false;
+      }
+      this.adventureState.set(result.value);
+      this.statusState.set('saved');
+      return true;
+    } catch {
+      this.statusState.set('ready');
+      this.errorState.set('A jelenet módosítása nem sikerült.');
       return false;
     }
   }

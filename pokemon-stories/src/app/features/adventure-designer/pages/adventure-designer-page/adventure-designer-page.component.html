@@ -39,7 +39,9 @@
         </button>
         <button type="button">
           <ps-icon name="scene-landscape" [size]="28" /><span
-            >Jelenetek<small>Kötelező</small></span
+            >Jelenetek<small>{{
+              adventure.scenes.length ? adventure.scenes.length + ' jelenet' : 'Kötelező'
+            }}</small></span
           >
         </button>
         <button type="button">
@@ -52,85 +54,256 @@
         </button>
       </nav>
 
-      <section id="foundation" class="designer__panel">
-        <div class="designer__panel-heading">
-          <div>
-            <p class="eyebrow">Alapok</p>
-            <h2>Foundation</h2>
-            <p>Az identitás és az irány, amelyre a teljes kaland épül.</p>
+      <div class="designer__main">
+        <section id="foundation" class="designer__panel">
+          <div class="designer__panel-heading">
+            <div>
+              <p class="eyebrow">Alapok</p>
+              <h2>Foundation</h2>
+              <p>Az identitás és az irány, amelyre a teljes kaland épül.</p>
+            </div>
+            <span><ps-icon name="success-check" [size]="22" /> Kötelező mezők kitöltve</span>
           </div>
-          <span><ps-icon name="success-check" [size]="22" /> Kötelező mezők kitöltve</span>
-        </div>
-
-        <form (submit)="$event.preventDefault(); save()" novalidate>
-          <label
-            >Cím <span>{{ title().length }}/100</span>
-            <input
-              maxlength="100"
-              [value]="title()"
-              [attr.aria-invalid]="submitted() && !title().trim() ? 'true' : null"
-              (input)="updateText('title', $event)"
-            />
-          </label>
-          @if (submitted() && !title().trim()) {
-            <p class="error" role="alert">Adj címet a kalandnak.</p>
-          }
-
-          <label
-            >Premise <span>{{ premise().length }}/1000</span>
-            <textarea
-              rows="7"
-              maxlength="1000"
-              [value]="premise()"
-              [attr.aria-invalid]="submitted() && !premise().trim() ? 'true' : null"
-              (input)="updateText('premise', $event)"
-            ></textarea>
-          </label>
-          @if (submitted() && !premise().trim()) {
-            <p class="error" role="alert">Írd le a kaland alapötletét.</p>
-          }
-
-          <div class="designer__options">
+          <form (submit)="$event.preventDefault(); save()" novalidate>
             <label
-              >Korcsoport
-              <select [value]="audiencePresetId()" (change)="updateAudience($event)">
-                @for (preset of audiencePresets; track preset.id) {
-                  <option [value]="preset.id">{{ preset.label }}</option>
-                }
-              </select>
-            </label>
+              >Cím <span>{{ title().length }}/100</span
+              ><input
+                maxlength="100"
+                [value]="title()"
+                [attr.aria-invalid]="submitted() && !title().trim() ? 'true' : null"
+                (input)="updateText('title', $event)"
+            /></label>
+            @if (submitted() && !title().trim()) {
+              <p class="error" role="alert">Adj címet a kalandnak.</p>
+            }
             <label
-              >Várható játékidő
-              <select [value]="sessionLengthMinutes()" (change)="updateLength($event)">
-                <option value="30">30 perc</option>
-                <option value="45">45 perc</option>
-                <option value="60">60 perc</option>
-                <option value="90">90 perc</option>
-                <option value="120">Több Session</option>
-              </select>
+              >Premise <span>{{ premise().length }}/1000</span
+              ><textarea
+                rows="7"
+                maxlength="1000"
+                [value]="premise()"
+                [attr.aria-invalid]="submitted() && !premise().trim() ? 'true' : null"
+                (input)="updateText('premise', $event)"
+              ></textarea>
             </label>
-          </div>
+            @if (submitted() && !premise().trim()) {
+              <p class="error" role="alert">Írd le a kaland alapötletét.</p>
+            }
+            <div class="designer__options">
+              <label
+                >Korcsoport<select [value]="audiencePresetId()" (change)="updateAudience($event)">
+                  @for (preset of audiencePresets; track preset.id) {
+                    <option [value]="preset.id">{{ preset.label }}</option>
+                  }
+                </select></label
+              >
+              <label
+                >Várható játékidő<select
+                  [value]="sessionLengthMinutes()"
+                  (change)="updateLength($event)"
+                >
+                  <option value="30">30 perc</option>
+                  <option value="45">45 perc</option>
+                  <option value="60">60 perc</option>
+                  <option value="90">90 perc</option>
+                  <option value="120">Több Session</option>
+                </select></label
+              >
+            </div>
+            @if (store.errorMessage(); as error) {
+              <div class="designer__error" role="alert">{{ error }} A szerkesztésed megmaradt.</div>
+            }
+            <div class="designer__actions">
+              <button type="submit" [disabled]="store.isSaving()">
+                <ps-icon name="saved-scroll" [size]="23" /> Módosítások mentése
+              </button>
+            </div>
+          </form>
+        </section>
 
-          @if (store.errorMessage(); as error) {
-            <div class="designer__error" role="alert">{{ error }} A szerkesztésed megmaradt.</div>
-          }
-          <div class="designer__actions">
-            <button type="submit" [disabled]="store.isSaving()">
-              <ps-icon name="saved-scroll" [size]="23" /> Módosítások mentése
-            </button>
-          </div>
-        </form>
-      </section>
+        @if (adventure.scenes.length > 0) {
+          <section class="designer__scenes" aria-labelledby="scenes-heading">
+            <div class="designer__scenes-heading">
+              <div>
+                <p class="eyebrow">Jelenetek</p>
+                <h2 id="scenes-heading">A kaland útvonala</h2>
+              </div>
+              <button type="button" (click)="openNewScene()">
+                <ps-icon name="add-spark" [size]="21" /> Új jelenet
+              </button>
+            </div>
+            @for (scene of adventure.scenes; track scene.id) {
+              <article class="scene-card">
+                <div class="scene-card__order">{{ scene.order + 1 }}</div>
+                <div>
+                  <div class="scene-card__title">
+                    <h3>{{ scene.title }}</h3>
+                    @if (scene.isOpening) {
+                      <span>Nyitójelenet</span>
+                    }
+                  </div>
+                  <p>{{ scene.description }}</p>
+                  <strong><ps-icon name="goal-target" [size]="22" /> {{ scene.goal }}</strong>
+                  <div class="scene-card__actions">
+                    <button
+                      type="button"
+                      [disabled]="$first"
+                      aria-label="Jelenet mozgatása felfelé"
+                      (click)="moveScene(scene.id, 'up')"
+                    >
+                      ↑
+                    </button>
+                    <button
+                      type="button"
+                      [disabled]="$last"
+                      aria-label="Jelenet mozgatása lefelé"
+                      (click)="moveScene(scene.id, 'down')"
+                    >
+                      ↓
+                    </button>
+                    @if (!scene.isOpening) {
+                      <button type="button" (click)="selectOpeningScene(scene.id)">
+                        Legyen nyitójelenet
+                      </button>
+                    }
+                    <button type="button" (click)="editScene(scene)">
+                      <ps-icon name="edit-quill" [size]="19" /> Szerkesztés
+                    </button>
+                    <button type="button" class="danger" (click)="deletingSceneId.set(scene.id)">
+                      <ps-icon name="delete-bin" [size]="19" /> Eltávolítás
+                    </button>
+                  </div>
+                </div>
+              </article>
+            }
+          </section>
+        }
+      </div>
 
       <aside class="designer__readiness">
         <p class="eyebrow">Készenlét</p>
-        <h2>Még egy fontos lépés</h2>
-        <div class="designer__progress"><span></span></div>
-        <p>A Foundation kész. Legalább egy nyitójelenet és annak célja szükséges a játékhoz.</p>
-        <button type="button">
-          <ps-icon name="add-spark" [size]="22" /> Első jelenet létrehozása
+        <h2>
+          {{ adventure.scenes.length ? 'A kaland alapjai készen állnak' : 'Még egy fontos lépés' }}
+        </h2>
+        <div
+          class="designer__progress"
+          [class.designer__progress--complete]="adventure.scenes.length"
+        >
+          <span></span>
+        </div>
+        <p>
+          @if (adventure.scenes.length) {
+            Van nyitójelenet és elsődleges cél. Tovább gazdagíthatod a történetet új jelenetekkel.
+          } @else {
+            A Foundation kész. Legalább egy nyitójelenet és annak célja szükséges a játékhoz.
+          }
+        </p>
+        <button type="button" (click)="openNewScene()">
+          <ps-icon name="add-spark" [size]="22" />
+          {{ adventure.scenes.length ? 'Új jelenet' : 'Első jelenet létrehozása' }}
         </button>
       </aside>
     </div>
+
+    @if (sceneFormOpen()) {
+      <div class="scene-dialog-backdrop" (click)="sceneFormOpen.set(false)">
+        <section
+          class="scene-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="scene-dialog-title"
+          (click)="$event.stopPropagation()"
+        >
+          <div class="scene-dialog__heading">
+            <div>
+              <p class="eyebrow">
+                {{
+                  editingSceneId()
+                    ? 'Jelenet szerkesztése'
+                    : adventure.scenes.length
+                      ? 'Új jelenet'
+                      : 'Nyitójelenet'
+                }}
+              </p>
+              <h2 id="scene-dialog-title">
+                {{
+                  editingSceneId() ? 'Finomítsd a jelenetet' : 'Hol kezdődjön a következő pillanat?'
+                }}
+              </h2>
+            </div>
+            <button type="button" aria-label="Bezárás" (click)="sceneFormOpen.set(false)">×</button>
+          </div>
+          <form (submit)="$event.preventDefault(); addScene()" novalidate>
+            <label
+              >Jelenet címe<input
+                maxlength="120"
+                placeholder="Például: Virágos tisztás"
+                [value]="sceneTitle()"
+                (input)="updateScene('title', $event)"
+            /></label>
+            @if (sceneSubmitted() && !sceneTitle().trim()) {
+              <p class="error" role="alert">Adj címet a jelenetnek.</p>
+            }
+            <label
+              >Mi történik?<textarea
+                maxlength="1000"
+                rows="5"
+                placeholder="Rövid, mesélhető leírás a helyzetről…"
+                [value]="sceneDescription()"
+                (input)="updateScene('description', $event)"
+              ></textarea>
+            </label>
+            @if (sceneSubmitted() && !sceneDescription().trim()) {
+              <p class="error" role="alert">Írd le röviden a jelenetet.</p>
+            }
+            <label
+              >Aktuális cél<input
+                maxlength="200"
+                placeholder="Például: Találjátok meg az eltűnt tojást."
+                [value]="sceneGoal()"
+                (input)="updateScene('goal', $event)"
+            /></label>
+            @if (sceneSubmitted() && !sceneGoal().trim()) {
+              <p class="error" role="alert">Adj egy rövid, cselekvő célt.</p>
+            }
+            <div class="scene-dialog__actions">
+              <button type="button" (click)="sceneFormOpen.set(false)">Mégse</button
+              ><button type="submit" [disabled]="store.isSaving()">
+                <ps-icon name="saved-scroll" [size]="22" />
+                {{ editingSceneId() ? 'Módosítások mentése' : 'Jelenet mentése' }}
+              </button>
+            </div>
+          </form>
+        </section>
+      </div>
+    }
+    @if (deletingSceneId()) {
+      <div class="scene-dialog-backdrop">
+        <section
+          class="scene-dialog scene-dialog--confirm"
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="delete-scene-title"
+        >
+          <ps-icon name="warning-triangle" [size]="54" />
+          <h2 id="delete-scene-title">Eltávolítod ezt a jelenetet?</h2>
+          <p>
+            A jelenet kikerül a kalandból. Ha ez a nyitójelenet, a következő jelenet veszi át a
+            helyét.
+          </p>
+          <div class="scene-dialog__actions">
+            <button type="button" (click)="deletingSceneId.set(null)">Mégse</button
+            ><button
+              type="button"
+              class="danger"
+              [disabled]="store.isSaving()"
+              (click)="confirmDeleteScene()"
+            >
+              Jelenet eltávolítása
+            </button>
+          </div>
+        </section>
+      </div>
+    }
   }
 </main>
