@@ -1,6 +1,7 @@
 import { AudienceProfile, AudienceProfileProps } from '../../audience/models/audience-profile';
 import { AgeRange } from '../../audience/value-objects/age-range';
 import { projectId } from '../../project/value-objects/project-id';
+import { characterId } from '../../character/value-objects/character-id';
 import { adventureSceneId } from '../value-objects/adventure-scene-id';
 import { adventurePlanId } from '../value-objects/adventure-plan-id';
 import { AdventurePlan, CreateAdventurePlanProps } from './adventure-plan';
@@ -332,6 +333,19 @@ describe('AdventurePlan', () => {
     if (result.isSuccess) {
       expect(result.value.projectId).toBe('kanto-project');
     }
+  });
+
+  it('stores a unique default character team', () => {
+    const result = createAdventurePlan();
+    if (!result.isSuccess) throw result.error;
+
+    const updated = result.value.selectExpectedCharacters([
+      characterId('emma'),
+      characterId('emma'),
+      characterId('marci'),
+    ]);
+
+    expect(updated.expectedCharacterIds).toEqual(['emma', 'marci']);
   });
 });
 

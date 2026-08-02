@@ -1,0 +1,141 @@
+<main class="characters-page">
+  @if (store.isLoading()) {
+    <section class="characters-page__state">
+      <ps-icon name="pending-hourglass" [size]="64" />
+      <h1>Betöltjük a karaktereket…</h1>
+    </section>
+  } @else if (store.isNotFound()) {
+    <section class="characters-page__state">
+      <ps-icon name="warning-triangle" [size]="64" />
+      <h1>Ez a projekt nem található</h1>
+      <a routerLink="/projects">Projektjeim</a>
+    </section>
+  } @else if (store.hasError()) {
+    <section class="characters-page__state">
+      <ps-icon name="error-cross" [size]="64" />
+      <h1>A karaktereket most nem sikerült betölteni</h1>
+      <button type="button" (click)="store.load(projectId)">Újrapróbálom</button>
+    </section>
+  } @else {
+    <header class="characters-page__header">
+      <a [routerLink]="['/projects', projectId]">← Projekt Dashboard</a>
+      <div>
+        <p>{{ store.projectName() }}</p>
+        <h1>Karakterek</h1>
+        <span>A játékosok trainerei és történeteik</span>
+      </div>
+      <button type="button" (click)="dialogOpen.set(true)">
+        <ps-icon name="add-spark" [size]="22" /> Karakter hozzáadása
+      </button>
+    </header>
+    @if (store.characters().length === 0) {
+      <section class="characters-page__empty">
+        <ps-icon name="characters-group" [size]="80" />
+        <h2>Kik indulnak kalandra?</h2>
+        <p>Hozd létre az első trainert. Később sessionökhöz és jutalmakhoz is kapcsolhatod.</p>
+        <button type="button" (click)="dialogOpen.set(true)">Első karakter létrehozása</button>
+      </section>
+    } @else {
+      <section class="character-section" aria-label="Aktív karakterek">
+        <header>
+          <p>Játékra készen</p>
+          <h2>Aktív karakterek</h2>
+          <span>{{ store.activeCharacters().length }}</span>
+        </header>
+        <div class="character-grid">
+          @for (character of store.activeCharacters(); track character.id) {
+            <a
+              class="character-card"
+              [routerLink]="['/projects', projectId, 'characters', character.id]"
+            >
+              <div class="character-card__avatar">{{ initials(character.name) }}</div>
+              <div>
+                <span>Aktív trainer</span>
+                <h2>{{ character.name }}</h2>
+                <p>
+                  {{
+                    character.description || 'Ennek a karakternek még nincs rövid bemutatkozása.'
+                  }}
+                </p>
+              </div>
+              <ps-icon name="success-check" [size]="26" />
+            </a>
+          }
+        </div>
+      </section>
+      @if (store.archivedCharacters().length) {
+        <section
+          class="character-section character-section--archived"
+          aria-label="Archivált karakterek"
+        >
+          <header>
+            <p>Megőrzött történetek</p>
+            <h2>Archivált karakterek</h2>
+            <span>{{ store.archivedCharacters().length }}</span>
+          </header>
+          <div class="character-grid">
+            @for (character of store.archivedCharacters(); track character.id) {
+              <a
+                class="character-card"
+                [routerLink]="['/projects', projectId, 'characters', character.id]"
+              >
+                <div class="character-card__avatar">{{ initials(character.name) }}</div>
+                <div>
+                  <span>Archivált trainer</span>
+                  <h2>{{ character.name }}</h2>
+                  <p>{{ character.description || 'Megőrzött kampánykarakter.' }}</p>
+                </div>
+                <ps-icon name="archive-box" [size]="26" />
+              </a>
+            }
+          </div>
+        </section>
+      }
+    }
+  }
+</main>
+@if (dialogOpen()) {
+  <div class="character-dialog__backdrop" (click)="dialogOpen.set(false)">
+    <section
+      class="character-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="character-dialog-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header>
+        <div>
+          <p>Új trainer</p>
+          <h2 id="character-dialog-title">Ki csatlakozik a kalandhoz?</h2>
+        </div>
+        <button type="button" aria-label="Bezárás" (click)="dialogOpen.set(false)">×</button>
+      </header>
+      <label
+        >Név <input type="text" maxlength="80" [value]="name()" (input)="update('name', $event)" />
+        @if (submitted() && !name().trim()) {
+          <small>Adj nevet a karakternek.</small>
+        }</label
+      ><label
+        >Rövid leírás
+        <textarea
+          rows="4"
+          maxlength="300"
+          [value]="description()"
+          (input)="update('description', $event)"
+        ></textarea>
+      </label>
+      @if (store.errorMessage()) {
+        <p class="character-dialog__error">{{ store.errorMessage() }}</p>
+      }
+      <button
+        class="character-dialog__save"
+        type="button"
+        [disabled]="store.saving()"
+        (click)="create()"
+      >
+        <ps-icon name="saved-scroll" [size]="22" />
+        {{ store.saving() ? 'Mentés…' : 'Karakter létrehozása' }}
+      </button>
+    </section>
+  </div>
+}

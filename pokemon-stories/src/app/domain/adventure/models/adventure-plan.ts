@@ -11,6 +11,7 @@ import {
   UpdateAdventureSceneProps,
 } from './adventure-scene';
 import { AdventureStory, UpdateAdventureStoryProps } from './adventure-story';
+import { CharacterId } from '../../character/value-objects/character-id';
 
 export interface CreateAdventurePlanProps {
   readonly id: AdventurePlanId;
@@ -44,6 +45,7 @@ export class AdventurePlan {
     public readonly status: AdventurePlanStatus,
     public readonly scenes: readonly AdventureScene[],
     public readonly story: AdventureStory,
+    public readonly expectedCharacterIds: readonly CharacterId[] = Object.freeze([]),
   ) {
     Object.freeze(this);
   }
@@ -110,6 +112,7 @@ export class AdventurePlan {
         'ready',
         this.scenes,
         this.story,
+        this.expectedCharacterIds,
       ),
     );
   }
@@ -128,6 +131,7 @@ export class AdventurePlan {
         'completed',
         this.scenes,
         this.story,
+        this.expectedCharacterIds,
       ),
     );
   }
@@ -156,6 +160,7 @@ export class AdventurePlan {
         this.status,
         this.scenes,
         this.story,
+        this.expectedCharacterIds,
       ),
     );
   }
@@ -207,6 +212,7 @@ export class AdventurePlan {
         this.status,
         Object.freeze([...this.scenes, scene]),
         this.story,
+        this.expectedCharacterIds,
       ),
     );
   }
@@ -234,6 +240,7 @@ export class AdventurePlan {
         this.status,
         this.scenes,
         story,
+        this.expectedCharacterIds,
       ),
     );
   }
@@ -300,6 +307,21 @@ export class AdventurePlan {
     );
   }
 
+  selectExpectedCharacters(characterIds: readonly CharacterId[]): AdventurePlan {
+    const uniqueIds = Object.freeze([...new Set(characterIds)]);
+    return new AdventurePlan(
+      this.id,
+      this.projectId,
+      this.title,
+      this.premise,
+      this.audienceProfile,
+      this.status,
+      this.scenes,
+      this.story,
+      uniqueIds,
+    );
+  }
+
   private validateScene(
     props: UpdateAdventureSceneProps,
   ): Outcome<Pick<AdventureScene, 'title' | 'description' | 'goal'>, InvalidAdventurePlanError> {
@@ -331,6 +353,7 @@ export class AdventurePlan {
       this.status,
       Object.freeze(scenes),
       this.story,
+      this.expectedCharacterIds,
     );
     return this.status === 'ready' && !updated.readiness.isReady
       ? new AdventurePlan(
@@ -342,6 +365,7 @@ export class AdventurePlan {
           'draft',
           updated.scenes,
           updated.story,
+          updated.expectedCharacterIds,
         )
       : updated;
   }

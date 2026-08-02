@@ -87,6 +87,51 @@
         <p class="eyebrow">Gyors ellenőrzés</p>
         <h2 id="checklist-title">Készen állsz</h2>
         <p>Ezek segítenek magabiztosan indulni, de egyik sem akadályozza a játékot.</p>
+        <section class="participant-picker" aria-labelledby="participants-title">
+          <div class="participant-picker__heading">
+            <div>
+              <small>Aktuális csapat</small><strong id="participants-title">Résztvevők</strong>
+            </div>
+            <span>{{ selectedCharacters().length }} fő</span>
+          </div>
+          @if (store.characters().length) {
+            <div class="participant-picker__list">
+              @for (character of store.characters(); track character.id) {
+                <button
+                  type="button"
+                  [class.selected]="selectedCharacterIds().includes(character.id)"
+                  [attr.aria-pressed]="selectedCharacterIds().includes(character.id)"
+                  (click)="toggleCharacter(character.id)"
+                >
+                  <span>{{ initials(character.name) }}</span
+                  ><strong>{{ character.name }}</strong>
+                  <ps-icon
+                    [name]="
+                      selectedCharacterIds().includes(character.id) ? 'success-check' : 'add-spark'
+                    "
+                    [size]="20"
+                  />
+                </button>
+              }
+            </div>
+            <label class="participant-picker__remember">
+              <input
+                type="checkbox"
+                [checked]="rememberTeam()"
+                (change)="rememberTeam.set(!rememberTeam())"
+              />
+              <span
+                ><strong>Csapat megjegyzése</strong
+                ><small>Legközelebb ez legyen az alapértelmezett összeállítás.</small></span
+              >
+            </label>
+          } @else {
+            <div class="participant-picker__empty">
+              <p>Még nincs aktív karakter ebben a projektben.</p>
+              <a [routerLink]="['/projects', projectId, 'characters']">Karakter létrehozása</a>
+            </div>
+          }
+        </section>
         <label
           ><input
             type="checkbox"

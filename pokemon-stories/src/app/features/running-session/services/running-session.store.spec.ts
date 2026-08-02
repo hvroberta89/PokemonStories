@@ -8,6 +8,8 @@ import { adventureSceneId } from '../../../domain/adventure/value-objects/advent
 import { projectId } from '../../../domain/project/value-objects/project-id';
 import { RunningSessionStorageService } from './running-session-storage.service';
 import { RunningSessionStore } from './running-session.store';
+import { Character } from '../../../domain/character/models/character';
+import { characterId } from '../../../domain/character/value-objects/character-id';
 
 describe('RunningSessionStore', () => {
   it('starts a clean session from the ready adventure opening scene', () => {
@@ -22,13 +24,21 @@ describe('RunningSessionStore', () => {
     });
     const store = TestBed.inject(RunningSessionStore);
 
-    store.startFromAdventure(createReadyAdventure());
+    const character = Character.create({
+      id: characterId('character-1'),
+      projectId: projectId('project-1'),
+      name: 'Emma',
+    });
+    if (!character.isSuccess) throw character.error;
+    store.startFromAdventure(createReadyAdventure(), [character.value]);
 
     expect(store.session().adventureTitle).toBe('Az elveszett tojás');
     expect(store.viewModel().story.locationName).toBe('Virágos tisztás');
     expect(store.viewModel().story.narration).toEqual(['Egy törött fészek hever a fa alatt.']);
     expect(store.viewModel().goal.title).toBe('Találjátok meg az eltűnt tojást.');
     expect(store.viewModel().recentEvents.events).toEqual([]);
+    expect(store.viewModel().characters.characters[0]?.name).toBe('Emma');
+    expect(store.session().participants).toEqual([{ id: 'character-1', name: 'Emma' }]);
 
     expect(store.nextScene()).toBe(true);
     expect(store.viewModel().story.locationName).toBe('Erdei ösvény');

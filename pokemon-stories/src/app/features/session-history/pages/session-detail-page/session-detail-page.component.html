@@ -19,6 +19,9 @@
         <p>Befejezett kaland</p>
         <h1>{{ session.adventureTitle }}</h1>
         <small>{{ formatDate(session.completedAt) }}</small>
+        @if (session.participantNames?.length) {
+          <small>{{ session.participantNames?.join(', ') }}</small>
+        }
       </div>
     </header>
 

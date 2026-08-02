@@ -10,6 +10,7 @@ import { provideProjectInfrastructure } from './infrastructure/project/project.p
 import { provideAdventureInfrastructure } from './infrastructure/adventure/adventure.providers';
 import { PROJECT_SESSION_READER } from './application/session/tokens/project-session.tokens';
 import { RunningSessionStorageService } from './features/running-session/services/running-session-storage.service';
+import { provideCharacterInfrastructure } from './infrastructure/character/character.providers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     ...provideProjectInfrastructure(),
     ...provideAdventureInfrastructure(),
+    ...provideCharacterInfrastructure(),
     {
       provide: PROJECT_SESSION_READER,
       useExisting: RunningSessionStorageService,

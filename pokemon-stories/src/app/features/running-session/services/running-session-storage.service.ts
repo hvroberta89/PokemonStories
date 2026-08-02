@@ -104,6 +104,7 @@ export class RunningSessionStorageService implements ProjectSessionReader {
         completedAt: state.completedAt!,
         eventCount: state.viewModel.recentEvents.events.length,
         rewardCount: state.rewardHistory.length + state.rewardQueue.length,
+        participantNames: state.participants?.map((participant) => participant.name) ?? [],
       }))
       .sort((left, right) => right.completedAt.localeCompare(left.completedAt));
   }
@@ -123,6 +124,7 @@ export class RunningSessionStorageService implements ProjectSessionReader {
       completedAt: state.completedAt!,
       eventCount: state.viewModel.recentEvents.events.length,
       rewardCount: state.rewardHistory.length + state.rewardQueue.length,
+      participantNames: state.participants?.map((participant) => participant.name) ?? [],
       narration: state.viewModel.story.narration,
       sceneTitles: state.scenes?.map((scene) => scene.title) ?? [
         state.viewModel.story.locationName,
@@ -164,6 +166,7 @@ export class RunningSessionStorageService implements ProjectSessionReader {
         (typeof candidate.currentSceneIndex === 'number' &&
           Number.isInteger(candidate.currentSceneIndex) &&
           candidate.currentSceneIndex >= 0)) &&
+      (candidate.participants === undefined || Array.isArray(candidate.participants)) &&
       (candidate.status === 'running' ||
         candidate.status === 'review-pending' ||
         candidate.status === 'completed') &&

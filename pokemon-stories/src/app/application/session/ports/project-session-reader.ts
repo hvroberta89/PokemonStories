@@ -21,6 +21,7 @@ export interface CompletedProjectSessionSummary {
   readonly completedAt: string;
   readonly eventCount: number;
   readonly rewardCount: number;
+  readonly participantNames?: readonly string[];
 }
 
 export interface CompletedProjectSessionDetail extends CompletedProjectSessionSummary {
