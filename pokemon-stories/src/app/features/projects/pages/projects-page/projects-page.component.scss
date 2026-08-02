@@ -25,6 +25,7 @@
   gap: 0.8rem;
   color: inherit;
   text-decoration: none;
+  margin-right: auto;
 }
 
 .projects-page__brand-mark {
@@ -72,6 +73,16 @@
     0 4px 0 #ba7b0a,
     0 10px 22px rgb(220 148 15 / 22%);
   cursor: pointer;
+}
+
+.projects-page__sign-out {
+  min-height: 2.75rem;
+  padding: 0.5rem 0.8rem;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-weight: 750;
 }
 
 .projects-page__intro {
@@ -268,6 +279,11 @@ a:focus-visible {
 
   .projects-page__header {
     min-height: 4.8rem;
+  }
+
+  .projects-page__sign-out {
+    padding-inline: 0.35rem;
+    font-size: 0.78rem;
   }
 
   .projects-page__intro {

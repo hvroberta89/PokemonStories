@@ -91,6 +91,19 @@ describe('Project', () => {
       expect(Object.isFrozen(result.value)).toBe(true);
     }
   });
+
+  it('should restore an archived project from persistence', () => {
+    const result = Project.restore({
+      id: projectId('archived-project'),
+      name: 'Régi kalandok',
+      status: 'archived',
+    });
+
+    expect(result.isSuccess).toBe(true);
+    if (result.isSuccess) {
+      expect(result.value.status).toBe('archived');
+    }
+  });
 });
 
 function createProject(overrides: Partial<CreateProjectProps> = {}) {

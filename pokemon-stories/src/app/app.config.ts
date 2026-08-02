@@ -11,12 +11,14 @@ import { provideAdventureInfrastructure } from './infrastructure/adventure/adven
 import { PROJECT_SESSION_READER } from './application/session/tokens/project-session.tokens';
 import { RunningSessionStorageService } from './features/running-session/services/running-session-storage.service';
 import { provideCharacterInfrastructure } from './infrastructure/character/character.providers';
+import { provideSupabaseInfrastructure } from './infrastructure/supabase/supabase.providers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
+    ...provideSupabaseInfrastructure(),
     ...provideProjectInfrastructure(),
     ...provideAdventureInfrastructure(),
     ...provideCharacterInfrastructure(),

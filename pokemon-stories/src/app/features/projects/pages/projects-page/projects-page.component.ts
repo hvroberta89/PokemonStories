@@ -6,6 +6,7 @@ import { ProjectCardComponent } from '../../components/project-card/project-card
 import { PsEmptyStateComponent } from '../../../../shared/ui/empty-state/ps-empty-state.component';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
 import { ProjectId } from '../../../../domain/project/value-objects/project-id';
+import { AuthStore } from '../../../auth/services/auth.store';
 
 @Component({
   selector: 'app-projects-page',
@@ -18,6 +19,7 @@ import { ProjectId } from '../../../../domain/project/value-objects/project-id';
 })
 export class ProjectsPageComponent implements OnInit {
   private readonly router = inject(Router);
+  private readonly auth = inject(AuthStore);
   protected readonly store = inject(ProjectsStore);
 
   ngOnInit(): void {
@@ -34,5 +36,10 @@ export class ProjectsPageComponent implements OnInit {
 
   protected openProject(projectId: ProjectId): void {
     void this.router.navigate(['/projects', projectId]);
+  }
+
+  protected async signOut(): Promise<void> {
+    await this.auth.signOut();
+    await this.router.navigate(['/auth']);
   }
 }

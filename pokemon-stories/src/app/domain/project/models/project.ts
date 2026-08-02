@@ -9,6 +9,10 @@ export interface CreateProjectProps {
   readonly description?: string;
 }
 
+export interface RestoreProjectProps extends CreateProjectProps {
+  readonly status: ProjectStatus;
+}
+
 export class Project {
   private static readonly maximumNameLength = 80;
   private static readonly maximumDescriptionLength = 500;
@@ -23,6 +27,10 @@ export class Project {
   }
 
   static create(props: CreateProjectProps): Outcome<Project, InvalidProjectError> {
+    return this.restore({ ...props, status: 'active' });
+  }
+
+  static restore(props: RestoreProjectProps): Outcome<Project, InvalidProjectError> {
     const name = props.name.trim();
     const description = this.normalizeDescription(props.description);
 
@@ -38,7 +46,7 @@ export class Project {
       return descriptionValidation;
     }
 
-    return success(new Project(props.id, name, description, 'active'));
+    return success(new Project(props.id, name, description, props.status));
   }
 
   private static normalizeDescription(description: string | undefined): string | undefined {

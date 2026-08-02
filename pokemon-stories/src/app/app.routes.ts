@@ -1,8 +1,19 @@
 import { Routes } from '@angular/router';
+import { authenticatedGuard } from './features/auth/guards/authenticated.guard';
+import { signedOutGuard } from './features/auth/guards/signed-out.guard';
 
 export const routes: Routes = [
   {
+    path: 'auth',
+    canActivate: [signedOutGuard],
+    loadComponent: () =>
+      import('./features/auth/pages/auth-page/auth-page.component').then(
+        (module) => module.AuthPageComponent,
+      ),
+  },
+  {
     path: 'projects',
+    canActivate: [authenticatedGuard],
     children: [
       {
         path: '',
@@ -93,6 +104,7 @@ export const routes: Routes = [
   },
   {
     path: 'running-session',
+    canActivate: [authenticatedGuard],
     loadComponent: () =>
       import('./features/running-session/pages/running-session-page/running-session-page.component').then(
         (module) => module.RunningSessionPageComponent,
