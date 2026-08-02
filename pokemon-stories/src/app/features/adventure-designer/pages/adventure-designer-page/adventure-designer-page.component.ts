@@ -39,6 +39,10 @@ export class AdventureDesignerPageComponent {
   protected readonly sceneSubmitted = signal(false);
   protected readonly editingSceneId = signal<AdventureSceneId | null>(null);
   protected readonly deletingSceneId = signal<AdventureSceneId | null>(null);
+  protected readonly storyOpening = signal('');
+  protected readonly storyDevelopment = signal('');
+  protected readonly storyClimax = signal('');
+  protected readonly storyResolution = signal('');
 
   constructor() {
     void this.load();
@@ -156,6 +160,34 @@ export class AdventureDesignerPageComponent {
     if (success) this.deletingSceneId.set(null);
   }
 
+  protected updateStory(
+    field: 'opening' | 'development' | 'climax' | 'resolution',
+    event: Event,
+  ): void {
+    const value = (event.target as HTMLTextAreaElement).value;
+    ({
+      opening: this.storyOpening,
+      development: this.storyDevelopment,
+      climax: this.storyClimax,
+      resolution: this.storyResolution,
+    })[field].set(value);
+  }
+
+  protected saveStory(): void {
+    void this.store.saveStory({
+      projectId: this.projectId,
+      adventurePlanId: this.adventureId,
+      opening: this.storyOpening(),
+      development: this.storyDevelopment(),
+      climax: this.storyClimax(),
+      resolution: this.storyResolution(),
+    });
+  }
+
+  protected markAdventureReady(): void {
+    void this.store.markReady(this.projectId, this.adventureId);
+  }
+
   private async load(): Promise<void> {
     await this.store.load(this.projectId, this.adventureId);
     const adventure = this.store.adventure();
@@ -167,5 +199,9 @@ export class AdventureDesignerPageComponent {
       item.ageRange.equals(adventure.audienceProfile.ageRange),
     );
     if (preset) this.audiencePresetId.set(preset.id);
+    this.storyOpening.set(adventure.story.opening ?? '');
+    this.storyDevelopment.set(adventure.story.development ?? '');
+    this.storyClimax.set(adventure.story.climax ?? '');
+    this.storyResolution.set(adventure.story.resolution ?? '');
   }
 }

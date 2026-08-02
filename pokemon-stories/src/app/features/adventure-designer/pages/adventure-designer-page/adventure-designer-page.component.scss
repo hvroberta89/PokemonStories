@@ -53,6 +53,11 @@
   font-size: 0.78rem;
   font-weight: 850;
 }
+.designer__status--ready {
+  border-color: #5f8f36;
+  background: linear-gradient(180deg, #e8f4d2, #cfe5aa);
+  color: var(--color-primary-strong);
+}
 .designer__layout {
   display: grid;
   grid-template-columns: 12rem minmax(0, 1fr) 16rem;
@@ -63,6 +68,49 @@
   display: grid;
   gap: 1.2rem;
   min-width: 0;
+}
+.story-panel__optional {
+  background: var(--color-accent-soft) !important;
+  color: var(--color-text-primary) !important;
+}
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.story-grid label {
+  display: grid;
+  padding: 1rem;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.15rem 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+  background: rgb(255 255 255 / 42%);
+}
+.story-grid label > strong {
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+}
+.story-grid label > span {
+  display: grid;
+  justify-self: stretch;
+  margin: 0;
+  font-weight: 850;
+}
+.story-grid label small {
+  margin-top: 0.15rem;
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+.story-grid textarea {
+  grid-column: 1/-1;
+  margin-top: 0.5rem;
 }
 nav {
   display: grid;
@@ -210,6 +258,13 @@ select:focus {
   color: var(--color-text-primary);
   font-weight: 850;
   cursor: pointer;
+}
+.designer__readiness button:disabled {
+  border: 1px solid #5f8f36;
+  background: linear-gradient(180deg, #82a950, #62863a);
+  color: white;
+  box-shadow: 0 4px 0 #456826;
+  cursor: default;
 }
 .designer__readiness {
   padding: 1.2rem;
@@ -480,6 +535,9 @@ a:focus-visible {
     flex-direction: column;
   }
   .designer__options {
+    grid-template-columns: 1fr;
+  }
+  .story-grid {
     grid-template-columns: 1fr;
   }
 }

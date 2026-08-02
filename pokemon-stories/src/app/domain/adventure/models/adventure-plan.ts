@@ -10,6 +10,7 @@ import {
   AdventureScene,
   UpdateAdventureSceneProps,
 } from './adventure-scene';
+import { AdventureStory, UpdateAdventureStoryProps } from './adventure-story';
 
 export interface CreateAdventurePlanProps {
   readonly id: AdventurePlanId;
@@ -25,6 +26,11 @@ export interface UpdateAdventureFoundationProps {
   readonly audienceProfile: AudienceProfile;
 }
 
+export interface AdventureReadiness {
+  readonly isReady: boolean;
+  readonly missingRequired: readonly ('premise' | 'opening-scene' | 'opening-scene-goal')[];
+}
+
 export class AdventurePlan {
   private static readonly maximumTitleLength = 100;
   private static readonly maximumPremiseLength = 1000;
@@ -37,6 +43,7 @@ export class AdventurePlan {
     public readonly audienceProfile: AudienceProfile,
     public readonly status: AdventurePlanStatus,
     public readonly scenes: readonly AdventureScene[],
+    public readonly story: AdventureStory,
   ) {
     Object.freeze(this);
   }
@@ -68,6 +75,41 @@ export class AdventurePlan {
         props.audienceProfile,
         'draft',
         Object.freeze([]),
+        Object.freeze({}),
+      ),
+    );
+  }
+
+  get readiness(): AdventureReadiness {
+    const missingRequired: AdventureReadiness['missingRequired'][number][] = [];
+    if (!this.premise.trim()) missingRequired.push('premise');
+    const openingScene = this.scenes.find((scene) => scene.isOpening);
+    if (!openingScene) missingRequired.push('opening-scene');
+    else if (!openingScene.goal.trim()) missingRequired.push('opening-scene-goal');
+    return Object.freeze({
+      isReady: missingRequired.length === 0,
+      missingRequired: Object.freeze(missingRequired),
+    });
+  }
+
+  markReady(): Outcome<AdventurePlan, InvalidAdventurePlanError> {
+    if (!this.readiness.isReady) {
+      return failure(
+        new InvalidAdventurePlanError(
+          'The adventure cannot be ready while required content is missing.',
+        ),
+      );
+    }
+    return success(
+      new AdventurePlan(
+        this.id,
+        this.projectId,
+        this.title,
+        this.premise,
+        this.audienceProfile,
+        'ready',
+        this.scenes,
+        this.story,
       ),
     );
   }
@@ -94,6 +136,7 @@ export class AdventurePlan {
         props.audienceProfile,
         this.status,
         this.scenes,
+        this.story,
       ),
     );
   }
@@ -143,6 +186,33 @@ export class AdventurePlan {
         this.audienceProfile,
         this.status,
         Object.freeze([...this.scenes, scene]),
+        this.story,
+      ),
+    );
+  }
+
+  updateStory(props: UpdateAdventureStoryProps): Outcome<AdventurePlan, InvalidAdventurePlanError> {
+    const story = Object.freeze({
+      opening: this.normalizeStoryBlock(props.opening),
+      development: this.normalizeStoryBlock(props.development),
+      climax: this.normalizeStoryBlock(props.climax),
+      resolution: this.normalizeStoryBlock(props.resolution),
+    });
+
+    if (Object.values(story).some((block) => block !== undefined && block.length > 1500)) {
+      return failure(new InvalidAdventurePlanError('A story block cannot exceed 1500 characters.'));
+    }
+
+    return success(
+      new AdventurePlan(
+        this.id,
+        this.projectId,
+        this.title,
+        this.premise,
+        this.audienceProfile,
+        this.status,
+        this.scenes,
+        story,
       ),
     );
   }
@@ -227,7 +297,7 @@ export class AdventurePlan {
   }
 
   private withScenes(scenes: readonly AdventureScene[]): AdventurePlan {
-    return new AdventurePlan(
+    const updated = new AdventurePlan(
       this.id,
       this.projectId,
       this.title,
@@ -235,7 +305,25 @@ export class AdventurePlan {
       this.audienceProfile,
       this.status,
       Object.freeze(scenes),
+      this.story,
     );
+    return this.status === 'ready' && !updated.readiness.isReady
+      ? new AdventurePlan(
+          updated.id,
+          updated.projectId,
+          updated.title,
+          updated.premise,
+          updated.audienceProfile,
+          'draft',
+          updated.scenes,
+          updated.story,
+        )
+      : updated;
+  }
+
+  private normalizeStoryBlock(value: string | undefined): string | undefined {
+    const normalized = value?.trim();
+    return normalized ? normalized : undefined;
   }
 
   private sceneNotFound(): Outcome<never, InvalidAdventurePlanError> {

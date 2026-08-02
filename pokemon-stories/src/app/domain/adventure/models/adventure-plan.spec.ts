@@ -237,6 +237,71 @@ describe('AdventurePlan', () => {
     expect(selected.value.scenes.find((scene) => scene.isOpening)?.id).toBe('scene-2');
   });
 
+  it('should update the story outline without changing scenes', () => {
+    const adventureResult = createAdventurePlan();
+    if (!adventureResult.isSuccess) throw adventureResult.error;
+    const withScene = adventureResult.value.addScene({
+      id: adventureSceneId('scene-1'),
+      title: 'Virágos tisztás',
+      description: 'Egy összetört fészek hever az öreg fa alatt.',
+      goal: 'Találjátok meg az eltűnt tojást.',
+    });
+    if (!withScene.isSuccess) throw withScene.error;
+
+    const result = withScene.value.updateStory({
+      opening: '  A csapat különös lábnyomokra bukkan.  ',
+      climax: 'A tojás veszélybe kerül.',
+    });
+
+    expect(result.isSuccess).toBe(true);
+    if (!result.isSuccess) return;
+    expect(result.value.story.opening).toBe('A csapat különös lábnyomokra bukkan.');
+    expect(result.value.story.development).toBeUndefined();
+    expect(result.value.scenes).toBe(withScene.value.scenes);
+  });
+
+  it('should require an explicit transition after readiness requirements are met', () => {
+    const adventureResult = createAdventurePlan();
+    if (!adventureResult.isSuccess) throw adventureResult.error;
+    expect(adventureResult.value.readiness.isReady).toBe(false);
+    expect(adventureResult.value.markReady().isSuccess).toBe(false);
+
+    const withOpening = adventureResult.value.addScene({
+      id: adventureSceneId('scene-1'),
+      title: 'Virágos tisztás',
+      description: 'Egy összetört fészek hever az öreg fa alatt.',
+      goal: 'Találjátok meg az eltűnt tojást.',
+    });
+    if (!withOpening.isSuccess) throw withOpening.error;
+    expect(withOpening.value.readiness.isReady).toBe(true);
+    expect(withOpening.value.status).toBe('draft');
+
+    const ready = withOpening.value.markReady();
+    expect(ready.isSuccess).toBe(true);
+    if (!ready.isSuccess) return;
+    expect(ready.value.status).toBe('ready');
+  });
+
+  it('should return a ready adventure to draft when its last scene is removed', () => {
+    const adventureResult = createAdventurePlan();
+    if (!adventureResult.isSuccess) throw adventureResult.error;
+    const withOpening = adventureResult.value.addScene({
+      id: adventureSceneId('scene-1'),
+      title: 'Virágos tisztás',
+      description: 'Egy összetört fészek hever az öreg fa alatt.',
+      goal: 'Találjátok meg az eltűnt tojást.',
+    });
+    if (!withOpening.isSuccess) throw withOpening.error;
+    const ready = withOpening.value.markReady();
+    if (!ready.isSuccess) throw ready.error;
+
+    const removed = ready.value.removeScene(adventureSceneId('scene-1'));
+    expect(removed.isSuccess).toBe(true);
+    if (!removed.isSuccess) return;
+    expect(removed.value.status).toBe('draft');
+    expect(removed.value.readiness.isReady).toBe(false);
+  });
+
   it('should belong to a project', () => {
     const result = createAdventurePlan({
       projectId: projectId('kanto-project'),

@@ -26,7 +26,9 @@
         <p class="eyebrow">Kalandtervező</p>
         <h1>{{ adventure.title }}</h1>
       </div>
-      <span class="designer__status">Tervezés alatt</span>
+      <span class="designer__status" [class.designer__status--ready]="adventure.status === 'ready'">
+        {{ adventure.status === 'ready' ? 'Játékra kész' : 'Tervezés alatt' }}
+      </span>
     </section>
 
     <div class="designer__layout">
@@ -34,9 +36,18 @@
         <a href="#foundation" class="active"
           ><ps-icon name="world-map" [size]="28" /><span>Foundation<small>Kész</small></span></a
         >
-        <button type="button">
-          <ps-icon name="document-scroll" [size]="28" /><span>Történet<small>Üres</small></span>
-        </button>
+        <a href="#story">
+          <ps-icon name="document-scroll" [size]="28" /><span
+            >Történet<small>{{
+              adventure.story.opening ||
+              adventure.story.development ||
+              adventure.story.climax ||
+              adventure.story.resolution
+                ? 'Piszkozat'
+                : 'Üres'
+            }}</small></span
+          >
+        </a>
         <button type="button">
           <ps-icon name="scene-landscape" [size]="28" /><span
             >Jelenetek<small>{{
@@ -121,6 +132,69 @@
           </form>
         </section>
 
+        <section id="story" class="designer__panel story-panel">
+          <div class="designer__panel-heading">
+            <div>
+              <p class="eyebrow">Narratív irány</p>
+              <h2>Történet</h2>
+              <p>Támpontok a meséléshez, nem egy kötött forgatókönyv.</p>
+            </div>
+            <span class="story-panel__optional">Ajánlott</span>
+          </div>
+          <form (submit)="$event.preventDefault(); saveStory()">
+            <div class="story-grid">
+              <label
+                ><strong>1</strong><span>Nyitás<small>Mi indítja el a kalandot?</small></span
+                ><textarea
+                  rows="4"
+                  maxlength="1500"
+                  placeholder="A játékosok megérkeznek…"
+                  [value]="storyOpening()"
+                  (input)="updateStory('opening', $event)"
+                ></textarea>
+              </label>
+              <label
+                ><strong>2</strong
+                ><span>Kibontakozás<small>Hogyan mélyül el a konfliktus?</small></span
+                ><textarea
+                  rows="4"
+                  maxlength="1500"
+                  placeholder="A nyomok egyre különösebbek…"
+                  [value]="storyDevelopment()"
+                  (input)="updateStory('development', $event)"
+                ></textarea>
+              </label>
+              <label
+                ><strong>3</strong
+                ><span>Csúcspont<small>Mi a legfontosabb fordulópont?</small></span
+                ><textarea
+                  rows="4"
+                  maxlength="1500"
+                  placeholder="A valódi veszély végre megmutatkozik…"
+                  [value]="storyClimax()"
+                  (input)="updateStory('climax', $event)"
+                ></textarea>
+              </label>
+              <label
+                ><strong>4</strong
+                ><span>Lehetséges lezárás<small>Hogyan érhet véget a történet?</small></span
+                ><textarea
+                  rows="4"
+                  maxlength="1500"
+                  placeholder="A döntések következménye láthatóvá válik…"
+                  [value]="storyResolution()"
+                  (input)="updateStory('resolution', $event)"
+                ></textarea>
+              </label>
+            </div>
+            <div class="designer__actions">
+              <button type="submit" [disabled]="store.isSaving()">
+                <ps-icon name="saved-scroll" [size]="23" /> Történet mentése
+              </button>
+            </div>
+          </form>
+        </section>
+
         @if (adventure.scenes.length > 0) {
           <section class="designer__scenes" aria-labelledby="scenes-heading">
             <div class="designer__scenes-heading">
@@ -183,7 +257,13 @@
       <aside class="designer__readiness">
         <p class="eyebrow">Készenlét</p>
         <h2>
-          {{ adventure.scenes.length ? 'A kaland alapjai készen állnak' : 'Még egy fontos lépés' }}
+          {{
+            adventure.status === 'ready'
+              ? 'Játékra kész'
+              : adventure.readiness.isReady
+                ? 'Minden kötelező elem kész'
+                : 'Még egy fontos lépés'
+          }}
         </h2>
         <div
           class="designer__progress"
@@ -192,16 +272,27 @@
           <span></span>
         </div>
         <p>
-          @if (adventure.scenes.length) {
-            Van nyitójelenet és elsődleges cél. Tovább gazdagíthatod a történetet új jelenetekkel.
+          @if (adventure.status === 'ready') {
+            A kaland készen áll az előkészítésre. Az opcionális részeket később is gazdagíthatod.
+          } @else if (adventure.readiness.isReady) {
+            Van Premise, nyitójelenet és elsődleges cél. Te döntöd el, mikor legyen játékra kész.
           } @else {
             A Foundation kész. Legalább egy nyitójelenet és annak célja szükséges a játékhoz.
           }
         </p>
-        <button type="button" (click)="openNewScene()">
-          <ps-icon name="add-spark" [size]="22" />
-          {{ adventure.scenes.length ? 'Új jelenet' : 'Első jelenet létrehozása' }}
-        </button>
+        @if (adventure.status === 'ready') {
+          <button type="button" disabled>
+            <ps-icon name="success-check" [size]="22" /> Játékra kész
+          </button>
+        } @else if (adventure.readiness.isReady) {
+          <button type="button" (click)="markAdventureReady()">
+            <ps-icon name="success-check" [size]="22" /> Megjelölés játékra késznek
+          </button>
+        } @else {
+          <button type="button" (click)="openNewScene()">
+            <ps-icon name="add-spark" [size]="22" /> Első jelenet létrehozása
+          </button>
+        }
       </aside>
     </div>
 

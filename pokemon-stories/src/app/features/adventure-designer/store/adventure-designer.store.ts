@@ -4,6 +4,9 @@ import { UpdateAdventureFoundationHandler } from '../../../application/adventure
 import { AddAdventureSceneHandler } from '../../../application/adventure/commands/add-adventure-scene/add-adventure-scene.handler';
 import { ManageAdventureSceneHandler } from '../../../application/adventure/commands/manage-adventure-scene/manage-adventure-scene.handler';
 import { ManageAdventureSceneCommand } from '../../../application/adventure/commands/manage-adventure-scene/manage-adventure-scene.command';
+import { UpdateAdventureStoryHandler } from '../../../application/adventure/commands/update-adventure-story/update-adventure-story.handler';
+import { UpdateAdventureStoryCommand } from '../../../application/adventure/commands/update-adventure-story/update-adventure-story.command';
+import { MarkAdventureReadyHandler } from '../../../application/adventure/commands/mark-adventure-ready/mark-adventure-ready.handler';
 import { GetAdventurePlanHandler } from '../../../application/adventure/queries/get-adventure-plan/get-adventure-plan.handler';
 import {
   ADVENTURE_PLAN_READER,
@@ -38,6 +41,12 @@ export class AdventureDesignerStore {
     inject(ID_GENERATOR),
   );
   private readonly manageSceneHandler = new ManageAdventureSceneHandler(
+    inject(ADVENTURE_PLAN_REPOSITORY),
+  );
+  private readonly updateStoryHandler = new UpdateAdventureStoryHandler(
+    inject(ADVENTURE_PLAN_REPOSITORY),
+  );
+  private readonly markReadyHandler = new MarkAdventureReadyHandler(
     inject(ADVENTURE_PLAN_REPOSITORY),
   );
   private readonly statusState = signal<DesignerStatus>('idle');
@@ -142,6 +151,46 @@ export class AdventureDesignerStore {
     } catch {
       this.statusState.set('ready');
       this.errorState.set('A jelenet módosítása nem sikerült.');
+      return false;
+    }
+  }
+
+  async saveStory(command: UpdateAdventureStoryCommand): Promise<boolean> {
+    this.statusState.set('saving');
+    this.errorState.set(null);
+    try {
+      const result = await this.updateStoryHandler.execute(command);
+      if (!result.isSuccess) {
+        this.statusState.set('ready');
+        this.errorState.set('A történet módosítása nem sikerült.');
+        return false;
+      }
+      this.adventureState.set(result.value);
+      this.statusState.set('saved');
+      return true;
+    } catch {
+      this.statusState.set('ready');
+      this.errorState.set('A történet módosítása nem sikerült.');
+      return false;
+    }
+  }
+
+  async markReady(projectId: ProjectId, adventurePlanId: AdventurePlanId): Promise<boolean> {
+    this.statusState.set('saving');
+    this.errorState.set(null);
+    try {
+      const result = await this.markReadyHandler.execute({ projectId, adventurePlanId });
+      if (!result.isSuccess) {
+        this.statusState.set('ready');
+        this.errorState.set('A kaland még nem jelölhető játékra késznek.');
+        return false;
+      }
+      this.adventureState.set(result.value);
+      this.statusState.set('saved');
+      return true;
+    } catch {
+      this.statusState.set('ready');
+      this.errorState.set('A kaland állapotát most nem sikerült frissíteni.');
       return false;
     }
   }
