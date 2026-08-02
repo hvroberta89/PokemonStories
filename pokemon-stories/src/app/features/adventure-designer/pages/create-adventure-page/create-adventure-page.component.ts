@@ -66,6 +66,7 @@ export class CreateAdventurePageComponent {
         this.projectId,
         'adventures',
         this.store.createdAdventureId(),
+        'design',
       ]);
     }
   }

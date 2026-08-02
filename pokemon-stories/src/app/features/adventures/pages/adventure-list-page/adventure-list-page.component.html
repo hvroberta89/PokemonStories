@@ -107,17 +107,9 @@
             >
             <h3>{{ adventure.title }}</h3>
             <p>{{ adventure.premise }}</p>
-            @if (kind === 'ready') {
-              <a [routerLink]="['/projects', projectId, 'adventures', adventure.id, 'prepare']"
-                >Session előkészítése →</a
-              >
-            } @else if (kind === 'draft') {
-              <a [routerLink]="['/projects', projectId, 'adventures', adventure.id]"
-                >Tervezés folytatása →</a
-              >
-            } @else {
-              <a [routerLink]="['/projects', projectId, 'sessions']">Session történet →</a>
-            }
+            <a [routerLink]="['/projects', projectId, 'adventures', adventure.id]"
+              >Kaland áttekintése →</a
+            >
           </div>
         </article>
       }

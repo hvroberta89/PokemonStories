@@ -9,7 +9,9 @@
       <ps-icon name="warning-triangle" size="lg" />
       <h1>Ez a kaland még nem készíthető elő</h1>
       <p>Nyisd meg a Designert, és ellenőrizd a kötelező történetelemeket.</p>
-      <a [routerLink]="['/projects', projectId, 'adventures', adventureId]">Vissza a Designerhez</a>
+      <a [routerLink]="['/projects', projectId, 'adventures', adventureId, 'design']"
+        >Vissza a Designerhez</a
+      >
     </section>
   } @else if (store.hasError()) {
     <section class="preparation-page__state">
@@ -124,7 +126,9 @@
         <small class="checklist__help"
           >Az ellenőrzőlista ajánlás: akkor is elindulhatsz, ha nincs kipipálva.</small
         >
-        <a [routerLink]="['/projects', projectId, 'adventures', adventureId]">Tovább szerkesztem</a>
+        <a [routerLink]="['/projects', projectId, 'adventures', adventureId, 'design']"
+          >Tovább szerkesztem</a
+        >
       </aside>
     </div>
   }

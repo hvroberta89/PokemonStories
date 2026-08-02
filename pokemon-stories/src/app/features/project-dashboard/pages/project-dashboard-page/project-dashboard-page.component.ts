@@ -34,7 +34,7 @@ export class ProjectDashboardPageComponent implements OnInit {
 
   protected openAdventure(adventureId: AdventurePlanId): void {
     const projectId = this.route.snapshot.paramMap.get('projectId');
-    void this.router.navigate(['/projects', projectId, 'adventures', adventureId]);
+    void this.router.navigate(['/projects', projectId, 'adventures', adventureId, 'design']);
   }
 
   protected prepareAdventure(adventureId: AdventurePlanId): void {
