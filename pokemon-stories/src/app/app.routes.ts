@@ -19,6 +19,13 @@ export const routes: Routes = [
             (module) => module.CreateProjectPageComponent,
           ),
       },
+      {
+        path: ':projectId',
+        loadComponent: () =>
+          import('./features/project-dashboard/pages/project-dashboard-page/project-dashboard-page.component').then(
+            (module) => module.ProjectDashboardPageComponent,
+          ),
+      },
     ],
   },
   {

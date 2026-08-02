@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { ProjectSummary } from '../../../../application/project/queries/models/project-summary';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
@@ -13,4 +13,5 @@ import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
 })
 export class ProjectCardComponent {
   readonly project = input.required<ProjectSummary>();
+  readonly openProject = output<void>();
 }

@@ -40,6 +40,8 @@ export class ProjectsStore {
 
   readonly hasProjects = computed(() => this.projects().length > 0);
 
+  readonly lastCreatedProjectId = computed(() => this.state().lastCreatedProjectId);
+
   async load(): Promise<void> {
     this.patchState({
       loadingStatus: 'loading',
@@ -88,6 +90,7 @@ export class ProjectsStore {
         projects,
         loadingStatus: 'loaded',
         creating: false,
+        lastCreatedProjectId: result.value.id,
       });
 
       return true;

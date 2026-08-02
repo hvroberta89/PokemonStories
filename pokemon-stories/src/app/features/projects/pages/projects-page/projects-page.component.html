@@ -64,7 +64,7 @@
 
       <div class="projects-page__grid">
         @for (project of store.projects(); track project.id) {
-          <app-project-card [project]="project" />
+          <app-project-card [project]="project" (openProject)="openProject(project.id)" />
         }
       </div>
     </section>

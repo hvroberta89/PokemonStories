@@ -33,7 +33,11 @@
         Folytasd a történetet
       </span>
 
-      <button type="button" [attr.aria-label]="project().name + ' megnyitása'">
+      <button
+        type="button"
+        [attr.aria-label]="project().name + ' megnyitása'"
+        (click)="openProject.emit()"
+      >
         Megnyitás
         <span aria-hidden="true">→</span>
       </button>

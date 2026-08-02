@@ -5,6 +5,7 @@ import { ProjectsStore } from '../../store/projects.store';
 import { ProjectCardComponent } from '../../components/project-card/project-card.component';
 import { PsEmptyStateComponent } from '../../../../shared/ui/empty-state/ps-empty-state.component';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
+import { ProjectId } from '../../../../domain/project/value-objects/project-id';
 
 @Component({
   selector: 'app-projects-page',
@@ -29,5 +30,9 @@ export class ProjectsPageComponent implements OnInit {
 
   protected openCreateProject(): void {
     void this.router.navigate(['/projects/new']);
+  }
+
+  protected openProject(projectId: ProjectId): void {
+    void this.router.navigate(['/projects', projectId]);
   }
 }

@@ -62,7 +62,7 @@ export class CreateProjectPageComponent {
     });
 
     if (success) {
-      await this.router.navigate(['/projects']);
+      await this.router.navigate(['/projects', this.store.lastCreatedProjectId()]);
     }
   }
 

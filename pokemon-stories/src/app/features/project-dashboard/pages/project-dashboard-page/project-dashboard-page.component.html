@@ -1,0 +1,125 @@
+<main class="dashboard-page">
+  @if (store.isLoading()) {
+    <div class="dashboard-page__skeleton" aria-busy="true" aria-label="Projekt betöltése">
+      <span class="dashboard-page__skeleton-title"></span>
+      <span class="dashboard-page__skeleton-copy"></span>
+      <span class="dashboard-page__skeleton-card"></span>
+    </div>
+  } @else if (store.isNotFound()) {
+    <section class="dashboard-page__message" role="alert">
+      <ps-icon name="world-map" [size]="72" />
+      <h1>Ez a projekt nem található</h1>
+      <p>Lehet, hogy archiválták, vagy már nem érhető el ezen az eszközön.</p>
+      <a routerLink="/projects">Vissza a projektjeimhez</a>
+    </section>
+  } @else if (store.hasError()) {
+    <section class="dashboard-page__message" role="alert">
+      <ps-icon name="error-cross" [size]="64" />
+      <h1>Most nem tudjuk megnyitni ezt a világot</h1>
+      <p>A projekted biztonságban van. Próbáld meg újra.</p>
+      <div class="dashboard-page__message-actions">
+        <button type="button" (click)="retry()">Újrapróbálás</button>
+        <a routerLink="/projects">Projektjeim</a>
+      </div>
+    </section>
+  } @else if (store.dashboard(); as dashboard) {
+    <header class="dashboard-page__header">
+      <a routerLink="/projects" class="dashboard-page__switch">
+        <span aria-hidden="true">←</span>
+        Projektváltás
+      </a>
+      <button type="button" class="dashboard-page__settings" aria-label="Projektbeállítások">
+        <ps-icon name="settings-gear" [size]="25" />
+      </button>
+    </header>
+
+    <section class="dashboard-page__context">
+      <div class="dashboard-page__world-mark" aria-hidden="true">
+        <ps-icon name="world-map" [size]="54" />
+      </div>
+      <div>
+        <p class="dashboard-page__eyebrow">Aktív projekt</p>
+        <h1>{{ dashboard.project.name }}</h1>
+        @if (dashboard.project.description) {
+          <p>{{ dashboard.project.description }}</p>
+        }
+      </div>
+    </section>
+
+    <section class="dashboard-page__primary" aria-labelledby="next-step-title">
+      @switch (dashboard.primaryAction.kind) {
+        @case ('create-adventure') {
+          <div class="dashboard-page__primary-copy">
+            <p class="dashboard-page__eyebrow">Az első lépés</p>
+            <h2 id="next-step-title">Az első kalandod itt kezdődik</h2>
+            <p>Alkoss egy történetet, készítsd elő a világot, és vidd el az asztalhoz.</p>
+            <button type="button">
+              <ps-icon name="add-spark" [size]="24" />
+              Kaland létrehozása
+            </button>
+          </div>
+          <div class="dashboard-page__primary-art" aria-hidden="true">
+            <ps-icon name="adventures-book" [size]="112" />
+          </div>
+        }
+        @case ('continue-adventure') {
+          <div class="dashboard-page__primary-copy">
+            <p class="dashboard-page__eyebrow">Folytasd az alkotást</p>
+            <h2 id="next-step-title">{{ dashboard.primaryAction.adventure.title }}</h2>
+            <p>{{ dashboard.primaryAction.adventure.premise }}</p>
+            <button type="button">
+              Kaland tervezésének folytatása <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="dashboard-page__primary-art" aria-hidden="true">
+            <ps-icon name="edit-quill" [size]="104" />
+          </div>
+        }
+        @case ('prepare-adventure') {
+          <div class="dashboard-page__primary-copy">
+            <p class="dashboard-page__eyebrow">Készen áll a játékra</p>
+            <h2 id="next-step-title">{{ dashboard.primaryAction.adventure.title }}</h2>
+            <p>
+              {{ dashboard.primaryAction.adventure.sessionLengthMinutes }} perces kaland, amely már
+              csak az előkészítésedre vár.
+            </p>
+            <button type="button">Session előkészítése <span aria-hidden="true">→</span></button>
+          </div>
+          <div class="dashboard-page__primary-art" aria-hidden="true">
+            <ps-icon name="saved-scroll" [size]="104" />
+          </div>
+        }
+      }
+    </section>
+
+    <section class="dashboard-page__quick-access" aria-labelledby="quick-access-title">
+      <div class="dashboard-page__section-heading">
+        <div>
+          <p class="dashboard-page__eyebrow">A világod</p>
+          <h2 id="quick-access-title">Gyors elérés</h2>
+        </div>
+        @if (dashboard.adventureCount > 0) {
+          <span>{{ dashboard.adventureCount }} kaland</span>
+        }
+      </div>
+
+      <div class="dashboard-page__quick-grid">
+        <button type="button">
+          <ps-icon name="adventures-book" [size]="42" /><span>Kalandok</span>
+        </button>
+        <button type="button">
+          <ps-icon name="character-profile" [size]="42" /><span>Karakterek</span>
+        </button>
+        <button type="button">
+          <ps-icon name="location-pin" [size]="42" /><span>Helyszínek</span>
+        </button>
+        <button type="button">
+          <ps-icon name="world-fact" [size]="42" /><span>Világtények</span>
+        </button>
+        <button type="button">
+          <ps-icon name="collection-chest" [size]="42" /><span>Gyűjtemény</span>
+        </button>
+      </div>
+    </section>
+  }
+</main>
