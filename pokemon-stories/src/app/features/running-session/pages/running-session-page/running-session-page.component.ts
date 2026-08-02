@@ -418,6 +418,10 @@ export class RunningSessionPageComponent {
     this.store.markRewardAsGiven(rewardId);
   }
 
+  protected markRewardAsPrinted(rewardId: string): void {
+    this.store.markRewardAsPrinted(rewardId);
+  }
+
   // ---------------------------------------------------------------------------
   // Reward toast
   // ---------------------------------------------------------------------------

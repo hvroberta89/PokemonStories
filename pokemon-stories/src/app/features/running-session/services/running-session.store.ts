@@ -220,6 +220,17 @@ export class RunningSessionStore {
     }));
   }
 
+  markRewardAsPrinted(rewardId: string): void {
+    this.state.update((currentState) => ({
+      ...currentState,
+      rewardQueue: currentState.rewardQueue.map((reward) =>
+        reward.id === rewardId && reward.physicalStatus === 'queued'
+          ? { ...reward, status: 'printed', physicalStatus: 'printed' }
+          : reward,
+      ),
+    }));
+  }
+
   markRewardAsGiven(rewardId: string): void {
     this.state.update((currentState) => {
       const reward = currentState.rewardQueue.find((item) => item.id === rewardId);

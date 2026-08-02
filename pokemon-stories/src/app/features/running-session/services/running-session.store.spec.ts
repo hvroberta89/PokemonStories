@@ -11,6 +11,7 @@ import { RunningSessionStore } from './running-session.store';
 import { Character } from '../../../domain/character/models/character';
 import { characterId } from '../../../domain/character/value-objects/character-id';
 import { PreparedReward } from '../../../domain/reward/models/prepared-reward';
+import type { RewardQueueItemViewModel } from '../components/reward-queue/reward-queue.model';
 
 describe('RunningSessionStore', () => {
   it('starts a clean session from the ready adventure opening scene', () => {
@@ -84,7 +85,38 @@ describe('RunningSessionStore', () => {
       'second-scene-reward',
     ]);
   });
+
+  it('marks a queued reward as printed without changing its ownership state', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        RunningSessionStore,
+        {
+          provide: RunningSessionStorageService,
+          useValue: { load: () => null, save: () => undefined, clear: () => undefined },
+        },
+      ],
+    });
+    const store = TestBed.inject(RunningSessionStore);
+    store.enqueueReward(createQueuedReward());
+
+    store.markRewardAsPrinted('reward-1');
+
+    expect(store.rewardQueue()[0]).toMatchObject({
+      id: 'reward-1',
+      status: 'printed',
+      physicalStatus: 'printed',
+      recipientId: 'character-1',
+    });
+  });
 });
+
+function createQueuedReward(): RewardQueueItemViewModel {
+  return {
+    id: 'reward-1', recipientId: 'character-1', recipientName: 'Emma',
+    rewardType: 'badge', rewardLabel: 'Erdei jelvény', amount: 1,
+    icon: 'badge-medal', status: 'unlocked', physicalStatus: 'queued',
+  };
+}
 
 function createPreparedReward(id: string, sceneId?: ReturnType<typeof adventureSceneId>): PreparedReward {
   return PreparedReward.create({

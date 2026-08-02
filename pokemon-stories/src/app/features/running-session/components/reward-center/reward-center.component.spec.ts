@@ -21,4 +21,26 @@ describe('RewardCenterComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('emits a print-completion action for queued rewards', () => {
+    fixture.componentRef.setInput('items', [{
+      id: 'reward-1', recipientName: 'Emma', rewardType: 'badge',
+      rewardLabel: 'Erdei jelvény', amount: 1, icon: 'badge-medal',
+      status: 'unlocked', physicalStatus: 'queued',
+    }]);
+    let printedRewardId: string | undefined;
+    component.markedAsPrinted.subscribe((rewardId) => (printedRewardId = rewardId));
+    fixture.detectChanges();
+
+    const root = fixture.nativeElement as HTMLElement;
+    [...root.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Nyomtatás'))!
+      .click();
+    fixture.detectChanges();
+    [...root.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Nyomtatás kész'))!
+      .click();
+
+    expect(printedRewardId).toBe('reward-1');
+  });
 });

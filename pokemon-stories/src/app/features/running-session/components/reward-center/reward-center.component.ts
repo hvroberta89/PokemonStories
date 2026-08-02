@@ -54,6 +54,9 @@ export class RewardCenterComponent {
   readonly markedAsGiven =
     output<string>();
 
+  readonly markedAsPrinted =
+    output<string>();
+
   protected readonly activeTab =
     signal<RewardCenterTab>('queue');
 
@@ -82,6 +85,10 @@ export class RewardCenterComponent {
         return 'achievement-star';
     }
   });
+
+  protected readonly printableItems = computed(() =>
+    this.items().filter((item) => item.physicalStatus === 'queued'),
+  );
 
   protected selectTab(
     tab: RewardCenterTab,

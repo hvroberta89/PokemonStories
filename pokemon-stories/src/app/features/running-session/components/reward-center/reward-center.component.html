@@ -132,26 +132,37 @@
       }
 
       @case ('print') {
-        <section class="reward-center__placeholder">
-          <span
-            class="reward-center__placeholder-icon"
-          >
-            <ps-icon
-              name="printer"
-              [size]="46"
-            />
-          </span>
+        @if (printableItems().length === 0) {
+          <section class="reward-center__placeholder">
+            <span class="reward-center__placeholder-icon">
+              <ps-icon name="printer" [size]="46" />
+            </span>
 
-          <strong>
-            Nyomtatás hamarosan
-          </strong>
+            <strong>Nincs nyomtatásra váró jutalom</strong>
 
-          <p>
-            Innen lehet majd a jutalomkártyákat
-            nyomtatásra küldeni, újranyomtatni
-            és kezelni a nyomtatási várólistát.
-          </p>
-        </section>
+            <p>A nyomtatásra jelölt jutalmak itt jelennek meg.</p>
+          </section>
+        } @else {
+          <section class="reward-center__print-list" aria-label="Nyomtatásra váró jutalmak">
+            @for (item of printableItems(); track item.id) {
+              <article class="reward-center__print-item">
+                <span class="reward-center__print-icon">
+                  <ps-icon [name]="item.icon" [size]="30" />
+                </span>
+
+                <div>
+                  <strong>{{ item.rewardLabel }}</strong>
+                  <span>{{ item.recipientName }} · {{ item.amount }} db</span>
+                </div>
+
+                <button type="button" (click)="markedAsPrinted.emit(item.id)">
+                  <ps-icon name="printed-check" [size]="19" />
+                  Nyomtatás kész
+                </button>
+              </article>
+            }
+          </section>
+        }
       }
 
       @case ('history') {

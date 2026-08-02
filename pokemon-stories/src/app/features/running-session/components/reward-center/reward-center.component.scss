@@ -263,6 +263,68 @@
   line-height: 1.45;
 }
 
+.reward-center__print-list {
+  display: grid;
+  gap: 0.65rem;
+  padding: 1rem;
+}
+
+.reward-center__print-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.75rem;
+  border: 1px solid rgb(23 50 77 / 14%);
+  border-radius: 0.9rem;
+  background: rgb(255 255 255 / 60%);
+
+  div {
+    display: grid;
+    min-width: 0;
+    gap: 0.15rem;
+  }
+
+  strong {
+    overflow: hidden;
+    color: #17324d;
+    font-size: 0.85rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  span {
+    color: #647581;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 2.35rem;
+    padding: 0.45rem 0.6rem;
+    border: 0;
+    border-radius: 0.7rem;
+    background: #647f34;
+    color: white;
+    font: inherit;
+    font-size: 0.7rem;
+    font-weight: 900;
+    cursor: pointer;
+  }
+}
+
+.reward-center__print-icon {
+  display: grid;
+  width: 2.7rem;
+  height: 2.7rem;
+  place-items: center;
+  border-radius: 0.8rem;
+  background: #f3e6ba;
+}
+
 @keyframes reward-center-enter {
   from {
     opacity: 0;
