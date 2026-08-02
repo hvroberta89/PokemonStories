@@ -48,6 +48,24 @@
 
     <section class="dashboard-page__primary" aria-labelledby="next-step-title">
       @switch (dashboard.primaryAction.kind) {
+        @case ('resume-session') {
+          <div class="dashboard-page__primary-copy">
+            <p class="dashboard-page__eyebrow">Session folyamatban</p>
+            <h2 id="next-step-title">{{ dashboard.primaryAction.session.adventureTitle }}</h2>
+            <p>
+              Aktuális jelenet:
+              <strong>{{ dashboard.primaryAction.session.currentSceneTitle }}</strong
+              ><br />
+              Cél: {{ dashboard.primaryAction.session.currentGoal }}
+            </p>
+            <button type="button" (click)="resumeSession()">
+              <ps-icon name="play-pokeball" [size]="24" /> Session folytatása
+            </button>
+          </div>
+          <div class="dashboard-page__primary-art" aria-hidden="true">
+            <ps-icon name="play-pokeball" [size]="112" />
+          </div>
+        }
         @case ('create-adventure') {
           <div class="dashboard-page__primary-copy">
             <p class="dashboard-page__eyebrow">Az első lépés</p>
@@ -67,7 +85,7 @@
             <p class="dashboard-page__eyebrow">Folytasd az alkotást</p>
             <h2 id="next-step-title">{{ dashboard.primaryAction.adventure.title }}</h2>
             <p>{{ dashboard.primaryAction.adventure.premise }}</p>
-            <button type="button" (click)="prepareAdventure(dashboard.primaryAction.adventure.id)">
+            <button type="button" (click)="openAdventure(dashboard.primaryAction.adventure.id)">
               Kaland tervezésének folytatása <span aria-hidden="true">→</span>
             </button>
           </div>
@@ -83,7 +101,7 @@
               {{ dashboard.primaryAction.adventure.sessionLengthMinutes }} perces kaland, amely már
               csak az előkészítésedre vár.
             </p>
-            <button type="button" (click)="openAdventure(dashboard.primaryAction.adventure.id)">
+            <button type="button" (click)="prepareAdventure(dashboard.primaryAction.adventure.id)">
               Session előkészítése <span aria-hidden="true">→</span>
             </button>
           </div>

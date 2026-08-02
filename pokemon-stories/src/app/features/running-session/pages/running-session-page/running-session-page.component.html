@@ -2,7 +2,12 @@
   <div class="running-session-page__background"></div>
 
   <header class="session-header">
-    <button type="button" class="session-header__menu" aria-label="Menü megnyitása">
+    <button
+      type="button"
+      class="session-header__menu"
+      aria-label="Vissza a projekt Dashboardra"
+      (click)="leaveSession()"
+    >
       <span aria-hidden="true">☰</span>
     </button>
 
@@ -81,7 +86,7 @@
 
   <section class="running-session-page__content">
     <section class="running-session-page__story" aria-label="Aktuális történet">
-      <app-story-card [story]="viewModel().story" />
+      <app-story-card [story]="viewModel().story" (nextSelected)="goToNextScene()" />
     </section>
 
     <section class="running-session-page__goal" aria-label="Aktuális cél">

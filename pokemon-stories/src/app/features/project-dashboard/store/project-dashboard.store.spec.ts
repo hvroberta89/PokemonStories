@@ -10,6 +10,11 @@ import { InMemoryAdventurePlanRepository } from '../../../infrastructure/adventu
 import { InMemoryProjectRepository } from '../../../infrastructure/project/repositories/in-memory-project.repository';
 import { ActiveProjectStore } from '../../projects/store/active-project.store';
 import { ProjectDashboardStore } from './project-dashboard.store';
+import {
+  ActiveRunningSessionReader,
+  ActiveRunningSessionSummary,
+} from '../../../application/session/ports/active-running-session-reader';
+import { ACTIVE_RUNNING_SESSION_READER } from '../../../application/session/tokens/active-running-session.tokens';
 
 class MemoryActiveProjectStorage implements ActiveProjectStorage {
   value: ProjectId | null = null;
@@ -24,12 +29,21 @@ class MemoryActiveProjectStorage implements ActiveProjectStorage {
   }
 }
 
+class MemoryRunningSessionReader implements ActiveRunningSessionReader {
+  value: ActiveRunningSessionSummary | null = null;
+  findByProject(id: ProjectId): ActiveRunningSessionSummary | null {
+    return this.value?.projectId === id ? this.value : null;
+  }
+}
+
 describe('ProjectDashboardStore', () => {
   let projects: InMemoryProjectRepository;
   let store: ProjectDashboardStore;
+  let sessions: MemoryRunningSessionReader;
 
   beforeEach(() => {
     projects = new InMemoryProjectRepository();
+    sessions = new MemoryRunningSessionReader();
     TestBed.configureTestingModule({
       providers: [
         ProjectDashboardStore,
@@ -43,6 +57,7 @@ describe('ProjectDashboardStore', () => {
           provide: ACTIVE_PROJECT_STORAGE,
           useValue: new MemoryActiveProjectStorage(),
         },
+        { provide: ACTIVE_RUNNING_SESSION_READER, useValue: sessions },
       ],
     });
     store = TestBed.inject(ProjectDashboardStore);
@@ -69,5 +84,24 @@ describe('ProjectDashboardStore', () => {
 
     expect(store.isNotFound()).toBe(true);
     expect(store.dashboard()).toBeNull();
+  });
+
+  it('should prioritize resuming an active project session', async () => {
+    const result = Project.create({ id: projectId('project-1'), name: 'Kanto kalandok' });
+    if (!result.isSuccess) throw result.error;
+    await projects.save(result.value);
+    sessions.value = {
+      sessionId: 'session-1',
+      projectId: projectId('project-1'),
+      adventureId: 'adventure-1',
+      adventureTitle: 'Az elveszett tojás',
+      currentSceneTitle: 'Virágos tisztás',
+      currentGoal: 'Találjátok meg a tojást.',
+      startedAt: new Date().toISOString(),
+    };
+
+    await store.load('project-1');
+
+    expect(store.dashboard()?.primaryAction.kind).toBe('resume-session');
   });
 });

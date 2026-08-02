@@ -62,6 +62,7 @@ import type {
 } from '../../components/assistant-results/assistant-results.model';
 import { AssistantSuggestionToastComponent } from '../../components/assistant-suggestion-toast/assistant-suggestion-toast.component';
 import { RunningSessionStore } from '../../services/running-session.store';
+import { Router } from '@angular/router';
 import { SessionTimelineComponent } from '../../components/session-timeline/session-timeline.component';
 import { SessionEndSheetComponent } from '../../components/session-end-sheet/session-end-sheet.component';
 import { SessionSummaryComponent } from '../../components/session-summary/session-summary.component';
@@ -103,10 +104,20 @@ export class RunningSessionPageComponent {
   private readonly recentEventFactory = inject(RecentEventFactory);
 
   private readonly store = inject(RunningSessionStore);
+  private readonly router = inject(Router);
 
   protected readonly adventureTitle = computed(
     () => this.store.session().adventureTitle ?? 'Az eltűnt Napviráglevél',
   );
+
+  protected goToNextScene(): void {
+    this.store.nextScene();
+  }
+
+  protected leaveSession(): void {
+    const projectId = this.store.session().projectId;
+    void this.router.navigate(projectId ? ['/projects', projectId] : ['/projects']);
+  }
 
   private readonly destroyRef = inject(DestroyRef);
 

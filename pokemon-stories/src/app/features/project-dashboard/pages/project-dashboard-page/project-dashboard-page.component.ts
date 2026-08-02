@@ -42,6 +42,10 @@ export class ProjectDashboardPageComponent implements OnInit {
     void this.router.navigate(['/projects', projectId, 'adventures', adventureId, 'prepare']);
   }
 
+  protected resumeSession(): void {
+    void this.router.navigate(['/running-session']);
+  }
+
   private load(): Promise<void> {
     return this.store.load(this.route.snapshot.paramMap.get('projectId') ?? '');
   }

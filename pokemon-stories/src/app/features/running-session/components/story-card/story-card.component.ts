@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { StoryCardViewModel } from './story-card.model';
 import { PsIconComponent } from '../../../../shared/ui/public-api';
@@ -17,4 +13,5 @@ import { PsIconComponent } from '../../../../shared/ui/public-api';
 })
 export class StoryCardComponent {
   readonly story = input.required<StoryCardViewModel>();
+  readonly nextSelected = output<void>();
 }

@@ -2,11 +2,16 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 import type { RunningSessionState } from '../models/running-session-state.model';
+import {
+  ActiveRunningSessionReader,
+  ActiveRunningSessionSummary,
+} from '../../../application/session/ports/active-running-session-reader';
+import { ProjectId } from '../../../domain/project/value-objects/project-id';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RunningSessionStorageService {
+export class RunningSessionStorageService implements ActiveRunningSessionReader {
   private readonly platformId = inject(PLATFORM_ID);
 
   private readonly storageKey = 'pokemon-stories.running-session';
@@ -59,6 +64,28 @@ export class RunningSessionStorageService {
     window.localStorage.removeItem(this.storageKey);
   }
 
+  findByProject(projectId: ProjectId): ActiveRunningSessionSummary | null {
+    const state = this.load();
+    if (
+      !state ||
+      state.status !== 'running' ||
+      state.projectId !== projectId ||
+      !state.adventureId ||
+      !state.adventureTitle
+    ) {
+      return null;
+    }
+    return {
+      sessionId: state.sessionId,
+      projectId,
+      adventureId: state.adventureId,
+      adventureTitle: state.adventureTitle,
+      currentSceneTitle: state.viewModel.story.locationName,
+      currentGoal: state.viewModel.goal.title,
+      startedAt: state.startedAt,
+    };
+  }
+
   private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
   }
@@ -76,6 +103,11 @@ export class RunningSessionStorageService {
       (candidate.projectId === undefined || typeof candidate.projectId === 'string') &&
       (candidate.adventureId === undefined || typeof candidate.adventureId === 'string') &&
       (candidate.adventureTitle === undefined || typeof candidate.adventureTitle === 'string') &&
+      (candidate.scenes === undefined || Array.isArray(candidate.scenes)) &&
+      (candidate.currentSceneIndex === undefined ||
+        (typeof candidate.currentSceneIndex === 'number' &&
+          Number.isInteger(candidate.currentSceneIndex) &&
+          candidate.currentSceneIndex >= 0)) &&
       (candidate.status === 'running' || candidate.status === 'completed') &&
       typeof candidate.startedAt === 'string' &&
       (candidate.completedAt === null || typeof candidate.completedAt === 'string') &&

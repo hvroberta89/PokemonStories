@@ -1,53 +1,24 @@
-<article
-  class="story-card"
-  [attr.data-mood]="story().mood"
->
+<article class="story-card" [attr.data-mood]="story().mood">
   <div class="story-card__visual">
-    <img
-      class="story-card__image"
-      [src]="story().imageUrl"
-      [alt]="story().imageAlt"
-    >
+    <img class="story-card__image" [src]="story().imageUrl" [alt]="story().imageAlt" />
 
-    <div
-      class="story-card__visual-overlay"
-      aria-hidden="true"
-    ></div>
+    <div class="story-card__visual-overlay" aria-hidden="true"></div>
   </div>
 
   <section class="story-card__page">
-    <div
-      class="story-card__inner-frame"
-      aria-hidden="true"
-    ></div>
+    <div class="story-card__inner-frame" aria-hidden="true"></div>
 
-    <span
-      class="story-card__corner story-card__corner--top-left"
-      aria-hidden="true"
-    ></span>
+    <span class="story-card__corner story-card__corner--top-left" aria-hidden="true"></span>
 
-    <span
-      class="story-card__corner story-card__corner--top-right"
-      aria-hidden="true"
-    ></span>
+    <span class="story-card__corner story-card__corner--top-right" aria-hidden="true"></span>
 
-    <span
-      class="story-card__corner story-card__corner--bottom-left"
-      aria-hidden="true"
-    ></span>
+    <span class="story-card__corner story-card__corner--bottom-left" aria-hidden="true"></span>
 
-    <span
-      class="story-card__corner story-card__corner--bottom-right"
-      aria-hidden="true"
-    ></span>
+    <span class="story-card__corner story-card__corner--bottom-right" aria-hidden="true"></span>
 
     <header class="story-card__header">
       <span class="story-card__location-icon">
-        <ps-icon
-          [name]="story().locationIcon"
-          [size]="38"
-          [decorative]="true"
-        />
+        <ps-icon [name]="story().locationIcon" [size]="38" [decorative]="true" />
       </span>
 
       <h2>
@@ -55,20 +26,14 @@
       </h2>
     </header>
 
-    <div
-      class="story-card__divider"
-      aria-hidden="true"
-    >
+    <div class="story-card__divider" aria-hidden="true">
       <span></span>
       <i></i>
       <span></span>
     </div>
 
     <div class="story-card__narration">
-      @for (
-        paragraph of story().narration;
-        track $index
-      ) {
+      @for (paragraph of story().narration; track $index) {
         <p>
           {{ paragraph }}
         </p>
@@ -76,19 +41,11 @@
     </div>
 
     <footer class="story-card__footer">
-      <div
-        class="story-card__pagination"
-        aria-label="Történetoldalak"
-      >
-        @for (
-          page of [].constructor(story().pageCount);
-          track $index
-        ) {
+      <div class="story-card__pagination" aria-label="Történetoldalak">
+        @for (page of [].constructor(story().pageCount); track $index) {
           <span
             class="story-card__page-dot"
-            [class.story-card__page-dot--active]="
-              $index + 1 === story().currentPage
-            "
+            [class.story-card__page-dot--active]="$index + 1 === story().currentPage"
           ></span>
         }
       </div>
@@ -97,10 +54,10 @@
         type="button"
         class="story-card__next"
         aria-label="Következő történetrész"
+        [disabled]="story().currentPage >= story().pageCount"
+        (click)="nextSelected.emit()"
       >
-        <span aria-hidden="true">
-          ›
-        </span>
+        <span aria-hidden="true"> › </span>
       </button>
     </footer>
   </section>

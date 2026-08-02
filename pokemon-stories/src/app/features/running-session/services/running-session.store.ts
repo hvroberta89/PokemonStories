@@ -77,6 +77,13 @@ export class RunningSessionStore {
       projectId: adventure.projectId,
       adventureId: adventure.id,
       adventureTitle: adventure.title,
+      scenes: adventure.scenes.map((scene) => ({
+        id: scene.id,
+        title: scene.title,
+        description: scene.description,
+        goal: scene.goal,
+      })),
+      currentSceneIndex: adventure.scenes.indexOf(openingScene),
       status: 'running',
       startedAt: new Date().toISOString(),
       completedAt: null,
@@ -84,6 +91,53 @@ export class RunningSessionStore {
       rewardQueue: [],
       rewardHistory: [],
     });
+  }
+
+  nextScene(): boolean {
+    const current = this.state();
+    const scenes = current.scenes;
+    const currentIndex = current.currentSceneIndex ?? 0;
+    const nextScene = scenes?.[currentIndex + 1];
+    if (!scenes || !nextScene || current.status !== 'running') return false;
+
+    this.state.set({
+      ...current,
+      currentSceneIndex: currentIndex + 1,
+      viewModel: {
+        ...current.viewModel,
+        story: {
+          ...current.viewModel.story,
+          locationName: nextScene.title,
+          narration: [nextScene.description],
+          currentPage: currentIndex + 2,
+          pageCount: scenes.length,
+        },
+        goal: {
+          ...current.viewModel.goal,
+          title: nextScene.goal,
+          description: nextScene.description,
+          progressLabel: 'Új jelenet',
+        },
+        recentEvents: {
+          ...current.viewModel.recentEvents,
+          newEventsLabel: this.createEventCountLabel(
+            current.viewModel.recentEvents.events.length + 1,
+          ),
+          events: [
+            {
+              id: crypto.randomUUID(),
+              type: 'discovery',
+              title: `Jelenetváltás: ${nextScene.title}`,
+              content: nextScene.description,
+              timeLabel: 'Most',
+              icon: 'scene-change',
+            },
+            ...current.viewModel.recentEvents.events,
+          ],
+        },
+      },
+    });
+    return true;
   }
 
   addRecentEvent(recentEvent: RecentEventItemViewModel): void {

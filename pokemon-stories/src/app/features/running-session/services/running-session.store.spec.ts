@@ -29,6 +29,12 @@ describe('RunningSessionStore', () => {
     expect(store.viewModel().story.narration).toEqual(['Egy törött fészek hever a fa alatt.']);
     expect(store.viewModel().goal.title).toBe('Találjátok meg az eltűnt tojást.');
     expect(store.viewModel().recentEvents.events).toEqual([]);
+
+    expect(store.nextScene()).toBe(true);
+    expect(store.viewModel().story.locationName).toBe('Erdei ösvény');
+    expect(store.viewModel().goal.title).toBe('Kövessétek a lábnyomokat.');
+    expect(store.viewModel().recentEvents.events[0]?.title).toBe('Jelenetváltás: Erdei ösvény');
+    expect(store.nextScene()).toBe(false);
   });
 });
 
@@ -60,7 +66,14 @@ function createReadyAdventure(): AdventurePlan {
     goal: 'Találjátok meg az eltűnt tojást.',
   });
   if (!withScene.isSuccess) throw withScene.error;
-  const ready = withScene.value.markReady();
+  const withSecondScene = withScene.value.addScene({
+    id: adventureSceneId('scene-2'),
+    title: 'Erdei ösvény',
+    description: 'Apró lábnyomok vezetnek a sűrűbe.',
+    goal: 'Kövessétek a lábnyomokat.',
+  });
+  if (!withSecondScene.isSuccess) throw withSecondScene.error;
+  const ready = withSecondScene.value.markReady();
   if (!ready.isSuccess) throw ready.error;
   return ready.value;
 }

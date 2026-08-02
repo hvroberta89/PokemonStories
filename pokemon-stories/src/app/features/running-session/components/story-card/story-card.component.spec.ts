@@ -35,4 +35,15 @@ describe('StoryCardComponent', () => {
     expect(element.querySelectorAll('.story-card__page-dot')).toHaveLength(4);
     expect(element.querySelectorAll('.story-card__page-dot--active')).toHaveLength(1);
   });
+
+  it('requests the next scene from the parent', () => {
+    const emitted = vi.fn();
+    fixture.componentInstance.nextSelected.subscribe(emitted);
+
+    (fixture.nativeElement as HTMLElement)
+      .querySelector<HTMLButtonElement>('.story-card__next')
+      ?.click();
+
+    expect(emitted).toHaveBeenCalledOnce();
+  });
 });

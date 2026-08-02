@@ -4,6 +4,13 @@ import type { RunningSessionViewModel } from './running-session-view.model';
 
 export type RunningSessionStatus = 'running' | 'completed';
 
+export interface RunningSessionScene {
+  readonly id: string;
+  readonly title: string;
+  readonly description: string;
+  readonly goal: string;
+}
+
 export interface RunningSessionState {
   readonly schemaVersion: 1;
 
@@ -14,6 +21,10 @@ export interface RunningSessionState {
   readonly adventureId?: string;
 
   readonly adventureTitle?: string;
+
+  readonly scenes?: readonly RunningSessionScene[];
+
+  readonly currentSceneIndex?: number;
 
   readonly status: RunningSessionStatus;
 
