@@ -152,9 +152,9 @@
         <button type="button">
           <ps-icon name="world-fact" [size]="42" /><span>Világtények</span>
         </button>
-        <button type="button">
+        <a [routerLink]="['/projects', dashboard.project.id, 'collection']">
           <ps-icon name="collection-chest" [size]="42" /><span>Gyűjtemény</span>
-        </button>
+        </a>
       </div>
     </section>
   }

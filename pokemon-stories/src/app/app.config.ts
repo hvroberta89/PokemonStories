@@ -11,6 +11,7 @@ import { provideAdventureInfrastructure } from './infrastructure/adventure/adven
 import { provideCharacterInfrastructure } from './infrastructure/character/character.providers';
 import { provideSupabaseInfrastructure } from './infrastructure/supabase/supabase.providers';
 import { provideSessionInfrastructure } from './infrastructure/session/session.providers';
+import { provideRewardInfrastructure } from './infrastructure/reward/reward.providers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,5 +23,6 @@ export const appConfig: ApplicationConfig = {
     ...provideAdventureInfrastructure(),
     ...provideCharacterInfrastructure(),
     ...provideSessionInfrastructure(),
+    ...provideRewardInfrastructure(),
   ],
 };

@@ -1,0 +1,79 @@
+<main class="collection-page">
+  <div class="collection-page__glow" aria-hidden="true"></div>
+  @if (store.isLoading()) {
+    <section class="collection-page__state" aria-busy="true">
+      <ps-icon name="collection-chest" [size]="64" />
+      <p>A gyűjtemény kinyitása…</p>
+    </section>
+  } @else if (store.isNotFound()) {
+    <section class="collection-page__state" role="alert">
+      <h1>Ez a gyűjtemény nem található</h1>
+      <a routerLink="/projects">Vissza a projektekhez</a>
+    </section>
+  } @else if (store.hasError()) {
+    <section class="collection-page__state" role="alert">
+      <h1>Most nem tudjuk kinyitni a gyűjteményt</h1>
+      <button type="button" (click)="store.load(projectId)">Újrapróbálás</button>
+    </section>
+  } @else {
+    <header class="collection-page__header">
+      <a [routerLink]="['/projects', projectId]" class="collection-page__back">← Projekt</a>
+      <div class="collection-page__title-mark"><ps-icon name="collection-chest" [size]="42" /></div>
+      <div>
+        <p>Jutalmak és emlékek</p>
+        <h1>{{ store.projectName() }} gyűjteménye</h1>
+      </div>
+    </header>
+
+    <section class="collection-page__summary" aria-label="Gyűjtemény összesítő">
+      <article><strong>{{ store.totalCount() }}</strong><span>megszerzett</span></article>
+      <article><strong>{{ store.pendingCount() }}</strong><span>átadásra vár</span></article>
+      <article><strong>{{ store.givenCount() }}</strong><span>átadva</span></article>
+    </section>
+
+    <section class="collection-page__controls" aria-label="Gyűjtemény szűrése">
+      <div class="collection-page__tabs">
+        <button type="button" [class.is-active]="store.deliveryFilter() === 'all'" (click)="setDelivery('all')">Mind</button>
+        <button type="button" [class.is-active]="store.deliveryFilter() === 'pending'" (click)="setDelivery('pending')">Átadásra vár</button>
+        <button type="button" [class.is-active]="store.deliveryFilter() === 'given'" (click)="setDelivery('given')">Átadva</button>
+      </div>
+      <label>
+        <span>Típus</span>
+        <select (change)="setType($event)">
+          @for (type of types; track type.value) { <option [value]="type.value">{{ type.label }}</option> }
+        </select>
+      </label>
+      <label>
+        <span>Címzett</span>
+        <select (change)="setRecipient($event)">
+          <option value="all">Mindenki</option>
+          @for (recipient of store.recipients(); track recipient) { <option [value]="recipient">{{ recipient }}</option> }
+        </select>
+      </label>
+    </section>
+
+    @if (store.grants().length === 0) {
+      <section class="collection-page__empty">
+        <ps-icon name="treasure-chest" [size]="72" />
+        <h2>Még nincs itt megjeleníthető jutalom</h2>
+        <p>A Session során feloldott jutalmak automatikusan ide kerülnek.</p>
+      </section>
+    } @else {
+      <section class="collection-page__grid" aria-label="Megszerezett jutalmak">
+        @for (grant of store.grants(); track grant.value.id) {
+          <a class="reward-card" [routerLink]="['/projects', projectId, 'collection', grant.value.id]">
+            <div class="reward-card__icon"><ps-icon [name]="rewardIcon(grant.value.type)" [size]="38" /></div>
+            <div class="reward-card__copy">
+              <p>{{ typeLabel(grant.value.type) }}</p>
+              <h2>{{ grant.value.label }}</h2>
+              <span>{{ grant.value.recipientName }} · {{ grant.value.amount }} db</span>
+            </div>
+            <span class="reward-card__status" [class.is-given]="grant.value.deliveryStatus === 'given'">
+              {{ grant.value.deliveryStatus === 'given' ? 'Átadva' : 'Átadásra vár' }}
+            </span>
+          </a>
+        }
+      </section>
+    }
+  }
+</main>

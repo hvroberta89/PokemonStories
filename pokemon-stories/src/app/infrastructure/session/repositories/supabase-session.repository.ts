@@ -1,6 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 
-import type { SessionCloudRepository } from '../../../application/session/ports/session-cloud-repository';
+import {
+  SessionCloudRepository,
+  SessionSyncConflictError,
+} from '../../../application/session/ports/session-cloud-repository';
 import type {
   CompletedProjectSessionDetail,
   CompletedProjectSessionSummary,
@@ -18,27 +21,31 @@ interface SessionRow {
   readonly started_at: string;
   readonly completed_at: string | null;
   readonly state: RunningSessionState;
+  readonly revision: number;
 }
 
 @Injectable()
 export class SupabaseSessionRepository implements SessionCloudRepository {
   private static readonly columns =
-    'id, project_id, adventure_id, status, started_at, completed_at, state';
+    'id, project_id, adventure_id, status, started_at, completed_at, state, revision';
   private readonly supabase = inject(SUPABASE_CLIENT);
+  private readonly revisions = new Map<string, number>();
 
   async save(state: RunningSessionState): Promise<void> {
     if (!state.projectId || !state.adventureId || !state.adventureTitle) return;
-    const { error } = await this.supabase.from('sessions').upsert({
-      id: state.sessionId,
-      project_id: state.projectId,
-      adventure_id: state.adventureId,
-      status: state.status,
-      started_at: state.startedAt,
-      completed_at: state.completedAt,
-      state,
-      updated_at: new Date().toISOString(),
+    const { data, error } = await this.supabase.rpc('save_session_snapshot', {
+      session_id: state.sessionId,
+      session_project_id: state.projectId,
+      session_adventure_id: state.adventureId,
+      session_status: state.status,
+      session_started_at: state.startedAt,
+      session_completed_at: state.completedAt,
+      session_state: state,
+      expected_revision: this.revisions.get(state.sessionId) ?? null,
     });
+    if (error?.code === '40001') throw new SessionSyncConflictError(error.message);
     if (error) throw new Error(`Could not save session: ${error.message}`);
+    this.revisions.set(state.sessionId, Number(data));
   }
 
   async findRestorable(): Promise<RunningSessionState | null> {
@@ -50,6 +57,7 @@ export class SupabaseSessionRepository implements SessionCloudRepository {
       .limit(1)
       .maybeSingle<SessionRow>();
     if (error) throw new Error(`Could not restore session: ${error.message}`);
+    if (data) this.revisions.set(data.id, data.revision);
     return data?.state ?? null;
   }
 

@@ -599,3 +599,40 @@
     transition: none;
   }
 }
+
+.session-sync {
+  display: flex;
+  align-items: center;
+  width: min(100%, var(--content-width));
+  margin: 0.15rem auto -0.2rem;
+  gap: 0.38rem;
+  color: var(--color-primary-strong);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.session-sync__dot {
+  width: 0.48rem;
+  height: 0.48rem;
+  border-radius: 50%;
+  background: #6f9636;
+  box-shadow: 0 0 0 0.2rem rgb(111 150 54 / 14%);
+}
+
+.session-sync--warning {
+  color: #8a6420;
+}
+
+.session-sync--warning .session-sync__dot {
+  background: #d49a2e;
+  box-shadow: 0 0 0 0.2rem rgb(212 154 46 / 14%);
+}
+
+.session-sync--conflict {
+  color: var(--color-danger);
+}
+
+.session-sync--conflict .session-sync__dot {
+  background: var(--color-danger);
+  box-shadow: 0 0 0 0.2rem rgb(194 57 62 / 14%);
+}

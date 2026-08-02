@@ -1,0 +1,52 @@
+<main class="reward-detail">
+  @if (store.isLoading()) {
+    <section class="reward-detail__state" aria-busy="true"><p>A jutalom előkészítése…</p></section>
+  } @else if (store.isNotFound()) {
+    <section class="reward-detail__state" role="alert"><h1>A jutalom nem található</h1><a [routerLink]="['/projects', projectId, 'collection']">Vissza a gyűjteményhez</a></section>
+  } @else if (store.hasError()) {
+    <section class="reward-detail__state" role="alert"><h1>Nem sikerült menteni a jutalmat</h1><button type="button" (click)="store.load(projectId, rewardId)">Újrapróbálás</button></section>
+  } @else if (store.reward(); as reward) {
+    <header class="reward-detail__header">
+      <a [routerLink]="['/projects', projectId, 'collection']">← Gyűjtemény</a>
+      <span>{{ store.isSaving() ? 'Mentés…' : 'Felhőbe mentve' }}</span>
+    </header>
+
+    <section class="reward-detail__hero">
+      <div class="reward-detail__icon"><ps-icon [name]="icon(reward.value.type)" [size]="64" /></div>
+      <p>Megszerzett jutalom</p>
+      <h1>{{ reward.value.label }}</h1>
+      <strong>{{ reward.value.amount }} db</strong>
+      <span [class.is-given]="reward.value.deliveryStatus === 'given'">{{ reward.value.deliveryStatus === 'given' ? 'Átadva' : 'Átadásra vár' }}</span>
+    </section>
+
+    <section class="reward-detail__panel">
+      <h2>Jutalom kezelése</h2>
+      <label>
+        <span>Címzett</span>
+        <select [value]="reward.value.recipientId ?? ''" (change)="assign($event)" [disabled]="store.isSaving()">
+          <option value="" disabled>Nincs hozzárendelve</option>
+          @for (character of store.characters(); track character.id) { <option [value]="character.id">{{ character.name }}</option> }
+        </select>
+      </label>
+      <label>
+        <span>Fizikai állapot</span>
+        <select [value]="reward.value.physicalStatus" (change)="setPhysicalStatus($event)" [disabled]="store.isSaving()">
+          <option value="not-requested">Nincs kérve</option>
+          <option value="queued">Nyomtatásra vár</option>
+          <option value="printed">Kinyomtatva</option>
+          <option value="skipped">Digitális jutalom</option>
+        </select>
+      </label>
+      @if (reward.value.deliveryStatus !== 'given') {
+        <button class="reward-detail__primary" type="button" (click)="store.markAsGiven()" [disabled]="store.isSaving()">
+          <ps-icon name="printed-check" [size]="22" /> Átadva
+        </button>
+      }
+    </section>
+
+    <section class="reward-detail__source">
+      <div><p>Forrás</p><h2>A Session, ahol megszerezték</h2></div>
+      <a [routerLink]="['/projects', projectId, 'sessions', reward.value.sessionId]">Session megnyitása →</a>
+    </section>
+  }
+</main>
