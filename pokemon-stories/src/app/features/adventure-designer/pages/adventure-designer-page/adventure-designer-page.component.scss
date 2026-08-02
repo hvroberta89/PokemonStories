@@ -245,7 +245,8 @@ select:focus {
   justify-content: flex-end;
 }
 .designer__actions button,
-.designer__readiness button {
+.designer__readiness button,
+.designer__prepare-link {
   display: inline-flex;
   min-height: 2.8rem;
   padding: 0.65rem 0.9rem;
@@ -299,7 +300,8 @@ select:focus {
 .designer__progress--complete span {
   width: 100%;
 }
-.designer__readiness button {
+.designer__readiness button,
+.designer__prepare-link {
   width: 100%;
   justify-content: center;
   background: var(--color-accent);
@@ -540,4 +542,9 @@ a:focus-visible {
   .story-grid {
     grid-template-columns: 1fr;
   }
+}
+.designer__prepare-link {
+  background: var(--gradient-gold);
+  color: var(--color-text-primary);
+  text-decoration: none;
 }

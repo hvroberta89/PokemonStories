@@ -27,6 +27,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: ':projectId/adventures/:adventureId/prepare',
+        loadComponent: () =>
+          import('./features/session-preparation/pages/session-preparation-page/session-preparation-page.component').then(
+            (module) => module.SessionPreparationPageComponent,
+          ),
+      },
+      {
         path: ':projectId/adventures/:adventureId',
         loadComponent: () =>
           import('./features/adventure-designer/pages/adventure-designer-page/adventure-designer-page.component').then(

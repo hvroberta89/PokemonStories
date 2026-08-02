@@ -281,9 +281,12 @@
           }
         </p>
         @if (adventure.status === 'ready') {
-          <button type="button" disabled>
-            <ps-icon name="success-check" [size]="22" /> Játékra kész
-          </button>
+          <a
+            class="designer__prepare-link"
+            [routerLink]="['/projects', projectId, 'adventures', adventureId, 'prepare']"
+          >
+            <ps-icon name="play-pokeball" [size]="22" /> Session előkészítése
+          </a>
         } @else if (adventure.readiness.isReady) {
           <button type="button" (click)="markAdventureReady()">
             <ps-icon name="success-check" [size]="22" /> Megjelölés játékra késznek

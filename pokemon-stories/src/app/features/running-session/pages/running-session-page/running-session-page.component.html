@@ -2,39 +2,20 @@
   <div class="running-session-page__background"></div>
 
   <header class="session-header">
-    <button
-      type="button"
-      class="session-header__menu"
-      aria-label="Menü megnyitása"
-    >
+    <button type="button" class="session-header__menu" aria-label="Menü megnyitása">
       <span aria-hidden="true">☰</span>
     </button>
 
-    <nav
-      class="session-header__breadcrumbs"
-      aria-label="Navigációs útvonal"
-    >
-      <span class="session-header__brand">
-        Pokémon kalandok
-      </span>
+    <nav class="session-header__breadcrumbs" aria-label="Navigációs útvonal">
+      <span class="session-header__brand"> Pokémon kalandok </span>
 
-      <span
-        class="session-header__separator"
-        aria-hidden="true"
-      >
-        ›
-      </span>
+      <span class="session-header__separator" aria-hidden="true"> › </span>
 
       <span class="session-header__campaign">
-        Az eltűnt Napviráglevél
+        {{ adventureTitle() }}
       </span>
 
-      <span
-        class="session-header__separator"
-        aria-hidden="true"
-      >
-        ›
-      </span>
+      <span class="session-header__separator" aria-hidden="true"> › </span>
 
       <strong class="session-header__location">
         {{ viewModel().story.locationName }}
@@ -55,53 +36,22 @@
     </button>
   </header>
 
-  <section
-    class="session-meta"
-    aria-label="Kaland állapota"
-  >
+  <section class="session-meta" aria-label="Kaland állapota">
     <span class="session-meta__type">
       <span aria-hidden="true">🌿</span>
       Felfedezés
     </span>
 
-    <div
-      class="session-meta__progress"
-      aria-label="Kaland előrehaladása"
-    >
-      <span
-        class="
-          session-meta__step
-          session-meta__step--completed
-        "
-      ></span>
+    <div class="session-meta__progress" aria-label="Kaland előrehaladása">
+      <span class="session-meta__step session-meta__step--completed"></span>
 
-      <span
-        class="
-          session-meta__line
-          session-meta__line--completed
-        "
-      ></span>
+      <span class="session-meta__line session-meta__line--completed"></span>
 
-      <span
-        class="
-          session-meta__step
-          session-meta__step--completed
-        "
-      ></span>
+      <span class="session-meta__step session-meta__step--completed"></span>
 
-      <span
-        class="
-          session-meta__line
-          session-meta__line--completed
-        "
-      ></span>
+      <span class="session-meta__line session-meta__line--completed"></span>
 
-      <span
-        class="
-          session-meta__step
-          session-meta__step--active
-        "
-      ></span>
+      <span class="session-meta__step session-meta__step--active"></span>
 
       <span class="session-meta__line"></span>
 
@@ -123,41 +73,22 @@
       aria-label="Session befejezése"
       (click)="openSessionEndSheet()"
     >
-      <ps-icon
-        name="campfire"
-        [size]="20"
-      />
+      <ps-icon name="campfire" [size]="20" />
 
-      <span>
-        Befejezés
-      </span>
+      <span> Befejezés </span>
     </button>
   </section>
 
   <section class="running-session-page__content">
-    <section
-      class="running-session-page__story"
-      aria-label="Aktuális történet"
-    >
-      <app-story-card
-        [story]="viewModel().story"
-      />
+    <section class="running-session-page__story" aria-label="Aktuális történet">
+      <app-story-card [story]="viewModel().story" />
     </section>
 
-    <section
-      class="running-session-page__goal"
-      aria-label="Aktuális cél"
-    >
-      <app-goal-card
-        [goal]="viewModel().goal"
-        (actionSelected)="openGoalDetails()"
-      />
+    <section class="running-session-page__goal" aria-label="Aktuális cél">
+      <app-goal-card [goal]="viewModel().goal" (actionSelected)="openGoalDetails()" />
     </section>
 
-    <section
-      class="running-session-page__characters"
-      aria-label="Kalandorok"
-    >
+    <section class="running-session-page__characters" aria-label="Kalandorok">
       <app-characters-strip
         [strip]="viewModel().characters"
         (characterSelected)="selectCharacter($event)"
@@ -166,10 +97,7 @@
       />
     </section>
 
-    <section
-      class="running-session-page__recent-events"
-      aria-label="Legutóbbi események"
-    >
+    <section class="running-session-page__recent-events" aria-label="Legutóbbi események">
       <app-recent-events
         [recentEvents]="viewModel().recentEvents"
         (eventSelected)="selectRecentEvent($event)"
@@ -179,18 +107,13 @@
   </section>
 
   <div class="running-session-page__dock">
-    <app-quick-dock
-      [dock]="viewModel().dock"
-      (actionSelected)="selectQuickAction($event)"
-    />
+    <app-quick-dock [dock]="viewModel().dock" (actionSelected)="selectQuickAction($event)" />
   </div>
 
   <button
     type="button"
     class="quick-action-button"
-    [attr.aria-label]="
-      viewModel().dock.quickActionLabel
-    "
+    [attr.aria-label]="viewModel().dock.quickActionLabel"
     (click)="openQuickActions()"
   >
     <span aria-hidden="true">+</span>
@@ -205,10 +128,7 @@
   }
 
   @if (isQuickNoteOpen()) {
-    <app-quick-note
-      (saved)="saveQuickNote($event)"
-      (dismissed)="closeQuickNote()"
-    />
+    <app-quick-note (saved)="saveQuickNote($event)" (dismissed)="closeQuickNote()" />
   }
 
   @if (isRewardSheetOpen()) {
@@ -220,10 +140,7 @@
   }
 
   @if (selectedRecentEvent(); as recentEvent) {
-    <app-recent-event-details
-      [event]="recentEvent"
-      (dismissed)="closeRecentEventDetails()"
-    />
+    <app-recent-event-details [event]="recentEvent" (dismissed)="closeRecentEventDetails()" />
   }
 
   @if (isRewardToastVisible()) {
@@ -231,15 +148,8 @@
       <ps-reward-toast
         icon="reward-gift"
         eyebrow="Új jutalom!"
-        [title]="
-          reward.recipientName +
-          ' jutalmat kapott'
-        "
-        [description]="
-          reward.amount +
-          ' × ' +
-          reward.rewardLabel
-        "
+        [title]="reward.recipientName + ' jutalmat kapott'"
+        [description]="reward.amount + ' × ' + reward.rewardLabel"
         (closed)="closeRewardToast()"
       />
     }
@@ -258,67 +168,41 @@
     <app-assistant-sheet
       [assistant]="assistant()"
       (closed)="closeAssistant()"
-      (actionSelected)="
-        handleAssistantAction($event)
-      "
+      (actionSelected)="handleAssistantAction($event)"
     />
   }
 
-  @if (
-    isAssistantPromptOpen() &&
-    selectedAssistantPrompt();
-    as prompt
-  ) {
+  @if (isAssistantPromptOpen() && selectedAssistantPrompt(); as prompt) {
     <app-assistant-prompt
       [prompt]="prompt"
-      [isLoading]="
-        isAssistantPromptLoading()
-      "
+      [isLoading]="isAssistantPromptLoading()"
       (closed)="closeAssistantPrompt()"
       (back)="backToAssistant()"
-      (submitted)="
-        submitAssistantPrompt($event)
-      "
+      (submitted)="submitAssistantPrompt($event)"
     />
   }
 
-  @if (
-    isAssistantResultsOpen() &&
-    assistantResults();
-    as results
-  ) {
+  @if (isAssistantResultsOpen() && assistantResults(); as results) {
     <app-assistant-results
       [results]="results"
       (closed)="closeAssistantResults()"
       (back)="backToAssistantPrompt()"
-      (selected)="
-        selectAssistantSuggestion($event)
-      "
+      (selected)="selectAssistantSuggestion($event)"
     />
   }
 
-  @if (
-    isAssistantToastVisible() &&
-    acceptedAssistantSuggestion();
-    as selection
-  ) {
+  @if (isAssistantToastVisible() && acceptedAssistantSuggestion(); as selection) {
     <app-assistant-suggestion-toast
-      [title]="
-        selection.suggestion.title
-      "
+      [title]="selection.suggestion.title"
       (closed)="closeAssistantToast()"
     />
   }
 
   @if (isSessionTimelineOpen()) {
     <app-session-timeline
-      [events]="
-        viewModel().recentEvents.events
-      "
+      [events]="viewModel().recentEvents.events"
       (closed)="closeSessionTimeline()"
-      (eventSelected)="
-        selectTimelineEvent($event)
-      "
+      (eventSelected)="selectTimelineEvent($event)"
     />
   }
 
@@ -333,18 +217,10 @@
   @if (isSessionSummaryOpen()) {
     <app-session-summary
       [summary]="sessionSummary()"
-      (closeSelected)="
-        closeSessionSummary()
-      "
-      (timelineSelected)="
-        openSummaryTimeline()
-      "
-      (rewardsSelected)="
-        openSummaryRewards()
-      "
-      (newSessionSelected)="
-        startNewSession()
-      "
+      (closeSelected)="closeSessionSummary()"
+      (timelineSelected)="openSummaryTimeline()"
+      (rewardsSelected)="openSummaryRewards()"
+      (newSessionSelected)="startNewSession()"
     />
   }
 </main>
