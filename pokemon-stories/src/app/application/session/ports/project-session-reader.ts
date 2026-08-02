@@ -42,7 +42,10 @@ export interface CompletedProjectSessionDetail extends CompletedProjectSessionSu
 }
 
 export interface ProjectSessionReader {
-  findByProject(projectId: ProjectId): ProjectSessionSummary | null;
-  listCompletedByProject(projectId: ProjectId): readonly CompletedProjectSessionSummary[];
-  findCompletedById(projectId: ProjectId, sessionId: string): CompletedProjectSessionDetail | null;
+  findByProject(projectId: ProjectId): Promise<ProjectSessionSummary | null>;
+  listCompletedByProject(projectId: ProjectId): Promise<readonly CompletedProjectSessionSummary[]>;
+  findCompletedById(
+    projectId: ProjectId,
+    sessionId: string,
+  ): Promise<CompletedProjectSessionDetail | null>;
 }

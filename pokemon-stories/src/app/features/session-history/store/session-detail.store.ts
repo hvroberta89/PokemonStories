@@ -12,8 +12,8 @@ export class SessionDetailStore {
   readonly session = this.sessionState.asReadonly();
   readonly isNotFound = computed(() => this.loadedState() && this.session() === null);
 
-  load(projectId: ProjectId, sessionId: string): void {
-    this.sessionState.set(this.reader.findCompletedById(projectId, sessionId));
+  async load(projectId: ProjectId, sessionId: string): Promise<void> {
+    this.sessionState.set(await this.reader.findCompletedById(projectId, sessionId));
     this.loadedState.set(true);
   }
 }

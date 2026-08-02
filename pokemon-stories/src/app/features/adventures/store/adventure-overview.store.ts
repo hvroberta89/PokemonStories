@@ -40,8 +40,7 @@ export class AdventureOverviewStore {
       }
       this.adventureState.set(adventure);
       this.sessionsState.set(
-        this.sessionReader
-          .listCompletedByProject(projectId)
+        (await this.sessionReader.listCompletedByProject(projectId))
           .filter((session) => session.adventureId === adventureId),
       );
       this.statusState.set('loaded');

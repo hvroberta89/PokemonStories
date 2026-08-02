@@ -16,9 +16,9 @@ describe('AdventureOverviewStore', () => {
     const adventures = new InMemoryAdventurePlanRepository();
     await adventures.save(createAdventure());
     const sessions: ProjectSessionReader = {
-      findByProject: () => null,
-      findCompletedById: () => null,
-      listCompletedByProject: (id) => [
+      findByProject: async () => null,
+      findCompletedById: async () => null,
+      listCompletedByProject: async (id) => [
         {
           sessionId: 'session-1',
           projectId: id,
@@ -51,9 +51,9 @@ describe('AdventureOverviewStore', () => {
     const adventures = new InMemoryAdventurePlanRepository();
     await adventures.save(createAdventure());
     const sessions: ProjectSessionReader = {
-      findByProject: () => null,
-      findCompletedById: () => null,
-      listCompletedByProject: () => [],
+      findByProject: async () => null,
+      findCompletedById: async () => null,
+      listCompletedByProject: async () => [],
     };
     TestBed.configureTestingModule({
       providers: [

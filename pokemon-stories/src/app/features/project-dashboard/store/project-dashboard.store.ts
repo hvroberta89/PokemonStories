@@ -44,7 +44,7 @@ export class ProjectDashboardStore {
       }
 
       const adventures = await this.adventureHandler.execute({ projectId: id });
-      const projectSession = this.sessionReader.findByProject(id);
+      const projectSession = await this.sessionReader.findByProject(id);
       const summary: ProjectSummary = {
         id: project.id,
         name: project.name,

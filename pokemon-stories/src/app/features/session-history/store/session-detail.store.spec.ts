@@ -6,11 +6,11 @@ import { projectId } from '../../../domain/project/value-objects/project-id';
 import { SessionDetailStore } from './session-detail.store';
 
 describe('SessionDetailStore', () => {
-  it('loads a completed session scoped to its project', () => {
+  it('loads a completed session scoped to its project', async () => {
     const reader: ProjectSessionReader = {
-      findByProject: () => null,
-      listCompletedByProject: () => [],
-      findCompletedById: (id, sessionId) => ({
+      findByProject: async () => null,
+      listCompletedByProject: async () => [],
+      findCompletedById: async (id, sessionId) => ({
         sessionId,
         projectId: id,
         adventureId: 'adventure-1',
@@ -31,7 +31,7 @@ describe('SessionDetailStore', () => {
     });
     const store = TestBed.inject(SessionDetailStore);
 
-    store.load(projectId('project-1'), 'session-1');
+    await store.load(projectId('project-1'), 'session-1');
 
     expect(store.session()?.sessionId).toBe('session-1');
     expect(store.session()?.sceneTitles).toHaveLength(2);

@@ -31,13 +31,13 @@ class MemoryActiveProjectStorage implements ActiveProjectStorage {
 
 class MemoryRunningSessionReader implements ProjectSessionReader {
   value: ProjectSessionSummary | null = null;
-  findByProject(id: ProjectId): ProjectSessionSummary | null {
+  async findByProject(id: ProjectId): Promise<ProjectSessionSummary | null> {
     return this.value?.projectId === id ? this.value : null;
   }
-  listCompletedByProject(): readonly [] {
+  async listCompletedByProject(): Promise<readonly []> {
     return [];
   }
-  findCompletedById(): null {
+  async findCompletedById(): Promise<null> {
     return null;
   }
 }
