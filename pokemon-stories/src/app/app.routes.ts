@@ -20,6 +20,20 @@ export const routes: Routes = [
           ),
       },
       {
+        path: ':projectId/adventures/new',
+        loadComponent: () =>
+          import('./features/adventure-designer/pages/create-adventure-page/create-adventure-page.component').then(
+            (module) => module.CreateAdventurePageComponent,
+          ),
+      },
+      {
+        path: ':projectId/adventures/:adventureId',
+        loadComponent: () =>
+          import('./features/adventure-designer/pages/adventure-designer-page/adventure-designer-page.component').then(
+            (module) => module.AdventureDesignerPageComponent,
+          ),
+      },
+      {
         path: ':projectId',
         loadComponent: () =>
           import('./features/project-dashboard/pages/project-dashboard-page/project-dashboard-page.component').then(

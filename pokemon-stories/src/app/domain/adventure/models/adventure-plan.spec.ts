@@ -1,14 +1,8 @@
-import {
-  AudienceProfile,
-  AudienceProfileProps,
-} from '../../audience/models/audience-profile';
+import { AudienceProfile, AudienceProfileProps } from '../../audience/models/audience-profile';
 import { AgeRange } from '../../audience/value-objects/age-range';
 import { projectId } from '../../project/value-objects/project-id';
 import { adventurePlanId } from '../value-objects/adventure-plan-id';
-import {
-  AdventurePlan,
-  CreateAdventurePlanProps,
-} from './adventure-plan';
+import { AdventurePlan, CreateAdventurePlanProps } from './adventure-plan';
 
 describe('AdventurePlan', () => {
   it('should create a draft adventure plan', () => {
@@ -19,12 +13,8 @@ describe('AdventurePlan', () => {
     if (result.isSuccess) {
       expect(result.value.id).toBe('adventure-1');
       expect(result.value.projectId).toBe('project-1');
-      expect(result.value.title).toBe(
-        'Az eltűnt Pokémon-tojás',
-      );
-      expect(result.value.premise).toBe(
-        'A játékosok egy eltűnt Pokémon-tojás nyomába erednek.',
-      );
+      expect(result.value.title).toBe('Az eltűnt Pokémon-tojás');
+      expect(result.value.premise).toBe('A játékosok egy eltűnt Pokémon-tojás nyomába erednek.');
       expect(result.value.status).toBe('draft');
     }
   });
@@ -39,9 +29,7 @@ describe('AdventurePlan', () => {
 
     if (result.isSuccess) {
       expect(result.value.title).toBe('Erdei rejtély');
-      expect(result.value.premise).toBe(
-        'Furcsa hangok hallatszanak az erdőből.',
-      );
+      expect(result.value.premise).toBe('Furcsa hangok hallatszanak az erdőből.');
     }
   });
 
@@ -54,9 +42,7 @@ describe('AdventurePlan', () => {
 
     if (!result.isSuccess) {
       expect(result.error.code).toBe('INVALID_ADVENTURE_PLAN');
-      expect(result.error.message).toContain(
-        'title cannot be empty',
-      );
+      expect(result.error.message).toContain('title cannot be empty');
     }
   });
 
@@ -76,9 +62,7 @@ describe('AdventurePlan', () => {
     expect(result.isSuccess).toBe(false);
 
     if (!result.isSuccess) {
-      expect(result.error.message).toContain(
-        'premise cannot be empty',
-      );
+      expect(result.error.message).toContain('premise cannot be empty');
     }
   });
 
@@ -103,9 +87,7 @@ describe('AdventurePlan', () => {
 
     if (result.isSuccess) {
       expect(result.value.audienceProfile).toBe(audienceProfile);
-      expect(
-        result.value.audienceProfile.sessionLengthMinutes,
-      ).toBe(90);
+      expect(result.value.audienceProfile.sessionLengthMinutes).toBe(90);
     }
   });
 
@@ -117,6 +99,30 @@ describe('AdventurePlan', () => {
     if (result.isSuccess) {
       expect(Object.isFrozen(result.value)).toBe(true);
     }
+  });
+
+  it('should update the foundation immutably', () => {
+    const originalResult = createAdventurePlan();
+    const audienceProfile = getAudienceProfile({ sessionLengthMinutes: 90 });
+
+    expect(originalResult.isSuccess).toBe(true);
+    if (!originalResult.isSuccess) return;
+
+    const updatedResult = originalResult.value.updateFoundation({
+      title: '  A titkos liget  ',
+      premise: '  Egy rejtett ösvény új helyre vezet.  ',
+      audienceProfile,
+    });
+
+    expect(updatedResult.isSuccess).toBe(true);
+    if (!updatedResult.isSuccess) return;
+
+    expect(updatedResult.value).not.toBe(originalResult.value);
+    expect(updatedResult.value.title).toBe('A titkos liget');
+    expect(updatedResult.value.premise).toBe('Egy rejtett ösvény új helyre vezet.');
+    expect(updatedResult.value.audienceProfile).toBe(audienceProfile);
+    expect(updatedResult.value.id).toBe(originalResult.value.id);
+    expect(originalResult.value.title).not.toBe('A titkos liget');
   });
 
   it('should belong to a project', () => {
@@ -132,23 +138,18 @@ describe('AdventurePlan', () => {
   });
 });
 
-function createAdventurePlan(
-  overrides: Partial<CreateAdventurePlanProps> = {},
-) {
+function createAdventurePlan(overrides: Partial<CreateAdventurePlanProps> = {}) {
   return AdventurePlan.create({
     id: adventurePlanId('adventure-1'),
     projectId: projectId('project-1'),
     title: 'Az eltűnt Pokémon-tojás',
-    premise:
-      'A játékosok egy eltűnt Pokémon-tojás nyomába erednek.',
+    premise: 'A játékosok egy eltűnt Pokémon-tojás nyomába erednek.',
     audienceProfile: getAudienceProfile(),
     ...overrides,
   });
 }
 
-function getAudienceProfile(
-  overrides: Partial<AudienceProfileProps> = {},
-): AudienceProfile {
+function getAudienceProfile(overrides: Partial<AudienceProfileProps> = {}): AudienceProfile {
   const ageRangeResult = AgeRange.create(7, 9);
 
   if (!ageRangeResult.isSuccess) {

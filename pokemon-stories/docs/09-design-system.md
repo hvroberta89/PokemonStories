@@ -98,6 +98,26 @@ Avoid:
 - corporate dashboards
 - overly realistic textures
 
+## Primary Visual Direction
+
+The interface uses a warm, illustrated adventure-book aesthetic designed primarily for phones.
+
+Core characteristics:
+
+- warm ivory and parchment-like surfaces;
+- deep navy typography;
+- olive green navigation and status colors;
+- golden primary highlights and celebratory actions;
+- colorful story illustrations with optimistic natural scenery;
+- large rounded cards with soft layered elevation;
+- friendly illustrated icons displayed on subtle circular or rounded plates;
+- glass-like overlays only where they preserve readability;
+- one dominant visual or action per screen.
+
+The experience should feel premium and tactile without imitating a physical object so closely that usability suffers.
+
+Dense administrative tables, flat monochrome layouts and cold corporate surfaces do not belong in the primary experience.
+
 ---
 
 # Color System

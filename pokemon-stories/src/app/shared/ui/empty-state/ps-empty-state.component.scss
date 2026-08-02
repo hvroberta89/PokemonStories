@@ -6,11 +6,12 @@
   place-items: center;
   align-content: center;
   text-align: center;
-  border: 2px dashed #d79a22;
+  border: 1px solid rgb(255 255 255 / 88%);
   border-radius: 28px;
   background:
-    radial-gradient(circle at top, rgb(255 213 106 / 22%), transparent 44%),
-    linear-gradient(180deg, #fffaf0, #fff4d7);
+    radial-gradient(circle at top, rgb(255 213 106 / 24%), transparent 44%),
+    var(--gradient-parchment);
+  box-shadow: var(--shadow-card);
 }
 
 .ps-empty-state__illustration {
@@ -18,11 +19,11 @@
   width: 126px;
   height: 126px;
   place-items: center;
-  border: 3px solid #d79a22;
+  border: 2px solid #d79a22;
   border-radius: 38px;
   background: rgb(255 255 255 / 58%);
   box-shadow:
-    0 4px 0 #6e4a12,
+    0 4px 0 #9f6c12,
     0 14px 30px rgb(23 50 77 / 16%);
   transform: rotate(-2deg);
 }
@@ -47,13 +48,15 @@
   padding: 11px 17px;
   align-items: center;
   gap: 9px;
-  border: 2px solid #17324d;
+  border: 1px solid #d6940c;
   border-radius: 15px;
-  background: linear-gradient(180deg, #ffdf82, #d79a22);
+  background: var(--gradient-gold);
   color: #17324d;
   font: inherit;
   font-weight: 900;
-  box-shadow: 0 4px 0 #17324d;
+  box-shadow:
+    0 4px 0 #b87908,
+    0 12px 24px rgb(220 148 15 / 20%);
   cursor: pointer;
 }
 

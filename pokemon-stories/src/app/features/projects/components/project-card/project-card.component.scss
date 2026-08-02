@@ -5,7 +5,7 @@
 .project-card {
   height: 100%;
   overflow: hidden;
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid rgb(255 255 255 / 78%);
   border-radius: var(--radius-large);
   background: var(--color-surface);
   box-shadow: var(--shadow-card);
@@ -26,7 +26,8 @@
   height: 9.5rem;
   overflow: hidden;
   place-items: center;
-  background: linear-gradient(155deg, #cce8ef 0%, #f8e5a6 72%);
+  background:
+    radial-gradient(circle at 78% 24%, #ffe28a 0 7%, transparent 7.5%), var(--gradient-landscape);
 }
 
 .project-card__art ps-icon {
@@ -68,6 +69,7 @@
 
 .project-card__content {
   padding: 1.25rem;
+  background: var(--gradient-parchment);
 }
 
 .project-card__heading,
@@ -150,9 +152,10 @@ button {
   gap: 0.5rem;
   border: 0;
   border-radius: var(--radius-small);
-  background: var(--color-primary);
+  background: linear-gradient(180deg, #7da64d, var(--color-primary));
   color: white;
-  font-weight: 800;
+  font-weight: 850;
+  box-shadow: 0 3px 0 var(--color-primary-strong);
   cursor: pointer;
 }
 

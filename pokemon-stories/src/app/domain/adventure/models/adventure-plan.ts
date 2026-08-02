@@ -1,10 +1,6 @@
 import { AudienceProfile } from '../../audience/models/audience-profile';
 import { ProjectId } from '../../project/value-objects/project-id';
-import {
-  failure,
-  Outcome,
-  success,
-} from '../../shared/outcome/outcome';
+import { failure, Outcome, success } from '../../shared/outcome/outcome';
 import { InvalidAdventurePlanError } from '../errors/invalid-adventure-plan.error';
 import { AdventurePlanId } from '../value-objects/adventure-plan-id';
 import { AdventurePlanStatus } from './adventure-plan-status';
@@ -12,6 +8,12 @@ import { AdventurePlanStatus } from './adventure-plan-status';
 export interface CreateAdventurePlanProps {
   readonly id: AdventurePlanId;
   readonly projectId: ProjectId;
+  readonly title: string;
+  readonly premise: string;
+  readonly audienceProfile: AudienceProfile;
+}
+
+export interface UpdateAdventureFoundationProps {
   readonly title: string;
   readonly premise: string;
   readonly audienceProfile: AudienceProfile;
@@ -51,26 +53,38 @@ export class AdventurePlan {
     }
 
     return success(
+      new AdventurePlan(props.id, props.projectId, title, premise, props.audienceProfile, 'draft'),
+    );
+  }
+
+  updateFoundation(
+    props: UpdateAdventureFoundationProps,
+  ): Outcome<AdventurePlan, InvalidAdventurePlanError> {
+    const title = props.title.trim();
+    const premise = props.premise.trim();
+    const titleValidation = AdventurePlan.validateTitle(title);
+
+    if (!titleValidation.isSuccess) return titleValidation;
+
+    const premiseValidation = AdventurePlan.validatePremise(premise);
+
+    if (!premiseValidation.isSuccess) return premiseValidation;
+
+    return success(
       new AdventurePlan(
-        props.id,
-        props.projectId,
+        this.id,
+        this.projectId,
         title,
         premise,
         props.audienceProfile,
-        'draft',
+        this.status,
       ),
     );
   }
 
-  private static validateTitle(
-    title: string,
-  ): Outcome<void, InvalidAdventurePlanError> {
+  private static validateTitle(title: string): Outcome<void, InvalidAdventurePlanError> {
     if (title.length === 0) {
-      return failure(
-        new InvalidAdventurePlanError(
-          'The adventure title cannot be empty.',
-        ),
-      );
+      return failure(new InvalidAdventurePlanError('The adventure title cannot be empty.'));
     }
 
     if (title.length > AdventurePlan.maximumTitleLength) {
@@ -84,15 +98,9 @@ export class AdventurePlan {
     return success(undefined);
   }
 
-  private static validatePremise(
-    premise: string,
-  ): Outcome<void, InvalidAdventurePlanError> {
+  private static validatePremise(premise: string): Outcome<void, InvalidAdventurePlanError> {
     if (premise.length === 0) {
-      return failure(
-        new InvalidAdventurePlanError(
-          'The adventure premise cannot be empty.',
-        ),
-      );
+      return failure(new InvalidAdventurePlanError('The adventure premise cannot be empty.'));
     }
 
     if (premise.length > AdventurePlan.maximumPremiseLength) {

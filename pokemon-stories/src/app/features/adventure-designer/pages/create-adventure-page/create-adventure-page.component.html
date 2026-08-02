@@ -1,0 +1,112 @@
+<main class="adventure-page">
+  <header>
+    <a [routerLink]="['/projects', projectId]">← Vissza a projekthez</a>
+    <span><ps-icon name="adventures-book" [size]="34" /> Kalandtervező</span>
+  </header>
+
+  <section class="adventure-page__layout">
+    <div>
+      <p class="eyebrow">Foundation</p>
+      <h1>Adj irányt az új kalandnak</h1>
+      <p class="lead">
+        Néhány mondat elég a kezdéshez. A történet részleteit később, szabad sorrendben építheted
+        tovább.
+      </p>
+
+      <form (submit)="$event.preventDefault(); submit()" novalidate>
+        <div class="field">
+          <div class="field__heading">
+            <label for="adventure-title">Kaland címe</label><span>{{ title().length }}/100</span>
+          </div>
+          <input
+            id="adventure-title"
+            maxlength="100"
+            placeholder="Például: Az elveszett Pokémon-tojás"
+            [value]="title()"
+            [attr.aria-invalid]="titleError() ? 'true' : null"
+            (input)="updateText('title', $event)"
+          />
+          @if (titleError(); as error) {
+            <p class="error" role="alert">{{ error }}</p>
+          }
+        </div>
+
+        <div class="field">
+          <div class="field__heading">
+            <label for="adventure-premise">Alapötlet</label><span>{{ premise().length }}/1000</span>
+          </div>
+          <textarea
+            id="adventure-premise"
+            maxlength="1000"
+            rows="6"
+            placeholder="Mi történik, miért fontos a játékosoknak, és mi indítja el a kalandot?"
+            [value]="premise()"
+            [attr.aria-invalid]="premiseError() ? 'true' : null"
+            (input)="updateText('premise', $event)"
+          ></textarea>
+          @if (premiseError(); as error) {
+            <p class="error" role="alert">{{ error }}</p>
+          }
+        </div>
+
+        <div class="adventure-page__options">
+          <div class="field">
+            <label for="audience">Korcsoport</label>
+            <select id="audience" [value]="audiencePresetId()" (change)="updateAudience($event)">
+              @for (preset of audiencePresets; track preset.id) {
+                <option [value]="preset.id">{{ preset.label }}</option>
+              }
+            </select>
+          </div>
+          <div class="field">
+            <label for="session-length">Várható játékidő</label>
+            <select
+              id="session-length"
+              [value]="sessionLengthMinutes()"
+              (change)="updateLength($event)"
+            >
+              <option value="30">30 perc</option>
+              <option value="45">45 perc</option>
+              <option value="60">60 perc</option>
+              <option value="90">90 perc</option>
+              <option value="120">Több Session</option>
+            </select>
+          </div>
+        </div>
+
+        @if (store.errorMessage(); as errorMessage) {
+          <div class="adventure-page__error" role="alert">
+            <ps-icon name="error-cross" [size]="28" /><span
+              >{{ errorMessage }} A beírt tartalom megmaradt.</span
+            >
+          </div>
+        }
+
+        <div class="adventure-page__actions">
+          <a [routerLink]="['/projects', projectId]">Mégse</a>
+          <button type="submit" [disabled]="store.creating()">
+            @if (store.creating()) {
+              Kaland mentése…
+            } @else {
+              <ps-icon name="add-spark" [size]="23" /> Kaland létrehozása
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <aside>
+      <div class="adventure-page__art" aria-hidden="true">
+        <ps-icon name="scene-landscape" [size]="108" />
+      </div>
+      <div class="adventure-page__aside-copy">
+        <p class="eyebrow">Te vagy a mesélő</p>
+        <h2>Ez még csak a kiindulópont</h2>
+        <p>
+          A Kalandtervező segít majd jelenetekkel, szereplőkkel és ötletekkel gazdagítani a
+          történetedet. Minden döntés nálad marad.
+        </p>
+      </div>
+    </aside>
+  </section>
+</main>

@@ -94,7 +94,7 @@ form {
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-small);
   outline: none;
-  background: var(--color-surface-strong);
+  background: rgb(255 253 247 / 94%);
   color: var(--color-text-primary);
   line-height: 1.5;
   box-shadow: 0 2px 0 rgb(113 92 55 / 7%);
@@ -161,10 +161,13 @@ form {
   gap: 0.55rem;
   border: 0;
   border-radius: var(--radius-small);
-  background: var(--color-primary);
-  color: white;
+  border: 1px solid #d7950b;
+  background: var(--gradient-gold);
+  color: var(--color-text-primary);
   font-weight: 850;
-  box-shadow: 0 3px 0 var(--color-primary-strong);
+  box-shadow:
+    0 4px 0 #b87908,
+    0 12px 24px rgb(220 148 15 / 20%);
   cursor: pointer;
 }
 .create-project-page__actions button:disabled {
@@ -184,7 +187,7 @@ form {
   position: sticky;
   top: 2rem;
   overflow: hidden;
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid rgb(255 255 255 / 80%);
   border-radius: var(--radius-large);
   background: var(--color-surface);
   box-shadow: var(--shadow-card);
@@ -194,8 +197,7 @@ form {
   min-height: 14rem;
   place-items: center;
   background:
-    radial-gradient(circle at 70% 28%, #ffe48d 0 8%, transparent 8.5%),
-    linear-gradient(155deg, #cce8ef, #e7efca 65%, #adca76);
+    radial-gradient(circle at 70% 28%, #ffe48d 0 8%, transparent 8.5%), var(--gradient-landscape);
 }
 .create-project-page__preview-art ps-icon {
   filter: drop-shadow(0 8px 5px rgb(23 36 59 / 18%));

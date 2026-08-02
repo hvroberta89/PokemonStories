@@ -53,7 +53,7 @@
             <p class="dashboard-page__eyebrow">Az első lépés</p>
             <h2 id="next-step-title">Az első kalandod itt kezdődik</h2>
             <p>Alkoss egy történetet, készítsd elő a világot, és vidd el az asztalhoz.</p>
-            <button type="button">
+            <button type="button" (click)="createAdventure()">
               <ps-icon name="add-spark" [size]="24" />
               Kaland létrehozása
             </button>
@@ -67,7 +67,7 @@
             <p class="dashboard-page__eyebrow">Folytasd az alkotást</p>
             <h2 id="next-step-title">{{ dashboard.primaryAction.adventure.title }}</h2>
             <p>{{ dashboard.primaryAction.adventure.premise }}</p>
-            <button type="button">
+            <button type="button" (click)="openAdventure(dashboard.primaryAction.adventure.id)">
               Kaland tervezésének folytatása <span aria-hidden="true">→</span>
             </button>
           </div>
@@ -83,7 +83,9 @@
               {{ dashboard.primaryAction.adventure.sessionLengthMinutes }} perces kaland, amely már
               csak az előkészítésedre vár.
             </p>
-            <button type="button">Session előkészítése <span aria-hidden="true">→</span></button>
+            <button type="button" (click)="openAdventure(dashboard.primaryAction.adventure.id)">
+              Session előkészítése <span aria-hidden="true">→</span>
+            </button>
           </div>
           <div class="dashboard-page__primary-art" aria-hidden="true">
             <ps-icon name="saved-scroll" [size]="104" />

@@ -1,0 +1,136 @@
+<main class="designer">
+  @if (store.isLoading()) {
+    <section class="designer__message" aria-busy="true">A kaland betöltése…</section>
+  } @else if (store.isNotFound()) {
+    <section class="designer__message" role="alert">
+      <ps-icon name="mystery-book" [size]="72" />
+      <h1>Ez a kaland nem található</h1>
+      <a [routerLink]="['/projects', projectId]">Vissza a projekthez</a>
+    </section>
+  } @else if (store.adventure(); as adventure) {
+    <header class="designer__header">
+      <a [routerLink]="['/projects', projectId]">← Projekt kezdőlap</a>
+      <div class="designer__save-state" aria-live="polite">
+        @if (store.isSaving()) {
+          Mentés…
+        } @else if (store.status() === 'saved') {
+          ✓ Minden módosítás mentve
+        } @else {
+          Piszkozat
+        }
+      </div>
+    </header>
+
+    <section class="designer__titlebar">
+      <div>
+        <p class="eyebrow">Kalandtervező</p>
+        <h1>{{ adventure.title }}</h1>
+      </div>
+      <span class="designer__status">Tervezés alatt</span>
+    </section>
+
+    <div class="designer__layout">
+      <nav aria-label="Kaland szakaszai">
+        <a href="#foundation" class="active"
+          ><ps-icon name="world-map" [size]="28" /><span>Foundation<small>Kész</small></span></a
+        >
+        <button type="button">
+          <ps-icon name="document-scroll" [size]="28" /><span>Történet<small>Üres</small></span>
+        </button>
+        <button type="button">
+          <ps-icon name="scene-landscape" [size]="28" /><span
+            >Jelenetek<small>Kötelező</small></span
+          >
+        </button>
+        <button type="button">
+          <ps-icon name="characters-group" [size]="28" /><span
+            >Szereplők<small>Opcionális</small></span
+          >
+        </button>
+        <button type="button">
+          <ps-icon name="reward-gift" [size]="28" /><span>Jutalmak<small>Opcionális</small></span>
+        </button>
+      </nav>
+
+      <section id="foundation" class="designer__panel">
+        <div class="designer__panel-heading">
+          <div>
+            <p class="eyebrow">Alapok</p>
+            <h2>Foundation</h2>
+            <p>Az identitás és az irány, amelyre a teljes kaland épül.</p>
+          </div>
+          <span><ps-icon name="success-check" [size]="22" /> Kötelező mezők kitöltve</span>
+        </div>
+
+        <form (submit)="$event.preventDefault(); save()" novalidate>
+          <label
+            >Cím <span>{{ title().length }}/100</span>
+            <input
+              maxlength="100"
+              [value]="title()"
+              [attr.aria-invalid]="submitted() && !title().trim() ? 'true' : null"
+              (input)="updateText('title', $event)"
+            />
+          </label>
+          @if (submitted() && !title().trim()) {
+            <p class="error" role="alert">Adj címet a kalandnak.</p>
+          }
+
+          <label
+            >Premise <span>{{ premise().length }}/1000</span>
+            <textarea
+              rows="7"
+              maxlength="1000"
+              [value]="premise()"
+              [attr.aria-invalid]="submitted() && !premise().trim() ? 'true' : null"
+              (input)="updateText('premise', $event)"
+            ></textarea>
+          </label>
+          @if (submitted() && !premise().trim()) {
+            <p class="error" role="alert">Írd le a kaland alapötletét.</p>
+          }
+
+          <div class="designer__options">
+            <label
+              >Korcsoport
+              <select [value]="audiencePresetId()" (change)="updateAudience($event)">
+                @for (preset of audiencePresets; track preset.id) {
+                  <option [value]="preset.id">{{ preset.label }}</option>
+                }
+              </select>
+            </label>
+            <label
+              >Várható játékidő
+              <select [value]="sessionLengthMinutes()" (change)="updateLength($event)">
+                <option value="30">30 perc</option>
+                <option value="45">45 perc</option>
+                <option value="60">60 perc</option>
+                <option value="90">90 perc</option>
+                <option value="120">Több Session</option>
+              </select>
+            </label>
+          </div>
+
+          @if (store.errorMessage(); as error) {
+            <div class="designer__error" role="alert">{{ error }} A szerkesztésed megmaradt.</div>
+          }
+          <div class="designer__actions">
+            <button type="submit" [disabled]="store.isSaving()">
+              <ps-icon name="saved-scroll" [size]="23" /> Módosítások mentése
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="designer__readiness">
+        <p class="eyebrow">Készenlét</p>
+        <h2>Még egy fontos lépés</h2>
+        <div class="designer__progress"><span></span></div>
+        <p>A Foundation kész. Legalább egy nyitójelenet és annak célja szükséges a játékhoz.</p>
+        <button type="button">
+          <ps-icon name="add-spark" [size]="22" /> Első jelenet létrehozása
+        </button>
+      </aside>
+    </div>
+  }
+</main>
