@@ -41,6 +41,17 @@
     </button>
   </header>
 
+  <div
+    class="session-sync"
+    [class.session-sync--warning]="syncStatus() === 'offline'"
+    [class.session-sync--conflict]="syncStatus() === 'conflict'"
+    role="status"
+    aria-live="polite"
+  >
+    <span class="session-sync__dot" aria-hidden="true"></span>
+    {{ syncStatusLabel() }}
+  </div>
+
   <section class="session-meta" aria-label="Kaland állapota">
     <span class="session-meta__type">
       <span aria-hidden="true">🌿</span>

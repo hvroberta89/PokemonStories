@@ -150,6 +150,21 @@ export class RunningSessionPageComponent {
   // ---------------------------------------------------------------------------
 
   protected readonly viewModel = this.store.viewModel;
+  protected readonly syncStatus = this.store.syncStatus;
+  protected readonly syncStatusLabel = computed(() => {
+    switch (this.syncStatus()) {
+      case 'syncing':
+        return 'Szinkronizálás…';
+      case 'synced':
+        return 'Felhőbe mentve';
+      case 'offline':
+        return 'Offline – helyben mentve';
+      case 'conflict':
+        return 'Másik eszközön módosult';
+      default:
+        return 'Helyben mentve';
+    }
+  });
 
   protected readonly quickActionMenu = signal(mockQuickActionMenu);
 
@@ -199,20 +214,12 @@ export class RunningSessionPageComponent {
 
   protected readonly rewardHistory = this.store.rewardHistory;
 
-  protected readonly rewardRecipients = signal<readonly RewardRecipient[]>([
-    {
-      id: 'lili',
-      name: 'Lili',
-    },
-    {
-      id: 'marci',
-      name: 'Marci',
-    },
-    {
-      id: 'piko',
-      name: 'Pikó',
-    },
-  ]);
+  protected readonly rewardRecipients = computed<readonly RewardRecipient[]>(() =>
+    (this.store.session().participants ?? []).map((participant) => ({
+      id: participant.id,
+      name: participant.name,
+    })),
+  );
 
   // ---------------------------------------------------------------------------
   // Assistant state
@@ -803,12 +810,20 @@ export class RunningSessionPageComponent {
   private createRewardQueueItem(reward: RewardDraft): RewardQueueItemViewModel {
     return {
       id: crypto.randomUUID(),
+      recipientId: reward.recipientId,
       recipientName: reward.recipientName,
+      rewardType: this.toGrantType(reward.rewardType),
       rewardLabel: reward.rewardLabel,
       amount: reward.amount,
       icon: 'reward-gift',
       status: 'unlocked',
     };
+  }
+
+  private toGrantType(type: RewardDraft['rewardType']): 'item' | 'quest-item' | 'achievement' {
+    if (type === 'quest-item') return 'quest-item';
+    if (type === 'xp') return 'achievement';
+    return 'item';
   }
 
   private addRecentEvent(recentEvent: RecentEventItemViewModel): void {

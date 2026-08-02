@@ -45,6 +45,20 @@ export const routes: Routes = [
           ),
       },
       {
+        path: ':projectId/collection/:rewardId',
+        loadComponent: () =>
+          import('./features/collection/pages/reward-detail-page/reward-detail-page.component').then(
+            (module) => module.RewardDetailPageComponent,
+          ),
+      },
+      {
+        path: ':projectId/collection',
+        loadComponent: () =>
+          import('./features/collection/pages/project-collection-page/project-collection-page.component').then(
+            (module) => module.ProjectCollectionPageComponent,
+          ),
+      },
+      {
         path: ':projectId/sessions/:sessionId',
         loadComponent: () =>
           import('./features/session-history/pages/session-detail-page/session-detail-page.component').then(

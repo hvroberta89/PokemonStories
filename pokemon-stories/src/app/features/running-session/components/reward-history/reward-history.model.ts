@@ -4,7 +4,9 @@ import type {
 
 export interface RewardHistoryItemViewModel {
   readonly id: string;
+  readonly recipientId?: string;
   readonly recipientName: string;
+  readonly rewardType: 'item' | 'quest-item' | 'achievement';
   readonly rewardLabel: string;
   readonly amount: number;
   readonly icon: PsIconName;
