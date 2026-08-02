@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "data:import:poke5e": "node scripts/import-poke5e-reference-data.mjs",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss}\"",
     "format": "prettier --write \"src/**/*.{ts,html,scss}\""
   },
