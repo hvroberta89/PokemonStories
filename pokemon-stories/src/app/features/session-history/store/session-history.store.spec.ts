@@ -6,11 +6,11 @@ import { projectId } from '../../../domain/project/value-objects/project-id';
 import { SessionHistoryStore } from './session-history.store';
 
 describe('SessionHistoryStore', () => {
-  it('loads completed sessions for the selected project', () => {
+  it('loads completed sessions for the selected project', async () => {
     const reader: ProjectSessionReader = {
-      findByProject: () => null,
-      findCompletedById: () => null,
-      listCompletedByProject: (id) => [
+      findByProject: async () => null,
+      findCompletedById: async () => null,
+      listCompletedByProject: async (id) => [
         {
           sessionId: 'session-1',
           projectId: id,
@@ -29,7 +29,7 @@ describe('SessionHistoryStore', () => {
     });
     const store = TestBed.inject(SessionHistoryStore);
 
-    store.load(projectId('project-1'));
+    await store.load(projectId('project-1'));
 
     expect(store.sessions()).toHaveLength(1);
     expect(store.sessions()[0]?.finalSceneTitle).toBe('Öreg híd');

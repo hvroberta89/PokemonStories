@@ -9,12 +9,15 @@ import { AdventurePlan } from '../../../domain/adventure/models/adventure-plan';
 import { Character } from '../../../domain/character/models/character';
 import { mockRunningSession } from '../mocks/running-session.mock';
 import { RunningSessionStorageService } from './running-session-storage.service';
+import { SESSION_CLOUD_REPOSITORY } from '../../../application/session/tokens/session-cloud-repository.token';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RunningSessionStore {
   private readonly storage = inject(RunningSessionStorageService);
+  private readonly cloud = inject(SESSION_CLOUD_REPOSITORY);
+  private syncTimer: ReturnType<typeof setTimeout> | undefined;
 
   private readonly state = signal<RunningSessionState>(this.createInitialState());
 
@@ -38,8 +41,11 @@ export class RunningSessionStore {
 
   constructor() {
     effect(() => {
-      this.storage.save(this.state());
+      const state = this.state();
+      this.storage.save(state);
+      this.scheduleCloudSync(state);
     });
+    void this.restoreFromCloud();
   }
 
   startFromAdventure(adventure: AdventurePlan, participants: readonly Character[] = []): void {
@@ -222,6 +228,7 @@ export class RunningSessionStore {
         completedAt: new Date().toISOString(),
       };
     });
+    void this.syncImmediately();
   }
 
   completeReview(): void {
@@ -230,6 +237,7 @@ export class RunningSessionStore {
         ? { ...currentState, status: 'completed' }
         : currentState,
     );
+    void this.syncImmediately();
   }
 
   restartSession(): void {
@@ -276,5 +284,36 @@ export class RunningSessionStore {
 
   private createEventCountLabel(eventCount: number): string {
     return `${eventCount} esemény`;
+  }
+
+  private scheduleCloudSync(state: RunningSessionState): void {
+    if (!state.projectId || !state.adventureId) return;
+    clearTimeout(this.syncTimer);
+    this.syncTimer = setTimeout(() => void this.saveToCloud(state), 800);
+  }
+
+  private async syncImmediately(): Promise<void> {
+    clearTimeout(this.syncTimer);
+    await this.saveToCloud(this.state());
+  }
+
+  private async saveToCloud(state: RunningSessionState): Promise<void> {
+    try {
+      await this.cloud.save(state);
+    } catch (error) {
+      console.error('A Session felhőszinkronja sikertelen; a helyi mentés megmaradt.', error);
+    }
+  }
+
+  private async restoreFromCloud(): Promise<void> {
+    try {
+      const remote = await this.cloud.findRestorable();
+      const local = this.storage.load();
+      if (remote && (!local?.projectId || remote.startedAt > local.startedAt)) {
+        this.state.set(remote);
+      }
+    } catch (error) {
+      console.error('A felhőben tárolt Session visszaállítása sikertelen.', error);
+    }
   }
 }

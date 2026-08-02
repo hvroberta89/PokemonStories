@@ -13,7 +13,7 @@ import { ProjectId } from '../../../domain/project/value-objects/project-id';
 @Injectable({
   providedIn: 'root',
 })
-export class RunningSessionStorageService implements ProjectSessionReader {
+export class RunningSessionStorageService {
   private readonly platformId = inject(PLATFORM_ID);
 
   private readonly storageKey = 'pokemon-stories.running-session';

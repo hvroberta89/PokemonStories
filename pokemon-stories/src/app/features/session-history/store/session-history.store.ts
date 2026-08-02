@@ -10,7 +10,7 @@ export class SessionHistoryStore {
   private readonly sessionsState = signal<readonly CompletedProjectSessionSummary[]>([]);
   readonly sessions = this.sessionsState.asReadonly();
 
-  load(projectId: ProjectId): void {
-    this.sessionsState.set(this.reader.listCompletedByProject(projectId));
+  async load(projectId: ProjectId): Promise<void> {
+    this.sessionsState.set(await this.reader.listCompletedByProject(projectId));
   }
 }

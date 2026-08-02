@@ -347,6 +347,36 @@ describe('AdventurePlan', () => {
 
     expect(updated.expectedCharacterIds).toEqual(['emma', 'marci']);
   });
+
+  it('restores a complete persisted aggregate', () => {
+    const result = AdventurePlan.restore({
+      id: adventurePlanId('adventure-1'),
+      projectId: projectId('project-1'),
+      title: 'Erdei rejtély',
+      premise: 'Egy különös nyom az erdőbe vezet.',
+      audienceProfile: getAudienceProfile(),
+      status: 'ready',
+      story: { opening: 'A csapat megérkezik az erdő széléhez.' },
+      scenes: [
+        {
+          id: adventureSceneId('scene-1'),
+          title: 'Erdei ösvény',
+          description: 'Árnyas ösvény vezet a fák közé.',
+          goal: 'Találjátok meg a nyom forrását.',
+          order: 0,
+          isOpening: true,
+        },
+      ],
+      expectedCharacterIds: [characterId('emma')],
+    });
+
+    expect(result.isSuccess).toBe(true);
+    if (result.isSuccess) {
+      expect(result.value.status).toBe('ready');
+      expect(result.value.scenes[0].id).toBe('scene-1');
+      expect(result.value.expectedCharacterIds).toEqual(['emma']);
+    }
+  });
 });
 
 function createAdventurePlan(overrides: Partial<CreateAdventurePlanProps> = {}) {

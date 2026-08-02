@@ -21,6 +21,13 @@ export interface CreateAdventurePlanProps {
   readonly audienceProfile: AudienceProfile;
 }
 
+export interface RestoreAdventurePlanProps extends CreateAdventurePlanProps {
+  readonly status: AdventurePlanStatus;
+  readonly scenes: readonly AdventureScene[];
+  readonly story: AdventureStory;
+  readonly expectedCharacterIds: readonly CharacterId[];
+}
+
 export interface UpdateAdventureFoundationProps {
   readonly title: string;
   readonly premise: string;
@@ -78,6 +85,56 @@ export class AdventurePlan {
         'draft',
         Object.freeze([]),
         Object.freeze({}),
+      ),
+    );
+  }
+
+  static restore(
+    props: RestoreAdventurePlanProps,
+  ): Outcome<AdventurePlan, InvalidAdventurePlanError> {
+    const created = this.create(props);
+    if (!created.isSuccess) return created;
+
+    const storyResult = created.value.updateStory(props.story);
+    if (!storyResult.isSuccess) return storyResult;
+    let restored = storyResult.value;
+
+    const orderedScenes = [...props.scenes].sort((first, second) => first.order - second.order);
+    if (orderedScenes.some((scene, order) => scene.order !== order)) {
+      return failure(new InvalidAdventurePlanError('Stored scene order is invalid.'));
+    }
+    if (orderedScenes.length > 0 && orderedScenes.filter((scene) => scene.isOpening).length !== 1) {
+      return failure(new InvalidAdventurePlanError('Stored opening scene is invalid.'));
+    }
+
+    for (const scene of orderedScenes) {
+      const sceneResult = restored.addScene(scene);
+      if (!sceneResult.isSuccess) return sceneResult;
+      restored = sceneResult.value;
+    }
+    const openingScene = orderedScenes.find((scene) => scene.isOpening);
+    if (openingScene) {
+      const openingResult = restored.selectOpeningScene(openingScene.id);
+      if (!openingResult.isSuccess) return openingResult;
+      restored = openingResult.value;
+    }
+    restored = restored.selectExpectedCharacters(props.expectedCharacterIds);
+
+    if ((props.status === 'ready' || props.status === 'completed') && !restored.readiness.isReady) {
+      return failure(new InvalidAdventurePlanError('Stored adventure readiness is invalid.'));
+    }
+
+    return success(
+      new AdventurePlan(
+        restored.id,
+        restored.projectId,
+        restored.title,
+        restored.premise,
+        restored.audienceProfile,
+        props.status,
+        restored.scenes,
+        restored.story,
+        restored.expectedCharacterIds,
       ),
     );
   }
