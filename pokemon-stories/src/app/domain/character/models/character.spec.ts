@@ -50,4 +50,21 @@ describe('Character', () => {
     expect(archived.goals).toContain('tojást');
     expect(archived.restore().status).toBe('active');
   });
+
+  it('restores a persisted archived character', () => {
+    const result = Character.restore({
+      id: characterId('character-1'),
+      projectId: projectId('project-1'),
+      name: 'Emma',
+      personalityNotes: 'Kíváncsi és bátor.',
+      goals: 'Pokémon-kutató szeretne lenni.',
+      status: 'archived',
+    });
+
+    expect(result.isSuccess).toBe(true);
+    if (result.isSuccess) {
+      expect(result.value.status).toBe('archived');
+      expect(result.value.personalityNotes).toContain('bátor');
+    }
+  });
 });

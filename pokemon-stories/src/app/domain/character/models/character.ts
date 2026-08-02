@@ -20,6 +20,10 @@ export interface UpdateCharacterProps {
   readonly storyNotes?: string;
 }
 
+export interface RestoreCharacterProps extends CreateCharacterProps, UpdateCharacterProps {
+  readonly status: CharacterStatus;
+}
+
 export class Character {
   private constructor(
     public readonly id: CharacterId,
@@ -58,6 +62,24 @@ export class Character {
         'active',
       ),
     );
+  }
+
+  static restore(props: RestoreCharacterProps): Outcome<Character, InvalidCharacterError> {
+    const created = this.create({
+      id: props.id,
+      projectId: props.projectId,
+      name: props.name,
+    });
+    if (!created.isSuccess) {
+      return created;
+    }
+
+    const updated = created.value.update(props);
+    if (!updated.isSuccess) {
+      return updated;
+    }
+
+    return success(props.status === 'archived' ? updated.value.archive() : updated.value);
   }
 
   update(props: UpdateCharacterProps): Outcome<Character, InvalidCharacterError> {

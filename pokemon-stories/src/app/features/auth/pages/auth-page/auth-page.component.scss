@@ -1,0 +1,222 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.auth-page {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.9fr) minmax(22rem, 1.1fr);
+  align-items: stretch;
+}
+
+.auth-page__story {
+  padding: clamp(2rem, 6vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: #fffdf3;
+  background:
+    linear-gradient(180deg, rgb(10 39 41 / 8%), rgb(10 39 41 / 78%)),
+    radial-gradient(circle at 72% 25%, #f9d66f 0 5%, transparent 6%),
+    linear-gradient(145deg, #75c5e8 0%, #8dc784 46%, #335e35 100%);
+  box-shadow: inset -1px 0 rgb(255 255 255 / 40%);
+}
+
+.auth-page__brand-mark,
+.auth-card__brand span,
+.auth-card__confirmation > span {
+  display: grid;
+  place-items: center;
+  width: 4.25rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgb(255 252 239 / 90%);
+  box-shadow: var(--shadow-card);
+}
+
+.auth-page__story p {
+  margin: 1.25rem 0 0.35rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.auth-page__story h1 {
+  max-width: 10ch;
+  margin: 0;
+  font: 800 clamp(2.5rem, 6vw, 5rem) / 0.98 var(--font-family-display);
+  text-wrap: balance;
+}
+
+.auth-page__story > span {
+  max-width: 34rem;
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.65;
+}
+
+.auth-card {
+  width: min(31rem, calc(100% - 2rem));
+  margin: auto;
+  padding: clamp(1.5rem, 5vw, 2.75rem);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-large);
+  background: var(--gradient-parchment);
+  box-shadow: var(--shadow-floating);
+}
+
+.auth-card__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 2rem;
+}
+
+.auth-card__brand span {
+  width: 3rem;
+}
+
+.auth-card__brand strong {
+  font: 800 1.15rem var(--font-family-display);
+}
+
+.auth-card__eyebrow {
+  margin: 0 0 0.4rem;
+  color: var(--color-primary-strong);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.auth-card h2 {
+  margin: 0;
+  font: 800 clamp(1.7rem, 4vw, 2.35rem) / 1.1 var(--font-family-display);
+}
+
+.auth-card__lead {
+  margin: 0.75rem 0 1.5rem;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.auth-card__tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3rem;
+  padding: 0.3rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-muted);
+}
+
+.auth-card__tabs button,
+.auth-card__confirmation button {
+  min-height: 2.7rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.auth-card__tabs button.is-active {
+  color: var(--color-primary-strong);
+  background: var(--color-surface-strong);
+  box-shadow: 0 0.2rem 0.6rem rgb(54 43 24 / 12%);
+}
+
+form {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+label {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-weight: 750;
+}
+
+input {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0 1rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-small);
+  color: var(--color-text-primary);
+  background: rgb(255 255 255 / 72%);
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgb(102 138 59 / 16%);
+}
+
+.auth-card__field-error,
+.auth-card__error {
+  color: var(--color-danger);
+}
+
+.auth-card__error {
+  margin: 0.5rem 0 0;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-small);
+  background: rgb(217 79 79 / 10%);
+}
+
+.auth-card__submit {
+  min-height: 3.4rem;
+  margin-top: 1rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-gold);
+  box-shadow: 0 0.55rem 1.2rem rgb(217 146 13 / 25%);
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.auth-card__submit:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.auth-card__notice {
+  margin: 1.5rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.auth-card__confirmation {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  text-align: center;
+}
+
+.auth-card__confirmation p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.auth-card__confirmation button {
+  padding: 0 1.25rem;
+  color: var(--color-primary-strong);
+  background: var(--color-primary-soft);
+}
+
+@media (max-width: 48rem) {
+  .auth-page {
+    grid-template-columns: 1fr;
+    padding: 1rem 0;
+  }
+
+  .auth-page__story {
+    display: none;
+  }
+}

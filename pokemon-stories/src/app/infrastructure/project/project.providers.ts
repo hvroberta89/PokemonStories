@@ -6,21 +6,21 @@ import {
 } from '../../application/project/tokens/project.tokens';
 
 import { CryptoIdGenerator } from '../shared/identifiers/crypto-id.generator';
-import { InMemoryProjectRepository } from './repositories/in-memory-project.repository';
+import { SupabaseProjectRepository } from './repositories/supabase-project.repository';
 import { ID_GENERATOR } from '../../application/project/tokens/id-generator.token';
 import { ACTIVE_PROJECT_STORAGE } from '../../application/project/tokens/active-project-storage.token';
 import { LocalActiveProjectStorage } from './storage/local-active-project.storage';
 
 export function provideProjectInfrastructure(): Provider[] {
   return [
-    InMemoryProjectRepository,
+    SupabaseProjectRepository,
     {
       provide: PROJECT_REPOSITORY,
-      useExisting: InMemoryProjectRepository,
+      useExisting: SupabaseProjectRepository,
     },
     {
       provide: PROJECT_READER,
-      useExisting: InMemoryProjectRepository,
+      useExisting: SupabaseProjectRepository,
     },
     {
       provide: ID_GENERATOR,
