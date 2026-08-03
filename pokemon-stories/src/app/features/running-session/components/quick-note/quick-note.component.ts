@@ -11,6 +11,7 @@ import {
 import {
   PsIconComponent,
 } from '../../../../shared/ui/icon/ps-icon.component';
+import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 import {
   QuickNoteDraft,
   QuickNoteType,
@@ -22,6 +23,7 @@ import {
   imports: [
     FormsModule,
     PsIconComponent,
+    PsVoiceInputDirective,
   ],
   templateUrl:
     './quick-note.component.html',

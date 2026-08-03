@@ -3,12 +3,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { projectId } from '../../../../domain/project/value-objects/project-id';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
+import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 import { NpcListStore } from '../../store/npc-list.store';
 
 @Component({
   selector: 'app-npc-list-page',
   standalone: true,
-  imports: [RouterLink, PsIconComponent],
+  imports: [RouterLink, PsIconComponent, PsVoiceInputDirective],
   templateUrl: './npc-list-page.component.html',
   styleUrl: './npc-list-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

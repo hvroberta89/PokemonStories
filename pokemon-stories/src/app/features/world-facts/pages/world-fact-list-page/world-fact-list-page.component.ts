@@ -4,13 +4,14 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { projectId } from '../../../../domain/project/value-objects/project-id';
 import type { WorldFact, WorldFactCategory } from '../../../../domain/world/models/world-fact';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
+import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 import { WorldFactListStore } from '../../store/world-fact-list.store';
 import { findPotentialWorldFactConflict } from '../../world-fact-conflict-detector';
 
 @Component({
   selector: 'app-world-fact-list-page',
   standalone: true,
-  imports: [RouterLink, PsIconComponent],
+  imports: [RouterLink, PsIconComponent, PsVoiceInputDirective],
   templateUrl: './world-fact-list-page.component.html',
   styleUrl: './world-fact-list-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

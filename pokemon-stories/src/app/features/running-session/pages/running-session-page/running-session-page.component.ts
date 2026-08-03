@@ -43,8 +43,8 @@ import type {
 } from '../../components/reward-sheet/reward-sheet.model';
 
 import { StoryCardComponent } from '../../components/story-card/story-card.component';
-
-import { mockAdventureAssistant, mockQuickActionMenu } from '../../mocks/running-session.mock';
+import type { AdventureAssistantViewModel } from '../../components/assistant-sheet/assistant-sheet.model';
+import type { QuickActionMenuVm } from '../../components/quick-action-menu/quick-action-menu.model';
 
 import { RecentEventFactory } from '../../services/recent-event.factory';
 
@@ -89,6 +89,19 @@ import { LOCATION_REPOSITORY } from '../../../../application/location/tokens/loc
 import { GenerateSessionSuggestionsHandler } from '../../../../application/assistant/queries/generate-session-suggestions/generate-session-suggestions.handler';
 import { SESSION_ASSISTANT } from '../../../../application/assistant/tokens/session-assistant.token';
 import { GenerateSessionStoryHandler } from '../../../../application/assistant/queries/generate-session-story/generate-session-story.handler';
+
+const sessionQuickActionMenu: QuickActionMenuVm = {
+  title: 'Mit szeretnél hozzáadni?',
+  subtitle: 'Válassz egy gyors műveletet a történet folytatásához.',
+  actions: [
+    { type: 'note', label: 'Jegyzet', description: 'Rögzíts valamit gyorsan.', icon: 'notes-scroll' },
+    { type: 'npc', label: 'Új szereplő', description: 'Kérj NPC-ötletet.', icon: 'new-npc' },
+    { type: 'event', label: 'Esemény', description: 'Adj új fordulatot.', icon: 'quick-event-dice' },
+    { type: 'reward', label: 'Jutalom', description: 'Oldj fel jutalmat.', icon: 'reward-gift' },
+    { type: 'ai', label: 'AI segítség', description: 'Kérj improvizációs ötleteket.', icon: 'ai-crystal' },
+    { type: 'item', label: 'Tárgy', description: 'Adj tárgyat vagy felszerelést.', icon: 'items-potion' },
+  ],
+};
 
 @Component({
   selector: 'app-running-session-page',
@@ -154,7 +167,7 @@ export class RunningSessionPageComponent {
   );
 
   protected readonly adventureTitle = computed(
-    () => this.store.session().adventureTitle ?? 'Az eltűnt Napviráglevél',
+    () => this.store.session().adventureTitle ?? 'Nincs aktív kaland',
   );
 
   protected goToNextScene(): void {
@@ -203,9 +216,30 @@ export class RunningSessionPageComponent {
     }
   });
 
-  protected readonly quickActionMenu = signal(mockQuickActionMenu);
+  protected readonly quickActionMenu = signal(sessionQuickActionMenu);
 
-  protected readonly assistant = signal(mockAdventureAssistant);
+  protected readonly assistant = computed<AdventureAssistantViewModel>(() => {
+    const session = this.store.session();
+    const viewModel = session.viewModel;
+    const latestEvent = viewModel.recentEvents.events[0];
+    return {
+      location: viewModel.story.locationName,
+      objective: viewModel.goal.title,
+      hints: latestEvent
+        ? [`Legutóbbi esemény: ${latestEvent.content}`]
+        : [viewModel.story.narration[0] ?? viewModel.goal.description],
+      likelyQuestions: [
+        `Mit látnak ${viewModel.story.locationName} környékén?`,
+        `Hogyan haladhatnak ${viewModel.goal.title.toLocaleLowerCase('hu')} felé?`,
+      ],
+      quickActions: [
+        { id: 'reward', label: 'Adj jutalmat', icon: 'reward-gift' },
+        { id: 'event', label: 'Indíts eseményt', icon: 'quick-event-dice' },
+        { id: 'clue', label: 'Új nyom', icon: 'exploration-footprints' },
+        { id: 'character', label: 'Új szereplő', icon: 'new-npc' },
+      ],
+    };
+  });
 
   // ---------------------------------------------------------------------------
   // Selection state
@@ -667,7 +701,7 @@ export class RunningSessionPageComponent {
     return {
       sessionId: session.sessionId,
 
-      adventureTitle: session.adventureTitle ?? 'Az eltűnt Napviráglevél',
+      adventureTitle: session.adventureTitle ?? 'Nincs aktív kaland',
 
       locationName: session.viewModel.story.locationName,
 

@@ -5,12 +5,13 @@ import { AudienceAgePresetId } from '../../../../domain/audience/presets/audienc
 import { audienceAgePresets } from '../../../../domain/audience/presets/audience-age-presets';
 import { projectId } from '../../../../domain/project/value-objects/project-id';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
+import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 import { CreateAdventureStore } from '../../store/create-adventure.store';
 
 @Component({
   selector: 'app-create-adventure-page',
   standalone: true,
-  imports: [RouterLink, PsIconComponent],
+  imports: [RouterLink, PsIconComponent, PsVoiceInputDirective],
   templateUrl: './create-adventure-page.component.html',
   styleUrl: './create-adventure-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

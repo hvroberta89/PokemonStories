@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { characterId } from '../../../../domain/character/value-objects/character-id';
 import { projectId } from '../../../../domain/project/value-objects/project-id';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
+import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 import { CharacterDetailStore } from '../../store/character-detail.store';
 import type { RewardType } from '../../../../domain/reward/models/reward-grant';
 import type { PsIconName } from '../../../../shared/ui/icon/ps-icon.registry';
@@ -11,7 +12,7 @@ import type { PsIconName } from '../../../../shared/ui/icon/ps-icon.registry';
 @Component({
   selector: 'app-character-detail-page',
   standalone: true,
-  imports: [RouterLink, PsIconComponent],
+  imports: [RouterLink, PsIconComponent, PsVoiceInputDirective],
   templateUrl: './character-detail-page.component.html',
   styleUrl: './character-detail-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
