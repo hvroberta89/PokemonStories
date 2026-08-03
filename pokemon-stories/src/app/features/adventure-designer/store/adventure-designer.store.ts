@@ -1,5 +1,17 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 
+import { GenerateFoundationSuggestionsHandler } from '../../../application/assistant/queries/generate-foundation-suggestions/generate-foundation-suggestions.handler';
+import { GenerateSceneSuggestionsHandler } from '../../../application/assistant/queries/generate-scene-suggestions/generate-scene-suggestions.handler';
+import { GenerateStorySuggestionsHandler } from '../../../application/assistant/queries/generate-story-suggestions/generate-story-suggestions.handler';
+import { ADVENTURE_ASSISTANT } from '../../../application/assistant/tokens/adventure-assistant.token';
+import type {
+  AdventureFoundationContext,
+  AdventureFoundationSuggestion,
+  AdventureSceneSuggestion,
+  AdventureSceneSuggestionContext,
+  AdventureStorySuggestion,
+  AdventureStorySuggestionContext,
+} from '../../../application/assistant/ports/adventure-assistant';
 import { UpdateAdventureFoundationHandler } from '../../../application/adventure/commands/update-adventure-foundation/update-adventure-foundation.handler';
 import { AddAdventureSceneHandler } from '../../../application/adventure/commands/add-adventure-scene/add-adventure-scene.handler';
 import { ManageAdventureSceneHandler } from '../../../application/adventure/commands/manage-adventure-scene/manage-adventure-scene.handler';
@@ -36,6 +48,15 @@ export interface FoundationDraft {
 
 @Injectable()
 export class AdventureDesignerStore {
+  private readonly foundationSuggestionsHandler = new GenerateFoundationSuggestionsHandler(
+    inject(ADVENTURE_ASSISTANT),
+  );
+  private readonly sceneSuggestionsHandler = new GenerateSceneSuggestionsHandler(
+    inject(ADVENTURE_ASSISTANT),
+  );
+  private readonly storySuggestionsHandler = new GenerateStorySuggestionsHandler(
+    inject(ADVENTURE_ASSISTANT),
+  );
   private readonly getHandler = new GetAdventurePlanHandler(inject(ADVENTURE_PLAN_READER));
   private readonly updateHandler = new UpdateAdventureFoundationHandler(
     inject(ADVENTURE_PLAN_REPOSITORY),
@@ -59,6 +80,12 @@ export class AdventureDesignerStore {
   private readonly preparedRewardRepository = inject(PREPARED_REWARD_REPOSITORY);
   private readonly ids = inject(ID_GENERATOR);
   private readonly preparedRewardsState = signal<readonly PreparedReward[]>([]);
+  private readonly foundationSuggestionsState = signal<readonly AdventureFoundationSuggestion[]>([]);
+  private readonly generatingFoundationSuggestionsState = signal(false);
+  private readonly sceneSuggestionsState = signal<readonly AdventureSceneSuggestion[]>([]);
+  private readonly generatingSceneSuggestionsState = signal(false);
+  private readonly storySuggestionsState = signal<readonly AdventureStorySuggestion[]>([]);
+  private readonly generatingStorySuggestionsState = signal(false);
 
   readonly status = this.statusState.asReadonly();
   readonly adventure = this.adventureState.asReadonly();
@@ -67,6 +94,58 @@ export class AdventureDesignerStore {
   readonly isSaving = computed(() => this.status() === 'saving');
   readonly isNotFound = computed(() => this.status() === 'not-found');
   readonly preparedRewards = this.preparedRewardsState.asReadonly();
+  readonly foundationSuggestions = this.foundationSuggestionsState.asReadonly();
+  readonly isGeneratingFoundationSuggestions = this.generatingFoundationSuggestionsState.asReadonly();
+  readonly sceneSuggestions = this.sceneSuggestionsState.asReadonly();
+  readonly isGeneratingSceneSuggestions = this.generatingSceneSuggestionsState.asReadonly();
+  readonly storySuggestions = this.storySuggestionsState.asReadonly();
+  readonly isGeneratingStorySuggestions = this.generatingStorySuggestionsState.asReadonly();
+
+  async generateFoundationSuggestions(context: AdventureFoundationContext): Promise<void> {
+    this.generatingFoundationSuggestionsState.set(true);
+    this.errorState.set(null);
+    try {
+      this.foundationSuggestionsState.set(await this.foundationSuggestionsHandler.execute(context));
+    } catch (error) {
+      this.errorState.set(
+        error instanceof Error ? error.message : 'Az AI javaslatokat most nem sikerült elkészíteni.',
+      );
+    } finally {
+      this.generatingFoundationSuggestionsState.set(false);
+    }
+  }
+
+  async generateSceneSuggestions(context: AdventureSceneSuggestionContext): Promise<void> {
+    this.generatingSceneSuggestionsState.set(true);
+    this.errorState.set(null);
+    try {
+      this.sceneSuggestionsState.set(await this.sceneSuggestionsHandler.execute(context));
+    } catch (error) {
+      this.errorState.set(
+        error instanceof Error ? error.message : 'Az AI javaslatokat most nem sikerült elkészíteni.',
+      );
+    } finally {
+      this.generatingSceneSuggestionsState.set(false);
+    }
+  }
+
+  clearSceneSuggestions(): void {
+    this.sceneSuggestionsState.set([]);
+  }
+
+  async generateStorySuggestions(context: AdventureStorySuggestionContext): Promise<void> {
+    this.generatingStorySuggestionsState.set(true);
+    this.errorState.set(null);
+    try {
+      this.storySuggestionsState.set(await this.storySuggestionsHandler.execute(context));
+    } catch (error) {
+      this.errorState.set(
+        error instanceof Error ? error.message : 'Az AI javaslatokat most nem sikerült elkészíteni.',
+      );
+    } finally {
+      this.generatingStorySuggestionsState.set(false);
+    }
+  }
 
   async load(projectId: ProjectId, adventureId: AdventurePlanId): Promise<void> {
     this.statusState.set('loading');
