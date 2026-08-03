@@ -89,6 +89,7 @@ import { LOCATION_REPOSITORY } from '../../../../application/location/tokens/loc
 import { GenerateSessionSuggestionsHandler } from '../../../../application/assistant/queries/generate-session-suggestions/generate-session-suggestions.handler';
 import { SESSION_ASSISTANT } from '../../../../application/assistant/tokens/session-assistant.token';
 import { GenerateSessionStoryHandler } from '../../../../application/assistant/queries/generate-session-story/generate-session-story.handler';
+import { LibrarySessionSelectionService } from '../../../game-master-library/services/library-session-selection.service';
 
 const sessionQuickActionMenu: QuickActionMenuVm = {
   title: 'Mit szeretnél hozzáadni?',
@@ -100,6 +101,7 @@ const sessionQuickActionMenu: QuickActionMenuVm = {
     { type: 'reward', label: 'Jutalom', description: 'Oldj fel jutalmat.', icon: 'reward-gift' },
     { type: 'ai', label: 'AI segítség', description: 'Kérj improvizációs ötleteket.', icon: 'ai-crystal' },
     { type: 'item', label: 'Tárgy', description: 'Adj tárgyat vagy felszerelést.', icon: 'items-potion' },
+    { type: 'library', label: 'Pokémon Library', description: 'Válassz Pokémon referenciát a jelenethez.', icon: 'play-pokeball' },
   ],
 };
 
@@ -140,6 +142,7 @@ export class RunningSessionPageComponent {
 
   private readonly store = inject(RunningSessionStore);
   private readonly router = inject(Router);
+  private readonly librarySelection = inject(LibrarySessionSelectionService);
   private readonly completeAdventure = new CompleteAdventureHandler(
     inject(ADVENTURE_PLAN_REPOSITORY),
   );
@@ -193,6 +196,13 @@ export class RunningSessionPageComponent {
       status: index < currentIndex ? 'completed' : index === currentIndex ? 'active' : 'pending',
     }));
   });
+  protected readonly currentScenePokemonName = computed(() => {
+    const session = this.store.session();
+    const referenceId = session.scenes?.[session.currentSceneIndex ?? 0]?.pokemonReferenceId;
+    return referenceId
+      ? referenceId.split('-').map((word) => word[0].toUpperCase() + word.slice(1)).join(' ')
+      : null;
+  });
 
   protected goToNextScene(): void {
     this.store.nextScene();
@@ -216,6 +226,10 @@ export class RunningSessionPageComponent {
   private elapsedTimerId: number | null = null;
 
   constructor() {
+    const selection = this.librarySelection.consume();
+    if (selection) {
+      this.store.addLibraryPokemon(selection.reference.id, selection.reference.name, selection.role);
+    }
     this.elapsedTimerId = window.setInterval(() => this.now.set(Date.now()), 1_000);
     this.destroyRef.onDestroy(() => {
       this.clearTimeouts();
@@ -470,6 +484,10 @@ export class RunningSessionPageComponent {
         return;
 
       case 'item':
+        return;
+
+      case 'library':
+        void this.router.navigate(['/library/pokemon'], { queryParams: { use: 'session' } });
         return;
     }
   }

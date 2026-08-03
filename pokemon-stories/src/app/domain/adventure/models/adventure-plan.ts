@@ -255,6 +255,8 @@ export class AdventurePlan {
     const title = props.title.trim();
     const description = props.description.trim();
     const goal = props.goal.trim();
+    const pokemonReference = this.validatePokemonReferenceId(props.pokemonReferenceId);
+    if (!pokemonReference.isSuccess) return pokemonReference;
 
     if (!title) return failure(new InvalidAdventurePlanError('The scene title cannot be empty.'));
     if (!description) {
@@ -283,6 +285,7 @@ export class AdventurePlan {
       title,
       description,
       goal,
+      pokemonReferenceId: pokemonReference.value,
       order: this.scenes.length,
       isOpening: this.scenes.length === 0,
     });
@@ -409,11 +412,14 @@ export class AdventurePlan {
 
   private validateScene(
     props: UpdateAdventureSceneProps,
-  ): Outcome<Pick<AdventureScene, 'title' | 'description' | 'goal'>, InvalidAdventurePlanError> {
+  ): Outcome<Pick<AdventureScene, 'title' | 'description' | 'goal' | 'pokemonReferenceId'>, InvalidAdventurePlanError> {
+    const pokemonReference = this.validatePokemonReferenceId(props.pokemonReferenceId);
+    if (!pokemonReference.isSuccess) return pokemonReference;
     const value = {
       title: props.title.trim(),
       description: props.description.trim(),
       goal: props.goal.trim(),
+      pokemonReferenceId: pokemonReference.value,
     };
     if (!value.title || !value.description || !value.goal) {
       return failure(
@@ -458,6 +464,17 @@ export class AdventurePlan {
   private normalizeStoryBlock(value: string | undefined): string | undefined {
     const normalized = value?.trim();
     return normalized ? normalized : undefined;
+  }
+
+  private validatePokemonReferenceId(
+    value: string | undefined,
+  ): Outcome<string | undefined, InvalidAdventurePlanError> {
+    const normalized = value?.trim();
+    if (!normalized) return success(undefined);
+    if (normalized.length > 120 || !/^[a-z0-9-]+$/i.test(normalized)) {
+      return failure(new InvalidAdventurePlanError('The Pokemon reference identifier is invalid.'));
+    }
+    return success(normalized);
   }
 
   private sceneNotFound(): Outcome<never, InvalidAdventurePlanError> {

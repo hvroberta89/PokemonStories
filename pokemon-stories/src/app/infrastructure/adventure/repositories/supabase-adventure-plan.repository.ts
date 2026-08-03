@@ -48,6 +48,7 @@ interface AdventureRow {
     readonly title: string;
     readonly description: string;
     readonly goal: string;
+    readonly pokemonReferenceId?: string;
     readonly order: number;
     readonly isOpening: boolean;
   }[];

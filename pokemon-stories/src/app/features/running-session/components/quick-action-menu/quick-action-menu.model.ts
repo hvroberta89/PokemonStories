@@ -7,7 +7,8 @@ export type QuickActionType =
   | 'event'
   | 'reward'
   | 'ai'
-  | 'item';
+  | 'item'
+  | 'library';
 
 export interface QuickActionItem {
   readonly type: QuickActionType;

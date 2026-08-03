@@ -7,4 +7,5 @@ export interface AddAdventureSceneCommand {
   readonly title: string;
   readonly description: string;
   readonly goal: string;
+  readonly pokemonReferenceId?: string;
 }

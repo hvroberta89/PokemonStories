@@ -98,6 +98,9 @@
                   <strong>{{ scene.title }}</strong>
                   <p>{{ scene.description }}</p>
                   <small>{{ scene.goal }}</small>
+                  @if (scene.pokemonReferenceId) {
+                    <small><ps-icon name="play-pokeball" [size]="18" /> Kapcsolt Pokémon: {{ pokemonName(scene.pokemonReferenceId) }}</small>
+                  }
                 </div>
                 @if (scene.isOpening) {
                   <em>Kezdés</em>

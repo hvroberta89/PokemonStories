@@ -46,4 +46,8 @@ export class AdventureOverviewPageComponent {
       this.readyError.set('A kaland állapotát most nem sikerült frissíteni.');
     }
   }
+
+  protected pokemonName(referenceId: string): string {
+    return referenceId.split('-').map((word) => word[0].toUpperCase() + word.slice(1)).join(' ');
+  }
 }

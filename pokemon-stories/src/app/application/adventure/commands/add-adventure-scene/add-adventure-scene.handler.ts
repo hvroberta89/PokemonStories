@@ -27,6 +27,7 @@ export class AddAdventureSceneHandler {
       title: command.title,
       description: command.description,
       goal: command.goal,
+      pokemonReferenceId: command.pokemonReferenceId,
     });
 
     if (!result.isSuccess) return result;

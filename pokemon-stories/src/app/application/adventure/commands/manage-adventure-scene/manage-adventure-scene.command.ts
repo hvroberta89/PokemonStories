@@ -14,6 +14,7 @@ export type ManageAdventureSceneCommand =
       readonly title: string;
       readonly description: string;
       readonly goal: string;
+      readonly pokemonReferenceId?: string;
     })
   | (SceneCommandBase & { readonly action: 'remove' })
   | (SceneCommandBase & { readonly action: 'move'; readonly direction: 'up' | 'down' })

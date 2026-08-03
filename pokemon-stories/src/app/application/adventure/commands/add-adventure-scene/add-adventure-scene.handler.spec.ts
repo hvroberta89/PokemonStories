@@ -19,12 +19,14 @@ describe('AddAdventureSceneHandler', () => {
       title: 'Virágos tisztás',
       description: 'Egy összetört fészek hever az öreg fa alatt.',
       goal: 'Találjátok meg az eltűnt tojást.',
+      pokemonReferenceId: 'pikachu',
     });
 
     expect(result.isSuccess).toBe(true);
     const stored = await repository.findById(adventurePlanId('adventure-1'));
     expect(stored?.scenes[0].id).toBe('scene-1');
     expect(stored?.scenes[0].isOpening).toBe(true);
+    expect(stored?.scenes[0].pokemonReferenceId).toBe('pikachu');
   });
 });
 

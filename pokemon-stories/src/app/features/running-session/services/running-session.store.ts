@@ -112,6 +112,7 @@ export class RunningSessionStore {
         title: scene.title,
         description: scene.description,
         goal: scene.goal,
+        pokemonReferenceId: scene.pokemonReferenceId,
       })),
       currentSceneIndex: adventure.scenes.indexOf(openingScene),
       participants: participants.map((character) => ({ id: character.id, name: character.name })),
@@ -189,6 +190,17 @@ export class RunningSessionStore {
           },
         },
       };
+    });
+  }
+
+  addLibraryPokemon(referenceId: string, name: string, role: string): void {
+    this.addRecentEvent({
+      id: crypto.randomUUID(),
+      type: 'encounter',
+      title: `${name} bekerült a jelenetbe`,
+      content: `${role}: Library referencia (${referenceId}).`,
+      timeLabel: 'Most',
+      icon: 'play-pokeball',
     });
   }
 
