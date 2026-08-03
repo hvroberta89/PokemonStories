@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { adventurePlanId } from '../../../../domain/adventure/value-objects/adventure-plan-id';
@@ -22,6 +22,15 @@ export class AdventureOverviewPageComponent {
     this.route.snapshot.paramMap.get('adventureId') ?? '',
   );
   protected readonly store = inject(AdventureOverviewStore);
+  protected readonly readyError = signal<string | null>(null);
+  protected readonly readinessHint = computed(() => {
+    const adventure = this.store.adventure();
+    if (!adventure || adventure.readiness.isReady) return null;
+    if (adventure.readiness.missingRequired.includes('opening-scene')) {
+      return 'Adj hozzá egy nyitójelenetet, hogy elindulhasson a történet.';
+    }
+    return 'Adj meg egy egyértelmű célt a nyitójelenethez.';
+  });
 
   constructor() {
     void this.store.load(this.projectId, this.adventureId);
@@ -29,5 +38,12 @@ export class AdventureOverviewPageComponent {
 
   protected retry(): void {
     void this.store.load(this.projectId, this.adventureId);
+  }
+
+  protected async markReady(): Promise<void> {
+    this.readyError.set(null);
+    if (!(await this.store.markReady(this.projectId, this.adventureId))) {
+      this.readyError.set('A kaland állapotát most nem sikerült frissíteni.');
+    }
   }
 }

@@ -15,6 +15,7 @@ import { RewardGrant } from '../../../domain/reward/models/reward-grant';
 import { projectId } from '../../../domain/project/value-objects/project-id';
 import type { PreparedReward } from '../../../domain/reward/models/prepared-reward';
 import { PREPARED_REWARD_REPOSITORY } from '../../../application/reward/tokens/prepared-reward.tokens';
+import { Session } from '../../../domain/session/models/session';
 
 export type SessionSyncStatus = 'local-only' | 'syncing' | 'synced' | 'offline' | 'conflict';
 
@@ -92,9 +93,17 @@ export class RunningSessionStore {
       participants,
     });
 
+    const session = Session.start({
+      id: crypto.randomUUID(),
+      projectId: adventure.projectId,
+      adventureId: adventure.id,
+      startedAt: new Date().toISOString(),
+    });
+    if (!session.isSuccess) throw session.error;
+
     this.state.set({
       schemaVersion: 2,
-      sessionId: crypto.randomUUID(),
+      sessionId: session.value.id,
       projectId: adventure.projectId,
       adventureId: adventure.id,
       adventureTitle: adventure.title,
@@ -107,9 +116,9 @@ export class RunningSessionStore {
       currentSceneIndex: adventure.scenes.indexOf(openingScene),
       participants: participants.map((character) => ({ id: character.id, name: character.name })),
       preparedRewards: preparedRewards.map((reward) => reward.value),
-      status: 'running',
-      startedAt: new Date().toISOString(),
-      completedAt: null,
+      status: session.value.status,
+      startedAt: session.value.startedAt,
+      completedAt: session.value.completedAt,
       viewModel,
       rewardQueue: [],
       rewardHistory: [],
@@ -235,28 +244,39 @@ export class RunningSessionStore {
     });
   }
 
-  completeSession(): void {
+  completeSession(): boolean {
+    let completed = false;
     this.state.update((currentState) => {
-      if (currentState.status !== 'running') {
+      const session = this.restoreSession(currentState);
+      if (!session) {
         return currentState;
       }
+      const result = session.finishGameplay(new Date().toISOString());
+      if (!result.isSuccess) return currentState;
+      completed = true;
 
       return {
         ...currentState,
-        status: 'review-pending',
-        completedAt: new Date().toISOString(),
+        status: result.value.status,
+        completedAt: result.value.completedAt,
       };
     });
-    void this.syncImmediately();
+    if (completed) void this.syncImmediately();
+    return completed;
   }
 
-  completeReview(): void {
-    this.state.update((currentState) =>
-      currentState.status === 'review-pending'
-        ? { ...currentState, status: 'completed' }
-        : currentState,
-    );
-    void this.syncImmediately();
+  completeReview(): boolean {
+    let completed = false;
+    this.state.update((currentState) => {
+      const session = this.restoreSession(currentState);
+      if (!session) return currentState;
+      const result = session.completeReview();
+      if (!result.isSuccess) return currentState;
+      completed = true;
+      return { ...currentState, status: result.value.status, completedAt: result.value.completedAt };
+    });
+    if (completed) void this.syncImmediately();
+    return completed;
   }
 
   saveSessionStory(story: string | undefined): void {
@@ -291,6 +311,19 @@ export class RunningSessionStore {
     }
 
     return this.createDefaultState();
+  }
+
+  private restoreSession(state: RunningSessionState): Session | null {
+    if (!state.projectId || !state.adventureId) return null;
+    const session = Session.restore({
+      id: state.sessionId,
+      projectId: state.projectId,
+      adventureId: state.adventureId,
+      status: state.status,
+      startedAt: state.startedAt,
+      completedAt: state.completedAt,
+    });
+    return session.isSuccess ? session.value : null;
   }
 
   private createDefaultState(): RunningSessionState {

@@ -702,6 +702,7 @@ export class RunningSessionPageComponent {
 
     givenRewardCount: this.store.givenRewardCount(),
   }));
+  protected readonly reviewError = signal<string | null>(null);
 
   protected openSessionEndSheet(): void {
     this.isSessionEndSheetOpen.set(true);
@@ -712,7 +713,7 @@ export class RunningSessionPageComponent {
   }
 
   protected completeSession(): void {
-    this.store.completeSession();
+    if (!this.store.completeSession()) return;
 
     this.closeSessionEndSheet();
 
@@ -765,6 +766,7 @@ export class RunningSessionPageComponent {
   }
 
   protected async completeSessionReview(decision: AdventureReviewDecision): Promise<void> {
+    this.reviewError.set(null);
     const session = this.store.session();
     if (decision === 'complete-adventure') {
       if (!session.projectId || !session.adventureId) return;
@@ -772,9 +774,15 @@ export class RunningSessionPageComponent {
         projectId: projectId(session.projectId),
         adventurePlanId: adventurePlanId(session.adventureId),
       });
-      if (!result.isSuccess) return;
+      if (!result.isSuccess) {
+        this.reviewError.set('A kaland lezárása nem sikerült. Próbáld meg újra.');
+        return;
+      }
     }
-    this.store.completeReview();
+    if (!this.store.completeReview()) {
+      this.reviewError.set('A Session lezárása nem sikerült. Próbáld meg újra.');
+      return;
+    }
     this.isSessionSummaryOpen.set(false);
     this.leaveSession();
   }

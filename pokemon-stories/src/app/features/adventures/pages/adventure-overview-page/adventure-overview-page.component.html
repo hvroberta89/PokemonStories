@@ -57,9 +57,17 @@
           ><span>{{ adventure.scenes.length }} jelenet</span>
         </div>
         @if (adventure.status === 'draft') {
-          <a [routerLink]="['/projects', projectId, 'adventures', adventureId, 'design']"
-            ><ps-icon name="edit-quill" [size]="22" /> Tervezés folytatása</a
-          >
+          @if (adventure.readiness.isReady) {
+            <button type="button" class="overview-hero__action" (click)="markReady()">
+              <ps-icon name="success-check" [size]="22" /> Játékra késznek jelölöm
+            </button>
+          } @else {
+            <p class="overview-hero__hint"><ps-icon name="pending-hourglass" [size]="20" /> {{ readinessHint() }}</p>
+            <a [routerLink]="['/projects', projectId, 'adventures', adventureId, 'design']"
+              ><ps-icon name="edit-quill" [size]="22" /> Tervezés folytatása</a
+            >
+          }
+          @if (readyError(); as error) { <p class="overview-hero__error" role="alert">{{ error }}</p> }
         } @else if (adventure.status === 'ready') {
           <a [routerLink]="['/projects', projectId, 'adventures', adventureId, 'prepare']"
             ><ps-icon name="play-pokeball" [size]="22" /> Session előkészítése</a

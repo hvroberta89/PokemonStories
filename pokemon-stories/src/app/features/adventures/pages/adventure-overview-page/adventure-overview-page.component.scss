@@ -87,7 +87,8 @@
   font-size: 0.8rem;
   font-weight: 750;
 }
-.overview-hero__content > a {
+.overview-hero__content > a,
+.overview-hero__action {
   display: inline-flex;
   gap: 0.5rem;
   align-items: center;
@@ -99,6 +100,21 @@
   text-decoration: none;
   box-shadow: 0 4px 0 #b87908;
 }
+.overview-hero__action {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+.overview-hero__hint,
+.overview-hero__error {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0 0 1rem;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+}
+.overview-hero__error { color: var(--color-error); }
 .overview-page__layout {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(18rem, 0.75fr);

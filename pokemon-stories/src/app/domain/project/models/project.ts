@@ -13,6 +13,11 @@ export interface RestoreProjectProps extends CreateProjectProps {
   readonly status: ProjectStatus;
 }
 
+export interface UpdateProjectProps {
+  readonly name: string;
+  readonly description?: string;
+}
+
 export class Project {
   private static readonly maximumNameLength = 80;
   private static readonly maximumDescriptionLength = 500;
@@ -55,6 +60,15 @@ export class Project {
 
   restoreFromArchive(): Project {
     return new Project(this.id, this.name, this.description, 'active');
+  }
+
+  update(props: UpdateProjectProps): Outcome<Project, InvalidProjectError> {
+    return Project.restore({
+      id: this.id,
+      name: props.name,
+      description: props.description,
+      status: this.status,
+    });
   }
 
   private static normalizeDescription(description: string | undefined): string | undefined {

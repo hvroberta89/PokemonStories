@@ -10,6 +10,7 @@ import { ActiveProjectStore } from '../../projects/store/active-project.store';
 import { ProjectDashboardViewModel } from '../models/project-dashboard-view.model';
 import { PROJECT_SESSION_READER } from '../../../application/session/tokens/project-session.tokens';
 import { ArchiveProjectHandler } from '../../../application/project/commands/archive-project/archive-project.handler';
+import { UpdateProjectHandler } from '../../../application/project/commands/update-project/update-project.handler';
 
 type DashboardLoadingStatus = 'idle' | 'loading' | 'loaded' | 'not-found' | 'error';
 
@@ -22,6 +23,7 @@ export class ProjectDashboardStore {
     this.sessionReader,
     inject(PROJECT_REPOSITORY),
   );
+  private readonly updateProject = new UpdateProjectHandler(inject(PROJECT_REPOSITORY));
   private readonly adventureHandler = new ListAdventurePlansByProjectHandler(
     inject(ADVENTURE_PLAN_READER),
   );
@@ -41,6 +43,33 @@ export class ProjectDashboardStore {
       if (!project) return 'error';
       const result = await this.archiveProject.execute(project);
       return result.isSuccess ? 'archived' : 'active-session';
+    } catch {
+      return 'error';
+    }
+  }
+
+  async update(
+    rawProjectId: string,
+    name: string,
+    description: string,
+  ): Promise<'saved' | 'invalid' | 'error'> {
+    try {
+      const project = await this.projectReader.findById(projectId(rawProjectId));
+      if (!project) return 'error';
+      const result = await this.updateProject.execute({ project, name, description });
+      if (!result.isSuccess) return 'invalid';
+      const dashboard = this.dashboard();
+      if (dashboard) {
+        this.dashboardState.set({
+          ...dashboard,
+          project: {
+            ...dashboard.project,
+            name: result.value.name,
+            description: result.value.description,
+          },
+        });
+      }
+      return 'saved';
     } catch {
       return 'error';
     }
