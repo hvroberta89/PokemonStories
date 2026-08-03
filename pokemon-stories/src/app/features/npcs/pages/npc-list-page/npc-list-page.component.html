@@ -96,18 +96,21 @@
       </header>
       <label
         >Név<input
+          psVoiceInput
           type="text"
           maxlength="100"
           [value]="name()"
           (input)="update('name', $event)" /></label
       ><label
         >Szerep<input
+          psVoiceInput
           type="text"
           maxlength="160"
           [value]="role()"
           (input)="update('role', $event)" /></label
       ><label
         >Rövid leírás<textarea
+          psVoiceInput
           rows="4"
           maxlength="500"
           [value]="description()"

@@ -7,7 +7,6 @@ import type { RunningSessionState } from '../models/running-session-state.model'
 import type { RunningSessionViewModel } from '../models/running-session-view.model';
 import { AdventurePlan } from '../../../domain/adventure/models/adventure-plan';
 import { Character } from '../../../domain/character/models/character';
-import { mockRunningSession } from '../mocks/running-session.mock';
 import { RunningSessionStorageService } from './running-session-storage.service';
 import { SESSION_CLOUD_REPOSITORY } from '../../../application/session/tokens/session-cloud-repository.token';
 import { SessionSyncConflictError } from '../../../application/session/ports/session-cloud-repository';
@@ -83,44 +82,15 @@ export class RunningSessionStore {
       throw new Error('Only a ready adventure with an opening scene can start a session.');
     }
 
-    const defaults = structuredClone(mockRunningSession);
-    const viewModel: RunningSessionViewModel = {
-      ...defaults,
-      story: {
-        ...defaults.story,
-        locationName: openingScene.title,
-        narration: [openingScene.description],
-        currentPage: 1,
-        pageCount: adventure.scenes.length,
-      },
-      goal: {
-        ...defaults.goal,
-        title: openingScene.goal,
-        description: adventure.premise,
-        progressLabel: 'A kaland most kezdődik',
-      },
-      recentEvents: {
-        ...defaults.recentEvents,
-        newEventsLabel: 'Még nincs esemény',
-        events: [],
-      },
-      characters: {
-        ...defaults.characters,
-        countLabel: `${participants.length} játékos`,
-        characters: participants.map((character) => ({
-          id: character.id,
-          name: character.name,
-          initials: character.name
-            .split(/\s+/)
-            .slice(0, 2)
-            .map((part) => part[0])
-            .join('')
-            .toLocaleUpperCase('hu'),
-          status: 'ready',
-          statusLabel: 'Készen áll',
-        })),
-      },
-    };
+    const viewModel = this.createViewModel({
+      locationName: openingScene.title,
+      narration: openingScene.description,
+      goal: openingScene.goal,
+      goalDescription: adventure.premise,
+      currentPage: 1,
+      pageCount: adventure.scenes.length,
+      participants,
+    });
 
     this.state.set({
       schemaVersion: 2,
@@ -325,7 +295,15 @@ export class RunningSessionStore {
       status: 'running',
       startedAt: new Date().toISOString(),
       completedAt: null,
-      viewModel: structuredClone(mockRunningSession),
+      viewModel: this.createViewModel({
+        locationName: 'Nincs aktív jelenet',
+        narration: 'Indíts egy előkészített kalandot a Session megkezdéséhez.',
+        goal: 'Válassz egy kalandot',
+        goalDescription: 'A Session előkészítésénél választhatsz játékra kész kalandot.',
+        currentPage: 0,
+        pageCount: 0,
+        participants: [],
+      }),
       rewardQueue: [],
       rewardHistory: [],
     };
@@ -333,6 +311,74 @@ export class RunningSessionStore {
 
   private createEventCountLabel(eventCount: number): string {
     return `${eventCount} esemény`;
+  }
+
+  private createViewModel(input: {
+    readonly locationName: string;
+    readonly narration: string;
+    readonly goal: string;
+    readonly goalDescription: string;
+    readonly currentPage: number;
+    readonly pageCount: number;
+    readonly participants: readonly Character[];
+  }): RunningSessionViewModel {
+    return {
+      story: {
+        locationName: input.locationName,
+        locationIcon: 'environment-forest',
+        narration: [input.narration],
+        imageUrl: '/images/story-cards/flower-meadow.png',
+        imageAlt: `${input.locationName} illusztrációja`,
+        mood: 'exploration',
+        currentPage: input.currentPage,
+        pageCount: input.pageCount,
+      },
+      goal: {
+        title: input.goal,
+        description: input.goalDescription,
+        status: 'active',
+        progressLabel:
+          input.currentPage > 0 ? `${input.currentPage}. jelenet` : 'Session előkészítésre vár',
+        actionLabel: 'Az aktuális cél részletei',
+      },
+      characters: {
+        title: 'Kalandorok',
+        countLabel: `${input.participants.length} játékos`,
+        addLabel: 'Játékos hozzáadása',
+        characters: input.participants.map((character) => ({
+          id: character.id,
+          name: character.name,
+          initials: character.name
+            .split(/\s+/)
+            .slice(0, 2)
+            .map((part) => part[0])
+            .join('')
+            .toLocaleUpperCase('hu'),
+          status: 'ready',
+          statusLabel: 'Készen áll',
+        })),
+      },
+      recentEvents: {
+        title: 'Legutóbbi események',
+        newEventsLabel: 'Még nincs esemény',
+        detailsLabel: 'Legutóbbi események megnyitása',
+        events: [],
+      },
+      assistant: {
+        title: 'Mi történjen most?',
+        description: 'Kérj gyors segítséget az aktuális jelenethez.',
+        options: [],
+      },
+      dock: {
+        quickActionLabel: 'Gyors művelet',
+        items: [
+          { action: 'notes', label: 'Jegyzetek', icon: 'notes-scroll' },
+          { action: 'rewards', label: 'Jutalmak', icon: 'reward-gift' },
+          { action: 'assistant', label: 'AI segítő', icon: 'ai-crystal' },
+          { action: 'inventory', label: 'Várólista', icon: 'print-queue' },
+        ],
+      },
+    };
   }
 
   private scheduleCloudSync(state: RunningSessionState): void {

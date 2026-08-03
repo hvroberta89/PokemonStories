@@ -4,12 +4,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { projectId } from '../../../../domain/project/value-objects/project-id';
 import type { Character } from '../../../../domain/character/models/character';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
+import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 import { CharacterListStore } from '../../store/character-list.store';
 
 @Component({
   selector: 'app-character-list-page',
   standalone: true,
-  imports: [RouterLink, PsIconComponent],
+  imports: [RouterLink, PsIconComponent, PsVoiceInputDirective],
   templateUrl: './character-list-page.component.html',
   styleUrl: './character-list-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

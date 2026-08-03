@@ -117,13 +117,14 @@
         <button type="button" aria-label="Bezárás" (click)="dialogOpen.set(false)">×</button>
       </header>
       <label
-        >Név <input type="text" maxlength="80" [value]="name()" (input)="update('name', $event)" />
+        >Név <input psVoiceInput type="text" maxlength="80" [value]="name()" (input)="update('name', $event)" />
         @if (submitted() && !name().trim()) {
           <small>Adj nevet a karakternek.</small>
         }</label
       ><label
         >Rövid leírás
         <textarea
+          psVoiceInput
           rows="4"
           maxlength="300"
           [value]="description()"

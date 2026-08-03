@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 
 import { PsIconComponent } from '../../../../shared/ui/public-api';
+import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 
 import type { SessionSummaryViewModel } from './session-summary.model';
 
@@ -33,7 +34,7 @@ export interface LocationApprovalDraft {
 @Component({
   selector: 'app-session-summary',
   standalone: true,
-  imports: [PsIconComponent],
+  imports: [PsIconComponent, PsVoiceInputDirective],
   templateUrl: './session-summary.component.html',
   styleUrl: './session-summary.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

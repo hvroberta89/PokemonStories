@@ -8,13 +8,14 @@ import { AdventureSceneId } from '../../../../domain/adventure/value-objects/adv
 import { AdventureScene } from '../../../../domain/adventure/models/adventure-scene';
 import { projectId } from '../../../../domain/project/value-objects/project-id';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
+import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 import { AdventureDesignerStore } from '../../store/adventure-designer.store';
 import type { RewardType } from '../../../../domain/reward/models/reward-grant';
 
 @Component({
   selector: 'app-adventure-designer-page',
   standalone: true,
-  imports: [RouterLink, PsIconComponent],
+  imports: [RouterLink, PsIconComponent, PsVoiceInputDirective],
   templateUrl: './adventure-designer-page.component.html',
   styleUrl: './adventure-designer-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

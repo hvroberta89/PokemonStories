@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, input, output, signal } f
 import { FormsModule } from '@angular/forms';
 
 import { PsIconComponent } from '../../../../shared/ui/public-api';
+import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 
 import type { AssistantPromptDraft, AssistantPromptViewModel } from './assistant-prompt.model';
 
 @Component({
   selector: 'app-assistant-prompt',
   standalone: true,
-  imports: [FormsModule, PsIconComponent],
+  imports: [FormsModule, PsIconComponent, PsVoiceInputDirective],
   templateUrl: './assistant-prompt.component.html',
   styleUrl: './assistant-prompt.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

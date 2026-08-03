@@ -44,13 +44,14 @@
         <div class="editor__grid">
           <label
             >Név
-            <input type="text" maxlength="80" [value]="name()" (input)="update('name', $event)" />
+            <input psVoiceInput type="text" maxlength="80" [value]="name()" (input)="update('name', $event)" />
             @if (submitted() && !name().trim()) {
               <small>Adj nevet a karakternek.</small>
             }</label
           ><label
             >Rövid leírás
             <textarea
+              psVoiceInput
               rows="3"
               maxlength="300"
               [value]="description()"
@@ -59,6 +60,7 @@
           ><label
             >Személyiség
             <textarea
+              psVoiceInput
               rows="5"
               maxlength="1000"
               [value]="personalityNotes()"
@@ -67,6 +69,7 @@
           ><label
             >Célok
             <textarea
+              psVoiceInput
               rows="5"
               maxlength="1000"
               [value]="goals()"
@@ -75,6 +78,7 @@
           ><label class="wide"
             >Mesélői jegyzetek
             <textarea
+              psVoiceInput
               rows="5"
               maxlength="1000"
               [value]="storyNotes()"

@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { Router, RouterLink } from '@angular/router';
 
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
+import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 import { ProjectsStore } from '../../store/projects.store';
 
 @Component({
   selector: 'app-create-project-page',
   standalone: true,
-  imports: [PsIconComponent, RouterLink],
+  imports: [PsIconComponent, RouterLink, PsVoiceInputDirective],
   templateUrl: './create-project-page.component.html',
   styleUrl: './create-project-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
