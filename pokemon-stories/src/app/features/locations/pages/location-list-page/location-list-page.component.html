@@ -49,6 +49,31 @@
                   {{ location.value.description || 'Ennek a helyszínnek még nincs rövid leírása.' }}
                 </p>
               </div>
+              <button type="button" [disabled]="store.saving()" (click)="store.archive(location)">
+                Archiválás
+              </button>
+            </article>
+          }
+        </div>
+      </section>
+    }
+    @if (store.archivedLocations().length) {
+      <section class="location-section location-section--archived">
+        <header>
+          <p>Megőrzött előzmények</p>
+          <h2>Archivált Helyszínek</h2>
+        </header>
+        <div class="location-list">
+          @for (location of store.archivedLocations(); track location.value.id) {
+            <article>
+              <ps-icon name="archive-box" [size]="30" />
+              <div>
+                <span>{{ location.value.type }}</span>
+                <h2>{{ location.value.name }}</h2>
+                <p>
+                  {{ location.value.description || 'Megőrzött helyszín a kampány történetéből.' }}
+                </p>
+              </div>
             </article>
           }
         </div>

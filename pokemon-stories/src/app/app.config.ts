@@ -14,6 +14,7 @@ import { provideSessionInfrastructure } from './infrastructure/session/session.p
 import { provideRewardInfrastructure } from './infrastructure/reward/reward.providers';
 import { provideWorldInfrastructure } from './infrastructure/world/world.providers';
 import { provideLocationInfrastructure } from './infrastructure/location/location.providers';
+import { provideNpcInfrastructure } from './infrastructure/npc/npc.providers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,5 +29,6 @@ export const appConfig: ApplicationConfig = {
     ...provideRewardInfrastructure(),
     ...provideWorldInfrastructure(),
     ...provideLocationInfrastructure(),
+    ...provideNpcInfrastructure(),
   ],
 };

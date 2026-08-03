@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { projectId } from '../../../../domain/project/value-objects/project-id';
+import type { Character } from '../../../../domain/character/models/character';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
 import { CharacterListStore } from '../../store/character-list.store';
 
@@ -22,6 +23,7 @@ export class CharacterListPageComponent {
   protected readonly name = signal('');
   protected readonly description = signal('');
   protected readonly submitted = signal(false);
+  protected readonly characterToArchive = signal<Character | null>(null);
 
   constructor() {
     void this.store.load(this.projectId);
@@ -50,5 +52,10 @@ export class CharacterListPageComponent {
       .map((part) => part[0])
       .join('')
       .toLocaleUpperCase('hu');
+  }
+
+  protected async archiveCharacter(): Promise<void> {
+    const character = this.characterToArchive();
+    if (character && (await this.store.archive(character))) this.characterToArchive.set(null);
   }
 }

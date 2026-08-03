@@ -1,5 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 
+import { ArchiveCharacterHandler } from '../../../application/character/commands/archive-character/archive-character.handler';
 import { CreateCharacterHandler } from '../../../application/character/commands/create-character/create-character.handler';
 import { ListCharactersHandler } from '../../../application/character/queries/list-characters/list-characters.handler';
 import {
@@ -8,6 +9,7 @@ import {
 } from '../../../application/character/tokens/character.tokens';
 import { ID_GENERATOR } from '../../../application/project/tokens/id-generator.token';
 import { PROJECT_READER } from '../../../application/project/tokens/project.tokens';
+import { PROJECT_SESSION_READER } from '../../../application/session/tokens/project-session.tokens';
 import { Character } from '../../../domain/character/models/character';
 import { ProjectId } from '../../../domain/project/value-objects/project-id';
 
@@ -21,6 +23,10 @@ export class CharacterListStore {
     async (id) => Boolean(await this.projectReader.findById(id)),
     inject(CHARACTER_REPOSITORY),
     inject(ID_GENERATOR),
+  );
+  private readonly archiveHandler = new ArchiveCharacterHandler(
+    inject(PROJECT_SESSION_READER),
+    inject(CHARACTER_REPOSITORY),
   );
   private readonly statusState = signal<CharacterListStatus>('idle');
   private readonly projectNameState = signal('');
@@ -76,6 +82,27 @@ export class CharacterListStore {
       return true;
     } catch {
       this.errorState.set('A karaktert most nem sikerült elmenteni.');
+      return false;
+    } finally {
+      this.savingState.set(false);
+    }
+  }
+
+  async archive(character: Character): Promise<boolean> {
+    this.savingState.set(true);
+    this.errorState.set(null);
+    try {
+      const result = await this.archiveHandler.execute(character);
+      if (!result.isSuccess) {
+        this.errorState.set('Aktív session közben nem archiválható karakter.');
+        return false;
+      }
+      this.charactersState.update((characters) =>
+        characters.map((item) => (item.id === character.id ? result.value : item)),
+      );
+      return true;
+    } catch {
+      this.errorState.set('A karaktert most nem sikerült archiválni.');
       return false;
     } finally {
       this.savingState.set(false);

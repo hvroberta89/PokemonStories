@@ -1,0 +1,130 @@
+<main class="npcs-page">
+  @if (store.isLoading()) {
+    <section class="npcs-page__state" aria-busy="true">NPC-k betöltése...</section>
+  } @else if (store.isNotFound()) {
+    <section class="npcs-page__state">
+      <h1>A projekt nem található</h1>
+      <a routerLink="/projects">Projektjeim</a>
+    </section>
+  } @else if (store.hasError()) {
+    <section class="npcs-page__state">
+      <h1>Nem sikerült betölteni az NPC-ket</h1>
+      <button type="button" (click)="store.load(projectId)">Újrapróbálás</button>
+    </section>
+  } @else {
+    <header class="npcs-page__header">
+      <a [routerLink]="['/projects', projectId]">← Projekt Dashboard</a>
+      <div>
+        <p>{{ store.projectName() }}</p>
+        <h1>NPC-k</h1>
+        <span>A világ visszatérő szereplői</span>
+      </div>
+      <button type="button" (click)="dialogOpen.set(true)">
+        <ps-icon name="add-spark" [size]="22" /> NPC hozzáadása
+      </button>
+    </header>
+    @if (store.activeNpcs().length === 0) {
+      <section class="npcs-page__empty">
+        <ps-icon name="npc-dialogue" [size]="80" />
+        <h2>Ki teszi emlékezetessé a világot?</h2>
+        <p>
+          Rögzítsd az első visszatérő szereplőt, hogy a kalandok között is megmaradjon a
+          kapcsolódás.
+        </p>
+        <button type="button" (click)="dialogOpen.set(true)">Első NPC létrehozása</button>
+      </section>
+    } @else {
+      <section class="npc-section">
+        <header>
+          <p>Aktív világ</p>
+          <h2>Ismerős szereplők</h2>
+        </header>
+        <div class="npc-list">
+          @for (npc of store.activeNpcs(); track npc.value.id) {
+            <article>
+              <ps-icon name="npc-dialogue" [size]="30" />
+              <div>
+                <span>{{ npc.value.role }}</span>
+                <h2>{{ npc.value.name }}</h2>
+                <p>{{ npc.value.description || 'Ennek az NPC-nek még nincs rövid leírása.' }}</p>
+              </div>
+              <button type="button" [disabled]="store.saving()" (click)="store.archive(npc)">
+                Archiválás
+              </button>
+            </article>
+          }
+        </div>
+      </section>
+    }
+    @if (store.archivedNpcs().length) {
+      <section class="npc-section npc-section--archived">
+        <header>
+          <p>Megőrzött előzmények</p>
+          <h2>Archivált NPC-k</h2>
+        </header>
+        <div class="npc-list">
+          @for (npc of store.archivedNpcs(); track npc.value.id) {
+            <article>
+              <ps-icon name="archive-box" [size]="30" />
+              <div>
+                <span>{{ npc.value.role }}</span>
+                <h2>{{ npc.value.name }}</h2>
+                <p>{{ npc.value.description || 'Megőrzött szereplő a kampány történetéből.' }}</p>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
+  }
+</main>
+@if (dialogOpen()) {
+  <div class="npc-dialog__backdrop" (click)="dialogOpen.set(false)">
+    <section
+      class="npc-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="npc-dialog-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header>
+        <div>
+          <p>Új NPC</p>
+          <h2 id="npc-dialog-title">Ki lép a történetbe?</h2>
+        </div>
+        <button type="button" aria-label="Bezárás" (click)="dialogOpen.set(false)">×</button>
+      </header>
+      <label
+        >Név<input
+          type="text"
+          maxlength="100"
+          [value]="name()"
+          (input)="update('name', $event)" /></label
+      ><label
+        >Szerep<input
+          type="text"
+          maxlength="160"
+          [value]="role()"
+          (input)="update('role', $event)" /></label
+      ><label
+        >Rövid leírás<textarea
+          rows="4"
+          maxlength="500"
+          [value]="description()"
+          (input)="update('description', $event)"
+        ></textarea>
+      </label>
+      @if (store.errorMessage()) {
+        <p class="npc-dialog__error">{{ store.errorMessage() }}</p>
+      }
+      <button
+        class="npc-dialog__save"
+        type="button"
+        [disabled]="store.saving() || !name().trim() || !role().trim()"
+        (click)="create()"
+      >
+        {{ store.saving() ? 'Mentés...' : 'NPC mentése' }}
+      </button>
+    </section>
+  </div>
+}
