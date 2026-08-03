@@ -104,8 +104,11 @@ export class SupabaseSessionRepository implements SessionCloudRepository {
     const state = data.state;
     return {
       ...this.toCompletedSummary(data),
+      story: state.sessionStory,
       narration: state.viewModel.story.narration,
-      sceneTitles: state.scenes?.map((scene) => scene.title) ?? [state.viewModel.story.locationName],
+      sceneTitles: state.scenes?.map((scene) => scene.title) ?? [
+        state.viewModel.story.locationName,
+      ],
       events: state.viewModel.recentEvents.events.map(({ id, title, content, timeLabel }) => ({
         id,
         title,

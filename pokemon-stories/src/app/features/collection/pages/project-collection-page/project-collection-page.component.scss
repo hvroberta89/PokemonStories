@@ -7,7 +7,7 @@
 .collection-page__title-mark { display: grid; width: 4rem; height: 4rem; place-items: center; border: 1px solid #dfc98f; border-radius: 1.25rem; background: linear-gradient(145deg, #fff8df, #ead79b); box-shadow: var(--shadow-card); }
 .collection-page__header p { margin: 0 0 0.2rem; color: #718442; font-size: 0.75rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; }
 .collection-page__header h1 { margin: 0; font-size: clamp(1.6rem, 5vw, 2.35rem); }
-.collection-page__summary { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 1rem; overflow: hidden; border: 1px solid rgb(215 198 158 / 75%); border-radius: 1.2rem; background: rgb(255 252 242 / 82%); box-shadow: var(--shadow-card); }
+.collection-page__summary { display: grid; grid-template-columns: repeat(4, 1fr); margin-bottom: 1rem; overflow: hidden; border: 1px solid rgb(215 198 158 / 75%); border-radius: 1.2rem; background: rgb(255 252 242 / 82%); box-shadow: var(--shadow-card); }
 .collection-page__summary article { display: grid; padding: 0.9rem; text-align: center; }
 .collection-page__summary article + article { border-left: 1px solid rgb(215 198 158 / 65%); }
 .collection-page__summary strong { color: #6d8d34; font-size: 1.45rem; }
@@ -32,4 +32,4 @@
 .collection-page__empty, .collection-page__state { display: grid; justify-items: center; padding: 4rem 1rem; color: var(--color-text-muted); text-align: center; }
 .collection-page__empty h2, .collection-page__state h1 { margin-bottom: 0.25rem; color: var(--color-text-primary); }
 .collection-page__state button, .collection-page__state a { padding: 0.7rem 1rem; border: 0; border-radius: 999px; background: #637e34; color: white; font: inherit; font-weight: 800; text-decoration: none; cursor: pointer; }
-@media (max-width: 700px) { .collection-page__header { grid-template-columns: auto 1fr; } .collection-page__back { grid-column: 1 / -1; } .collection-page__controls { grid-template-columns: 1fr 1fr; } .collection-page__tabs { grid-column: 1 / -1; } .reward-card { grid-template-columns: auto minmax(0, 1fr); } .reward-card__status { grid-column: 2; justify-self: start; } }
+@media (max-width: 700px) { .collection-page__header { grid-template-columns: auto 1fr; } .collection-page__back { grid-column: 1 / -1; } .collection-page__summary { grid-template-columns: repeat(2, 1fr); } .collection-page__summary article:nth-child(odd) { border-left: 0; } .collection-page__summary article:nth-child(n + 3) { border-top: 1px solid rgb(215 198 158 / 65%); } .collection-page__controls { grid-template-columns: 1fr 1fr; } .collection-page__tabs { grid-column: 1 / -1; } .reward-card { grid-template-columns: auto minmax(0, 1fr); } .reward-card__status { grid-column: 2; justify-self: start; } }

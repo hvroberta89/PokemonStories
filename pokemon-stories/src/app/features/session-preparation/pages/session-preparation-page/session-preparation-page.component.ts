@@ -78,7 +78,11 @@ export class SessionPreparationPageComponent {
     ) {
       return;
     }
-    this.runningSession.startFromAdventure(adventure, this.selectedCharacters());
+    this.runningSession.startFromAdventure(
+      adventure,
+      this.selectedCharacters(),
+      this.store.preparedRewards(),
+    );
     void this.router.navigate(['/running-session']);
   }
 

@@ -182,6 +182,124 @@
       }
     </section>
 
+    <section class="session-summary__section" aria-labelledby="session-summary-story-title">
+      <header class="session-summary__section-header">
+        <div>
+          <span class="session-summary__section-eyebrow"> Session Story </span>
+
+          <h3 id="session-summary-story-title">A mai kaland története</h3>
+        </div>
+
+        <div class="session-summary__story-actions">
+          @if (!isEditingStory()) {
+            <button
+              type="button"
+              class="session-summary__section-action"
+              (click)="startEditingStory()"
+            >
+              <ps-icon name="edit-quill" [size]="17" />
+              Szerkesztés
+            </button>
+          }
+          <button type="button" class="session-summary__section-action" (click)="copyStory()">
+            <ps-icon name="notes-scroll" [size]="17" />
+            {{ storyCopied() ? 'Másolva' : 'Másolás' }}
+          </button>
+        </div>
+      </header>
+
+      @if (isEditingStory()) {
+        <textarea
+          class="session-summary__story-editor"
+          [value]="storyText()"
+          rows="8"
+          aria-label="Session Story szerkesztése"
+          (input)="updateStory($event)"
+        ></textarea>
+        <div class="session-summary__story-editor-actions">
+          <button type="button" class="session-summary__section-action" (click)="resetStory()">
+            Eredeti visszaállítása
+          </button>
+          <button
+            type="button"
+            class="session-summary__section-action session-summary__section-action--primary"
+            (click)="finishEditingStory()"
+          >
+            Kész
+          </button>
+        </div>
+      } @else {
+        <p class="session-summary__story">{{ storyText() }}</p>
+      }
+
+      @if (copyError(); as error) {
+        <p class="session-summary__story-error" role="alert">{{ error }}</p>
+      }
+
+      @if (storySaveMessage(); as message) {
+        <p class="session-summary__story-saved" role="status">{{ message }}</p>
+      }
+    </section>
+
+    <section class="session-summary__section" aria-labelledby="session-summary-world-update-title">
+      <header class="session-summary__section-header">
+        <div>
+          <span class="session-summary__section-eyebrow"> Világfrissítés </span>
+
+          <h3 id="session-summary-world-update-title">Mi változott meg tartósan?</h3>
+        </div>
+      </header>
+
+      <p class="session-summary__copy">
+        A javaslat csak jóváhagyás után válik a projekt Világtényévé.
+      </p>
+
+      <textarea
+        class="session-summary__story-editor"
+        rows="3"
+        maxlength="400"
+        aria-label="Világfrissítés javaslat"
+        [value]="worldFactDraft()"
+        [disabled]="worldFactApprovalStatus() === 'saving' || worldFactApprovalStatus() === 'saved'"
+        (input)="updateWorldFactDraft($event)"
+      ></textarea>
+
+      <div class="session-summary__story-editor-actions">
+        <button
+          type="button"
+          class="session-summary__section-action"
+          [disabled]="
+            worldFactApprovalStatus() === 'saving' || worldFactApprovalStatus() === 'saved'
+          "
+          (click)="discardWorldFact()"
+        >
+          Elvetés
+        </button>
+        <button
+          type="button"
+          class="session-summary__section-action session-summary__section-action--primary"
+          [disabled]="
+            !worldFactDraft().trim() ||
+            worldFactApprovalStatus() === 'saving' ||
+            worldFactApprovalStatus() === 'saved'
+          "
+          (click)="approveWorldFact()"
+        >
+          {{
+            worldFactApprovalStatus() === 'saving'
+              ? 'Mentés...'
+              : worldFactApprovalStatus() === 'saved'
+                ? 'Világtényként elfogadva'
+                : 'Világtényként elfogadom'
+          }}
+        </button>
+      </div>
+
+      @if (worldFactApprovalStatus() === 'error') {
+        <p class="session-summary__story-error" role="alert">A Világtény mentése nem sikerült.</p>
+      }
+    </section>
+
     <section class="session-summary__section" aria-labelledby="session-summary-rewards-title">
       <header class="session-summary__section-header">
         <div>

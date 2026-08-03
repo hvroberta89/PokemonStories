@@ -125,6 +125,7 @@ export class RunningSessionStorageService {
       eventCount: state.viewModel.recentEvents.events.length,
       rewardCount: state.rewardHistory.length + state.rewardQueue.length,
       participantNames: state.participants?.map((participant) => participant.name) ?? [],
+      story: state.sessionStory,
       narration: state.viewModel.story.narration,
       sceneTitles: state.scenes?.map((scene) => scene.title) ?? [
         state.viewModel.story.locationName,

@@ -30,6 +30,8 @@
   box-shadow:
     0 1.3rem 4rem rgb(20 35 36 / 34%),
     inset 0 1px 0 rgb(255 255 255 / 84%);
+  max-height: calc(100dvh - 1rem);
+  overflow-y: auto;
 }
 
 .reward-sheet__handle {
@@ -126,6 +128,43 @@
     margin: 0 0 0.55rem;
     font-size: 0.78rem;
   }
+}
+
+.prepared-rewards {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.2rem;
+}
+
+.prepared-reward {
+  display: grid;
+  flex: 0 0 auto;
+  gap: 0.2rem;
+  min-width: 9rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid rgb(177 153 109 / 20%);
+  border-radius: 0.75rem;
+  background: rgb(255 255 255 / 58%);
+  color: var(--color-text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  strong {
+    font-size: 0.72rem;
+  }
+
+  span {
+    color: var(--color-text-muted);
+    font-size: 0.65rem;
+    font-weight: 700;
+  }
+}
+
+.prepared-reward--selected {
+  border-color: rgb(105 137 54 / 48%);
+  background: #e5edcf;
 }
 
 .reward-sheet__recipients {
@@ -233,4 +272,52 @@
   .reward-sheet__options {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+}
+
+.reward-sheet__field {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  input {
+    min-height: 2.65rem;
+    padding: 0 0.75rem;
+    border: 1px solid rgb(177 153 109 / 28%);
+    border-radius: 0.8rem;
+    background: rgb(255 255 255 / 72%);
+    color: var(--color-text-primary);
+    font: inherit;
+  }
+}
+
+.reward-sheet__scopes,
+.reward-sheet__physical {
+  display: flex;
+  gap: 0.35rem;
+  overflow-x: auto;
+
+  button {
+    flex: 0 0 auto;
+    padding: 0.48rem 0.65rem;
+    border: 1px solid rgb(177 153 109 / 20%);
+    border-radius: 999px;
+    background: rgb(255 255 255 / 58%);
+    color: var(--color-text-secondary);
+    font: inherit;
+    font-size: 0.68rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  button.is-selected {
+    border-color: rgb(105 137 54 / 45%);
+    background: #e5edcf;
+    color: var(--color-primary-strong);
+  }
+}
+
+.reward-sheet__recipients {
+  margin-top: 0.55rem;
 }

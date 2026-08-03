@@ -15,8 +15,10 @@ import {
   RewardDraft,
   RewardOption,
   RewardRecipient,
+  RewardRecipientScope,
   RewardType,
 } from './reward-sheet.model';
+import type { PreparedRewardProps } from '../../../../domain/reward/models/prepared-reward';
 
 @Component({
   selector: 'app-reward-sheet',
@@ -32,47 +34,39 @@ import {
 export class RewardSheetComponent {
   readonly recipients =
     input.required<readonly RewardRecipient[]>();
+  readonly preparedRewards = input<readonly PreparedRewardProps[]>([]);
 
   readonly dismissed =
     output<void>();
 
-  readonly saved =
-    output<RewardDraft>();
+  readonly saved = output<readonly RewardDraft[]>();
 
   protected readonly rewardOptions:
     readonly RewardOption[] = [
-      {
-        type: 'potion',
-        label: 'Potion',
-        icon: 'items-potion',
-      },
-      {
-        type: 'berry',
-        label: 'Bogyó',
-        icon: 'reward-gift',
-      },
-      {
-        type: 'gold',
-        label: 'Arany',
-        icon: 'reward-gift',
-      },
-      {
-        type: 'xp',
-        label: 'Tapasztalat',
-        icon: 'reward-gift',
-      },
-      {
-        type: 'quest-item',
-        label: 'Küldetéstárgy',
-        icon: 'notes-scroll',
-      },
+      { type: 'pokemon', label: 'Pokémon', icon: 'pokemon-sticker' },
+      { type: 'item', label: 'Tárgy', icon: 'items-potion' },
+      { type: 'badge', label: 'Jelvény', icon: 'badge-medal' },
+      { type: 'outfit', label: 'Öltözék', icon: 'clothing-shirt' },
+      { type: 'achievement', label: 'Teljesítmény', icon: 'achievement-star' },
+      { type: 'quest-item', label: 'Küldetéstárgy', icon: 'quest-card' },
+      { type: 'card', label: 'Kártya', icon: 'npc-card' },
+      { type: 'sticker', label: 'Matrica', icon: 'reward-gift' },
+      { type: 'narrative', label: 'Történeti', icon: 'timeline-scroll' },
+      { type: 'custom', label: 'Egyedi', icon: 'reward-box' },
     ];
 
   protected readonly selectedRewardType =
-    signal<RewardType>('potion');
+    signal<RewardType>('item');
+
+  protected readonly rewardName = signal('');
+  protected readonly selectedPreparedRewardId = signal<string | undefined>(undefined);
+
+  protected readonly recipientScope = signal<RewardRecipientScope>('character');
 
   protected readonly selectedRecipientId =
-    signal<string | null>(null);
+    signal<readonly string[]>([]);
+
+  protected readonly physicalStatus = signal<'queued' | 'skipped'>('queued');
 
   protected readonly amount =
     signal(1);
@@ -80,20 +74,43 @@ export class RewardSheetComponent {
   protected readonly canSave =
     computed(
       () =>
-        this.selectedRecipientId() !== null &&
+        this.rewardName().trim().length > 0 &&
+        this.hasValidRecipients() &&
         this.amount() > 0,
     );
 
   protected selectReward(
     rewardType: RewardType,
   ): void {
+    this.selectedPreparedRewardId.set(undefined);
     this.selectedRewardType.set(rewardType);
   }
 
-  protected selectRecipient(
-    recipientId: string,
-  ): void {
-    this.selectedRecipientId.set(recipientId);
+  protected selectScope(scope: RewardRecipientScope): void {
+    this.recipientScope.set(scope);
+    this.selectedRecipientId.set([]);
+  }
+
+  protected selectRecipient(recipientId: string): void {
+    if (this.recipientScope() === 'multiple') {
+      this.selectedRecipientId.update((ids) =>
+        ids.includes(recipientId) ? ids.filter((id) => id !== recipientId) : [...ids, recipientId],
+      );
+      return;
+    }
+    this.selectedRecipientId.set([recipientId]);
+  }
+
+  protected updateRewardName(event: Event): void {
+    this.rewardName.set((event.target as HTMLInputElement).value);
+  }
+
+  protected selectPreparedReward(reward: PreparedRewardProps): void {
+    this.selectedPreparedRewardId.set(reward.id);
+    this.selectedRewardType.set(reward.type);
+    this.rewardName.set(reward.label);
+    this.amount.set(reward.amount);
+    this.physicalStatus.set(reward.physicalStatus);
   }
 
   protected decreaseAmount(): void {
@@ -113,35 +130,34 @@ export class RewardSheetComponent {
   }
 
   protected save(): void {
-    const recipientId =
-      this.selectedRecipientId();
-
-    if (!recipientId) {
-      return;
-    }
-
-    const recipient =
-      this.recipients().find(
-        item => item.id === recipientId,
-      );
-
-    const reward =
-      this.rewardOptions.find(
-        item =>
-          item.type ===
-          this.selectedRewardType(),
-      );
-
-    if (!recipient || !reward) {
-      return;
-    }
-
-    this.saved.emit({
-      rewardType: reward.type,
-      rewardLabel: reward.label,
+    if (!this.canSave()) return;
+    const selected = this.resolveRecipients();
+    this.saved.emit(selected.map((recipient) => ({
+      rewardType: this.selectedRewardType(),
+      rewardLabel: this.rewardName().trim(),
       amount: this.amount(),
       recipientId: recipient.id,
       recipientName: recipient.name,
-    });
+      physicalStatus: this.physicalStatus(),
+      preparedRewardId: this.selectedPreparedRewardId(),
+    })));
+  }
+
+  private hasValidRecipients(): boolean {
+    switch (this.recipientScope()) {
+      case 'character':
+      case 'multiple': return this.selectedRecipientId().length > 0;
+      case 'everyone': return this.recipients().length > 0;
+      default: return true;
+    }
+  }
+
+  private resolveRecipients(): readonly { id?: string; name: string }[] {
+    switch (this.recipientScope()) {
+      case 'everyone': return this.recipients();
+      case 'project': return [{ name: 'A teljes projekt' }];
+      case 'unassigned': return [{ name: 'Nincs hozzárendelve' }];
+      default: return this.recipients().filter((item) => this.selectedRecipientId().includes(item.id));
+    }
   }
 }

@@ -1,7 +1,4 @@
-<div
-  class="reward-center__backdrop"
-  (click)="closed.emit()"
-></div>
+<div class="reward-center__backdrop" (click)="closed.emit()"></div>
 
 <section
   class="reward-center"
@@ -12,16 +9,11 @@
   <header class="reward-center__header">
     <div class="reward-center__heading">
       <span class="reward-center__heading-icon">
-        <ps-icon
-          [name]="icon()"
-          [size]="30"
-        />
+        <ps-icon [name]="icon()" [size]="30" />
       </span>
 
       <div class="reward-center__heading-copy">
-        <span class="reward-center__eyebrow">
-          Jutalomközpont
-        </span>
+        <span class="reward-center__eyebrow"> Jutalomközpont </span>
 
         <h2 id="reward-center-title">
           {{ title() }}
@@ -39,27 +31,15 @@
     </button>
   </header>
 
-  <nav
-    class="reward-center__tabs"
-    aria-label="Jutalomközpont nézetei"
-  >
+  <nav class="reward-center__tabs" aria-label="Jutalomközpont nézetei">
     <button
       type="button"
       class="reward-center__tab"
-      [class.reward-center__tab--active]="
-        activeTab() === 'queue'
-      "
-      [attr.aria-current]="
-        activeTab() === 'queue'
-          ? 'page'
-          : null
-      "
+      [class.reward-center__tab--active]="activeTab() === 'queue'"
+      [attr.aria-current]="activeTab() === 'queue' ? 'page' : null"
       (click)="selectTab('queue')"
     >
-      <ps-icon
-        name="queue-box"
-        [size]="20"
-      />
+      <ps-icon name="queue-box" [size]="20" />
 
       Várólista
 
@@ -73,20 +53,11 @@
     <button
       type="button"
       class="reward-center__tab"
-      [class.reward-center__tab--active]="
-        activeTab() === 'print'
-      "
-      [attr.aria-current]="
-        activeTab() === 'print'
-          ? 'page'
-          : null
-      "
+      [class.reward-center__tab--active]="activeTab() === 'print'"
+      [attr.aria-current]="activeTab() === 'print' ? 'page' : null"
       (click)="selectTab('print')"
     >
-      <ps-icon
-        name="printer"
-        [size]="20"
-      />
+      <ps-icon name="printer" [size]="20" />
 
       Nyomtatás
     </button>
@@ -94,20 +65,11 @@
     <button
       type="button"
       class="reward-center__tab"
-      [class.reward-center__tab--active]="
-        activeTab() === 'history'
-      "
-      [attr.aria-current]="
-        activeTab() === 'history'
-          ? 'page'
-          : null
-      "
+      [class.reward-center__tab--active]="activeTab() === 'history'"
+      [attr.aria-current]="activeTab() === 'history' ? 'page' : null"
       (click)="selectTab('history')"
     >
-      <ps-icon
-        name="achievement-star"
-        [size]="20"
-      />
+      <ps-icon name="achievement-star" [size]="20" />
 
       Előzmények
 
@@ -121,45 +83,112 @@
 
   <div class="reward-center__content">
     @switch (activeTab()) {
-
       @case ('queue') {
-        <app-reward-queue
-          [items]="items()"
-          (markedAsGiven)="
-            markedAsGiven.emit($event)
-          "
-        />
+        <app-reward-queue [items]="items()" (markedAsGiven)="markedAsGiven.emit($event)" />
       }
 
       @case ('print') {
-        <section class="reward-center__placeholder">
-          <span
-            class="reward-center__placeholder-icon"
-          >
-            <ps-icon
-              name="printer"
-              [size]="46"
-            />
-          </span>
+        @if (printableItems().length === 0) {
+          <section class="reward-center__placeholder">
+            <span class="reward-center__placeholder-icon">
+              <ps-icon name="printer" [size]="46" />
+            </span>
 
-          <strong>
-            Nyomtatás hamarosan
-          </strong>
+            <strong>Nincs nyomtatásra váró jutalom</strong>
 
-          <p>
-            Innen lehet majd a jutalomkártyákat
-            nyomtatásra küldeni, újranyomtatni
-            és kezelni a nyomtatási várólistát.
-          </p>
-        </section>
+            <p>A nyomtatásra jelölt jutalmak itt jelennek meg.</p>
+          </section>
+        } @else {
+          <section class="reward-center__print-list" aria-label="Nyomtatásra váró jutalmak">
+            <button type="button" class="reward-center__batch-preview" (click)="openBatchPreview()">
+              <ps-icon name="print-queue" [size]="20" />
+              Összes előnézete ({{ printableItems().length }})
+            </button>
+
+            @for (item of printableItems(); track item.id) {
+              <article class="reward-center__print-item">
+                <span class="reward-center__print-icon">
+                  <ps-icon [name]="item.icon" [size]="30" />
+                </span>
+
+                <div>
+                  <strong>{{ item.rewardLabel }}</strong>
+                  <span>{{ item.recipientName }} · {{ item.amount }} db</span>
+                </div>
+
+                <button
+                  type="button"
+                  class="reward-center__preview-button"
+                  (click)="openPreview(item)"
+                >
+                  <ps-icon name="print-queue" [size]="19" />
+                  Előnézet
+                </button>
+
+                <button type="button" (click)="markedAsPrinted.emit(item.id)">
+                  <ps-icon name="printed-check" [size]="19" />
+                  Nyomtatás kész
+                </button>
+              </article>
+            }
+          </section>
+        }
       }
 
       @case ('history') {
         <app-reward-history
           [items]="historyItems()"
+          (reprintRequested)="openReprintPreview($event)"
         />
       }
-
     }
   </div>
 </section>
+
+@if (hasPreview()) {
+  <section
+    class="reward-center__preview-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="print-preview-title"
+  >
+    <div class="reward-center__preview-toolbar no-print">
+      <button type="button" (click)="closePreview()">Vissza</button>
+      <div class="reward-center__preview-toolbar-actions">
+        <button type="button" (click)="exportPreview('png')" [disabled]="isExporting()">
+          <ps-icon name="saved-scroll" [size]="20" />
+          PNG
+        </button>
+        <button type="button" (click)="exportPreview('jpeg')" [disabled]="isExporting()">
+          <ps-icon name="saved-scroll" [size]="20" />
+          JPG
+        </button>
+        <button type="button" class="reward-center__preview-print" (click)="printPreview()">
+          <ps-icon name="printer" [size]="20" />
+          Nyomtatás / PDF mentése
+        </button>
+      </div>
+    </div>
+
+    @if (exportError(); as error) {
+      <p class="reward-center__export-error no-print" role="alert">{{ error }}</p>
+    }
+
+    <h2 id="print-preview-title" class="reward-center__preview-title">Nyomtatási előnézet</h2>
+
+    <div class="reward-center__preview-cards">
+      @for (item of previewedItems(); track item.id) {
+        <article #printPreview class="reward-center__print-preview">
+          <div class="reward-center__print-preview-icon">
+            <ps-icon [name]="item.icon" [size]="76" />
+          </div>
+          <span class="reward-center__print-preview-type">{{ item.rewardType }}</span>
+          <h3>{{ item.rewardLabel }}</h3>
+          <p>{{ item.recipientName }} jutalma</p>
+          <strong>{{ item.amount }} db</strong>
+          <footer>Pokemon Stories</footer>
+        </article>
+      }
+    </div>
+  </section>
+}

@@ -1,0 +1,112 @@
+<main class="locations-page">
+  @if (store.isLoading()) {
+    <section class="locations-page__state" aria-busy="true">Helyszínek betöltése...</section>
+  } @else if (store.isNotFound()) {
+    <section class="locations-page__state">
+      <h1>A projekt nem található</h1>
+      <a routerLink="/projects">Projektjeim</a>
+    </section>
+  } @else if (store.hasError()) {
+    <section class="locations-page__state">
+      <h1>Nem sikerült betölteni a helyszíneket</h1>
+      <button type="button" (click)="store.load(projectId)">Újrapróbálás</button>
+    </section>
+  } @else {
+    <header class="locations-page__header">
+      <a [routerLink]="['/projects', projectId]">← Projekt Dashboard</a>
+      <div>
+        <p>{{ store.projectName() }}</p>
+        <h1>Helyszínek</h1>
+        <span>A kalandok visszatérő helyei</span>
+      </div>
+      <button type="button" (click)="dialogOpen.set(true)">
+        <ps-icon name="add-spark" [size]="22" /> Helyszín hozzáadása
+      </button>
+    </header>
+    @if (store.activeLocations().length === 0) {
+      <section class="locations-page__empty">
+        <ps-icon name="location-pin" [size]="80" />
+        <h2>Hol játszódik a következő történet?</h2>
+        <p>
+          Rögzítsd az első Helyszínt, hogy a kampány világa kalandról kalandra ismerős maradjon.
+        </p>
+        <button type="button" (click)="dialogOpen.set(true)">Első Helyszín létrehozása</button>
+      </section>
+    } @else {
+      <section class="location-section">
+        <header>
+          <p>Aktív világ</p>
+          <h2>Felfedezhető helyszínek</h2>
+        </header>
+        <div class="location-list">
+          @for (location of store.activeLocations(); track location.value.id) {
+            <article>
+              <ps-icon name="location-pin" [size]="30" />
+              <div>
+                <span>{{ location.value.type }}</span>
+                <h2>{{ location.value.name }}</h2>
+                <p>
+                  {{ location.value.description || 'Ennek a helyszínnek még nincs rövid leírása.' }}
+                </p>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
+  }
+</main>
+@if (dialogOpen()) {
+  <div class="location-dialog__backdrop" (click)="dialogOpen.set(false)">
+    <section
+      class="location-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="location-dialog-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header>
+        <div>
+          <p>Új Helyszín</p>
+          <h2 id="location-dialog-title">Hol bontakozik ki a történet?</h2>
+        </div>
+        <button type="button" aria-label="Bezárás" (click)="dialogOpen.set(false)">×</button>
+      </header>
+      <label
+        >Név<input
+          type="text"
+          maxlength="100"
+          [value]="name()"
+          (input)="update('name', $event)" /></label
+      ><label
+        >Típus<select [value]="type()" (change)="updateType($event)">
+          <option value="region">Régió</option>
+          <option value="settlement">Település</option>
+          <option value="building">Épület</option>
+          <option value="natural-area">Természeti terület</option>
+          <option value="landmark">Nevezetesség</option>
+          <option value="room">Helyiség</option>
+          <option value="custom">Egyedi</option>
+        </select></label
+      ><label
+        >Rövid leírás<textarea
+          rows="4"
+          maxlength="500"
+          [value]="description()"
+          (input)="update('description', $event)"
+        ></textarea>
+      </label>
+      @if (store.errorMessage()) {
+        <p class="location-dialog__error">{{ store.errorMessage() }}</p>
+      }
+      <button
+        class="location-dialog__save"
+        type="button"
+        [disabled]="store.saving() || !name().trim()"
+        (click)="create()"
+      >
+        {{ store.saving() ? 'Mentés...' : 'Helyszín mentése' }}
+      </button>
+    </section>
+  </div>
+}

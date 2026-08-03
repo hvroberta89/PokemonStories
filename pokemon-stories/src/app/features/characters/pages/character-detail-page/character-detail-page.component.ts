@@ -5,6 +5,8 @@ import { characterId } from '../../../../domain/character/value-objects/characte
 import { projectId } from '../../../../domain/project/value-objects/project-id';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
 import { CharacterDetailStore } from '../../store/character-detail.store';
+import type { RewardType } from '../../../../domain/reward/models/reward-grant';
+import type { PsIconName } from '../../../../shared/ui/icon/ps-icon.registry';
 
 @Component({
   selector: 'app-character-detail-page',
@@ -42,6 +44,19 @@ export class CharacterDetailPageComponent {
       .map((part) => part[0])
       .join('')
       .toLocaleUpperCase('hu');
+  }
+
+  protected rewardIcon(type: RewardType): PsIconName {
+    switch (type) {
+      case 'pokemon': return 'pokemon-sticker';
+      case 'badge': return 'badge-medal';
+      case 'outfit': return 'clothing-shirt';
+      case 'achievement': return 'achievement-star';
+      case 'quest-item': return 'quest-card';
+      case 'card': return 'npc-card';
+      case 'narrative': return 'timeline-scroll';
+      default: return 'items-potion';
+    }
   }
 
   protected update(

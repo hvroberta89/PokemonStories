@@ -10,6 +10,8 @@ import { RunningSessionStorageService } from './running-session-storage.service'
 import { RunningSessionStore } from './running-session.store';
 import { Character } from '../../../domain/character/models/character';
 import { characterId } from '../../../domain/character/value-objects/character-id';
+import { PreparedReward } from '../../../domain/reward/models/prepared-reward';
+import type { RewardQueueItemViewModel } from '../components/reward-queue/reward-queue.model';
 
 describe('RunningSessionStore', () => {
   it('starts a clean session from the ready adventure opening scene', () => {
@@ -51,7 +53,115 @@ describe('RunningSessionStore', () => {
     store.completeReview();
     expect(store.status()).toBe('completed');
   });
+
+  it('makes only current-scene and anytime prepared rewards available', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        RunningSessionStore,
+        {
+          provide: RunningSessionStorageService,
+          useValue: { load: () => null, save: () => undefined, clear: () => undefined },
+        },
+      ],
+    });
+    const store = TestBed.inject(RunningSessionStore);
+    const adventure = createReadyAdventure();
+
+    store.startFromAdventure(
+      adventure,
+      [],
+      [
+        createPreparedReward('anytime-reward'),
+        createPreparedReward('opening-reward', adventure.scenes[0]!.id),
+        createPreparedReward('second-scene-reward', adventure.scenes[1]!.id),
+      ],
+    );
+
+    expect(store.availablePreparedRewards().map((reward) => reward.id)).toEqual([
+      'anytime-reward',
+      'opening-reward',
+    ]);
+
+    store.nextScene();
+
+    expect(store.availablePreparedRewards().map((reward) => reward.id)).toEqual([
+      'anytime-reward',
+      'second-scene-reward',
+    ]);
+  });
+
+  it('marks a queued reward as printed without changing its ownership state', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        RunningSessionStore,
+        {
+          provide: RunningSessionStorageService,
+          useValue: { load: () => null, save: () => undefined, clear: () => undefined },
+        },
+      ],
+    });
+    const store = TestBed.inject(RunningSessionStore);
+    store.enqueueReward(createQueuedReward());
+
+    store.markRewardAsPrinted('reward-1');
+
+    expect(store.rewardQueue()[0]).toMatchObject({
+      id: 'reward-1',
+      status: 'printed',
+      physicalStatus: 'printed',
+      recipientId: 'character-1',
+    });
+  });
+
+  it('stores an approved Session Story without changing session progression', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        RunningSessionStore,
+        {
+          provide: RunningSessionStorageService,
+          useValue: { load: () => null, save: () => undefined, clear: () => undefined },
+        },
+      ],
+    });
+    const store = TestBed.inject(RunningSessionStore);
+    const originalStatus = store.status();
+
+    store.saveSessionStory('A csapat megtalálta a régi térképet.');
+
+    expect(store.session().sessionStory).toBe('A csapat megtalálta a régi térképet.');
+    expect(store.status()).toBe(originalStatus);
+  });
 });
+
+function createQueuedReward(): RewardQueueItemViewModel {
+  return {
+    id: 'reward-1',
+    recipientId: 'character-1',
+    recipientName: 'Emma',
+    rewardType: 'badge',
+    rewardLabel: 'Erdei jelvény',
+    amount: 1,
+    icon: 'badge-medal',
+    status: 'unlocked',
+    physicalStatus: 'queued',
+  };
+}
+
+function createPreparedReward(
+  id: string,
+  sceneId?: ReturnType<typeof adventureSceneId>,
+): PreparedReward {
+  return PreparedReward.create({
+    id,
+    projectId: projectId('project-1'),
+    adventureId: adventurePlanId('adventure-1'),
+    sceneId,
+    type: 'badge',
+    label: id,
+    amount: 1,
+    physicalStatus: 'queued',
+  });
+}
 
 function createReadyAdventure(): AdventurePlan {
   const ageRange = AgeRange.create(7, 9);

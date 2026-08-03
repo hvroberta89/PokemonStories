@@ -38,6 +38,9 @@ export class RewardDetailPageComponent {
       case 'outfit': return 'clothing-shirt';
       case 'achievement': return 'achievement-star';
       case 'quest-item': return 'quest-card';
+      case 'card': return 'npc-card';
+      case 'sticker': return 'reward-gift';
+      case 'narrative': return 'timeline-scroll';
       default: return 'items-potion';
     }
   }

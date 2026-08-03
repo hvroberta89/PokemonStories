@@ -20,6 +20,7 @@ export interface RewardGrantProps {
   readonly projectId: ProjectId;
   readonly sessionId: string;
   readonly adventureId: string;
+  readonly preparedRewardId?: string;
   readonly recipientId?: string;
   readonly recipientName: string;
   readonly type: RewardType;

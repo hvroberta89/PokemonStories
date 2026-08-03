@@ -54,6 +54,26 @@
           />
         </span>
 
+        @if (preparedRewards().length) {
+          <div class="reward-sheet__section">
+            <h3>Előkészített jutalmak</h3>
+
+            <div class="prepared-rewards" aria-label="Előkészített jutalmak">
+              @for (reward of preparedRewards(); track reward.id) {
+                <button
+                  type="button"
+                  class="prepared-reward"
+                  [class.prepared-reward--selected]="selectedPreparedRewardId() === reward.id"
+                  (click)="selectPreparedReward(reward)"
+                >
+                  <strong>{{ reward.label }}</strong>
+                  <span>{{ reward.amount }} db</span>
+                </button>
+              }
+            </div>
+          </div>
+        }
+
         <span>
           {{ reward.label }}
         </span>
@@ -62,8 +82,24 @@
   </div>
 
   <div class="reward-sheet__section">
+    <label class="reward-sheet__field">
+      <span>Jutalom neve</span>
+      <input type="text" maxlength="120" placeholder="Például: Erdei segítő jelvény" [value]="rewardName()" (input)="updateRewardName($event)" />
+    </label>
+  </div>
+
+  <div class="reward-sheet__section">
     <h3>Ki kapja?</h3>
 
+    <div class="reward-sheet__scopes" aria-label="Címzetti kör">
+      <button type="button" [class.is-selected]="recipientScope() === 'character'" (click)="selectScope('character')">Egy karakter</button>
+      <button type="button" [class.is-selected]="recipientScope() === 'multiple'" (click)="selectScope('multiple')">Több karakter</button>
+      <button type="button" [class.is-selected]="recipientScope() === 'everyone'" (click)="selectScope('everyone')">Mindenki</button>
+      <button type="button" [class.is-selected]="recipientScope() === 'project'" (click)="selectScope('project')">Projekt</button>
+      <button type="button" [class.is-selected]="recipientScope() === 'unassigned'" (click)="selectScope('unassigned')">Később</button>
+    </div>
+
+    @if (recipientScope() === 'character' || recipientScope() === 'multiple') {
     <div class="reward-sheet__recipients">
       @for (
         recipient of recipients();
@@ -73,8 +109,7 @@
           type="button"
           class="recipient"
           [class.recipient--selected]="
-            selectedRecipientId() ===
-            recipient.id
+            selectedRecipientId().includes(recipient.id)
           "
           (click)="
             selectRecipient(recipient.id)
@@ -97,6 +132,7 @@
         </button>
       }
     </div>
+    }
   </div>
 
   <div class="reward-sheet__section">
@@ -125,6 +161,14 @@
     </div>
   </div>
 
+  <div class="reward-sheet__section">
+    <h3>Fizikai változat</h3>
+    <div class="reward-sheet__physical">
+      <button type="button" [class.is-selected]="physicalStatus() === 'queued'" (click)="physicalStatus.set('queued')">Nyomtatásra vár</button>
+      <button type="button" [class.is-selected]="physicalStatus() === 'skipped'" (click)="physicalStatus.set('skipped')">Csak digitális</button>
+    </div>
+  </div>
+
   <button
     type="button"
     class="reward-sheet__submit"
@@ -137,6 +181,6 @@
       [decorative]="true"
     />
 
-    Átadás
+    Jutalom feloldása
   </button>
 </section>

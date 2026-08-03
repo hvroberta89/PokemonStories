@@ -150,6 +150,7 @@
   @if (isRewardSheetOpen()) {
     <app-reward-sheet
       [recipients]="rewardRecipients()"
+      [preparedRewards]="preparedRewards()"
       (dismissed)="closeRewardSheet()"
       (saved)="saveReward($event)"
     />
@@ -177,6 +178,7 @@
       [historyItems]="rewardHistory()"
       (closed)="closeRewardCenter()"
       (markedAsGiven)="markRewardAsGiven($event)"
+      (markedAsPrinted)="markRewardAsPrinted($event)"
     />
   }
 
@@ -236,6 +238,9 @@
       (closeSelected)="closeSessionSummary()"
       (timelineSelected)="openSummaryTimeline()"
       (rewardsSelected)="openSummaryRewards()"
+      (storySaved)="saveSessionStory($event)"
+      [worldFactApprovalStatus]="worldFactApprovalStatus()"
+      (worldFactApproved)="approveWorldFact($event)"
       (reviewCompleted)="completeSessionReview($event)"
     />
   }

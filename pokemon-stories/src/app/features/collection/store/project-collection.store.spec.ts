@@ -22,6 +22,12 @@ describe('ProjectCollectionStore', () => {
         adventureId: 'adventure-1', recipientId: 'character-2', recipientName: 'Marci',
         type: 'badge', label: 'Erdei jelvény', amount: 1, physicalStatus: 'printed', deliveryStatus: 'given',
       }),
+      RewardGrant.create({
+        id: 'reward-3', projectId: projectId('project-1'), sessionId: 'session-0',
+        adventureId: 'adventure-1', recipientName: 'A teljes projekt',
+        type: 'narrative', label: 'A híd újra járható', amount: 1,
+        physicalStatus: 'skipped', deliveryStatus: 'given',
+      }),
     ];
     TestBed.configureTestingModule({
       providers: [
@@ -33,12 +39,16 @@ describe('ProjectCollectionStore', () => {
     const store = TestBed.inject(ProjectCollectionStore);
 
     await store.load('project-1');
-    expect(store.totalCount()).toBe(2);
+    expect(store.totalCount()).toBe(3);
     expect(store.pendingCount()).toBe(1);
+    expect(store.latestSessionGrants().map((grant) => grant.value.id)).toEqual([
+      'reward-1',
+      'reward-2',
+    ]);
     store.typeFilter.set('badge');
     expect(store.grants().map((grant) => grant.value.label)).toEqual(['Erdei jelvény']);
     store.typeFilter.set('all');
-    store.recipientFilter.set('Emma');
+    store.recipientFilter.set('character-1');
     expect(store.grants()).toHaveLength(1);
   });
 });

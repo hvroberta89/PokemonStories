@@ -21,6 +21,8 @@ export interface SessionSummaryViewModel {
 
   readonly durationLabel: string;
 
+  readonly story?: string;
+
   readonly eventCount: number;
 
   readonly queuedRewardCount: number;

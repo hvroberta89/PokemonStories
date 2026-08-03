@@ -15,6 +15,7 @@ interface RewardGrantRow {
   readonly project_id: string;
   readonly session_id: string;
   readonly adventure_id: string;
+  readonly prepared_reward_id: string | null;
   readonly recipient_id: string | null;
   readonly recipient_name: string;
   readonly reward_type: string;
@@ -27,7 +28,7 @@ interface RewardGrantRow {
 @Injectable()
 export class SupabaseRewardGrantRepository implements RewardGrantRepository {
   private static readonly columns =
-    'id, project_id, session_id, adventure_id, recipient_id, recipient_name, reward_type, label, amount, physical_status, delivery_status';
+    'id, project_id, session_id, adventure_id, prepared_reward_id, recipient_id, recipient_name, reward_type, label, amount, physical_status, delivery_status';
   private readonly supabase = inject(SUPABASE_CLIENT);
 
   async saveAll(grants: readonly RewardGrant[]): Promise<void> {
@@ -40,6 +41,7 @@ export class SupabaseRewardGrantRepository implements RewardGrantRepository {
           project_id: value.projectId,
           session_id: value.sessionId,
           adventure_id: value.adventureId,
+          prepared_reward_id: value.preparedRewardId ?? null,
           recipient_id: value.recipientId ?? null,
           recipient_name: value.recipientName,
           reward_type: value.type,
@@ -85,6 +87,7 @@ export class SupabaseRewardGrantRepository implements RewardGrantRepository {
         projectId,
         sessionId: row.session_id,
         adventureId: row.adventure_id,
+        preparedRewardId: row.prepared_reward_id ?? undefined,
         recipientId: row.recipient_id ?? undefined,
         recipientName: row.recipient_name,
         type: row.reward_type as RewardType,
