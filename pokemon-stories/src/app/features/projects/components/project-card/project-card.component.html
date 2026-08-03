@@ -15,7 +15,7 @@
 
       <span class="project-card__status">
         <span aria-hidden="true"></span>
-        Aktív
+        {{ project().status === 'archived' ? 'Archivált' : 'Aktív' }}
       </span>
     </div>
 
@@ -33,14 +33,16 @@
         Folytasd a történetet
       </span>
 
-      <button
-        type="button"
-        [attr.aria-label]="project().name + ' megnyitása'"
-        (click)="openProject.emit()"
-      >
-        Megnyitás
-        <span aria-hidden="true">→</span>
-      </button>
+      @if (project().status === 'archived') {
+        <button type="button" [attr.aria-label]="project().name + ' visszaállítása'" (click)="restoreProject.emit()">
+          Visszaállítás
+        </button>
+      } @else {
+        <button type="button" [attr.aria-label]="project().name + ' megnyitása'" (click)="openProject.emit()">
+          Megnyitás
+          <span aria-hidden="true">→</span>
+        </button>
+      }
     </div>
   </div>
 </article>

@@ -1,0 +1,27 @@
+<main class="print-queue-page">
+  @if (store.isLoading()) {
+    <section class="print-queue-page__state" aria-busy="true">
+      <ps-icon name="printer" [size]="64" />
+      <p>Nyomtatási várólista betöltése…</p>
+    </section>
+  } @else if (store.isNotFound()) {
+    <section class="print-queue-page__state" role="alert">
+      <h1>Ez a projekt nem található</h1>
+      <a routerLink="/projects">Vissza a projektekhez</a>
+    </section>
+  } @else if (store.hasError()) {
+    <section class="print-queue-page__state" role="alert">
+      <h1>Nem sikerült betölteni a nyomtatási várólistát</h1>
+      <button type="button" (click)="store.load(projectId)">Újrapróbálás</button>
+    </section>
+  } @else {
+    <app-reward-center
+      [items]="store.queueItems()"
+      [historyItems]="store.historyItems()"
+      (closed)="close()"
+      (markedAsPrinted)="markAsPrinted($event)"
+      (markedAsPrintedBatch)="markAllAsPrinted($event)"
+      (markedAsGiven)="markAsGiven($event)"
+    />
+  }
+</main>

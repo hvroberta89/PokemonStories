@@ -59,28 +59,17 @@
     </span>
 
     <div class="session-meta__progress" aria-label="Kaland előrehaladása">
-      <span class="session-meta__step session-meta__step--completed"></span>
-
-      <span class="session-meta__line session-meta__line--completed"></span>
-
-      <span class="session-meta__step session-meta__step--completed"></span>
-
-      <span class="session-meta__line session-meta__line--completed"></span>
-
-      <span class="session-meta__step session-meta__step--active"></span>
-
-      <span class="session-meta__line"></span>
-
-      <span class="session-meta__step"></span>
-
-      <span class="session-meta__line"></span>
-
-      <span class="session-meta__step"></span>
+      @for (step of sceneProgressSteps(); track step.index; let isLast = $last) {
+        <span class="session-meta__step" [class.session-meta__step--completed]="step.status === 'completed'" [class.session-meta__step--active]="step.status === 'active'"></span>
+        @if (!isLast) {
+          <span class="session-meta__line" [class.session-meta__line--completed]="step.status === 'completed'"></span>
+        }
+      }
     </div>
 
     <span class="session-meta__timer">
       <span aria-hidden="true">⏱</span>
-      00:42:15
+      {{ elapsedTimeLabel() }}
     </span>
 
     <button
@@ -179,6 +168,7 @@
       (closed)="closeRewardCenter()"
       (markedAsGiven)="markRewardAsGiven($event)"
       (markedAsPrinted)="markRewardAsPrinted($event)"
+      (markedAsPrintedBatch)="markRewardsAsPrinted($event)"
     />
   }
 

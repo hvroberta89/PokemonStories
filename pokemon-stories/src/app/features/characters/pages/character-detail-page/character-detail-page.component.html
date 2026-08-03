@@ -44,7 +44,7 @@
         <div class="editor__grid">
           <label
             >Név
-            <input psVoiceInput type="text" maxlength="80" [value]="name()" (input)="update('name', $event)" />
+            <input type="text" maxlength="80" [value]="name()" (input)="update('name', $event)" />
             @if (submitted() && !name().trim()) {
               <small>Adj nevet a karakternek.</small>
             }</label

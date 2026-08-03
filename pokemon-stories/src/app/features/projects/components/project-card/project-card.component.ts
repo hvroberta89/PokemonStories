@@ -14,4 +14,5 @@ import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
 export class ProjectCardComponent {
   readonly project = input.required<ProjectSummary>();
   readonly openProject = output<void>();
+  readonly restoreProject = output<void>();
 }

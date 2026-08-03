@@ -110,7 +110,6 @@
             <label
               >Cím <span>{{ title().length }}/100</span
               ><input
-                psVoiceInput
                 maxlength="100"
                 [value]="title()"
                 [attr.aria-invalid]="submitted() && !title().trim() ? 'true' : null"
@@ -176,7 +175,7 @@
           </div>
           <form (submit)="$event.preventDefault(); saveStory()">
             <div class="story-ai">
-              <label>AI irány (opcionális)<input psVoiceInput maxlength="500" placeholder="Például: legyen játékos, de a végén megható döntéssel." [value]="storyDirection()" (input)="storyDirection.set($any($event.target).value)" /></label>
+              <label>AI irány (opcionális)<input maxlength="500" placeholder="Például: legyen játékos, de a végén megható döntéssel." [value]="storyDirection()" (input)="storyDirection.set($any($event.target).value)" /></label>
               <button type="button" [disabled]="store.isGeneratingStorySuggestions()" (click)="generateStorySuggestions()">
                 <ps-icon name="add-spark" [size]="20" />
                 {{ store.isGeneratingStorySuggestions() ? 'Javaslatok készülnek…' : 'Három történetív kérése' }}
@@ -255,7 +254,7 @@
             <label>Típus<select [value]="rewardType()" (change)="rewardType.set($any($event.target).value)">
               <option value="pokemon">Pokémon</option><option value="item">Tárgy</option><option value="badge">Jelvény</option><option value="outfit">Öltözék</option><option value="achievement">Teljesítmény</option><option value="quest-item">Küldetéstárgy</option><option value="card">Kártya</option><option value="sticker">Matrica</option><option value="narrative">Történeti</option><option value="custom">Egyedi</option>
             </select></label>
-            <label class="wide">Név<input psVoiceInput type="text" maxlength="120" placeholder="Például: Erdei segítő jelvény" [value]="rewardLabel()" (input)="rewardLabel.set($any($event.target).value)" />@if (rewardSubmitted() && !rewardLabel().trim()) { <small>Adj nevet a jutalomnak.</small> }</label>
+            <label class="wide">Név<input type="text" maxlength="120" placeholder="Például: Erdei segítő jelvény" [value]="rewardLabel()" (input)="rewardLabel.set($any($event.target).value)" />@if (rewardSubmitted() && !rewardLabel().trim()) { <small>Adj nevet a jutalomnak.</small> }</label>
             <label>Jelenet<select [value]="rewardSceneId()" (change)="rewardSceneId.set($any($event.target).value)"><option value="">Bármikor</option>@for (scene of adventure.scenes; track scene.id) { <option [value]="scene.id">{{ scene.title }}</option> }</select></label>
             <label>Mennyiség<input type="number" min="1" max="99" [value]="rewardAmount()" (input)="rewardAmount.set(+$any($event.target).value)" /></label>
             <label>Forma<select [value]="rewardPhysicalStatus()" (change)="rewardPhysicalStatus.set($any($event.target).value)"><option value="queued">Nyomtatásra vár</option><option value="skipped">Csak digitális</option></select></label>
@@ -411,7 +410,7 @@
           <form (submit)="$event.preventDefault(); addScene()" novalidate>
             @if (!editingSceneId()) {
               <div class="scene-ai">
-                <label>AI irány (opcionális)<input psVoiceInput maxlength="500" placeholder="Például: legyen egy rejtélyes nyitójelenet az erdő szélén." [value]="sceneDirection()" (input)="sceneDirection.set($any($event.target).value)" /></label>
+                <label>AI irány (opcionális)<input maxlength="500" placeholder="Például: legyen egy rejtélyes nyitójelenet az erdő szélén." [value]="sceneDirection()" (input)="sceneDirection.set($any($event.target).value)" /></label>
                 <button type="button" [disabled]="store.isGeneratingSceneSuggestions()" (click)="generateSceneSuggestions()">
                   <ps-icon name="add-spark" [size]="20" />
                   {{ store.isGeneratingSceneSuggestions() ? 'Javaslatok készülnek…' : 'Három jelenetötlet kérése' }}
@@ -429,7 +428,6 @@
             }
             <label
               >Jelenet címe<input
-                psVoiceInput
                 maxlength="120"
                 placeholder="Például: Virágos tisztás"
                 [value]="sceneTitle()"
@@ -453,7 +451,6 @@
             }
             <label
               >Aktuális cél<input
-                psVoiceInput
                 maxlength="200"
                 placeholder="Például: Találjátok meg az eltűnt tojást."
                 [value]="sceneGoal()"

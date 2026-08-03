@@ -20,7 +20,7 @@ export class SupabaseProjectRepository implements ProjectRepository, ProjectRead
 
   async save(project: Project): Promise<void> {
     const ownerId = await this.requireAuthenticatedUserId();
-    const { error } = await this.supabase.from('projects').insert({
+    const { error } = await this.supabase.from('projects').upsert({
       id: project.id,
       owner_id: ownerId,
       name: project.name,

@@ -3,10 +3,13 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { CreateProjectHandler } from '../../../application/project/commands/create-project/create-project.handler';
 import { ProjectSummary } from '../../../application/project/queries/models/project-summary';
 import { ListProjectsHandler } from '../../../application/project/queries/list-projects/list-projects.handler';
+import { ListArchivedProjectsHandler } from '../../../application/project/queries/list-archived-projects/list-archived-projects.handler';
+import { RestoreProjectHandler } from '../../../application/project/commands/restore-project/restore-project.handler';
 import {
   PROJECT_READER,
   PROJECT_REPOSITORY,
 } from '../../../application/project/tokens/project.tokens';
+import { projectId } from '../../../domain/project/value-objects/project-id';
 import { initialProjectsState, ProjectsState } from './projects-state';
 import { ID_GENERATOR } from '../../../application/project/tokens/id-generator.token';
 
@@ -17,16 +20,20 @@ export interface CreateProjectInput {
 
 @Injectable()
 export class ProjectsStore {
+  private readonly projectReader = inject(PROJECT_READER);
   private readonly createProjectHandler = new CreateProjectHandler(
     inject(PROJECT_REPOSITORY),
     inject(ID_GENERATOR),
   );
 
-  private readonly listProjectsHandler = new ListProjectsHandler(inject(PROJECT_READER));
+  private readonly listProjectsHandler = new ListProjectsHandler(this.projectReader);
+  private readonly listArchivedProjectsHandler = new ListArchivedProjectsHandler(this.projectReader);
+  private readonly restoreProjectHandler = new RestoreProjectHandler(inject(PROJECT_REPOSITORY));
 
   private readonly state = signal<ProjectsState>(initialProjectsState);
 
   readonly projects = computed(() => this.state().projects);
+  readonly archivedProjects = computed(() => this.state().archivedProjects);
 
   readonly loadingStatus = computed(() => this.state().loadingStatus);
 
@@ -49,10 +56,14 @@ export class ProjectsStore {
     });
 
     try {
-      const projects = await this.fetchProjects();
+      const [projects, archivedProjects] = await Promise.all([
+        this.fetchProjects(),
+        this.listArchivedProjectsHandler.execute(),
+      ]);
 
       this.patchState({
         projects,
+        archivedProjects,
         loadingStatus: 'loaded',
       });
     } catch {
@@ -84,10 +95,14 @@ export class ProjectsStore {
         return false;
       }
 
-      const projects = await this.fetchProjects();
+      const [projects, archivedProjects] = await Promise.all([
+        this.fetchProjects(),
+        this.listArchivedProjectsHandler.execute(),
+      ]);
 
       this.patchState({
         projects,
+        archivedProjects,
         loadingStatus: 'loaded',
         creating: false,
         lastCreatedProjectId: result.value.id,
@@ -108,6 +123,23 @@ export class ProjectsStore {
     this.patchState({
       errorMessage: undefined,
     });
+  }
+
+  async restore(rawProjectId: string): Promise<boolean> {
+    try {
+      const project = await this.projectReader.findById(projectId(rawProjectId));
+      if (!project || project.status !== 'archived') return false;
+      await this.restoreProjectHandler.execute(project);
+      const [projects, archivedProjects] = await Promise.all([
+        this.fetchProjects(),
+        this.listArchivedProjectsHandler.execute(),
+      ]);
+      this.patchState({ projects, archivedProjects, loadingStatus: 'loaded' });
+      return true;
+    } catch {
+      this.patchState({ errorMessage: 'A projekt visszaállítása nem sikerült.' });
+      return false;
+    }
   }
 
   private fetchProjects(): Promise<readonly ProjectSummary[]> {

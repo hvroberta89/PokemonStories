@@ -16,6 +16,7 @@ export class ListAdventurePlansByProjectHandler {
       );
 
     return adventurePlans
+      .filter((adventurePlan) => adventurePlan.status !== 'archived')
         .map(
             (adventurePlan): AdventurePlanSummary => ({
                 id: adventurePlan.id,

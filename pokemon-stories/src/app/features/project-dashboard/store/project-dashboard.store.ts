@@ -4,10 +4,12 @@ import { ListAdventurePlansByProjectHandler } from '../../../application/adventu
 import { ADVENTURE_PLAN_READER } from '../../../application/adventure/tokens/adventure-plan.tokens';
 import { ProjectSummary } from '../../../application/project/queries/models/project-summary';
 import { PROJECT_READER } from '../../../application/project/tokens/project.tokens';
+import { PROJECT_REPOSITORY } from '../../../application/project/tokens/project.tokens';
 import { projectId } from '../../../domain/project/value-objects/project-id';
 import { ActiveProjectStore } from '../../projects/store/active-project.store';
 import { ProjectDashboardViewModel } from '../models/project-dashboard-view.model';
 import { PROJECT_SESSION_READER } from '../../../application/session/tokens/project-session.tokens';
+import { ArchiveProjectHandler } from '../../../application/project/commands/archive-project/archive-project.handler';
 
 type DashboardLoadingStatus = 'idle' | 'loading' | 'loaded' | 'not-found' | 'error';
 
@@ -16,6 +18,10 @@ export class ProjectDashboardStore {
   private readonly projectReader = inject(PROJECT_READER);
   private readonly activeProjectStore = inject(ActiveProjectStore);
   private readonly sessionReader = inject(PROJECT_SESSION_READER);
+  private readonly archiveProject = new ArchiveProjectHandler(
+    this.sessionReader,
+    inject(PROJECT_REPOSITORY),
+  );
   private readonly adventureHandler = new ListAdventurePlansByProjectHandler(
     inject(ADVENTURE_PLAN_READER),
   );
@@ -28,6 +34,17 @@ export class ProjectDashboardStore {
   readonly isLoading = computed(() => this.status() === 'loading');
   readonly isNotFound = computed(() => this.status() === 'not-found');
   readonly hasError = computed(() => this.status() === 'error');
+
+  async archive(rawProjectId: string): Promise<'archived' | 'active-session' | 'error'> {
+    try {
+      const project = await this.projectReader.findById(projectId(rawProjectId));
+      if (!project) return 'error';
+      const result = await this.archiveProject.execute(project);
+      return result.isSuccess ? 'archived' : 'active-session';
+    } catch {
+      return 'error';
+    }
+  }
 
   async load(rawProjectId: string): Promise<void> {
     this.loadingState.set('loading');

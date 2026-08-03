@@ -49,6 +49,14 @@ export class Project {
     return success(new Project(props.id, name, description, props.status));
   }
 
+  archive(): Project {
+    return new Project(this.id, this.name, this.description, 'archived');
+  }
+
+  restoreFromArchive(): Project {
+    return new Project(this.id, this.name, this.description, 'active');
+  }
+
   private static normalizeDescription(description: string | undefined): string | undefined {
     if (description === undefined) {
       return undefined;

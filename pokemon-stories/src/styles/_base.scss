@@ -43,16 +43,22 @@ img {
 }
 
 .ps-voice-input__button {
-  min-height: 2.25rem;
-  margin-top: 0.45rem;
-  padding: 0.4rem 0.65rem;
+  display: inline-grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-top: 0.35rem;
+  padding: 0;
+  place-items: center;
   border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-small);
+  border-radius: 50%;
   background: var(--color-surface-strong);
   color: var(--color-primary-strong);
-  font-size: 0.78rem;
-  font-weight: 800;
   cursor: pointer;
+}
+
+.ps-voice-input__button::before {
+  content: '\1F3A4';
+  font-size: 1rem;
 }
 
 .ps-voice-input__button[aria-pressed='true'] {
@@ -63,4 +69,10 @@ img {
 .ps-voice-input__button:disabled {
   opacity: 0.55;
   cursor: not-allowed;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .ps-voice-input__button {
+    display: none;
+  }
 }

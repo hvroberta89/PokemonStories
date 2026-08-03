@@ -217,6 +217,24 @@
   cursor: pointer;
 }
 
+.reward-center__batch-complete {
+  display: inline-flex;
+  min-height: 2.7rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.75rem;
+  border: 2px solid #647f34;
+  border-radius: 0.8rem;
+  background: #647f34;
+  box-shadow: 0 0.16rem 0 #385012;
+  color: white;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
 .reward-center__print-item {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto;

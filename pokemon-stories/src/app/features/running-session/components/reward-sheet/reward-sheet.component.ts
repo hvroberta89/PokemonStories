@@ -10,7 +10,6 @@ import {
 import {
   PsIconComponent,
 } from '../../../../shared/ui/icon/ps-icon.component';
-import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 
 import {
   RewardDraft,
@@ -26,7 +25,6 @@ import type { PreparedRewardProps } from '../../../../domain/reward/models/prepa
   standalone: true,
   imports: [
     PsIconComponent,
-    PsVoiceInputDirective,
   ],
   templateUrl: './reward-sheet.component.html',
   styleUrl: './reward-sheet.component.scss',

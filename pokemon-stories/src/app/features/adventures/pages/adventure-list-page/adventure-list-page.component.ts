@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgTemplateOutlet } from '@angular/common';
 
@@ -20,6 +20,9 @@ export class AdventureListPageComponent {
   private readonly route = inject(ActivatedRoute);
   protected readonly projectId = projectId(this.route.snapshot.paramMap.get('projectId') ?? '');
   protected readonly store = inject(AdventureListStore);
+  protected readonly archiveTarget = signal<AdventurePlanSummary | null>(null);
+  protected readonly archiveError = signal<string | null>(null);
+  protected readonly showArchived = signal(false);
 
   constructor() {
     void this.store.load(this.projectId);
@@ -31,5 +34,29 @@ export class AdventureListPageComponent {
 
   protected retry(): void {
     void this.store.load(this.projectId);
+  }
+
+  protected requestArchive(adventure: AdventurePlanSummary): void {
+    this.archiveError.set(null);
+    this.archiveTarget.set(adventure);
+  }
+
+  protected async archiveAdventure(): Promise<void> {
+    const adventure = this.archiveTarget();
+    if (!adventure) return;
+    const result = await this.store.archive(adventure.id);
+    if (result === 'archived') {
+      this.archiveTarget.set(null);
+      return;
+    }
+    this.archiveError.set(
+      result === 'active-session'
+        ? 'A futó vagy átnézésre váró Sessiont előbb fejezd be.'
+        : 'A kaland archiválása most nem sikerült.',
+    );
+  }
+
+  protected restoreAdventure(adventure: AdventurePlanSummary): void {
+    void this.store.restore(adventure.id);
   }
 }

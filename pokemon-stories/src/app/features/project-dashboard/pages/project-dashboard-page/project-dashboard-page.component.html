@@ -28,8 +28,8 @@
         <span aria-hidden="true">←</span>
         Projektváltás
       </a>
-      <button type="button" class="dashboard-page__settings" aria-label="Projektbeállítások">
-        <ps-icon name="settings-gear" [size]="25" />
+      <button type="button" class="dashboard-page__settings" aria-label="Projekt archiválása" (click)="archiveConfirmOpen.set(true)">
+        <ps-icon name="archive-box" [size]="25" />
       </button>
     </header>
 
@@ -158,7 +158,24 @@
         <a [routerLink]="['/projects', dashboard.project.id, 'collection']">
           <ps-icon name="collection-chest" [size]="42" /><span>Gyűjtemény</span>
         </a>
+        <a [routerLink]="['/projects', dashboard.project.id, 'print-queue']">
+          <ps-icon name="printer" [size]="42" /><span>Nyomtatási várólista</span>
+        </a>
       </div>
     </section>
   }
 </main>
+@if (archiveConfirmOpen() && store.dashboard(); as dashboard) {
+  <div class="archive-confirm__backdrop" (click)="archiveConfirmOpen.set(false)">
+    <section class="archive-confirm" role="alertdialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <ps-icon name="archive-box" [size]="48" />
+      <h2>Archiválod a(z) {{ dashboard.project.name }} projektet?</h2>
+      <p>A kalandok, Sessionök, jutalmak és a kampánytörténet megmaradnak, de a projekt eltűnik az aktív listából.</p>
+      @if (archiveError(); as error) { <p class="archive-confirm__error" role="alert">{{ error }}</p> }
+      <div>
+        <button type="button" (click)="archiveConfirmOpen.set(false)">Mégse</button>
+        <button type="button" (click)="archiveProject()">Archiválás</button>
+      </div>
+    </section>
+  </div>
+}

@@ -29,9 +29,38 @@
         [routerLink]="['/projects', projectId, 'adventures', 'new']"
         ><ps-icon name="add-spark" [size]="22" /> Új kaland</a
       >
+      <button type="button" class="adventures-page__archived-toggle" (click)="showArchived.set(!showArchived())">
+        <ps-icon name="archive-box" [size]="20" />
+        {{ showArchived() ? 'Aktív kalandok' : 'Archiváltak' }}
+      </button>
     </header>
 
-    @if (store.adventures().length === 0) {
+    @if (showArchived()) {
+      <section class="adventure-group">
+        <header>
+          <ps-icon name="archive-box" [size]="34" />
+          <div><p>Megőrzött történetek</p><h2>Archivált kalandok</h2></div>
+          <span>{{ store.archivedAdventures().length }}</span>
+        </header>
+        @if (store.archivedAdventures().length === 0) {
+          <p class="adventures-page__archived-empty">Még nincs archivált kaland.</p>
+        } @else {
+          <div class="adventure-grid">
+            @for (adventure of store.archivedAdventures(); track adventure.id) {
+              <article class="adventure-card" data-status="archived">
+                <div class="adventure-card__art"><ps-icon name="archive-box" [size]="58" /></div>
+                <div class="adventure-card__content">
+                  <span>{{ adventure.minimumAge }}–{{ adventure.maximumAge }} év · {{ adventure.sessionLengthMinutes }} perc</span>
+                  <h3>{{ adventure.title }}</h3>
+                  <p>{{ adventure.premise }}</p>
+                  <button type="button" class="adventure-card__restore" (click)="restoreAdventure(adventure)">Visszaállítás szerkesztéshez</button>
+                </div>
+              </article>
+            }
+          </div>
+        }
+      </section>
+    } @else if (store.adventures().length === 0) {
       <section class="adventures-page__empty">
         <ps-icon name="adventures-book" [size]="80" />
         <h2>Az első kalandod itt kezdődik</h2>
@@ -110,9 +139,26 @@
             <a [routerLink]="['/projects', projectId, 'adventures', adventure.id]"
               >Kaland áttekintése →</a
             >
+            <button type="button" class="adventure-card__archive" (click)="requestArchive(adventure)">
+              <ps-icon name="archive-box" [size]="18" /> Archiválás
+            </button>
           </div>
         </article>
       }
     </div>
   </section>
 </ng-template>
+@if (archiveTarget(); as adventure) {
+  <div class="archive-confirm__backdrop" (click)="archiveTarget.set(null)">
+    <section class="archive-confirm" role="alertdialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <ps-icon name="archive-box" [size]="48" />
+      <h2>Archiválod a(z) {{ adventure.title }} kalandot?</h2>
+      <p>A történet, a Sessionök és a jutalmak megmaradnak, de ez a kaland eltűnik az aktív listából.</p>
+      @if (archiveError(); as error) { <p class="archive-confirm__error" role="alert">{{ error }}</p> }
+      <div>
+        <button type="button" (click)="archiveTarget.set(null)">Mégse</button>
+        <button type="button" (click)="archiveAdventure()">Archiválás</button>
+      </div>
+    </section>
+  </div>
+}

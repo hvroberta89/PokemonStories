@@ -191,10 +191,15 @@ export class RunningSessionStore {
   }
 
   markRewardAsPrinted(rewardId: string): void {
+    this.markRewardsAsPrinted([rewardId]);
+  }
+
+  markRewardsAsPrinted(rewardIds: readonly string[]): void {
+    const rewardIdSet = new Set(rewardIds);
     this.state.update((currentState) => ({
       ...currentState,
       rewardQueue: currentState.rewardQueue.map((reward) =>
-        reward.id === rewardId && reward.physicalStatus === 'queued'
+        rewardIdSet.has(reward.id) && reward.physicalStatus === 'queued'
           ? { ...reward, status: 'printed', physicalStatus: 'printed' }
           : reward,
       ),

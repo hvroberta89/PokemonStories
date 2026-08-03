@@ -80,6 +80,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: ':projectId/print-queue',
+        loadComponent: () =>
+          import('./features/print-queue/pages/print-queue-page/print-queue-page.component').then(
+            (module) => module.PrintQueuePageComponent,
+          ),
+      },
+      {
         path: ':projectId/sessions/:sessionId',
         loadComponent: () =>
           import('./features/session-history/pages/session-detail-page/session-detail-page.component').then(

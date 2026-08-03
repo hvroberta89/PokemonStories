@@ -23,11 +23,11 @@ interface SpeechRecognitionLike {
 type SpeechRecognitionConstructor = new () => SpeechRecognitionLike;
 
 @Directive({
-  selector: 'input[psVoiceInput], textarea[psVoiceInput]',
+  selector: 'textarea[psVoiceInput]',
   standalone: true,
 })
 export class PsVoiceInputDirective implements AfterViewInit {
-  private readonly host = inject<ElementRef<HTMLInputElement | HTMLTextAreaElement>>(ElementRef);
+  private readonly host = inject<ElementRef<HTMLTextAreaElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
   private readonly destroyRef = inject(DestroyRef);
   private recognition: SpeechRecognitionLike | null = null;
@@ -40,7 +40,6 @@ export class PsVoiceInputDirective implements AfterViewInit {
     this.renderer.setAttribute(button, 'type', 'button');
     this.renderer.setAttribute(button, 'class', 'ps-voice-input__button');
     this.renderer.setAttribute(button, 'aria-label', 'Szöveg diktálása');
-    this.renderer.setProperty(button, 'textContent', 'Diktálás');
 
     const Recognition = this.getRecognitionConstructor();
     if (!Recognition) {
@@ -88,8 +87,8 @@ export class PsVoiceInputDirective implements AfterViewInit {
   private setListening(listening: boolean): void {
     this.listening = listening;
     if (!this.button) return;
-    this.renderer.setProperty(this.button, 'textContent', listening ? 'Diktálás…' : 'Diktálás');
     this.renderer.setAttribute(this.button, 'aria-pressed', String(listening));
+    this.renderer.setAttribute(this.button, 'title', listening ? 'Diktálás leállítása' : 'Szöveg diktálása');
   }
 
   private getRecognitionConstructor(): SpeechRecognitionConstructor | null {

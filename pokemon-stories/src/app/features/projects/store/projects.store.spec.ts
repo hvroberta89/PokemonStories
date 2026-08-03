@@ -8,6 +8,7 @@ import { InMemoryProjectRepository } from '../../../infrastructure/project/repos
 import { SequentialIdGenerator } from '../../../infrastructure/shared/identifiers/sequential-id.generator';
 import { ProjectsStore } from './projects.store';
 import { ID_GENERATOR } from '../../../application/project/tokens/id-generator.token';
+import { projectId } from '../../../domain/project/value-objects/project-id';
 
 describe('ProjectsStore', () => {
   let repository: InMemoryProjectRepository;
@@ -107,5 +108,20 @@ describe('ProjectsStore', () => {
     store.clearError();
 
     expect(store.errorMessage()).toBeUndefined();
+  });
+
+  it('lists and restores an archived Project', async () => {
+    await store.create({ name: 'Kanto kalandok' });
+    const project = await repository.findById(projectId('project-1'));
+    if (!project) throw new Error('Project should exist.');
+    await repository.save(project.archive());
+
+    await store.load();
+    expect(store.projects()).toEqual([]);
+    expect(store.archivedProjects().map((item) => item.id)).toEqual(['project-1']);
+
+    await store.restore('project-1');
+    expect(store.archivedProjects()).toEqual([]);
+    expect(store.projects().map((item) => item.id)).toEqual(['project-1']);
   });
 });
