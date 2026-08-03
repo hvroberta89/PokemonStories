@@ -147,6 +147,46 @@
   font-weight: 850;
   text-decoration: none;
 }
+.adventure-card__archive {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+  padding: 0.35rem 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.archive-confirm__backdrop {
+  position: fixed;
+  z-index: 50;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgb(23 36 59 / 48%);
+}
+.archive-confirm {
+  display: grid;
+  width: min(100%, 28rem);
+  gap: 16px;
+  padding: 28px;
+  border-radius: var(--radius-large);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+.archive-confirm h2,
+.archive-confirm p { margin: 0; }
+.archive-confirm p { color: var(--color-text-secondary); line-height: 1.5; }
+.archive-confirm__error { color: var(--color-error, #9f362f) !important; font-weight: 800; }
+.archive-confirm div { display: flex; justify-content: center; gap: 12px; }
+.archive-confirm button { min-height: 2.75rem; padding: 0.6rem 1rem; border: 0; border-radius: var(--radius-small); font: inherit; font-weight: 800; cursor: pointer; }
+.archive-confirm button:last-child { background: var(--color-primary); color: white; }
 .adventures-page__empty,
 .adventures-page__state {
   display: grid;

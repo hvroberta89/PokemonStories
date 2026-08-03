@@ -43,6 +43,8 @@ export class RewardCenterComponent {
 
   readonly markedAsPrinted = output<string>();
 
+  readonly markedAsPrintedBatch = output<readonly string[]>();
+
   protected readonly activeTab = signal<RewardCenterTab>('queue');
 
   protected readonly title = computed(() => {
@@ -95,6 +97,10 @@ export class RewardCenterComponent {
 
   protected openBatchPreview(): void {
     this.previewedItems.set(this.printableItems());
+  }
+
+  protected markAllAsPrinted(): void {
+    this.markedAsPrintedBatch.emit(this.printableItems().map((item) => item.id));
   }
 
   protected openReprintPreview(item: RewardHistoryItemViewModel): void {

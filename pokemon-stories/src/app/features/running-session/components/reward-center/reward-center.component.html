@@ -104,6 +104,10 @@
               <ps-icon name="print-queue" [size]="20" />
               Összes előnézete ({{ printableItems().length }})
             </button>
+            <button type="button" class="reward-center__batch-complete" (click)="markAllAsPrinted()">
+              <ps-icon name="printed-check" [size]="20" />
+              Mind nyomtatva ({{ printableItems().length }})
+            </button>
 
             @for (item of printableItems(); track item.id) {
               <article class="reward-center__print-item">

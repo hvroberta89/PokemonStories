@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
@@ -18,6 +18,8 @@ export class ProjectDashboardPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   protected readonly store = inject(ProjectDashboardStore);
+  protected readonly archiveConfirmOpen = signal(false);
+  protected readonly archiveError = signal<string | null>(null);
 
   ngOnInit(): void {
     void this.load();
@@ -44,6 +46,19 @@ export class ProjectDashboardPageComponent implements OnInit {
 
   protected resumeSession(): void {
     void this.router.navigate(['/running-session']);
+  }
+
+  protected async archiveProject(): Promise<void> {
+    const result = await this.store.archive(this.route.snapshot.paramMap.get('projectId') ?? '');
+    if (result === 'archived') {
+      void this.router.navigate(['/projects']);
+      return;
+    }
+    this.archiveError.set(
+      result === 'active-session'
+        ? 'A futó vagy átnézésre váró Sessiont előbb fejezd be.'
+        : 'A projekt archiválása most nem sikerült.',
+    );
   }
 
   private load(): Promise<void> {

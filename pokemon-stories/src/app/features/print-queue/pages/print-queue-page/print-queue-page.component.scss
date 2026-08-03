@@ -1,0 +1,18 @@
+.print-queue-page {
+  min-height: 100dvh;
+}
+
+.print-queue-page__state {
+  display: grid;
+  min-height: 70dvh;
+  place-content: center;
+  justify-items: center;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.print-queue-page__state a,
+.print-queue-page__state button {
+  color: var(--color-primary-700);
+}

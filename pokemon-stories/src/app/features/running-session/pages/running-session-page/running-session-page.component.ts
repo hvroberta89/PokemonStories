@@ -505,6 +505,10 @@ export class RunningSessionPageComponent {
     this.store.markRewardAsPrinted(rewardId);
   }
 
+  protected markRewardsAsPrinted(rewardIds: readonly string[]): void {
+    this.store.markRewardsAsPrinted(rewardIds);
+  }
+
   // ---------------------------------------------------------------------------
   // Reward toast
   // ---------------------------------------------------------------------------

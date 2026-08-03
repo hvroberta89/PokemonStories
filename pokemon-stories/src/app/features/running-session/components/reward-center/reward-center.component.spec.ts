@@ -177,6 +177,37 @@ describe('RewardCenterComponent', () => {
     expect(printedRewardId).toBeUndefined();
   });
 
+  it('emits every queued reward for batch print completion', () => {
+    fixture.componentRef.setInput('items', [
+      {
+        id: 'reward-1', recipientName: 'Emma', rewardType: 'badge', rewardLabel: 'Erdei jelvény',
+        amount: 1, icon: 'badge-medal', status: 'unlocked', physicalStatus: 'queued',
+      },
+      {
+        id: 'reward-2', recipientName: 'Marci', rewardType: 'item', rewardLabel: 'Potion',
+        amount: 1, icon: 'items-potion', status: 'printed', physicalStatus: 'printed',
+      },
+      {
+        id: 'reward-3', recipientName: 'Noémi', rewardType: 'sticker', rewardLabel: 'Pikachu matrica',
+        amount: 2, icon: 'reward-gift', status: 'unlocked', physicalStatus: 'queued',
+      },
+    ]);
+    let printedRewardIds: readonly string[] | undefined;
+    component.markedAsPrintedBatch.subscribe((rewardIds) => (printedRewardIds = rewardIds));
+    fixture.detectChanges();
+
+    const root = fixture.nativeElement as HTMLElement;
+    [...root.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.trim() === 'Nyomtatás')!
+      .click();
+    fixture.detectChanges();
+    [...root.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Mind nyomtatva'))!
+      .click();
+
+    expect(printedRewardIds).toEqual(['reward-1', 'reward-3']);
+  });
+
   it('opens a delivered reward for reprinting without changing its status', () => {
     fixture.componentRef.setInput('historyItems', [
       {

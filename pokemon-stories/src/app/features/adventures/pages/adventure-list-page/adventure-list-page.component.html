@@ -110,9 +110,26 @@
             <a [routerLink]="['/projects', projectId, 'adventures', adventure.id]"
               >Kaland áttekintése →</a
             >
+            <button type="button" class="adventure-card__archive" (click)="requestArchive(adventure)">
+              <ps-icon name="archive-box" [size]="18" /> Archiválás
+            </button>
           </div>
         </article>
       }
     </div>
   </section>
 </ng-template>
+@if (archiveTarget(); as adventure) {
+  <div class="archive-confirm__backdrop" (click)="archiveTarget.set(null)">
+    <section class="archive-confirm" role="alertdialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <ps-icon name="archive-box" [size]="48" />
+      <h2>Archiválod a(z) {{ adventure.title }} kalandot?</h2>
+      <p>A történet, a Sessionök és a jutalmak megmaradnak, de ez a kaland eltűnik az aktív listából.</p>
+      @if (archiveError(); as error) { <p class="archive-confirm__error" role="alert">{{ error }}</p> }
+      <div>
+        <button type="button" (click)="archiveTarget.set(null)">Mégse</button>
+        <button type="button" (click)="archiveAdventure()">Archiválás</button>
+      </div>
+    </section>
+  </div>
+}
