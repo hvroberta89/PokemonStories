@@ -72,6 +72,11 @@ import { CompleteAdventureHandler } from '../../../../application/adventure/comm
 import { ADVENTURE_PLAN_REPOSITORY } from '../../../../application/adventure/tokens/adventure-plan.tokens';
 import { adventurePlanId } from '../../../../domain/adventure/value-objects/adventure-plan-id';
 import { projectId } from '../../../../domain/project/value-objects/project-id';
+import { CreateWorldFactHandler } from '../../../../application/world/commands/create-world-fact/create-world-fact.handler';
+import { WORLD_FACT_REPOSITORY } from '../../../../application/world/tokens/world-fact.tokens';
+import { ID_GENERATOR } from '../../../../application/project/tokens/id-generator.token';
+import { PROJECT_READER } from '../../../../application/project/tokens/project.tokens';
+import type { WorldFactApprovalStatus } from '../../components/session-summary/session-summary.component';
 
 @Component({
   selector: 'app-running-session-page',
@@ -112,6 +117,12 @@ export class RunningSessionPageComponent {
   private readonly router = inject(Router);
   private readonly completeAdventure = new CompleteAdventureHandler(
     inject(ADVENTURE_PLAN_REPOSITORY),
+  );
+  private readonly projectReader = inject(PROJECT_READER);
+  private readonly createWorldFact = new CreateWorldFactHandler(
+    async (id) => Boolean(await this.projectReader.findById(id)),
+    inject(WORLD_FACT_REPOSITORY),
+    inject(ID_GENERATOR),
   );
 
   protected readonly adventureTitle = computed(
@@ -187,6 +198,8 @@ export class RunningSessionPageComponent {
   protected readonly isSessionEndSheetOpen = signal(false);
 
   protected readonly isSessionSummaryOpen = signal(this.store.isReviewPending());
+
+  protected readonly worldFactApprovalStatus = signal<WorldFactApprovalStatus>('idle');
 
   // ---------------------------------------------------------------------------
   // Overlay state
@@ -607,6 +620,8 @@ export class RunningSessionPageComponent {
 
       durationLabel: this.formatDuration(startedAt, completedAt),
 
+      story: session.sessionStory,
+
       eventCount: session.viewModel.recentEvents.events.length,
 
       queuedRewardCount: session.rewardQueue.length,
@@ -651,6 +666,29 @@ export class RunningSessionPageComponent {
     this.isSessionSummaryOpen.set(false);
 
     this.openRewardCenter();
+  }
+
+  protected saveSessionStory(story: string | undefined): void {
+    this.store.saveSessionStory(story);
+  }
+
+  protected async approveWorldFact(text: string): Promise<void> {
+    const session = this.store.session();
+    if (!session.projectId) {
+      this.worldFactApprovalStatus.set('error');
+      return;
+    }
+
+    this.worldFactApprovalStatus.set('saving');
+    try {
+      const result = await this.createWorldFact.execute({
+        projectId: projectId(session.projectId),
+        text,
+      });
+      this.worldFactApprovalStatus.set(result.isSuccess ? 'saved' : 'error');
+    } catch {
+      this.worldFactApprovalStatus.set('error');
+    }
   }
 
   // ---------------------------------------------------------------------------

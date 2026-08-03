@@ -67,11 +67,15 @@ describe('RunningSessionStore', () => {
     const store = TestBed.inject(RunningSessionStore);
     const adventure = createReadyAdventure();
 
-    store.startFromAdventure(adventure, [], [
-      createPreparedReward('anytime-reward'),
-      createPreparedReward('opening-reward', adventure.scenes[0]!.id),
-      createPreparedReward('second-scene-reward', adventure.scenes[1]!.id),
-    ]);
+    store.startFromAdventure(
+      adventure,
+      [],
+      [
+        createPreparedReward('anytime-reward'),
+        createPreparedReward('opening-reward', adventure.scenes[0]!.id),
+        createPreparedReward('second-scene-reward', adventure.scenes[1]!.id),
+      ],
+    );
 
     expect(store.availablePreparedRewards().map((reward) => reward.id)).toEqual([
       'anytime-reward',
@@ -108,17 +112,45 @@ describe('RunningSessionStore', () => {
       recipientId: 'character-1',
     });
   });
+
+  it('stores an approved Session Story without changing session progression', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        RunningSessionStore,
+        {
+          provide: RunningSessionStorageService,
+          useValue: { load: () => null, save: () => undefined, clear: () => undefined },
+        },
+      ],
+    });
+    const store = TestBed.inject(RunningSessionStore);
+    const originalStatus = store.status();
+
+    store.saveSessionStory('A csapat megtalálta a régi térképet.');
+
+    expect(store.session().sessionStory).toBe('A csapat megtalálta a régi térképet.');
+    expect(store.status()).toBe(originalStatus);
+  });
 });
 
 function createQueuedReward(): RewardQueueItemViewModel {
   return {
-    id: 'reward-1', recipientId: 'character-1', recipientName: 'Emma',
-    rewardType: 'badge', rewardLabel: 'Erdei jelvény', amount: 1,
-    icon: 'badge-medal', status: 'unlocked', physicalStatus: 'queued',
+    id: 'reward-1',
+    recipientId: 'character-1',
+    recipientName: 'Emma',
+    rewardType: 'badge',
+    rewardLabel: 'Erdei jelvény',
+    amount: 1,
+    icon: 'badge-medal',
+    status: 'unlocked',
+    physicalStatus: 'queued',
   };
 }
 
-function createPreparedReward(id: string, sceneId?: ReturnType<typeof adventureSceneId>): PreparedReward {
+function createPreparedReward(
+  id: string,
+  sceneId?: ReturnType<typeof adventureSceneId>,
+): PreparedReward {
   return PreparedReward.create({
     id,
     projectId: projectId('project-1'),

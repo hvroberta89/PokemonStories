@@ -30,8 +30,12 @@
         <article class="story-panel">
           <p class="eyebrow">Session történet</p>
           <h2>{{ session.finalSceneTitle }}</h2>
-          @for (paragraph of session.narration; track $index) {
-            <p>{{ paragraph }}</p>
+          @if (session.story; as story) {
+            <p class="story-panel__approved-story">{{ story }}</p>
+          } @else {
+            @for (paragraph of session.narration; track $index) {
+              <p>{{ paragraph }}</p>
+            }
           }
         </article>
 

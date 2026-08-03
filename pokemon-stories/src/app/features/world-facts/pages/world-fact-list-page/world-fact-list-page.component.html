@@ -1,0 +1,126 @@
+<main class="world-facts-page">
+  @if (store.isLoading()) {
+    <section class="world-facts-page__state" aria-busy="true">Világtények betöltése...</section>
+  } @else if (store.isNotFound()) {
+    <section class="world-facts-page__state">
+      <h1>A projekt nem található</h1>
+      <a routerLink="/projects">Projektjeim</a>
+    </section>
+  } @else if (store.hasError()) {
+    <section class="world-facts-page__state">
+      <h1>Nem sikerült betölteni a Világtényeket</h1>
+      <button type="button" (click)="store.load(projectId)">Újrapróbálás</button>
+    </section>
+  } @else {
+    <header class="world-facts-page__header">
+      <a [routerLink]="['/projects', projectId]">← Projekt Dashboard</a>
+      <div>
+        <p>{{ store.projectName() }}</p>
+        <h1>Világtények</h1>
+        <span>A kampány elfogadott igazságai</span>
+      </div>
+      <button type="button" (click)="dialogOpen.set(true)">
+        <ps-icon name="add-spark" [size]="22" /> Világtény hozzáadása
+      </button>
+    </header>
+    @if (store.activeFacts().length === 0) {
+      <section class="world-facts-page__empty">
+        <ps-icon name="world-fact" [size]="80" />
+        <h2>Mi igaz most a világban?</h2>
+        <p>
+          Rögzítsd az első elfogadott Világtényt, hogy a következő kalandok következetesek
+          maradjanak.
+        </p>
+        <button type="button" (click)="dialogOpen.set(true)">Első Világtény létrehozása</button>
+      </section>
+    } @else {
+      <section class="world-fact-section">
+        <header>
+          <p>Aktív világ</p>
+          <h2>Jelenlegi igazságok</h2>
+        </header>
+        <div class="world-fact-list">
+          @for (fact of store.activeFacts(); track fact.value.id) {
+            <article>
+              <ps-icon name="world-fact" [size]="30" />
+              <div>
+                <span>{{ fact.value.category }}</span>
+                <p>{{ fact.value.text }}</p>
+              </div>
+              <button type="button" [disabled]="store.saving()" (click)="store.archive(fact)">
+                Archiválás
+              </button>
+            </article>
+          }
+        </div>
+      </section>
+    }
+    @if (store.archivedFacts().length) {
+      <section class="world-fact-section world-fact-section--archived">
+        <header>
+          <p>Megőrzött előzmények</p>
+          <h2>Archivált Világtények</h2>
+        </header>
+        <div class="world-fact-list">
+          @for (fact of store.archivedFacts(); track fact.value.id) {
+            <article>
+              <ps-icon name="archive-box" [size]="30" />
+              <div>
+                <span>{{ fact.value.category }}</span>
+                <p>{{ fact.value.text }}</p>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
+  }
+</main>
+@if (dialogOpen()) {
+  <div class="world-fact-dialog__backdrop" (click)="dialogOpen.set(false)">
+    <section
+      class="world-fact-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="world-fact-dialog-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header>
+        <div>
+          <p>Új Világtény</p>
+          <h2 id="world-fact-dialog-title">Mi vált a világ igazságává?</h2>
+        </div>
+        <button type="button" aria-label="Bezárás" (click)="dialogOpen.set(false)">×</button>
+      </header>
+      <label
+        >Világtény<textarea
+          rows="4"
+          maxlength="400"
+          [value]="text()"
+          (input)="updateText($event)"
+        ></textarea></label
+      ><label
+        >Kategória<select [value]="category()" (change)="updateCategory($event)">
+          <option value="general">Általános</option>
+          <option value="character">Karakter</option>
+          <option value="npc">NPC</option>
+          <option value="location">Helyszín</option>
+          <option value="relationship">Kapcsolat</option>
+          <option value="story-state">Történet állapota</option>
+          <option value="custom">Egyedi</option>
+        </select></label
+      >
+      @if (store.errorMessage()) {
+        <p class="world-fact-dialog__error">{{ store.errorMessage() }}</p>
+      }
+      <button
+        class="world-fact-dialog__save"
+        type="button"
+        [disabled]="store.saving() || !text().trim()"
+        (click)="create()"
+      >
+        {{ store.saving() ? 'Mentés...' : 'Világtény mentése' }}
+      </button>
+    </section>
+  </div>
+}

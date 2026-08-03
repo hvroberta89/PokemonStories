@@ -41,6 +41,8 @@ export interface RunningSessionState {
 
   readonly completedAt: string | null;
 
+  readonly sessionStory?: string;
+
   readonly viewModel: RunningSessionViewModel;
 
   readonly rewardQueue: readonly RewardQueueItemViewModel[];

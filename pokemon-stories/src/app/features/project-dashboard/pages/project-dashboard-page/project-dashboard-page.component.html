@@ -149,9 +149,9 @@
         <button type="button">
           <ps-icon name="location-pin" [size]="42" /><span>Helyszínek</span>
         </button>
-        <button type="button">
+        <a [routerLink]="['/projects', dashboard.project.id, 'world-facts']">
           <ps-icon name="world-fact" [size]="42" /><span>Világtények</span>
-        </button>
+        </a>
         <a [routerLink]="['/projects', dashboard.project.id, 'collection']">
           <ps-icon name="collection-chest" [size]="42" /><span>Gyűjtemény</span>
         </a>

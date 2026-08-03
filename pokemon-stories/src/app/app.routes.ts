@@ -45,6 +45,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: ':projectId/world-facts',
+        loadComponent: () =>
+          import('./features/world-facts/pages/world-fact-list-page/world-fact-list-page.component').then(
+            (module) => module.WorldFactListPageComponent,
+          ),
+      },
+      {
         path: ':projectId/collection/:rewardId',
         loadComponent: () =>
           import('./features/collection/pages/reward-detail-page/reward-detail-page.component').then(

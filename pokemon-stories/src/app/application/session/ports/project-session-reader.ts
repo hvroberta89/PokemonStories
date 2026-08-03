@@ -25,6 +25,7 @@ export interface CompletedProjectSessionSummary {
 }
 
 export interface CompletedProjectSessionDetail extends CompletedProjectSessionSummary {
+  readonly story?: string;
   readonly narration: readonly string[];
   readonly sceneTitles: readonly string[];
   readonly events: readonly {

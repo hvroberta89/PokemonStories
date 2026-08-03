@@ -6,13 +6,8 @@
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  padding:
-    1rem
-    1rem
-    0.75rem;
-  border-bottom:
-    1px solid
-    rgb(23 50 77 / 13%);
+  padding: 1rem 1rem 0.75rem;
+  border-bottom: 1px solid rgb(23 50 77 / 13%);
 }
 
 .reward-history__header-icon {
@@ -20,19 +15,10 @@
   width: 2.75rem;
   height: 2.75rem;
   place-items: center;
-  border:
-    2px solid
-    #17324d;
+  border: 2px solid #17324d;
   border-radius: 0.9rem;
-  background:
-    linear-gradient(
-      145deg,
-      #fff4bf,
-      #f6c95d
-    );
-  box-shadow:
-    0 0.16rem 0
-    #896017;
+  background: linear-gradient(145deg, #fff4bf, #f6c95d);
+  box-shadow: 0 0.16rem 0 #896017;
 }
 
 .reward-history__eyebrow {
@@ -47,18 +33,12 @@
 .reward-history h3 {
   margin: 0;
   color: #17324d;
-  font-family:
-    Georgia,
-    'Times New Roman',
-    serif;
+  font-family: Georgia, 'Times New Roman', serif;
   font-size: 1.15rem;
 }
 
 .reward-history__content {
-  padding:
-    1rem
-    1rem
-    1.5rem;
+  padding: 1rem 1rem 1.5rem;
 }
 
 .reward-history__list {
@@ -75,15 +55,32 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.8rem;
-  border:
-    2px solid
-    rgb(23 50 77 / 16%);
+  border: 2px solid rgb(23 50 77 / 16%);
   border-radius: 1.15rem;
-  background:
-    rgb(255 255 255 / 70%);
-  box-shadow:
-    0 0.2rem 0
-    rgb(23 50 77 / 11%);
+  background: rgb(255 255 255 / 70%);
+  box-shadow: 0 0.2rem 0 rgb(23 50 77 / 11%);
+}
+
+.reward-history__item-actions {
+  display: grid;
+  justify-items: end;
+  gap: 0.45rem;
+
+  button {
+    display: inline-flex;
+    min-height: 2.1rem;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.55rem;
+    border: 1px solid #17324d;
+    border-radius: 0.65rem;
+    background: #fff4bf;
+    color: #17324d;
+    font: inherit;
+    font-size: 0.68rem;
+    font-weight: 900;
+    cursor: pointer;
+  }
 }
 
 .reward-history__item-icon {
@@ -91,16 +88,9 @@
   width: 3.1rem;
   height: 3.1rem;
   place-items: center;
-  border:
-    2px solid
-    #17324d;
+  border: 2px solid #17324d;
   border-radius: 1rem;
-  background:
-    linear-gradient(
-      145deg,
-      #eef8da,
-      #cfe99a
-    );
+  background: linear-gradient(145deg, #eef8da, #cfe99a);
 }
 
 .reward-history__item-copy {
@@ -117,10 +107,7 @@
 
 .reward-history__item-copy strong {
   color: #17324d;
-  font-family:
-    Georgia,
-    'Times New Roman',
-    serif;
+  font-family: Georgia, 'Times New Roman', serif;
   font-size: 1rem;
 }
 
@@ -134,9 +121,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  padding:
-    0.35rem
-    0.55rem;
+  padding: 0.35rem 0.55rem;
   border-radius: 999px;
   background: #dff1c8;
   color: #416b27;
@@ -147,9 +132,7 @@
 .reward-history__empty {
   display: grid;
   justify-items: center;
-  padding:
-    2.5rem
-    1.25rem;
+  padding: 2.5rem 1.25rem;
   text-align: center;
 }
 
@@ -159,30 +142,40 @@
   height: 5rem;
   margin-bottom: 1rem;
   place-items: center;
-  border:
-    2px dashed
-    rgb(23 50 77 / 28%);
+  border: 2px dashed rgb(23 50 77 / 28%);
   border-radius: 1.5rem;
-  background:
-    rgb(255 255 255 / 48%);
+  background: rgb(255 255 255 / 48%);
 }
 
 .reward-history__empty strong {
   color: #17324d;
-  font-family:
-    Georgia,
-    'Times New Roman',
-    serif;
+  font-family: Georgia, 'Times New Roman', serif;
   font-size: 1.1rem;
 }
 
 .reward-history__empty p {
   max-width: 18rem;
-  margin:
-    0.4rem
-    0
-    0;
+  margin: 0.4rem 0 0;
   color: #647581;
   font-size: 0.85rem;
   line-height: 1.45;
+}
+
+@media (max-width: 30rem) {
+  .reward-history__item {
+    grid-template-columns:
+      auto
+      minmax(0, 1fr);
+  }
+
+  .reward-history__item-actions {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr 1fr;
+    justify-items: stretch;
+
+    button,
+    .reward-history__status {
+      justify-content: center;
+    }
+  }
 }

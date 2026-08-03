@@ -1,0 +1,177 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  background: var(--color-page-background);
+  color: var(--color-text-primary);
+}
+.world-facts-page {
+  width: min(100%, var(--content-width));
+  margin: auto;
+  padding: var(--page-padding);
+}
+.world-facts-page__header {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.world-facts-page__header a {
+  color: var(--color-primary-strong);
+  text-decoration: none;
+  font-weight: 800;
+}
+.world-facts-page__header p,
+.world-fact-section header p,
+.world-fact-dialog header p {
+  margin: 0;
+  color: var(--color-primary-strong);
+  font-size: 0.73rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.world-facts-page h1,
+.world-facts-page h2,
+.world-fact-dialog h2 {
+  margin: 0.3rem 0;
+  font-family: var(--font-family-display);
+}
+.world-facts-page__header > button,
+.world-facts-page__empty button,
+.world-fact-dialog__save {
+  justify-self: start;
+  min-height: 2.8rem;
+  padding: 0.6rem 0.9rem;
+  border: 0;
+  border-radius: var(--radius-medium);
+  background: var(--color-primary);
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.world-fact-section,
+.world-facts-page__empty,
+.world-facts-page__state {
+  padding: 1.2rem;
+  border-radius: var(--radius-large);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+.world-fact-section + .world-fact-section {
+  margin-top: 1.2rem;
+}
+.world-fact-list {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+.world-fact-list article {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.85rem;
+  border-radius: var(--radius-medium);
+  background: var(--color-surface-strong);
+}
+.world-fact-list article div {
+  display: grid;
+  gap: 0.2rem;
+}
+.world-fact-list article span {
+  color: var(--color-primary-strong);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+.world-fact-list article p {
+  margin: 0;
+  line-height: 1.45;
+}
+.world-fact-list button {
+  border: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.world-facts-page__empty {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  max-width: 38rem;
+  margin: 4rem auto;
+  text-align: center;
+}
+.world-facts-page__empty p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+.world-fact-dialog__backdrop {
+  position: fixed;
+  z-index: 150;
+  inset: 0;
+  display: grid;
+  place-items: end center;
+  padding: 1rem;
+  background: rgb(18 35 49 / 60%);
+}
+.world-fact-dialog {
+  display: grid;
+  width: min(100%, 32rem);
+  gap: 1rem;
+  padding: 1.2rem;
+  border-radius: var(--radius-large);
+  background: var(--color-surface-strong);
+  box-shadow: var(--shadow-floating);
+}
+.world-fact-dialog header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.world-fact-dialog header button {
+  border: 0;
+  background: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.world-fact-dialog label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 800;
+}
+.world-fact-dialog textarea,
+.world-fact-dialog select {
+  padding: 0.65rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-small);
+  font: inherit;
+}
+.world-fact-dialog__error {
+  margin: 0;
+  color: var(--color-danger);
+  font-weight: 700;
+}
+@media (min-width: 42rem) {
+  .world-facts-page__header {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+  .world-facts-page__header > a {
+    grid-column: 1 / -1;
+  }
+  .world-fact-dialog__backdrop {
+    place-items: center;
+  }
+}
+@media (max-width: 32rem) {
+  .world-fact-list article {
+    grid-template-columns: auto 1fr;
+  }
+  .world-fact-list button {
+    grid-column: 1 / -1;
+    justify-self: end;
+  }
+}

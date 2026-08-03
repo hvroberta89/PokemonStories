@@ -238,6 +238,9 @@
       (closeSelected)="closeSessionSummary()"
       (timelineSelected)="openSummaryTimeline()"
       (rewardsSelected)="openSummaryRewards()"
+      (storySaved)="saveSessionStory($event)"
+      [worldFactApprovalStatus]="worldFactApprovalStatus()"
+      (worldFactApproved)="approveWorldFact($event)"
       (reviewCompleted)="completeSessionReview($event)"
     />
   }

@@ -284,6 +284,11 @@ export class RunningSessionStore {
     void this.syncImmediately();
   }
 
+  saveSessionStory(story: string | undefined): void {
+    const sessionStory = story?.trim() || undefined;
+    this.state.update((currentState) => ({ ...currentState, sessionStory }));
+  }
+
   restartSession(): void {
     const initialState = this.createDefaultState();
 
@@ -378,7 +383,8 @@ export class RunningSessionStore {
         type: reward.rewardType ?? 'custom',
         label: reward.rewardLabel,
         amount: reward.amount,
-        physicalStatus: reward.physicalStatus ?? (reward.status === 'printed' ? 'printed' : 'queued'),
+        physicalStatus:
+          reward.physicalStatus ?? (reward.status === 'printed' ? 'printed' : 'queued'),
         deliveryStatus: 'pending',
       }),
     );
@@ -399,11 +405,13 @@ export class RunningSessionStore {
       }),
     );
     await this.rewardGrants.saveAll([...queued, ...given]);
-    const preparedRewardIds = [...new Set(
-      [...state.rewardQueue, ...state.rewardHistory]
-        .map((reward) => reward.preparedRewardId)
-        .filter((rewardId): rewardId is string => Boolean(rewardId)),
-    )];
+    const preparedRewardIds = [
+      ...new Set(
+        [...state.rewardQueue, ...state.rewardHistory]
+          .map((reward) => reward.preparedRewardId)
+          .filter((rewardId): rewardId is string => Boolean(rewardId)),
+      ),
+    ];
     await this.preparedRewards.markUnlocked(
       projectId(state.projectId),
       preparedRewardIds,
