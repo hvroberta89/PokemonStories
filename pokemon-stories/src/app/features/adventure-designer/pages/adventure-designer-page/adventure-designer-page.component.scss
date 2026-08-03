@@ -78,6 +78,18 @@
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
+.story-ai {
+  display: grid;
+  padding: 0.8rem;
+  gap: 0.65rem;
+  border: 1px solid #dbc06e;
+  border-radius: var(--radius-small);
+  background: #fff9df;
+}
+.story-ai > button { justify-self: start; min-height: 2.4rem; padding: 0.45rem 0.65rem; border: 1px solid #d6940c; border-radius: var(--radius-small); background: var(--gradient-gold); font-weight: 850; }
+.story-ai__suggestions { display: grid; gap: 0.5rem; }
+.story-ai__suggestions button { display: grid; padding: 0.7rem; gap: 0.2rem; border: 1px solid var(--color-border); border-radius: var(--radius-small); background: rgb(255 255 255 / 70%); color: var(--color-text-primary); text-align: left; }
+.story-ai__suggestions span, .story-ai__suggestions small { color: var(--color-text-secondary); font-size: 0.78rem; line-height: 1.4; }
 .story-grid label {
   display: grid;
   padding: 1rem;
@@ -182,6 +194,24 @@ nav small {
   font-size: 0.72rem;
   font-weight: 800;
 }
+.foundation-ai {
+  display: grid;
+  padding: 1rem;
+  gap: 0.8rem;
+  border: 1px solid #dbc06e;
+  border-radius: var(--radius-medium);
+  background: #fff9df;
+}
+.foundation-ai h3,
+.foundation-ai p { margin: 0; }
+.foundation-ai h3 { font-family: var(--font-family-display); font-size: 1.25rem; }
+.foundation-ai > div > p:last-child { margin-top: 0.3rem; color: var(--color-text-secondary); font-size: 0.88rem; }
+.foundation-ai > button { justify-self: start; min-height: 2.6rem; padding: 0.55rem 0.8rem; border: 1px solid #d6940c; border-radius: var(--radius-small); background: var(--gradient-gold); color: var(--color-text-primary); font-weight: 850; }
+.foundation-ai__suggestions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.65rem; }
+.foundation-ai__suggestions article { display: grid; padding: 0.85rem; gap: 0.55rem; border: 1px solid var(--color-border); border-radius: var(--radius-small); background: rgb(255 255 255 / 70%); }
+.foundation-ai__suggestions h4 { margin: 0; font-family: var(--font-family-display); font-size: 1.1rem; }
+.foundation-ai__suggestions p { color: var(--color-text-secondary); font-size: 0.84rem; line-height: 1.45; }
+.foundation-ai__suggestions button { justify-self: start; padding: 0.45rem 0.6rem; border: 1px solid var(--color-border-strong); border-radius: var(--radius-small); background: var(--color-surface-strong); font-weight: 800; }
 form {
   display: grid;
   padding-top: 1.5rem;
@@ -272,6 +302,7 @@ select:focus {
 .prepared-rewards__list small { color: var(--color-text-secondary); }
 .prepared-rewards__list button { border: 0; background: transparent; color: var(--color-danger); font-size: 1.35rem; }
 @media (max-width: 44rem) { .prepared-rewards__form { grid-template-columns: 1fr; } .prepared-rewards__form label.wide { grid-column: auto; } }
+@media (max-width: 44rem) { .foundation-ai__suggestions { grid-template-columns: 1fr; } }
 .designer__readiness button:disabled {
   border: 1px solid #5f8f36;
   background: linear-gradient(180deg, #82a950, #62863a);
@@ -476,6 +507,18 @@ select:focus {
   font-size: 1.5rem;
   cursor: pointer;
 }
+.scene-ai {
+  display: grid;
+  padding: 0.8rem;
+  gap: 0.65rem;
+  border: 1px solid #dbc06e;
+  border-radius: var(--radius-small);
+  background: #fff9df;
+}
+.scene-ai > button { justify-self: start; min-height: 2.4rem; padding: 0.45rem 0.65rem; border: 1px solid #d6940c; border-radius: var(--radius-small); background: var(--gradient-gold); font-weight: 850; }
+.scene-ai__suggestions { display: grid; gap: 0.5rem; }
+.scene-ai__suggestions button { display: grid; padding: 0.7rem; gap: 0.2rem; border: 1px solid var(--color-border); border-radius: var(--radius-small); background: rgb(255 255 255 / 70%); color: var(--color-text-primary); text-align: left; }
+.scene-ai__suggestions span, .scene-ai__suggestions small { color: var(--color-text-secondary); font-size: 0.78rem; line-height: 1.4; }
 .scene-dialog__actions {
   display: flex;
   margin-top: 0.4rem;

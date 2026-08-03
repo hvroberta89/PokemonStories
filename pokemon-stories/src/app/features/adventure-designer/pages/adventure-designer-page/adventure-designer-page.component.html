@@ -82,6 +82,31 @@
             <span><ps-icon name="success-check" [size]="22" /> Kötelező mezők kitöltve</span>
           </div>
           <form (submit)="$event.preventDefault(); save()" novalidate>
+            <div class="foundation-ai">
+              <div>
+                <p class="eyebrow">AI kreatív társ</p>
+                <h3>Induljunk egy ötletből</h3>
+                <p>Három különböző Foundation-javaslatot kapsz. Csak a kiválasztott változat kerül a szerkesztőbe.</p>
+              </div>
+              <label>Kiinduló ötlet
+                <textarea rows="3" maxlength="1000" placeholder="Például: Egy eltűnt Pokémon tojás nyomai az erdőbe vezetnek." [value]="foundationIdea()" (input)="foundationIdea.set($any($event.target).value)"></textarea>
+              </label>
+              <button type="button" [disabled]="store.isGeneratingFoundationSuggestions() || !foundationIdea().trim()" (click)="generateFoundationSuggestions()">
+                <ps-icon name="add-spark" [size]="21" />
+                {{ store.isGeneratingFoundationSuggestions() ? 'Javaslatok készülnek…' : 'Három ötlet kérése' }}
+              </button>
+              @if (store.foundationSuggestions().length) {
+                <div class="foundation-ai__suggestions" aria-live="polite">
+                  @for (suggestion of store.foundationSuggestions(); track suggestion.title) {
+                    <article>
+                      <h4>{{ suggestion.title }}</h4>
+                      <p>{{ suggestion.premise }}</p>
+                      <button type="button" (click)="chooseFoundationSuggestion(suggestion)">Ezt szerkesztem</button>
+                    </article>
+                  }
+                </div>
+              }
+            </div>
             <label
               >Cím <span>{{ title().length }}/100</span
               ><input
@@ -148,6 +173,20 @@
             <span class="story-panel__optional">Ajánlott</span>
           </div>
           <form (submit)="$event.preventDefault(); saveStory()">
+            <div class="story-ai">
+              <label>AI irány (opcionális)<input maxlength="500" placeholder="Például: legyen játékos, de a végén megható döntéssel." [value]="storyDirection()" (input)="storyDirection.set($any($event.target).value)" /></label>
+              <button type="button" [disabled]="store.isGeneratingStorySuggestions()" (click)="generateStorySuggestions()">
+                <ps-icon name="add-spark" [size]="20" />
+                {{ store.isGeneratingStorySuggestions() ? 'Javaslatok készülnek…' : 'Három történetív kérése' }}
+              </button>
+              @if (store.storySuggestions().length) {
+                <div class="story-ai__suggestions" aria-live="polite">
+                  @for (suggestion of store.storySuggestions(); track suggestion.opening) {
+                    <button type="button" (click)="chooseStorySuggestion(suggestion)"><strong>{{ suggestion.opening }}</strong><span>{{ suggestion.development }}</span><small>{{ suggestion.climax }} {{ suggestion.resolution }}</small></button>
+                  }
+                </div>
+              }
+            </div>
             <div class="story-grid">
               <label
                 ><strong>1</strong><span>Nyitás<small>Mi indítja el a kalandot?</small></span
@@ -364,6 +403,24 @@
             <button type="button" aria-label="Bezárás" (click)="sceneFormOpen.set(false)">×</button>
           </div>
           <form (submit)="$event.preventDefault(); addScene()" novalidate>
+            @if (!editingSceneId()) {
+              <div class="scene-ai">
+                <label>AI irány (opcionális)<input maxlength="500" placeholder="Például: legyen egy rejtélyes nyitójelenet az erdő szélén." [value]="sceneDirection()" (input)="sceneDirection.set($any($event.target).value)" /></label>
+                <button type="button" [disabled]="store.isGeneratingSceneSuggestions()" (click)="generateSceneSuggestions()">
+                  <ps-icon name="add-spark" [size]="20" />
+                  {{ store.isGeneratingSceneSuggestions() ? 'Javaslatok készülnek…' : 'Három jelenetötlet kérése' }}
+                </button>
+                @if (store.sceneSuggestions().length) {
+                  <div class="scene-ai__suggestions" aria-live="polite">
+                    @for (suggestion of store.sceneSuggestions(); track suggestion.title) {
+                      <button type="button" (click)="chooseSceneSuggestion(suggestion)">
+                        <strong>{{ suggestion.title }}</strong><span>{{ suggestion.description }}</span><small>Cél: {{ suggestion.goal }}</small>
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            }
             <label
               >Jelenet címe<input
                 maxlength="120"

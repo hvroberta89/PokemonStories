@@ -33,10 +33,12 @@ export class AdventureDesignerPageComponent {
   protected readonly audiencePresetId = signal<AudienceAgePresetId>('children');
   protected readonly sessionLengthMinutes = signal(60);
   protected readonly submitted = signal(false);
+  protected readonly foundationIdea = signal('');
   protected readonly sceneFormOpen = signal(false);
   protected readonly sceneTitle = signal('');
   protected readonly sceneDescription = signal('');
   protected readonly sceneGoal = signal('');
+  protected readonly sceneDirection = signal('');
   protected readonly sceneSubmitted = signal(false);
   protected readonly editingSceneId = signal<AdventureSceneId | null>(null);
   protected readonly deletingSceneId = signal<AdventureSceneId | null>(null);
@@ -44,6 +46,7 @@ export class AdventureDesignerPageComponent {
   protected readonly storyDevelopment = signal('');
   protected readonly storyClimax = signal('');
   protected readonly storyResolution = signal('');
+  protected readonly storyDirection = signal('');
   protected readonly rewardType = signal<RewardType>('item');
   protected readonly rewardLabel = signal('');
   protected readonly rewardAmount = signal(1);
@@ -66,6 +69,22 @@ export class AdventureDesignerPageComponent {
 
   protected updateLength(event: Event): void {
     this.sessionLengthMinutes.set(Number((event.target as HTMLSelectElement).value));
+  }
+
+  protected generateFoundationSuggestions(): void {
+    const audience = this.audiencePresets.find((item) => item.id === this.audiencePresetId());
+    if (!audience || !this.foundationIdea().trim()) return;
+    void this.store.generateFoundationSuggestions({
+      idea: this.foundationIdea(),
+      audienceLabel: audience.label,
+      sessionLengthMinutes: this.sessionLengthMinutes(),
+    });
+  }
+
+  protected chooseFoundationSuggestion(suggestion: { readonly title: string; readonly premise: string }): void {
+    this.title.set(suggestion.title);
+    this.premise.set(suggestion.premise);
+    this.submitted.set(false);
   }
 
   protected async save(): Promise<void> {
@@ -115,6 +134,7 @@ export class AdventureDesignerPageComponent {
       this.sceneDescription.set('');
       this.sceneGoal.set('');
       this.editingSceneId.set(null);
+      this.store.clearSceneSuggestions();
     }
   }
 
@@ -123,6 +143,8 @@ export class AdventureDesignerPageComponent {
     this.sceneTitle.set('');
     this.sceneDescription.set('');
     this.sceneGoal.set('');
+    this.sceneDirection.set('');
+    this.store.clearSceneSuggestions();
     this.sceneSubmitted.set(false);
     this.sceneFormOpen.set(true);
   }
@@ -132,8 +154,34 @@ export class AdventureDesignerPageComponent {
     this.sceneTitle.set(scene.title);
     this.sceneDescription.set(scene.description);
     this.sceneGoal.set(scene.goal);
+    this.sceneDirection.set('');
+    this.store.clearSceneSuggestions();
     this.sceneSubmitted.set(false);
     this.sceneFormOpen.set(true);
+  }
+
+  protected generateSceneSuggestions(): void {
+    const adventure = this.store.adventure();
+    const audience = this.audiencePresets.find((item) => item.id === this.audiencePresetId());
+    if (!adventure || !audience) return;
+    void this.store.generateSceneSuggestions({
+      adventureTitle: adventure.title,
+      premise: adventure.premise,
+      audienceLabel: audience.label,
+      sessionLengthMinutes: this.sessionLengthMinutes(),
+      direction: this.sceneDirection(),
+    });
+  }
+
+  protected chooseSceneSuggestion(suggestion: {
+    readonly title: string;
+    readonly description: string;
+    readonly goal: string;
+  }): void {
+    this.sceneTitle.set(suggestion.title);
+    this.sceneDescription.set(suggestion.description);
+    this.sceneGoal.set(suggestion.goal);
+    this.sceneSubmitted.set(false);
   }
 
   protected moveScene(sceneId: AdventureSceneId, direction: 'up' | 'down'): void {
@@ -189,6 +237,31 @@ export class AdventureDesignerPageComponent {
       climax: this.storyClimax(),
       resolution: this.storyResolution(),
     });
+  }
+
+  protected generateStorySuggestions(): void {
+    const adventure = this.store.adventure();
+    const audience = this.audiencePresets.find((item) => item.id === this.audiencePresetId());
+    if (!adventure || !audience) return;
+    void this.store.generateStorySuggestions({
+      adventureTitle: adventure.title,
+      premise: adventure.premise,
+      audienceLabel: audience.label,
+      sessionLengthMinutes: this.sessionLengthMinutes(),
+      direction: this.storyDirection(),
+    });
+  }
+
+  protected chooseStorySuggestion(suggestion: {
+    readonly opening: string;
+    readonly development: string;
+    readonly climax: string;
+    readonly resolution: string;
+  }): void {
+    this.storyOpening.set(suggestion.opening);
+    this.storyDevelopment.set(suggestion.development);
+    this.storyClimax.set(suggestion.climax);
+    this.storyResolution.set(suggestion.resolution);
   }
 
   protected markAdventureReady(): void {
