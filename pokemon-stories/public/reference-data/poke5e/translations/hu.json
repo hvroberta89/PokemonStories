@@ -34622,6 +34622,2361 @@
           "Ha egy tojást belehelyeznek, az minden nap 3 nap 20-al csökkenti a kikelés idejét. Amint a tojás kikel, az inkubátor elveszti hatékonyságát."
         ]
       }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "113",
+      "payload": {
+        "moveName": "Acid Spray"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "62",
+      "payload": {
+        "moveName": "Akrobatika"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "40",
+      "payload": {
+        "moveName": "Légi ász"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "105",
+      "payload": {
+        "moveName": "Agility"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "129",
+      "payload": {
+        "moveName": "Légvágó"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "140",
+      "payload": {
+        "moveName": "Air Slash"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "254",
+      "payload": {
+        "moveName": "Csábító hang"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "177",
+      "payload": {
+        "moveName": "Amnézia"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "45",
+      "payload": {
+        "moveName": "Vonzza"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "167",
+      "payload": {
+        "moveName": "Aura gömb"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "70",
+      "payload": {
+        "moveName": "Aurora Veil"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "132",
+      "payload": {
+        "moveName": "Lavina"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "180",
+      "payload": {
+        "moveName": "Baton Pass"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "193",
+      "payload": {
+        "moveName": "Blast Burn"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "14",
+      "payload": {
+        "moveName": "Blizzard"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "151",
+      "payload": {
+        "moveName": "Body Press"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "141",
+      "payload": {
+        "moveName": "Body Slam"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "200",
+      "payload": {
+        "moveName": "Bátor madár"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "249",
+      "payload": {
+        "moveName": "Breaking Swipe"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "31",
+      "payload": {
+        "moveName": "Téglatörés"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "59",
+      "payload": {
+        "moveName": "Brutális Swing"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "212",
+      "payload": {
+        "moveName": "Bug Bite"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "199",
+      "payload": {
+        "moveName": "Bug Buzz"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "8",
+      "payload": {
+        "moveName": "Tömeges fel"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "78",
+      "payload": {
+        "moveName": "Bulldózer"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "136",
+      "payload": {
+        "moveName": "Bullet Seed"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "224",
+      "payload": {
+        "moveName": "Égő féltékenység"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "4",
+      "payload": {
+        "moveName": "Nyugodt elme"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "206",
+      "payload": {
+        "moveName": "Töltés"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "57",
+      "payload": {
+        "moveName": "Charge Beam"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "103",
+      "payload": {
+        "moveName": "Charm"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "119",
+      "payload": {
+        "moveName": "Hűtővíz"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "202",
+      "payload": {
+        "moveName": "Közelharc"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "241",
+      "payload": {
+        "moveName": "Coaching"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "100",
+      "payload": {
+        "moveName": "Bizalommal"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "116",
+      "payload": {
+        "moveName": "Zavard meg Rayt"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "163",
+      "payload": {
+        "moveName": "Crunch"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "251",
+      "payload": {
+        "moveName": "Átok"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "97",
+      "payload": {
+        "moveName": "Sötét pulzus"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "99",
+      "payload": {
+        "moveName": "Vakító csillogás"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "135",
+      "payload": {
+        "moveName": "Dig"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "117",
+      "payload": {
+        "moveName": "Hatástalanító hang"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "32",
+      "payload": {
+        "moveName": "Dupla csapat"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "232",
+      "payload": {
+        "moveName": "Kétélű"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "203",
+      "payload": {
+        "moveName": "Draco Meteor"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "253",
+      "payload": {
+        "moveName": "Dragon Cheer"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "2",
+      "payload": {
+        "moveName": "Dragon Claw"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "158",
+      "payload": {
+        "moveName": "Sárkánytánc"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "169",
+      "payload": {
+        "moveName": "Dragon Pulse"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "82",
+      "payload": {
+        "moveName": "Sárkányfarok"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "147",
+      "payload": {
+        "moveName": "Drain Punch"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "128",
+      "payload": {
+        "moveName": "Kimerítő csók"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "85",
+      "payload": {
+        "moveName": "Álomfaló"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "162",
+      "payload": {
+        "moveName": "Fúrófutás"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "226",
+      "payload": {
+        "moveName": "Dual Wingbeat"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "181",
+      "payload": {
+        "moveName": "Föld Erő"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "26",
+      "payload": {
+        "moveName": "Földrengés"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "49",
+      "payload": {
+        "moveName": "Visszhangzott Hang"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "155",
+      "payload": {
+        "moveName": "Félelmetes impulzus"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "183",
+      "payload": {
+        "moveName": "Elektromos terep"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "146",
+      "payload": {
+        "moveName": "Electro Ball"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "239",
+      "payload": {
+        "moveName": "Electroweb"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "63",
+      "payload": {
+        "moveName": "Embargó"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "174",
+      "payload": {
+        "moveName": "Encore"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "233",
+      "payload": {
+        "moveName": "Endeavour"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "133",
+      "payload": {
+        "moveName": "Elviselni"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "53",
+      "payload": {
+        "moveName": "Energia labda"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "245",
+      "payload": {
+        "moveName": "Bővülő Erő"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "64",
+      "payload": {
+        "moveName": "Robbanás"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "42",
+      "payload": {
+        "moveName": "Homlokzat"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "104",
+      "payload": {
+        "moveName": "Hamis könnyek"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "54",
+      "payload": {
+        "moveName": "Hamis ellop"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "243",
+      "payload": {
+        "moveName": "Tolltánc"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "38",
+      "payload": {
+        "moveName": "Fire Blast"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "108",
+      "payload": {
+        "moveName": "Tűzagyar"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "189",
+      "payload": {
+        "moveName": "Tűzfogalom"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "142",
+      "payload": {
+        "moveName": "Fire Punch"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "120",
+      "payload": {
+        "moveName": "Fire Spin"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "43",
+      "payload": {
+        "moveName": "Lángtöltés"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "35",
+      "payload": {
+        "moveName": "Lángszóró"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "201",
+      "payload": {
+        "moveName": "Flare Blitz"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "91",
+      "payload": {
+        "moveName": "Flash Cannon"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "56",
+      "payload": {
+        "moveName": "Fling"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "225",
+      "payload": {
+        "moveName": "Flip Turn"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "76",
+      "payload": {
+        "moveName": "Repülj"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "52",
+      "payload": {
+        "moveName": "Fókusz robbanás"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "221",
+      "payload": {
+        "moveName": "Focus Punch"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "138",
+      "payload": {
+        "moveName": "Rossz játék"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "195",
+      "payload": {
+        "moveName": "Frenzy Plant"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "79",
+      "payload": {
+        "moveName": "Frost Breath"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "21",
+      "payload": {
+        "moveName": "Frusztráltság"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "244",
+      "payload": {
+        "moveName": "Jövőkép"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "166",
+      "payload": {
+        "moveName": "Giga Drain"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "68",
+      "payload": {
+        "moveName": "Giga Impact"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "86",
+      "payload": {
+        "moveName": "Fűcsomó"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "191",
+      "payload": {
+        "moveName": "Fű zálog"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "223",
+      "payload": {
+        "moveName": "Grassy Glide"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "184",
+      "payload": {
+        "moveName": "Füves terep"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "210",
+      "payload": {
+        "moveName": "Gravitáció"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "160",
+      "payload": {
+        "moveName": "Gunk Shot"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "74",
+      "payload": {
+        "moveName": "Gyro Ball"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "7",
+      "payload": {
+        "moveName": "Üdv"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "252",
+      "payload": {
+        "moveName": "Hard Press"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "207",
+      "payload": {
+        "moveName": "Haze"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "218",
+      "payload": {
+        "moveName": "Heat Crash"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "172",
+      "payload": {
+        "moveName": "Hőhullám"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "173",
+      "payload": {
+        "moveName": "Heavy Slam"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "178",
+      "payload": {
+        "moveName": "Segítő kéz"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "122",
+      "payload": {
+        "moveName": "Hex"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "10",
+      "payload": {
+        "moveName": "Rejtett Erő"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "216",
+      "payload": {
+        "moveName": "Nagy lóerő"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "198",
+      "payload": {
+        "moveName": "hurrikán"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "194",
+      "payload": {
+        "moveName": "Hydro Cannon"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "188",
+      "payload": {
+        "moveName": "Hidroszivattyú"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "15",
+      "payload": {
+        "moveName": "Hyper Beam"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "171",
+      "payload": {
+        "moveName": "Hyper Voice"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "13",
+      "payload": {
+        "moveName": "Ice Beam"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "110",
+      "payload": {
+        "moveName": "Jégagyar"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "144",
+      "payload": {
+        "moveName": "Ice Punch"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "175",
+      "payload": {
+        "moveName": "Ice Spinner"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "217",
+      "payload": {
+        "moveName": "Jégcsap lándzsa"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "126",
+      "payload": {
+        "moveName": "Jeges szél"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "154",
+      "payload": {
+        "moveName": "Börtön"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "83",
+      "payload": {
+        "moveName": "Fertőzés"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "161",
+      "payload": {
+        "moveName": "Vasvédelem"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "157",
+      "payload": {
+        "moveName": "Vasfej"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "211",
+      "payload": {
+        "moveName": "Knock Off"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "228",
+      "payload": {
+        "moveName": "Lash Out"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "197",
+      "payload": {
+        "moveName": "Levélvihar"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "28",
+      "payload": {
+        "moveName": "Pióca élet"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "16",
+      "payload": {
+        "moveName": "Világos képernyő"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "165",
+      "payload": {
+        "moveName": "Felszámolás"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "112",
+      "payload": {
+        "moveName": "Low Kick"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "47",
+      "payload": {
+        "moveName": "Low Sweep"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "215",
+      "payload": {
+        "moveName": "Kitörés"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "125",
+      "payload": {
+        "moveName": "Varázslatos levél"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "123",
+      "payload": {
+        "moveName": "Fém Claw"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "250",
+      "payload": {
+        "moveName": "Metal Sound"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "247",
+      "payload": {
+        "moveName": "Meteorsugár"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "149",
+      "payload": {
+        "moveName": "Metronóm"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "230",
+      "payload": {
+        "moveName": "Ködös robbanás"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "186",
+      "payload": {
+        "moveName": "Ködös terep"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "127",
+      "payload": {
+        "moveName": "Sárlövés"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "106",
+      "payload": {
+        "moveName": "Sár-pofon"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "237",
+      "payload": {
+        "moveName": "Sáros Víz"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "187",
+      "payload": {
+        "moveName": "Csúnya cselekmény"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "96",
+      "payload": {
+        "moveName": "Természet Erő"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "131",
+      "payload": {
+        "moveName": "Éjszakai árnyék"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "196",
+      "payload": {
+        "moveName": "Felháborodás"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "50",
+      "payload": {
+        "moveName": "Túlmelegedés"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "231",
+      "payload": {
+        "moveName": "Fájdalom Split"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "66",
+      "payload": {
+        "moveName": "Megtérülés"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "234",
+      "payload": {
+        "moveName": "Petal Blizzard"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "192",
+      "payload": {
+        "moveName": "Fantom Erő"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "176",
+      "payload": {
+        "moveName": "Játssz Rough-t"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "84",
+      "payload": {
+        "moveName": "Poison Jab"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "121",
+      "payload": {
+        "moveName": "Poison Tail"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "179",
+      "payload": {
+        "moveName": "Pollen Puff"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "227",
+      "payload": {
+        "moveName": "Poltergeist"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "101",
+      "payload": {
+        "moveName": "Pounce"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "159",
+      "payload": {
+        "moveName": "Power Gem"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "17",
+      "payload": {
+        "moveName": "Védje"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "115",
+      "payload": {
+        "moveName": "Psybeam"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "77",
+      "payload": {
+        "moveName": "Psych Up"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "29",
+      "payload": {
+        "moveName": "Pszichikai"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "139",
+      "payload": {
+        "moveName": "Psychic Fangs"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "255",
+      "payload": {
+        "moveName": "Pszichés zaj"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "185",
+      "payload": {
+        "moveName": "Pszichikus terep"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "3",
+      "payload": {
+        "moveName": "Psyshock"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "60",
+      "payload": {
+        "moveName": "Quash"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "18",
+      "payload": {
+        "moveName": "Esőtánc"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "33",
+      "payload": {
+        "moveName": "tükrözni"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "44",
+      "payload": {
+        "moveName": "Pihenj"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "27",
+      "payload": {
+        "moveName": "Vissza"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "182",
+      "payload": {
+        "moveName": "Visszafordítás"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "5",
+      "payload": {
+        "moveName": "Ordít"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "148",
+      "payload": {
+        "moveName": "Rock Blast"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "69",
+      "payload": {
+        "moveName": "Rock lengyel"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "80",
+      "payload": {
+        "moveName": "Sziklacsúszda"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "39",
+      "payload": {
+        "moveName": "Rock Tomb"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "19",
+      "payload": {
+        "moveName": "Roost"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "48",
+      "payload": {
+        "moveName": "Kerek"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "20",
+      "payload": {
+        "moveName": "Védelem"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "208",
+      "payload": {
+        "moveName": "Homoksír"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "37",
+      "payload": {
+        "moveName": "Homokvihar"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "55",
+      "payload": {
+        "moveName": "Leforrázni"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "229",
+      "payload": {
+        "moveName": "Scale Shot"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "107",
+      "payload": {
+        "moveName": "Ijesztő Arc"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "242",
+      "payload": {
+        "moveName": "Perzselő homok"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "145",
+      "payload": {
+        "moveName": "Magbomba"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "30",
+      "payload": {
+        "moveName": "Shadow Ball"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "65",
+      "payload": {
+        "moveName": "Shadow Claw"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "156",
+      "payload": {
+        "moveName": "Képességcsere"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "246",
+      "payload": {
+        "moveName": "Skitter Smack"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "58",
+      "payload": {
+        "moveName": "Sky Drop"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "88",
+      "payload": {
+        "moveName": "Alvásbeszéd"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "36",
+      "payload": {
+        "moveName": "Iszapbomba"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "34",
+      "payload": {
+        "moveName": "Sludge Wave"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "23",
+      "payload": {
+        "moveName": "Smack Down"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "67",
+      "payload": {
+        "moveName": "Smart Strike"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "95",
+      "payload": {
+        "moveName": "vicsorog"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "134",
+      "payload": {
+        "moveName": "Snowscape"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "22",
+      "payload": {
+        "moveName": "Napsugár"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "219",
+      "payload": {
+        "moveName": "Solar Blade"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "152",
+      "payload": {
+        "moveName": "Tüskék"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "209",
+      "payload": {
+        "moveName": "Szemtelenség"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "170",
+      "payload": {
+        "moveName": "Stealth Rock"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "204",
+      "payload": {
+        "moveName": "Acél gerenda"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "51",
+      "payload": {
+        "moveName": "Acél szárny"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "150",
+      "payload": {
+        "moveName": "Tomboló dühroham"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "71",
+      "payload": {
+        "moveName": "Stone Edge"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "130",
+      "payload": {
+        "moveName": "Tárolt teljesítmény"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "114",
+      "payload": {
+        "moveName": "Küzdelem Bug"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "90",
+      "payload": {
+        "moveName": "Helyettesítő"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "11",
+      "payload": {
+        "moveName": "Napsütéses nap"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "213",
+      "payload": {
+        "moveName": "Szuper Agyar"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "238",
+      "payload": {
+        "moveName": "Supercell Slam"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "94",
+      "payload": {
+        "moveName": "Szörf"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "87",
+      "payload": {
+        "moveName": "Swagger"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "124",
+      "payload": {
+        "moveName": "Swift"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "75",
+      "payload": {
+        "moveName": "Kardok tánca"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "168",
+      "payload": {
+        "moveName": "Hátszél"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "102",
+      "payload": {
+        "moveName": "Vedd le"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "12",
+      "payload": {
+        "moveName": "Gúnyolódás"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "235",
+      "payload": {
+        "moveName": "Temper Flare"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "205",
+      "payload": {
+        "moveName": "Tera Blast"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "46",
+      "payload": {
+        "moveName": "Tolvaj"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "248",
+      "payload": {
+        "moveName": "Torokvágás"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "25",
+      "payload": {
+        "moveName": "Mennydörgés"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "109",
+      "payload": {
+        "moveName": "Thunder Fang"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "143",
+      "payload": {
+        "moveName": "Thunder Punch"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "73",
+      "payload": {
+        "moveName": "Mennydörgés hullám"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "24",
+      "payload": {
+        "moveName": "Thunderbolt"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "41",
+      "payload": {
+        "moveName": "Kínszenvedés"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "6",
+      "payload": {
+        "moveName": "Mérgező"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "153",
+      "payload": {
+        "moveName": "Mérgező tüskék"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "118",
+      "payload": {
+        "moveName": "Trailblaze"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "164",
+      "payload": {
+        "moveName": "trükk"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "92",
+      "payload": {
+        "moveName": "Trükk szoba"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "240",
+      "payload": {
+        "moveName": "Tripla Axel"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "89",
+      "payload": {
+        "moveName": "U-Turn"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "256",
+      "payload": {
+        "moveName": "Felső kéz"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "220",
+      "payload": {
+        "moveName": "Felhajtás"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "214",
+      "payload": {
+        "moveName": "Vákuumhullám"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "9",
+      "payload": {
+        "moveName": "Venoshock"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "72",
+      "payload": {
+        "moveName": "Volt kapcsoló"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "190",
+      "payload": {
+        "moveName": "Víz zálog"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "111",
+      "payload": {
+        "moveName": "Vízimpulzus"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "98",
+      "payload": {
+        "moveName": "Vízesés"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "222",
+      "payload": {
+        "moveName": "Időjárás bál"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "236",
+      "payload": {
+        "moveName": "Whirlpool"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "93",
+      "payload": {
+        "moveName": "Wild Charge"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "61",
+      "payload": {
+        "moveName": "Will-O-Wisp"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "1",
+      "payload": {
+        "moveName": "Dolgozzon fel"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "81",
+      "payload": {
+        "moveName": "X-olló"
+      }
+    },
+    {
+      "dataset": "tms",
+      "recordId": "137",
+      "payload": {
+        "moveName": "Zen Headbutt"
+      }
+    },
+    {
+      "dataset": "origins",
+      "recordId": "alolan",
+      "payload": {
+        "name": "Alolan",
+        "description": "A trópusi paradicsomban, Alolában nőttél fel. Az ottani emberek mélyebb kapcsolatban állnak a Pokémonokkal és a természettel. Az Ön hagyományai és kultúrája teljesen különbözik bármely más régiótól, és erre büszke vagy.\n\nAlola egy apró szigetország Hoenntől délre és a Johto régió délnyugati részén. Csak nemrégiben nyitottak meg a világ többi része felé, és viszonylag kicsik az olyan erőművekhez képest, mint Kalos, Sinnoh és a Kanto régió. De ne hagyd, hogy ez a tény megtévesszen. A természettel való mély kapcsolatuk miatt Alola a világ legtehetségesebb mágusainak ad otthont, akik olyan módon tudnak tanulni és edzeni Pokémonjaikkal, ahogyan azt más régió nem tudja biztosítani.",
+        "abilityScores": {
+          "name": "Életmód",
+          "description": "Olyan kultúrában nőttél fel, amely mélyen kötődik a spirituális gyökereikhez, és nincs rest elmagyarázni az embereknek, hogy ez miért nem rossz.",
+          "values": [
+            "int",
+            "cha"
+          ]
+        },
+        "proficiencies": {
+          "name": "Egy a természettel",
+          "description": "Az Ön szigeti otthonának természetes szépségének csak töredékét érintette meg az ember.",
+          "values": [
+            "természet"
+          ]
+        },
+        "feats": {
+          "name": "Egy másik kötvény",
+          "description": "Úgy tűnik, hogy az alolanok mélyebb természetes kapcsolatban állnak a legtöbb Pokémonnal, mint más régiókban.",
+          "effect": "Egyszer egy hosszú pihenő alatt leadhatod a Speak with Pokemon varázslatot."
+        },
+        "languages": {
+          "values": [
+            "Gyakori",
+            "Alolan"
+          ]
+        }
+      }
+    },
+    {
+      "dataset": "origins",
+      "recordId": "galarian",
+      "payload": {
+        "name": "Galarian",
+        "description": "Ön Galar félreeső vidékén nőtt fel. Megszokták, hogy a dolgokat a maguk módján csinálják, a galariak hidegnek vagy megfélemlítőnek tűnhetnek. Ez azonban gyakran messze nem igaz.\n\nA kontinens többi részétől elzárva a zord hegyláncok által, a galariak saját módszerüket dolgozták ki a dolgok elvégzésére. Ez a kis északi nemzet már régóta egységes, gyakran megkísérli megrohamozni a nyugati hegyeket, és sajátjaként követelni Kalos természeti erőforrásainak egy részét. Magáról a galariakról is köztudott, hogy randalírozó csapat, de ha megismeri őket, ez jót jelent.",
+        "abilityScores": {
+          "name": "Egy jó régimódi verekedés",
+          "description": "A galariak soha nem utasítják el a harcot. Attól kezdve, hogy tudnak járni, gyakran bunyóznak vagy küzdenek riválisaikkal szemben.",
+          "values": [
+            [
+              "str",
+              "dex"
+            ],
+            [
+              "dex",
+              "str"
+            ]
+          ]
+        },
+        "proficiencies": {
+          "name": "Te Wot Mate",
+          "description": "Zaklató, mogorva és általában hideg természetük miatt a galariakat általában karnyújtásnyira tartják a világ többi része.",
+          "values": [
+            "megfélemlítés"
+          ]
+        },
+        "feats": {
+          "name": "Me Mum erősebben üt engem",
+          "description": "A galariak természetesen képesek a vállrándításra néhány támadást a pillanat hevében.",
+          "effect": "Ha sebzést szenved, a reakciójával d12-t dobhat. Adja hozzá alkotmánymódosítóját a dobott számhoz, és csökkentse a sebzést ezzel az összeggel. Miután felhasználta ezt a tulajdonságot, nem használhatja újra, amíg be nem fejez egy rövid vagy hosszú pihenőt."
+        },
+        "languages": {
+          "values": [
+            "Gyakori",
+            "Galarian"
+          ]
+        }
+      }
+    },
+    {
+      "dataset": "origins",
+      "recordId": "hoennian",
+      "payload": {
+        "name": "Hoennian",
+        "description": "Ön Hoenn szigetvilágában nőtt fel. A burjánzó erdőktől, a meteorkráterektől és a nyílt tengerektől kezdve úgy tűnik, hogy bármire képes vagy.\n\nHoenn egy nagy régió, sokféle környezettel és kultúrával. Összességében a világ egyik legnagyobb nemzete, de a nemzet szigetországi jellege megnehezíti az egységességet, és emiatt a nemzetközi jelenlétet is megsínyli.",
+        "abilityScores": {
+          "name": "Látta mindezt",
+          "description": "Hazája változatos környezete elég jó rálátást hagyott a világ útjára.",
+          "values": [
+            "wis",
+            "int"
+          ]
+        },
+        "proficiencies": {
+          "name": "Jól felszerelt",
+          "description": "A kiszámíthatatlan időjárással és zord terepen tartó éveken át, rájöttél a szakma néhány trükkjére, ha utazásról van szó.",
+          "values": [
+            "túlélés"
+          ]
+        },
+        "feats": {
+          "name": "Nincs olyan hely, mint otthon",
+          "description": "Válasszon egy környezetet, amely a legismertebb az Ön számára, és ez a környezet jótékony hatású.",
+          "effect": "- **Part**: A gyaloglás sebességével megegyező úszási sebességet kap.\n- **Sivatag**: A hőség nem zavar, nem kell CON mentést készíteni a meleg időjárás hatásai ellen.\n- **Erdő**: Megpróbálhat elrejtőzni akkor is, ha csak enyhén takarja el a lombozat vagy más természeti jelenség.\n- **Hegy**: 10 láb mászósebességet ér el."
+        },
+        "languages": {
+          "values": [
+            "Gyakori",
+            "Hoennian"
+          ]
+        }
+      }
+    },
+    {
+      "dataset": "origins",
+      "recordId": "johtoan",
+      "payload": {
+        "name": "Johtoan",
+        "description": "Ön Johto régióban nőtt fel. Történelemben és kulturális jelentőségű Johto polgárai általában mélyen kötődnek szülőföldjük történelméhez és hagyományaihoz.\n\nSajnos maga Johto egy ingatag és háború sújtotta nemzet. Miután feltámadt az egyesülő kantoi császár gondolata ellen, Johto azért harcolt, hogy szabad nemzet legyen, és most a kontinens nyugati része egy hatalmi vákuumban ragadt, és sok hadúr próbálja megszerezni a Johtoan császár áhított helyét.",
+        "abilityScores": {
+          "name": "Átitatva a hagyományokkal",
+          "description": "Élete során számtalan történetet látott és hallott régiója történelméről és kultúrájáról.",
+          "values": [
+            "int",
+            "str"
+          ]
+        },
+        "proficiencies": {
+          "name": "Jól tanult",
+          "description": "Ön jól ismeri a világ történelmét.",
+          "values": [
+            "történelem"
+          ]
+        },
+        "feats": {
+          "name": "Gyakorolt sztrájkok",
+          "description": "Bár enyhe modorúnak tűnnek, és kívülről jobban érdeklődnek a művészetek iránt, valójában a Johtoanok heves ellenfelek. Harcoltak, hogy elszakadjanak Kantotól, és győztek, világhírűvé váltva fejlett harci taktikájuk miatt.",
+          "effect": "Amikor egy fegyvertámadással kritikus találatot ér el, még egyszer dobhat a fegyver egyik sebzéskockájával, és hozzáadhatja a kritikus találat extra sebzéséhez."
+        },
+        "languages": {
+          "values": [
+            "Gyakori",
+            "Johtonese"
+          ]
+        }
+      }
+    },
+    {
+      "dataset": "origins",
+      "recordId": "kalosian",
+      "payload": {
+        "name": "Kalosian",
+        "description": "Kalos vidékén nőttél fel. A természeti szépségektől és gazdag történelemtől csöpögő Kalos egy nyugodt vidék, ahol a polgárok mindig készen állnak arra, hogy történeteket cseréljenek és megmutassák tehetségüket.\n\nA természeti erőforrásokban gazdag, könnyen egységes elrendezésű Kalos jelenleg az aranykort éli, és egy röpke pillanatnyi békét élvez a Galaria régióval vívott számos ütközetből. Katonai és kereskedelmi erők.",
+        "abilityScores": {
+          "name": "C'ést la vie",
+          "description": "Egész életében bájos történetekkel és tisztességes emberekkel volt körülvéve. A szociális helyzetek könnyen jönnek Önhöz.",
+          "values": [
+            "cha",
+            "int"
+          ]
+        },
+        "proficiencies": {
+          "name": "Ezüst nyelv",
+          "description": "Általában örömet tud szerezni másoknak, és minden helyzetből meg tudja oldani a kiutat.",
+          "values": [
+            "rábeszélés"
+          ]
+        },
+        "feats": {
+          "name": "Bon Chance",
+          "description": "Nyugodt hozzáállásod egyik tulajdonsága a jó szerencséd. Úgy tűnik, hogy a dolgok működnek neked.",
+          "effect": "Amikor 1-et dob a d20-on egy támadódobás, képességellenőrzés vagy mentési dobás érdekében, újradobhatja a kockát, és az új dobást kell használnia. Ez csak az edzőtekercsekre vonatkozik, a Pokemon tekercsekre nem."
+        },
+        "languages": {
+          "values": [
+            "Gyakori",
+            "Kalosian"
+          ]
+        }
+      }
+    },
+    {
+      "dataset": "origins",
+      "recordId": "kantoan",
+      "payload": {
+        "name": "Kantoan",
+        "description": "Kanto régióban nőttél fel. Kanto polgárai a tanulás iránti vonzalommal és a lehetőségek világával állnak előttük, amióta ott élnek.\n\nJelenleg Kanto egy javuló nemzet. Miután megalázó veszteséget szenvedtek Johtotól az utóbbi függetlenségi harcában, a nemzet egésze egyszerűen arra összpontosít, hogy minden lehetséges módon megtérítse veszteségeit.",
+        "abilityScores": {
+          "name": "Hasítsd meg az ösvényedet",
+          "description": "Mindenkinél jobban ismeri az erősségeit és gyengeségeit.",
+          "values": "bármelyik kettő"
+        },
+        "proficiencies": {
+          "name": "Intuitív",
+          "description": "Büszke vagy arra, hogy könnyedén tanulhatsz menet közben.",
+          "values": [
+            "nyomozást"
+          ]
+        },
+        "feats": {
+          "name": "Az időm, hogy ragyogjak",
+          "description": "Egyedülálló készséged van, amelynek megtanulására szántál időt.",
+          "effect": "Bármelyik bravúrt választhat."
+        },
+        "languages": {
+          "values": [
+            "Gyakori",
+            "kantoni"
+          ]
+        }
+      }
+    },
+    {
+      "dataset": "origins",
+      "recordId": "sinnoan",
+      "payload": {
+        "name": "Sinnoan",
+        "description": "Ön Sinnoh északi régiójában nőtt fel. A könyörtelen északi hőmérsékletekhez és környezethez szokva Sinnoh polgárai vasakarattal rendelkeznek, mind a testben, mind a szellemben.\n\nKantotól és Johtotól messze északon ül Sinnoh, a militarista rideg Észak. Sinnoh hegyvidéki régiójában nincs hiány a sikeres katonai kampányokhoz szükséges természeti erőforrásokban. A régió meritokrácia, amelyet egyetlen király irányít, bár sok nemesi ház is látná őt bukni. A fémexporton kívül a Sinnoh fő exportcikke a zsoldosok, akiket nagyon áhítanak ügyességük és erejük miatt.",
+        "abilityScores": {
+          "name": "Hardy",
+          "description": "A zord régióban eltöltött évek megkeményítették az akaratodat.",
+          "values": [
+            "con",
+            "str"
+          ]
+        },
+        "proficiencies": {
+          "name": "azt meg tudom szerezni",
+          "description": "Sinnoh polgárai általában a világ legerősebbjei közé tartoznak. A kiadós étrend és kultúra több erőt adott, mint egy átlagember.",
+          "values": [
+            "atlétika"
+          ]
+        },
+        "feats": {
+          "name": "Test és lélek",
+          "description": "Hozzászoktál a legnehezebb környezetekhez, és korábban túlélted magad a rosszabb helyzeteken is.",
+          "effect": "Jártasságot szerez az alkotmánymentő dobásokban."
+        },
+        "languages": {
+          "values": [
+            "Gyakori",
+            "Sinnoan"
+          ]
+        }
+      }
+    },
+    {
+      "dataset": "origins",
+      "recordId": "unovan",
+      "payload": {
+        "name": "Unovan",
+        "description": "Ön Unova hatalmas régiójában nőtt fel. Az úttörő szellemmel és a nagyvárosok nyüzsgésével teli unovanok általában olyan gyorsak és élesek.\n\nAz egyesült kereskedelmi államok nemzete, az emberek szabadon választhatják meg útjukat Unovában. Ha van egy ötleted, amiről úgy gondolod, hogy gyorsan aranyat kereshetsz, akkor könnyen milliót kereshetsz. Unova a világ kereskedelmi fővárosa, és hatalmas földjeiket arra használják, hogy más nemzeteket ellássanak mindennel, amire éppen szükségük lehet. Maguk az unovánok hajlamosak azt tenni, amihez kedve van, amikor úgy érzik, és senki sem mondja nekik másként.",
+        "abilityScores": {
+          "name": "Egy másik nap az életben",
+          "description": "Legyen szó egy nyüzsgő metropoliszról vagy egy vidéki tanyáról, minden Unovan a cél és a célok szem előtt tartásával mozog.",
+          "values": [
+            "dex",
+            "wis"
+          ]
+        },
+        "proficiencies": {
+          "name": "Nem lehetsz komoly",
+          "description": "Hajlamos vagy élesen érzékelni, ha valaki megrángatja a láncodat, vagy gyors láncot próbál rád húzni.",
+          "values": [
+            "betekintést"
+          ]
+        },
+        "feats": {
+          "name": "Sok tehetség",
+          "description": "",
+          "effect": "2 általad választott készségben szerez jártasságot."
+        },
+        "languages": {
+          "values": [
+            "Gyakori",
+            "Unovan"
+          ]
+        }
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "1",
+      "payload": {
+        "name": "Óriási vonzerő, de használata megakadályozza a felhasználót abban, hogy további versenylépéseket tegyen.",
+        "effect": "A Pokemon nem tud teljesíteni a fellebbezési körök hátralévő részében."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "2",
+      "payload": {
+        "name": "Nagyon vonzó lépés, de a mozdulat használata után a felhasználó könnyebben megriad.",
+        "effect": "A Pokémonnak hátránya van az összes CHA megtakarítási dobásnál a fellebbezési körök hátralévő részében."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "3",
+      "payload": {
+        "name": "Befolyásolta, hogy az előző Pokémon lépése milyen jól sikerült.",
+        "effect": "4, ha az előző Pokémon lépése Nat 20 volt, és megemelte a tömegmérőt, 3 fellebbezés, ha az előző Pokémon lépése megnövelte a tömegmérőt, 2, ha az előző Pokémon lépése nem változtatta meg a tömegmérőt, 1, ha az előző Pokémon lépése csökkentette a tömegmérőt."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "4",
+      "payload": {
+        "name": "Tetszetős mozdulat, amely többször is használható anélkül, hogy untatná a közönséget.",
+        "effect": "A lépés megismétlése miatt nem szabtak ki büntetést."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "5",
+      "payload": {
+        "name": "Csúnyán megriasztja az összes többi Pokémont, hogy a felhasználó előtt cselekedjenek.",
+        "effect": "Minden Pokemonnak, amely a felhasználó előtt cselekedett, CHA mentési dobásokat kell végrehajtania a megfélemlítés/meggyőzés ellen."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "6",
+      "payload": {
+        "name": "Rosszul megdöbbent minden Pokémont, amely sikeresen megmutatta vonzerejét.",
+        "effect": "Minden Pokemonnak, amely a Judge DC utódja lett, és fellebbezési pontokat szerzett, CHA mentési dobást kell végrehajtania a megfélemlítés/meggyőzés ellen."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "7",
+      "payload": {
+        "name": "Csúnyán megdöbbenti a Pokémonokat, amelyekkel szemben a közönség nagy elvárásokat támaszt.",
+        "effect": "A legmagasabb Visual Round pontszámmal rendelkező Pokémonnak CHA megtakarítási dobást kell végrehajtania a megfélemlítés/meggyőzés DC ellen."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "8",
+      "payload": {
+        "name": "Rosszul megdöbbenti a Pokémonokat, akik ugyanilyen típusú mozdulatot használtak.",
+        "effect": "A Pokémonnak, amely ugyanazt a versenytípust használta, egy CHA megtakarítási dobást kell végrehajtania a megfélemlítés/meggyőzés ellen."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "9",
+      "payload": {
+        "name": "Csúnyán megriasztja az utolsó Pokémont, aki a felhasználó előtt cselekszik.",
+        "effect": "A közvetlenül a felhasználó előtt cselekvő Pokémonoknak CHA mentési dobást kell végrehajtaniuk a megfélemlítés/meggyőzés ellen."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "10",
+      "payload": {
+        "name": "Leveszi minden olyan Pokémon energiáját, amely ebben a körben már használt egy mozdulatot.",
+        "effect": "Csökkenti a tömegmérőt azon Pokémonok számával, amelyek megemelték a tömeget ebben a kanyarban."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "11",
+      "payload": {
+        "name": "Arra készteti a felhasználót, hogy a következő körben korábban mozogjon.",
+        "effect": "A következő körben a Pokémon megy elsőként. Abban az esetben, ha két hasonló lépést használnak ugyanabban a körben, akkor az utolsó lép először. Ebben az esetben az elsőként használja a lépést másodikként."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "12",
+      "payload": {
+        "name": "Arra készteti a felhasználót, hogy később mozogjon a következő körben.",
+        "effect": "A következő körben a Pokémon az utolsó. Abban az esetben, ha ugyanabban a körben két hasonló lépést használnak, az utolsó lépés marad. Ebben az esetben az elsőként alkalmazó az utolsó előtt maradna."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "13",
+      "payload": {
+        "name": "A hatásosság a használattól függően változik.",
+        "effect": "3 Fellebbezési pont, ha a lépést nem először vagy utoljára hajtják végre, 1 Fellebbezési pontot, ha először vagy utoljára hajtják végre a lépést."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "14",
+      "payload": {
+        "name": "Nagyon izgatja a közönséget, ha először használják.",
+        "effect": "2-vel megemeli a tömegmérőt, ha a helyes versenyben elsőként teljesítették, és 1-gyel növeli a tömegmérőt, ha a kiegészítő versenyen elsőként teljesítették."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "15",
+      "payload": {
+        "name": "Nagyon izgatja a közönséget, ha utoljára használjuk.",
+        "effect": "Emeli a tömegmérőt 2-vel, ha a helyes versenyben utoljára sikeresen teljesített, és 1-gyel növeli a tömegmérőt, ha a kiegészítő versenyben utoljára teljesített sikeresen."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "16",
+      "payload": {
+        "name": "Izgatja a közönséget bármilyen versenyen.",
+        "effect": "Sikeres teljesítése esetén megemeli a tömegmérőt, függetlenül attól, hogy melyik versenyen."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "17",
+      "payload": {
+        "name": "Felpörgeti a Pokémont. Segít megelőzni az idegességet is.",
+        "effect": "Megduplázza a következő körben a sikeres lépések fellebbezési pontjait. A Pokemonnak a CHA mentési dobásaiban is van előnye, amíg a lépésük után el nem hajtják a következő kört."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "18",
+      "payload": {
+        "name": "Keveset vár el a közönség a többi versenyzőtől.",
+        "effect": "Sikeres végrehajtás esetén növeld a Judge DC-t a Pokémon's Charisma módosítójával a kör hátralévő részében."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "19",
+      "payload": {
+        "name": "Gyorsan megunja a közönséget, ha egy fellebbező lépésnek nincs hatása.",
+        "effect": "A 2 vagy annál kevesebb fellebbezési pontot érő lépések nem növelik a tömegmérőt a következő köröd végéig."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "20",
+      "payload": {
+        "name": "Idegessé teszi a maradék Pokémont.",
+        "effect": "Azok a pokémonok, amelyek ebben a körben utánad teljesítenek, hátrányban vannak a teljesítménydobások és a CHA megtakarítási dobások terén."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "21",
+      "payload": {
+        "name": "Megakadályozza, hogy a felhasználó megijedjen ebben a körben.",
+        "effect": "Immúnis vagy az első CHA megtakarítási dobásra, amelyet meg kell tenned."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "22",
+      "payload": {
+        "name": "Megakadályozza, hogy a felhasználó megijedjen a forduló végéig.",
+        "effect": "A kör hátralévő részében immunis vagy a CHA Saving Throws ellen."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "23",
+      "payload": {
+        "name": "Elég vonzó lépés.",
+        "effect": "A közönség kedvence. Nincsenek extra effektusok."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "24",
+      "payload": {
+        "name": "A Pokémonok sorrendjét kódolja a következő körben.",
+        "effect": "Minden Pokemon egy d20-at dob egy új kör kezdeményezésére. Nincsenek bónuszok. Roll a döntetlenért."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "25",
+      "payload": {
+        "name": "Megmutatja a Pokémon vonzerejét, valamint az előtte lévő összes mozdulatot ebben a körben.",
+        "effect": "Átlagolja az összes olyan lépést, amelyet sikeresen végrehajtott a köre előtt, és szerezzen annyi fellebbezési pontot."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "26",
+      "payload": {
+        "name": "Megmutatja a Pokémon vonzerejét, valamint a közvetlenül előtte használt lépést.",
+        "effect": "Szerezz fellebbezési pontokat a közvetlenül a köred előtt végrehajtott lépéssel mínusz egy."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "27",
+      "payload": {
+        "name": "Megriasztja az összes Pokémont, hogy a felhasználó előtt cselekedjenek.",
+        "effect": "Minden olyan Pokémonnak, amelyik cselekedett, mielőtt fordulna, meg kell tennie a CHA mentési dobását a megfélemlítési/meggyőzési DC-je ellen."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "28",
+      "payload": {
+        "name": "Megdöbbenti az összes többi Pokémont. A felhasználó nem léphet fel a következő körben.",
+        "effect": "Minden Pokemonnak CHA-megtakarítást kell végrehajtania a megfélemlítési/meggyőzési DC-vel szemben."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "29",
+      "payload": {
+        "name": "Megriasztja az utolsó Pokémont, aki a felhasználó előtt cselekszik.",
+        "effect": "Annak a Pokémonnak, amely közvetlenül előtted lépett fel, CHA-megtakarítási dobást kell végrehajtania a megfélemlítési/meggyőzési DC-vel szemben."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "30",
+      "payload": {
+        "name": "Ideiglenesen megakadályozza a tömeg izgatottságát.",
+        "effect": "A tömegmérőt nem lehet felemelni a következő 1d4 fordulóban."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "31",
+      "payload": {
+        "name": "Minél később egy körben használják, annál jobban működik.",
+        "effect": "1 fellebbezési pont, ha először, 2 fellebbezési pont, ha második, 3 fellebbezési pont, ha harmadikként, 4 fellebbezési pont, ha utoljára."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "32",
+      "payload": {
+        "name": "Minél izgatottabb a tömeg, annál jobban működik.",
+        "effect": "Fellebbezési pontokat kapsz, amennyi a tömegmérő szint plusz 1."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "33",
+      "payload": {
+        "name": "Kiválóan működik, ha a felhasználó megy először ebben a körben.",
+        "effect": "4 Fellebbezési pont, ha először ebben a körben használták fel, 2 Fellebbezési pontot, ha nem használták először ebben a körben."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "34",
+      "payload": {
+        "name": "Kiválóan működik, ha a felhasználó ebben a körben utoljára megy.",
+        "effect": "4 fellebbezési pont, ha ebben a körben utoljára használta, 2 fellebbezési pont, ha nem használta utoljára ebben a körben."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "35",
+      "payload": {
+        "name": "Jól működik, ha ugyanolyan típusú, mint az utolsó Pokémon által használt lépés.",
+        "effect": "4 Fellebbezési pont, ha a közvetlenül előtte használt lépés azonos versenytípus volt, 2 Fellebbezési pont, ha nem."
+      }
+    },
+    {
+      "dataset": "contest-effects",
+      "recordId": "36",
+      "payload": {
+        "name": "Jól működik, ha a felhasználó fel van szívva.",
+        "effect": "4 fellebbezési pont, ha a Pokémon fel van pumpálva az előző körből, 1 fellebbezési pont, ha nem."
+      }
     }
   ]
 }

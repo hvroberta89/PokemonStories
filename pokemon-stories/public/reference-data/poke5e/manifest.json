@@ -40,6 +40,12 @@
       "records": 256,
       "derivedFrom": "moves",
       "sha256": "1a44f30e3f83003c19d5226f0d0e4d0586f6db15789082c6df647a0fd4abf3cd"
+    },
+    "origins": {
+      "path": "origins.json",
+      "records": 8,
+      "sourceSha256": "4da7f00dfb8359391185cded0df17c7c86150bd848e9e5fc14db71a943db9341",
+      "sha256": "4da7f00dfb8359391185cded0df17c7c86150bd848e9e5fc14db71a943db9341"
     }
   },
   "validation": {

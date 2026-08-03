@@ -16,17 +16,25 @@ const sourceRoot = resolve(sourceRootArgument);
 const sourceDataDirectory = resolve(sourceRoot, 'static', 'data');
 const outputDirectory = resolve('public', 'reference-data', 'poke5e');
 
-const [packageJson, pokemonSource, movesSource, abilitiesSource, itemsSource] = await Promise.all([
+const [packageJson, pokemonSource, movesSource, abilitiesSource, itemsSource, evolutionSource, originsSource, contestSource, contestEffectsSource] = await Promise.all([
   readJson(resolve(sourceRoot, 'package.json')),
   readFile(resolve(sourceDataDirectory, 'pokemon.json'), 'utf8'),
   readFile(resolve(sourceDataDirectory, 'moves.json'), 'utf8'),
   readFile(resolve(sourceDataDirectory, 'abilities.json'), 'utf8'),
   readFile(resolve(sourceDataDirectory, 'items.json'), 'utf8'),
+  readFile(resolve(sourceDataDirectory, 'evolution.json'), 'utf8'),
+  readFile(resolve(sourceDataDirectory, 'origins.json'), 'utf8'),
+  readFile(resolve(sourceDataDirectory, 'contest.json'), 'utf8'),
+  readFile(resolve(sourceDataDirectory, 'contest-effects.json'), 'utf8'),
 ]);
 const pokemonDocument = parseJson(pokemonSource, 'pokemon.json');
 const movesDocument = parseJson(movesSource, 'moves.json');
 const abilitiesDocument = parseJson(abilitiesSource, 'abilities.json');
 const itemsDocument = parseJson(itemsSource, 'items.json');
+const evolutionDocument = parseJson(evolutionSource, 'evolution.json');
+const originsDocument = parseJson(originsSource, 'origins.json');
+const contestDocument = parseJson(contestSource, 'contest.json');
+const contestEffectsDocument = parseJson(contestEffectsSource, 'contest-effects.json');
 
 if (!packageJson.version || typeof packageJson.version !== 'string') {
   fail('The Poke5e package version is missing or invalid.');
@@ -43,6 +51,15 @@ if (!Array.isArray(abilitiesDocument.items)) {
 if (!Array.isArray(itemsDocument.items)) {
   fail('Expected static/data/items.json to contain an items array.');
 }
+if (!Array.isArray(evolutionDocument.items)) {
+  fail('Expected static/data/evolution.json to contain an items array.');
+}
+if (!Array.isArray(originsDocument.items)) {
+  fail('Expected static/data/origins.json to contain an items array.');
+}
+if (!Array.isArray(contestDocument.items) || !Array.isArray(contestEffectsDocument.items)) {
+  fail('Expected Contest source files to contain items arrays.');
+}
 
 const moves = movesDocument.moves.map(normalizeMove);
 const technicalMachines = moves
@@ -51,12 +68,17 @@ const technicalMachines = moves
 const sourceAbilities = abilitiesDocument.items;
 const abilities = sourceAbilities.filter((entry) => !entry.deprecated).map(normalizeAbility);
 const items = itemsDocument.items.map(normalizeItem);
+const origins = originsDocument.items;
+const contestEffects = contestEffectsDocument.items;
 validateUniqueIds(moves, 'Move');
 validateUniqueIds(abilities, 'Ability');
 validateUniqueIds(items, 'Item');
 validateUniqueIds(technicalMachines, 'Technical Machine');
+validateUniqueIds(origins, 'Trainer Origin');
+validateUniqueIds(contestEffects, 'Contest effect');
 
 const moveIds = new Set(moves.map((entry) => entry.id));
+const contestEffectIds = new Set(contestEffects.map((entry) => String(entry.id)));
 const abilityIds = new Set(abilities.map((entry) => entry.id));
 const technicalMachineIds = new Set(technicalMachines.map((entry) => entry.id));
 const unresolvedMoveReferences = [];
@@ -76,12 +98,36 @@ const pokemon = sourcePokemon
     ),
   );
 validateUniqueIds(pokemon, 'Pokémon');
+const pokemonIds = new Set(pokemon.map((entry) => entry.id));
+const unresolvedEvolutionReferences = [];
+const evolutions = evolutionDocument.items
+  .map(normalizeEvolution)
+  .filter((evolution) => {
+    if (pokemonIds.has(evolution.from) && pokemonIds.has(evolution.to)) return true;
+    unresolvedEvolutionReferences.push({ id: evolution.id, from: evolution.from, to: evolution.to });
+    return false;
+  });
+validateUniqueIds(evolutions, 'Evolution');
+const unresolvedContestMoveReferences = [];
+const contest = contestDocument.items.filter((entry) => {
+  if (!moveIds.has(entry.id)) {
+    unresolvedContestMoveReferences.push({ moveId: entry.id });
+    return false;
+  }
+  if (!contestEffectIds.has(String(entry.effect))) fail(`Contest Move ${entry.id} references an unknown effect.`);
+  return true;
+});
+validateUniqueIds(contest, 'Contest Move');
 
 const serializedPokemon = serialize({ items: pokemon });
 const serializedMoves = serialize({ items: moves });
 const serializedAbilities = serialize({ items: abilities });
 const serializedItems = serialize({ items });
 const serializedTechnicalMachines = serialize({ items: technicalMachines });
+const serializedEvolutions = serialize({ items: evolutions });
+const serializedOrigins = serialize({ items: origins });
+const serializedContest = serialize({ items: contest });
+const serializedContestEffects = serialize({ items: contestEffects });
 const manifest = {
   schemaVersion: OUTPUT_SCHEMA_VERSION,
   source: {
@@ -109,10 +155,22 @@ const manifest = {
       serializedTechnicalMachines,
       'moves',
     ),
+    evolutions: {
+      ...createDatasetManifest('evolution.json', evolutions, evolutionSource, serializedEvolutions),
+      excludedRecords: evolutionDocument.items.length - evolutions.length,
+    },
+    origins: createDatasetManifest('origins.json', origins, originsSource, serializedOrigins),
+    contest: {
+      ...createDatasetManifest('contest.json', contest, contestSource, serializedContest),
+      excludedRecords: contestDocument.items.length - contest.length,
+    },
+    contestEffects: createDatasetManifest('contest-effects.json', contestEffects, contestEffectsSource, serializedContestEffects),
   },
   validation: {
     unresolvedMoveReferences,
     unresolvedTechnicalMachineReferences,
+    unresolvedEvolutionReferences,
+    unresolvedContestMoveReferences,
   },
 };
 
@@ -122,6 +180,10 @@ await Promise.all([
   writeFile(resolve(outputDirectory, 'moves.json'), serializedMoves, 'utf8'),
   writeFile(resolve(outputDirectory, 'abilities.json'), serializedAbilities, 'utf8'),
   writeFile(resolve(outputDirectory, 'items.json'), serializedItems, 'utf8'),
+  writeFile(resolve(outputDirectory, 'evolution.json'), serializedEvolutions, 'utf8'),
+  writeFile(resolve(outputDirectory, 'origins.json'), serializedOrigins, 'utf8'),
+  writeFile(resolve(outputDirectory, 'contest.json'), serializedContest, 'utf8'),
+  writeFile(resolve(outputDirectory, 'contest-effects.json'), serializedContestEffects, 'utf8'),
   writeFile(
     resolve(outputDirectory, 'technical-machines.json'),
     serializedTechnicalMachines,
@@ -131,8 +193,23 @@ await Promise.all([
 ]);
 
 console.log(
-  `Imported ${pokemon.length} Pokémon, ${moves.length} moves, ${abilities.length} abilities, ${items.length} items and ${technicalMachines.length} TMs from ${SOURCE_NAME} v${packageJson.version}.`,
+  `Imported ${pokemon.length} Pokémon, ${moves.length} moves, ${abilities.length} abilities, ${items.length} items, ${technicalMachines.length} TMs, ${evolutions.length} evolutions, ${origins.length} Trainer Origins and ${contest.length} Contest Moves from ${SOURCE_NAME} v${packageJson.version}.`,
 );
+
+function normalizeEvolution(value, index) {
+  if (!value || typeof value !== 'object') fail(`Invalid Evolution record at index ${index}.`);
+  requireNonEmptyString(value.id, index, 'id');
+  requireNonEmptyString(value.from, value.id, 'from');
+  requireNonEmptyString(value.to, value.id, 'to');
+  return {
+    id: value.id,
+    from: value.from,
+    to: value.to,
+    conditions: requireArray(value.conditions, value.id, 'conditions'),
+    effects: requireArray(value.effects, value.id, 'effects'),
+    nonCanon: value.nonCanon === true,
+  };
+}
 
 function normalizePokemon(
   value,
