@@ -43,3 +43,34 @@ $env:SUPABASE_URL = "https://<project-ref>.supabase.co"
 $env:SUPABASE_SERVICE_ROLE_KEY = "<service-role-key>"
 npm run data:migrate:poke5e
 ```
+
+### Hungarian Library Localization
+
+The Library supports English and Hungarian reference content. Choose the language from the Library header. The selected language is saved in browser local storage.
+
+Hungarian translations are kept as field-level overrides in [hu.json](public/reference-data/poke5e/translations/hu.json), while the source Poke5e snapshot stays unchanged. Missing translated fields fall back to their English source values.
+
+Generate or refresh the machine-translated Hungarian overlays with:
+
+```bash
+npm run data:translate:poke5e:hu
+```
+
+Review game terminology and amend the generated values in `hu.json` before publishing. Validate the complete dataset locally with:
+
+```bash
+npm run data:migrate:poke5e -- --dry-run
+```
+
+Apply both reference-data migrations in the target Supabase project before publishing translations:
+
+- [20260803040000_create_poke5e_reference_data.sql](supabase/migrations/20260803040000_create_poke5e_reference_data.sql)
+- [20260803043000_create_poke5e_reference_translations.sql](supabase/migrations/20260803043000_create_poke5e_reference_translations.sql)
+
+Then upload the reference snapshot and Hungarian translations:
+
+```bash
+npm run data:migrate:poke5e
+```
+
+After publishing, start the application with `npm start`, open `/library`, choose `Magyar`, and check the list, search, detail, favorite, Adventure, and Session workflows. Technical Machines currently use their English source values because they do not yet have localized records.

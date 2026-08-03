@@ -9,6 +9,7 @@
     "test": "ng test",
     "data:import:poke5e": "node scripts/import-poke5e-reference-data.mjs",
     "data:migrate:poke5e": "node --env-file-if-exists=.env scripts/migrate-poke5e-reference-data-to-supabase.mjs",
+    "data:translate:poke5e:hu": "node scripts/translate-poke5e-reference-data-to-hungarian.mjs",
     "data:download:pokemon-artwork": "node scripts/download-pokemon-artwork.mjs",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss}\"",
     "format": "prettier --write \"src/**/*.{ts,html,scss}\""

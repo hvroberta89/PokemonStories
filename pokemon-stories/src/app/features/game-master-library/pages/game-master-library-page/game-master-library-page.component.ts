@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
-import { LibraryReference, LibrarySection, LibraryView } from '../../models/library-reference.model';
+import { LibraryLocale, LibraryReference, LibrarySection, LibraryView } from '../../models/library-reference.model';
 import { GameMasterLibraryStore } from '../../services/game-master-library.store';
 import { LibrarySessionSelectionService, SessionPokemonRole } from '../../services/library-session-selection.service';
 import { LibraryAdventureSelectionService } from '../../services/library-adventure-selection.service';
@@ -37,6 +37,10 @@ export class GameMasterLibraryPageComponent {
     this.route.queryParamMap.subscribe((params) => { this.useInSession.set(params.get('use') === 'session'); this.useInDesigner.set(params.get('use') === 'designer'); });
   }
   protected updateQuery(event: Event): void { this.query.set((event.target as HTMLInputElement).value); }
+  protected updateLocale(event: Event): void {
+    this.store.setLocale((event.target as HTMLSelectElement).value as LibraryLocale);
+    void this.load(this.view(), this.detail()?.id ?? null);
+  }
   protected toggleFavorite(entry: LibraryReference): void { this.store.toggleFavorite(entry.key); }
   protected selectRole(event: Event): void { this.sessionRole.set((event.target as HTMLSelectElement).value as SessionPokemonRole); }
   protected usePokemon(entry: LibraryReference): void {

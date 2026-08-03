@@ -11,6 +11,7 @@ const REQUIRED_DATASETS = [
   ['items', 'items.json'],
   ['technical-machines', 'technical-machines.json'],
 ];
+const TRANSLATION_LOCALES = ['hu'];
 const BATCH_SIZE = 250;
 const dataDirectory = resolve('public', 'reference-data', 'poke5e');
 const isDryRun = process.argv.includes('--dry-run');
@@ -24,12 +25,23 @@ const datasets = await Promise.all(
     return { dataset, records: document.items };
   }),
 );
+const translations = await Promise.all(
+  TRANSLATION_LOCALES.map(async (locale) => ({
+    locale,
+    document: await readJson(resolve(dataDirectory, 'translations', `${locale}.json`)),
+  })),
+);
+for (const { locale, document } of translations) {
+  if (!Array.isArray(document.items)) fail(`${locale}.json does not contain an items array.`);
+  for (const item of document.items) validateTranslation(item, locale);
+}
 
 if (isDryRun) {
   for (const { dataset, records } of datasets) {
     console.log(`Validated ${records.length} ${dataset} records.`);
   }
   console.log(`Poke5e ${manifest.source.version} snapshot is ready to migrate.`);
+  for (const { locale, document } of translations) console.log(`Validated ${document.items.length} ${locale} translations.`);
   process.exit(0);
 }
 
@@ -69,6 +81,24 @@ try {
     if (cleanupError) fail(`Could not remove stale ${dataset} records: ${cleanupError.message}`);
     console.log(`Migrated ${records.length} ${dataset} records.`);
   }
+  for (const { locale, document } of translations) {
+    const records = document.items.map((item) => ({
+      dataset: item.dataset === 'tms' ? 'technical-machines' : item.dataset,
+      record_id: String(item.recordId),
+      locale,
+      payload: item.payload,
+      source_import_id: importId,
+      updated_at: new Date().toISOString(),
+    }));
+    await upsertTranslationsInBatches(records);
+    const { error: cleanupError } = await supabase
+      .from('poke5e_reference_translations')
+      .delete()
+      .eq('locale', locale)
+      .neq('source_import_id', importId);
+    if (cleanupError) fail(`Could not remove stale ${locale} translations: ${cleanupError.message}`);
+    console.log(`Migrated ${records.length} ${locale} translations.`);
+  }
 } catch (error) {
   await supabase.from('poke5e_reference_imports').delete().eq('id', importId);
   throw error;
@@ -85,6 +115,15 @@ async function upsertInBatches(records) {
   }
 }
 
+async function upsertTranslationsInBatches(records) {
+  for (let start = 0; start < records.length; start += BATCH_SIZE) {
+    const { error } = await supabase
+      .from('poke5e_reference_translations')
+      .upsert(records.slice(start, start + BATCH_SIZE), { onConflict: 'dataset,record_id,locale' });
+    if (error) fail(`Could not write reference translations: ${error.message}`);
+  }
+}
+
 async function readJson(path) {
   return JSON.parse(await readFile(path, 'utf8'));
 }
@@ -98,6 +137,22 @@ function validateManifest(manifest) {
     typeof manifest.source.version !== 'string'
   ) {
     fail('The local Poke5e manifest is invalid. Run the snapshot importer first.');
+  }
+}
+
+function validateTranslation(item, locale) {
+  const datasets = new Set(['pokemon', 'moves', 'abilities', 'items', 'tms']);
+  if (
+    !item ||
+    typeof item !== 'object' ||
+    !datasets.has(item.dataset) ||
+    typeof item.recordId !== 'string' ||
+    !item.recordId ||
+    !item.payload ||
+    typeof item.payload !== 'object' ||
+    Array.isArray(item.payload)
+  ) {
+    fail(`${locale}.json contains an invalid translation record.`);
   }
 }
 
