@@ -207,6 +207,20 @@ export class AdventurePlan {
     );
   }
 
+  restoreForEditing(): AdventurePlan {
+    return new AdventurePlan(
+      this.id,
+      this.projectId,
+      this.title,
+      this.premise,
+      this.audienceProfile,
+      'draft',
+      this.scenes,
+      this.story,
+      this.expectedCharacterIds,
+    );
+  }
+
   updateFoundation(
     props: UpdateAdventureFoundationProps,
   ): Outcome<AdventurePlan, InvalidAdventurePlanError> {

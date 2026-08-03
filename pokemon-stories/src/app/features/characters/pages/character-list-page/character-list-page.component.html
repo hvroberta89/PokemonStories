@@ -117,7 +117,7 @@
         <button type="button" aria-label="Bezárás" (click)="dialogOpen.set(false)">×</button>
       </header>
       <label
-        >Név <input psVoiceInput type="text" maxlength="80" [value]="name()" (input)="update('name', $event)" />
+        >Név <input type="text" maxlength="80" [value]="name()" (input)="update('name', $event)" />
         @if (submitted() && !name().trim()) {
           <small>Adj nevet a karakternek.</small>
         }</label

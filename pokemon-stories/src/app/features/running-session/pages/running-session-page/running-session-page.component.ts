@@ -170,6 +170,30 @@ export class RunningSessionPageComponent {
     () => this.store.session().adventureTitle ?? 'Nincs aktív kaland',
   );
 
+  private readonly now = signal(Date.now());
+
+  protected readonly elapsedTimeLabel = computed(() => {
+    const elapsedMilliseconds = Math.max(
+      0,
+      this.now() - new Date(this.store.session().startedAt).getTime(),
+    );
+    const totalSeconds = Math.floor(elapsedMilliseconds / 1_000);
+    const hours = Math.floor(totalSeconds / 3_600);
+    const minutes = Math.floor((totalSeconds % 3_600) / 60);
+    const seconds = totalSeconds % 60;
+    return [hours, minutes, seconds].map((part) => String(part).padStart(2, '0')).join(':');
+  });
+
+  protected readonly sceneProgressSteps = computed(() => {
+    const session = this.store.session();
+    const sceneCount = session.scenes?.length ?? 1;
+    const currentIndex = Math.min(session.currentSceneIndex ?? 0, sceneCount - 1);
+    return Array.from({ length: sceneCount }, (_, index) => ({
+      index,
+      status: index < currentIndex ? 'completed' : index === currentIndex ? 'active' : 'pending',
+    }));
+  });
+
   protected goToNextScene(): void {
     this.store.nextScene();
   }
@@ -189,9 +213,13 @@ export class RunningSessionPageComponent {
 
   private assistantToastTimeoutId: number | null = null;
 
+  private elapsedTimerId: number | null = null;
+
   constructor() {
+    this.elapsedTimerId = window.setInterval(() => this.now.set(Date.now()), 1_000);
     this.destroyRef.onDestroy(() => {
       this.clearTimeouts();
+      if (this.elapsedTimerId !== null) window.clearInterval(this.elapsedTimerId);
     });
   }
 

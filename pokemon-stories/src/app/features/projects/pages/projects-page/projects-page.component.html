@@ -44,7 +44,7 @@
       </div>
       <button type="button" (click)="retryLoading()">Újrapróbálás</button>
     </section>
-  } @else if (!store.hasProjects()) {
+  } @else if (!store.hasProjects() && !showArchived()) {
     <div class="projects-page__empty">
       <ps-empty-state
         title="A következő világod itt kezdődik"
@@ -53,7 +53,7 @@
         (action)="openCreateProject()"
       />
     </div>
-  } @else {
+  } @else if (!showArchived()) {
     <section class="projects-page__content" aria-labelledby="available-projects-title">
       <div class="projects-page__section-heading">
         <div>
@@ -72,10 +72,30 @@
   }
 
   <footer class="projects-page__footer">
-    <button type="button" class="projects-page__archived">
+    <button type="button" class="projects-page__archived" (click)="showArchived.set(!showArchived())">
       <ps-icon name="archive-box" [size]="24" />
-      Archivált projektek
+      {{ showArchived() ? 'Aktív projektek' : 'Archivált projektek' }}
     </button>
     <p>A telefon támogatja a kalandot. A kaland az asztalnál történik.</p>
   </footer>
+  @if (showArchived()) {
+    <section class="projects-page__content" aria-labelledby="archived-projects-title">
+      <div class="projects-page__section-heading">
+        <div>
+          <p class="projects-page__eyebrow">Megőrzött világok</p>
+          <h2 id="archived-projects-title">Archivált projektek</h2>
+        </div>
+        <span>{{ store.archivedProjects().length }} archivált projekt</span>
+      </div>
+      @if (store.archivedProjects().length === 0) {
+        <p class="projects-page__archived-empty">Még nincs archivált projekt.</p>
+      } @else {
+        <div class="projects-page__grid">
+          @for (project of store.archivedProjects(); track project.id) {
+            <app-project-card [project]="project" (restoreProject)="restoreProject(project.id)" />
+          }
+        </div>
+      }
+    </section>
+  }
 </main>

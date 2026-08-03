@@ -22,6 +22,7 @@ export class AdventureListPageComponent {
   protected readonly store = inject(AdventureListStore);
   protected readonly archiveTarget = signal<AdventurePlanSummary | null>(null);
   protected readonly archiveError = signal<string | null>(null);
+  protected readonly showArchived = signal(false);
 
   constructor() {
     void this.store.load(this.projectId);
@@ -53,5 +54,9 @@ export class AdventureListPageComponent {
         ? 'A futó vagy átnézésre váró Sessiont előbb fejezd be.'
         : 'A kaland archiválása most nem sikerült.',
     );
+  }
+
+  protected restoreAdventure(adventure: AdventurePlanSummary): void {
+    void this.store.restore(adventure.id);
   }
 }

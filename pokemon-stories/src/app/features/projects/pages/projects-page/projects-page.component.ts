@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ProjectsStore } from '../../store/projects.store';
@@ -21,6 +21,7 @@ export class ProjectsPageComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly auth = inject(AuthStore);
   protected readonly store = inject(ProjectsStore);
+  protected readonly showArchived = signal(false);
 
   ngOnInit(): void {
     void this.store.load();
@@ -36,6 +37,10 @@ export class ProjectsPageComponent implements OnInit {
 
   protected openProject(projectId: ProjectId): void {
     void this.router.navigate(['/projects', projectId]);
+  }
+
+  protected restoreProject(projectId: ProjectId): void {
+    void this.store.restore(projectId);
   }
 
   protected async signOut(): Promise<void> {
