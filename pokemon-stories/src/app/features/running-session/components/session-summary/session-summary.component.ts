@@ -6,6 +6,7 @@ import {
   input,
   output,
   signal,
+  effect,
 } from '@angular/core';
 
 import { PsIconComponent } from '../../../../shared/ui/public-api';
@@ -15,6 +16,19 @@ import type { SessionSummaryViewModel } from './session-summary.model';
 export type AdventureReviewDecision = 'keep-ready' | 'complete-adventure';
 
 export type WorldFactApprovalStatus = 'idle' | 'saving' | 'saved' | 'error';
+
+export type StoryGenerationStatus = 'idle' | 'generating' | 'error';
+
+export interface NpcApprovalDraft {
+  readonly name: string;
+  readonly role: string;
+  readonly description: string;
+}
+
+export interface LocationApprovalDraft {
+  readonly name: string;
+  readonly description: string;
+}
 
 @Component({
   selector: 'app-session-summary',
@@ -37,9 +51,23 @@ export class SessionSummaryComponent {
 
   readonly storySaved = output<string | undefined>();
 
+  readonly storyGenerationRequested = output<void>();
+
   readonly worldFactApproved = output<string>();
 
+  readonly npcApproved = output<NpcApprovalDraft>();
+
+  readonly locationApproved = output<LocationApprovalDraft>();
+
   readonly worldFactApprovalStatus = input<WorldFactApprovalStatus>('idle');
+
+  readonly npcApprovalStatus = input<WorldFactApprovalStatus>('idle');
+
+  readonly locationApprovalStatus = input<WorldFactApprovalStatus>('idle');
+
+  readonly aiStoryDraft = input<string | null>(null);
+
+  readonly storyGenerationStatus = input<StoryGenerationStatus>('idle');
 
   protected readonly storyCopied = signal(false);
 
@@ -51,7 +79,19 @@ export class SessionSummaryComponent {
 
   protected readonly worldFactDraft = signal('');
 
+  protected readonly npcNameDraft = signal('');
+
+  protected readonly npcRoleDraft = signal('');
+
+  protected readonly npcDescriptionDraft = signal('');
+
+  protected readonly locationNameDraft = signal('');
+
+  protected readonly locationDescriptionDraft = signal('');
+
   private readonly storyDraft = signal<string | null>(null);
+
+  private readonly appliedAiStoryDraft = signal<string | null>(null);
 
   private readonly generatedStoryText = computed(() => {
     const summary = this.summary();
@@ -73,6 +113,19 @@ export class SessionSummaryComponent {
   protected readonly storyText = computed(
     () => this.storyDraft() ?? this.summary().story ?? this.generatedStoryText(),
   );
+
+  constructor() {
+    effect(() => {
+      const draft = this.aiStoryDraft();
+      if (!draft || draft === this.appliedAiStoryDraft()) return;
+      this.appliedAiStoryDraft.set(draft);
+      this.storyDraft.set(draft);
+      this.isEditingStory.set(true);
+      this.storySaveMessage.set(
+        'Az AI-vázlat szerkeszthető, és csak a Kész gombbal lesz Session Story.',
+      );
+    });
+  }
 
   @HostListener('document:keydown.escape')
   protected closeOnEscape(): void {
@@ -108,6 +161,10 @@ export class SessionSummaryComponent {
     this.storySaveMessage.set(null);
   }
 
+  protected requestAiStory(): void {
+    this.storyGenerationRequested.emit();
+  }
+
   protected updateStory(event: Event): void {
     this.storyDraft.set((event.target as HTMLTextAreaElement).value);
   }
@@ -138,6 +195,44 @@ export class SessionSummaryComponent {
 
   protected discardWorldFact(): void {
     this.worldFactDraft.set('');
+  }
+
+  protected updateNpcDraft(field: keyof NpcApprovalDraft, event: Event): void {
+    const value = (event.target as HTMLInputElement | HTMLTextAreaElement).value;
+    if (field === 'name') this.npcNameDraft.set(value);
+    else if (field === 'role') this.npcRoleDraft.set(value);
+    else this.npcDescriptionDraft.set(value);
+  }
+
+  protected approveNpc(): void {
+    const name = this.npcNameDraft().trim();
+    const role = this.npcRoleDraft().trim();
+    if (!name || !role) return;
+    this.npcApproved.emit({ name, role, description: this.npcDescriptionDraft().trim() });
+  }
+
+  protected discardNpc(): void {
+    this.npcNameDraft.set('');
+    this.npcRoleDraft.set('');
+    this.npcDescriptionDraft.set('');
+  }
+
+  protected updateLocationDraft(field: keyof LocationApprovalDraft, event: Event): void {
+    const value = (event.target as HTMLInputElement | HTMLTextAreaElement).value;
+    if (field === 'name') this.locationNameDraft.set(value);
+    else this.locationDescriptionDraft.set(value);
+  }
+
+  protected approveLocation(): void {
+    const name = this.locationNameDraft().trim();
+    const description = this.locationDescriptionDraft().trim();
+    if (!name || !description) return;
+    this.locationApproved.emit({ name, description });
+  }
+
+  protected discardLocation(): void {
+    this.locationNameDraft.set('');
+    this.locationDescriptionDraft.set('');
   }
 
   protected close(): void {

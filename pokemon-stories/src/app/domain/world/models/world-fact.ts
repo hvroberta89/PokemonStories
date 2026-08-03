@@ -3,7 +3,7 @@ import type { ProjectId } from '../../project/value-objects/project-id';
 export type WorldFactCategory =
   'general' | 'character' | 'npc' | 'location' | 'relationship' | 'story-state' | 'custom';
 
-export type WorldFactStatus = 'active' | 'archived';
+export type WorldFactStatus = 'active' | 'superseded' | 'archived';
 
 export interface WorldFactProps {
   readonly id: string;
@@ -30,5 +30,9 @@ export class WorldFact {
 
   archive(): WorldFact {
     return WorldFact.create({ ...this.value, status: 'archived' });
+  }
+
+  supersede(): WorldFact {
+    return WorldFact.create({ ...this.value, status: 'superseded' });
   }
 }

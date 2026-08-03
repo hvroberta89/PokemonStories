@@ -1,7 +1,9 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 
+import { ReplaceWorldFactHandler } from '../../../application/world/commands/replace-world-fact/replace-world-fact.handler';
 import { PROJECT_READER } from '../../../application/project/tokens/project.tokens';
 import { WORLD_FACT_REPOSITORY } from '../../../application/world/tokens/world-fact.tokens';
+import { ID_GENERATOR } from '../../../application/project/tokens/id-generator.token';
 import type { ProjectId } from '../../../domain/project/value-objects/project-id';
 import { WorldFact, type WorldFactCategory } from '../../../domain/world/models/world-fact';
 
@@ -11,6 +13,10 @@ type WorldFactListStatus = 'idle' | 'loading' | 'loaded' | 'not-found' | 'error'
 export class WorldFactListStore {
   private readonly projectReader = inject(PROJECT_READER);
   private readonly repository = inject(WORLD_FACT_REPOSITORY);
+  private readonly replaceWorldFact = new ReplaceWorldFactHandler(
+    this.repository,
+    inject(ID_GENERATOR),
+  );
   private readonly statusState = signal<WorldFactListStatus>('idle');
   private readonly projectNameState = signal('');
   private readonly factsState = signal<readonly WorldFact[]>([]);
@@ -24,6 +30,9 @@ export class WorldFactListStore {
   );
   readonly archivedFacts = computed(() =>
     this.facts().filter((fact) => fact.value.status === 'archived'),
+  );
+  readonly supersededFacts = computed(() =>
+    this.facts().filter((fact) => fact.value.status === 'superseded'),
   );
   readonly saving = this.savingState.asReadonly();
   readonly errorMessage = this.errorState.asReadonly();
@@ -76,6 +85,24 @@ export class WorldFactListStore {
       );
     } catch {
       this.errorState.set('A Világtényt nem sikerült archiválni.');
+    } finally {
+      this.savingState.set(false);
+    }
+  }
+
+  async replace(fact: WorldFact, text: string): Promise<boolean> {
+    this.savingState.set(true);
+    this.errorState.set(null);
+    try {
+      const replacement = await this.replaceWorldFact.execute(fact, text);
+      this.factsState.update((facts) => [
+        replacement,
+        ...facts.map((item) => (item.value.id === fact.value.id ? item.supersede() : item)),
+      ]);
+      return true;
+    } catch {
+      this.errorState.set('A Világtény helyettesítése nem sikerült.');
+      return false;
     } finally {
       this.savingState.set(false);
     }

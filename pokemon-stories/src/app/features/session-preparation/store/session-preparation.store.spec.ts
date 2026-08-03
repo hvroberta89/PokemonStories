@@ -17,10 +17,12 @@ import { projectId } from '../../../domain/project/value-objects/project-id';
 import { InMemoryAdventurePlanRepository } from '../../../infrastructure/adventure/repositories/in-memory-adventure-plan.repository';
 import { SessionPreparationStore } from './session-preparation.store';
 import { InMemoryCharacterRepository } from '../../../infrastructure/character/repositories/in-memory-character.repository';
+import { PREPARED_REWARD_REPOSITORY } from '../../../application/reward/tokens/prepared-reward.tokens';
 
 describe('SessionPreparationStore', () => {
   let repository: InMemoryAdventurePlanRepository;
   let store: SessionPreparationStore;
+  const preparedRewardRepository = { findByAdventure: vi.fn().mockResolvedValue([]) };
 
   beforeEach(() => {
     repository = new InMemoryAdventurePlanRepository();
@@ -31,8 +33,11 @@ describe('SessionPreparationStore', () => {
         { provide: ADVENTURE_PLAN_REPOSITORY, useValue: repository },
         { provide: CHARACTER_READER, useValue: new InMemoryCharacterRepository() },
         { provide: CHARACTER_REPOSITORY, useValue: new InMemoryCharacterRepository() },
+        { provide: PREPARED_REWARD_REPOSITORY, useValue: preparedRewardRepository },
       ],
     });
+    preparedRewardRepository.findByAdventure.mockReset();
+    preparedRewardRepository.findByAdventure.mockResolvedValue([]);
     store = TestBed.inject(SessionPreparationStore);
   });
 
@@ -62,6 +67,26 @@ describe('SessionPreparationStore', () => {
 
     expect(store.isNotFound()).toBe(true);
     expect(store.adventure()).toBeNull();
+  });
+
+  it('loads the Adventure when the optional prepared rewards query fails', async () => {
+    const draft = createAdventure();
+    const withScene = draft.addScene({
+      id: adventureSceneId('scene-1'),
+      title: 'Virágos tisztás',
+      description: 'Egy összetört fészek hever az öreg fa alatt.',
+      goal: 'Találjátok meg az eltűnt tojást.',
+    });
+    if (!withScene.isSuccess) throw withScene.error;
+    const ready = withScene.value.markReady();
+    if (!ready.isSuccess) throw ready.error;
+    await repository.save(ready.value);
+    preparedRewardRepository.findByAdventure.mockRejectedValue(new Error('Missing table'));
+
+    await store.load(projectId('project-1'), adventurePlanId('adventure-1'));
+
+    expect(store.status()).toBe('loaded');
+    expect(store.preparedRewards()).toEqual([]);
   });
 });
 

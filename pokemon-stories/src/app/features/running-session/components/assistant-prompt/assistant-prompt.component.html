@@ -1,7 +1,4 @@
-<div
-  class="assistant-prompt__backdrop"
-  (click)="closed.emit()"
-></div>
+<div class="assistant-prompt__backdrop" (click)="closed.emit()"></div>
 
 <section
   class="assistant-prompt"
@@ -21,10 +18,7 @@
 
     <div class="assistant-prompt__heading">
       <span class="assistant-prompt__heading-icon">
-        <ps-icon
-          [name]="prompt().icon"
-          [size]="30"
-        />
+        <ps-icon [name]="prompt().icon" [size]="30" />
       </span>
 
       <div class="assistant-prompt__heading-copy">
@@ -48,25 +42,15 @@
     </button>
   </header>
 
-  <form
-    class="assistant-prompt__content"
-    (ngSubmit)="submit()"
-  >
+  <form class="assistant-prompt__content" (ngSubmit)="submit()">
     <p class="assistant-prompt__description">
       {{ prompt().description }}
     </p>
 
-    <label
-      class="assistant-prompt__field"
-      for="assistant-context"
-    >
-      <span class="assistant-prompt__field-label">
-        Rövid kiegészítés
-      </span>
+    <label class="assistant-prompt__field" for="assistant-context">
+      <span class="assistant-prompt__field-label"> Rövid kiegészítés </span>
 
-      <span class="assistant-prompt__field-hint">
-        Opcionális
-      </span>
+      <span class="assistant-prompt__field-hint"> Opcionális </span>
     </label>
 
     <textarea
@@ -82,49 +66,30 @@
     ></textarea>
 
     <div class="assistant-prompt__meta">
-      <span>
-        Írhatsz például egy problémát,
-        hangulatot vagy megkötést.
-      </span>
+      <span> Írhatsz például egy problémát, hangulatot vagy megkötést. </span>
 
-      <span>
-        {{ context().length }}/280
-      </span>
+      <span> {{ context().length }}/280 </span>
     </div>
 
     <aside class="assistant-prompt__tip">
       <span class="assistant-prompt__tip-icon">
-        <ps-icon
-          name="info-orb"
-          [size]="22"
-        />
+        <ps-icon name="info-orb" [size]="22" />
       </span>
 
-      <p>
-        Az asszisztens három rövid lehetőséget
-        fog adni. A végső döntést mindig te hozod meg.
-      </p>
+      <p>Az asszisztens három rövid lehetőséget fog adni. A végső döntést mindig te hozod meg.</p>
     </aside>
 
-    <button
-      type="submit"
-      class="assistant-prompt__submit"
-      [disabled]="!canSubmit()"
-    >
-      @if (isLoading()) {
-        <span
-          class="assistant-prompt__spinner"
-          aria-hidden="true"
-        ></span>
+    @if (errorMessage(); as error) {
+      <p class="assistant-prompt__error" role="alert">{{ error }}</p>
+    }
 
-        <span>
-          Ötletek készülnek...
-        </span>
+    <button type="submit" class="assistant-prompt__submit" [disabled]="!canSubmit()">
+      @if (isLoading()) {
+        <span class="assistant-prompt__spinner" aria-hidden="true"></span>
+
+        <span> Ötletek készülnek... </span>
       } @else {
-        <ps-icon
-          name="ai-crystal"
-          [size]="24"
-        />
+        <ps-icon name="ai-crystal" [size]="24" />
 
         <span>
           {{ prompt().submitLabel }}

@@ -50,6 +50,9 @@
               <button type="button" [disabled]="store.saving()" (click)="store.archive(fact)">
                 Archiválás
               </button>
+              <button type="button" [disabled]="store.saving()" (click)="startReplacing(fact)">
+                Helyettesítés
+              </button>
             </article>
           }
         </div>
@@ -63,6 +66,25 @@
         </header>
         <div class="world-fact-list">
           @for (fact of store.archivedFacts(); track fact.value.id) {
+            <article>
+              <ps-icon name="archive-box" [size]="30" />
+              <div>
+                <span>{{ fact.value.category }}</span>
+                <p>{{ fact.value.text }}</p>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
+    @if (store.supersededFacts().length) {
+      <section class="world-fact-section world-fact-section--archived">
+        <header>
+          <p>Megőrzött előzmények</p>
+          <h2>Helyettesített Világtények</h2>
+        </header>
+        <div class="world-fact-list">
+          @for (fact of store.supersededFacts(); track fact.value.id) {
             <article>
               <ps-icon name="archive-box" [size]="30" />
               <div>
@@ -121,6 +143,92 @@
       >
         {{ store.saving() ? 'Mentés...' : 'Világtény mentése' }}
       </button>
+    </section>
+  </div>
+}
+@if (factToReplace(); as fact) {
+  <div class="world-fact-dialog__backdrop" (click)="factToReplace.set(null)">
+    <section
+      class="world-fact-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="replace-world-fact-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header>
+        <div>
+          <p>Világtény helyettesítése</p>
+          <h2 id="replace-world-fact-title">Mi igaz most helyette?</h2>
+        </div>
+        <button type="button" aria-label="Bezárás" (click)="factToReplace.set(null)">×</button>
+      </header>
+      <p class="world-fact-dialog__copy">
+        A korábbi Világtény megmarad az előzményekben, helyettesített állapotban.
+      </p>
+      <label
+        >Új Világtény<textarea
+          rows="4"
+          maxlength="400"
+          [value]="replacementText()"
+          (input)="updateReplacementText($event)"
+        ></textarea>
+      </label>
+      @if (store.errorMessage()) {
+        <p class="world-fact-dialog__error">{{ store.errorMessage() }}</p>
+      }
+      <button
+        class="world-fact-dialog__save"
+        type="button"
+        [disabled]="store.saving() || !replacementText().trim()"
+        (click)="replace()"
+      >
+        {{ store.saving() ? 'Mentés...' : 'Helyettesítés mentése' }}
+      </button>
+    </section>
+  </div>
+}
+@if (potentialConflict(); as fact) {
+  <div class="world-fact-dialog__backdrop" (click)="editProposal()">
+    <section
+      class="world-fact-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="world-fact-conflict-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header>
+        <div>
+          <p>Lehetséges ütközés</p>
+          <h2 id="world-fact-conflict-title">Már van hasonló Világtény</h2>
+        </div>
+        <button type="button" aria-label="Javaslat szerkesztése" (click)="editProposal()">×</button>
+      </header>
+      <p class="world-fact-dialog__copy">Aktív Világtény: „{{ fact.value.text }}”</p>
+      <p class="world-fact-dialog__copy">Új javaslat: „{{ text().trim() }}”</p>
+      <div class="world-fact-dialog__actions">
+        <button type="button" class="world-fact-dialog__secondary" (click)="editProposal()">
+          Szerkesztem
+        </button>
+        <button type="button" class="world-fact-dialog__secondary" (click)="cancelProposal()">
+          Mégsem
+        </button>
+        <button
+          type="button"
+          class="world-fact-dialog__secondary"
+          [disabled]="store.saving()"
+          (click)="keepBoth()"
+        >
+          Mindkettőt megtartom
+        </button>
+        <button
+          type="button"
+          class="world-fact-dialog__save"
+          [disabled]="store.saving()"
+          (click)="replacePotentialConflict()"
+        >
+          Helyettesítem
+        </button>
+      </div>
     </section>
   </div>
 }

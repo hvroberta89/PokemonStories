@@ -15,6 +15,7 @@ import { provideRewardInfrastructure } from './infrastructure/reward/reward.prov
 import { provideWorldInfrastructure } from './infrastructure/world/world.providers';
 import { provideLocationInfrastructure } from './infrastructure/location/location.providers';
 import { provideNpcInfrastructure } from './infrastructure/npc/npc.providers';
+import { provideAssistantInfrastructure } from './infrastructure/assistant/assistant.providers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,5 +31,6 @@ export const appConfig: ApplicationConfig = {
     ...provideWorldInfrastructure(),
     ...provideLocationInfrastructure(),
     ...provideNpcInfrastructure(),
+    ...provideAssistantInfrastructure(),
   ],
 };

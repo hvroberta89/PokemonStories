@@ -148,6 +148,21 @@ describe('SessionSummaryComponent', () => {
     expect(root.textContent).toContain('A Session Story elmentve.');
   });
 
+  it('requests an AI story draft without saving the Session Story', () => {
+    const requested = vi.fn();
+    const saved = vi.fn();
+    component.storyGenerationRequested.subscribe(requested);
+    component.storySaved.subscribe(saved);
+    fixture.detectChanges();
+
+    [...(fixture.nativeElement as HTMLElement).querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('AI-vázlat'))!
+      .click();
+
+    expect(requested).toHaveBeenCalledOnce();
+    expect(saved).not.toHaveBeenCalled();
+  });
+
   it('emits a World Fact only after explicit approval', () => {
     const approved = vi.fn();
     component.worldFactApproved.subscribe(approved);
@@ -167,5 +182,54 @@ describe('SessionSummaryComponent', () => {
       .click();
 
     expect(approved).toHaveBeenCalledWith('Az Öreg Híd megjavult.');
+  });
+
+  it('emits a reviewed NPC only after explicit Project save approval', () => {
+    const approved = vi.fn();
+    component.npcApproved.subscribe(approved);
+    fixture.detectChanges();
+
+    const root = fixture.nativeElement as HTMLElement;
+    const name = root.querySelector<HTMLInputElement>('[aria-label="NPC neve"]')!;
+    const role = root.querySelector<HTMLInputElement>('[aria-label="NPC szerepe"]')!;
+    name.value = 'Mira';
+    name.dispatchEvent(new Event('input'));
+    role.value = 'Erdei őr';
+    role.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(approved).not.toHaveBeenCalled();
+    [...root.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Mentés Project NPC-ként'))!
+      .click();
+
+    expect(approved).toHaveBeenCalledWith({ name: 'Mira', role: 'Erdei őr', description: '' });
+  });
+
+  it('emits a reviewed Location only after explicit Project save approval', () => {
+    const approved = vi.fn();
+    component.locationApproved.subscribe(approved);
+    fixture.detectChanges();
+
+    const root = fixture.nativeElement as HTMLElement;
+    const name = root.querySelector<HTMLInputElement>('[aria-label="Helyszín neve"]')!;
+    const description = root.querySelector<HTMLTextAreaElement>(
+      '[aria-label="Helyszín rövid leírása"]',
+    )!;
+    name.value = 'Holdfény tisztás';
+    name.dispatchEvent(new Event('input'));
+    description.value = 'Egy csendes tisztás a tó mellett.';
+    description.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(approved).not.toHaveBeenCalled();
+    [...root.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Mentés Project Helyszínként'))!
+      .click();
+
+    expect(approved).toHaveBeenCalledWith({
+      name: 'Holdfény tisztás',
+      description: 'Egy csendes tisztás a tó mellett.',
+    });
   });
 });

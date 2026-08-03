@@ -44,10 +44,7 @@
       </span>
 
       <div class="session-summary__hero-copy">
-        <span class="session-summary__hero-eyebrow"> A kaland véget ért </span>
-
         <strong> Szép munka, mesélő! </strong>
-
         <p>Az események, jutalmak és fontos pillanatok elmentésre kerültek.</p>
       </div>
     </section>
@@ -55,26 +52,15 @@
     <section class="session-summary__time" aria-label="Session időadatai">
       <article class="session-summary__time-item">
         <span> Kezdés </span>
-
-        <strong>
-          {{ summary().startedAtLabel }}
-        </strong>
+        <strong>{{ summary().startedAtLabel }}</strong>
       </article>
-
       <article class="session-summary__time-item">
         <span> Befejezés </span>
-
-        <strong>
-          {{ summary().completedAtLabel }}
-        </strong>
+        <strong>{{ summary().completedAtLabel }}</strong>
       </article>
-
       <article class="session-summary__time-item">
         <span> Időtartam </span>
-
-        <strong>
-          {{ summary().durationLabel }}
-        </strong>
+        <strong>{{ summary().durationLabel }}</strong>
       </article>
     </section>
 
@@ -195,6 +181,14 @@
             <button
               type="button"
               class="session-summary__section-action"
+              [disabled]="storyGenerationStatus() === 'generating'"
+              (click)="requestAiStory()"
+            >
+              {{ storyGenerationStatus() === 'generating' ? 'AI-vázlat készül...' : 'AI-vázlat' }}
+            </button>
+            <button
+              type="button"
+              class="session-summary__section-action"
               (click)="startEditingStory()"
             >
               <ps-icon name="edit-quill" [size]="17" />
@@ -238,6 +232,10 @@
 
       @if (storySaveMessage(); as message) {
         <p class="session-summary__story-saved" role="status">{{ message }}</p>
+      }
+
+      @if (storyGenerationStatus() === 'error') {
+        <p class="session-summary__story-error" role="alert">Az AI-vázlat most nem készült el.</p>
       }
     </section>
 
@@ -297,6 +295,156 @@
 
       @if (worldFactApprovalStatus() === 'error') {
         <p class="session-summary__story-error" role="alert">A Világtény mentése nem sikerült.</p>
+      }
+    </section>
+
+    <section class="session-summary__section" aria-labelledby="session-summary-npc-title">
+      <header class="session-summary__section-header">
+        <div>
+          <span class="session-summary__section-eyebrow"> Új szereplő </span>
+          <h3 id="session-summary-npc-title">Mentés Project NPC-ként</h3>
+        </div>
+      </header>
+
+      <p class="session-summary__copy">
+        A Sessionben megjelent szereplő csak a mentés után válik visszatérő NPC-vé.
+      </p>
+
+      <div>
+        <label
+          >Név<input
+            class="session-summary__story-editor"
+            type="text"
+            maxlength="100"
+            aria-label="NPC neve"
+            [value]="npcNameDraft()"
+            [disabled]="npcApprovalStatus() === 'saving' || npcApprovalStatus() === 'saved'"
+            (input)="updateNpcDraft('name', $event)"
+        /></label>
+        <label
+          >Szerep<input
+            class="session-summary__story-editor"
+            type="text"
+            maxlength="160"
+            aria-label="NPC szerepe"
+            [value]="npcRoleDraft()"
+            [disabled]="npcApprovalStatus() === 'saving' || npcApprovalStatus() === 'saved'"
+            (input)="updateNpcDraft('role', $event)"
+        /></label>
+      </div>
+      <label
+        >Rövid leírás<textarea
+          class="session-summary__story-editor"
+          rows="3"
+          maxlength="500"
+          aria-label="NPC rövid leírása"
+          [value]="npcDescriptionDraft()"
+          [disabled]="npcApprovalStatus() === 'saving' || npcApprovalStatus() === 'saved'"
+          (input)="updateNpcDraft('description', $event)"
+        ></textarea>
+      </label>
+
+      <div class="session-summary__story-editor-actions">
+        <button
+          type="button"
+          class="session-summary__section-action"
+          [disabled]="npcApprovalStatus() === 'saving' || npcApprovalStatus() === 'saved'"
+          (click)="discardNpc()"
+        >
+          Csak ebben a Sessionben marad
+        </button>
+        <button
+          type="button"
+          class="session-summary__section-action session-summary__section-action--primary"
+          [disabled]="
+            !npcNameDraft().trim() ||
+            !npcRoleDraft().trim() ||
+            npcApprovalStatus() === 'saving' ||
+            npcApprovalStatus() === 'saved'
+          "
+          (click)="approveNpc()"
+        >
+          {{
+            npcApprovalStatus() === 'saving'
+              ? 'Mentés...'
+              : npcApprovalStatus() === 'saved'
+                ? 'Project NPC-ként mentve'
+                : 'Mentés Project NPC-ként'
+          }}
+        </button>
+      </div>
+
+      @if (npcApprovalStatus() === 'error') {
+        <p class="session-summary__story-error" role="alert">Az NPC mentése nem sikerült.</p>
+      }
+    </section>
+
+    <section class="session-summary__section" aria-labelledby="session-summary-location-title">
+      <header class="session-summary__section-header">
+        <div>
+          <span class="session-summary__section-eyebrow"> Új helyszín </span>
+          <h3 id="session-summary-location-title">Mentés Project Helyszínként</h3>
+        </div>
+      </header>
+
+      <p class="session-summary__copy">
+        A Sessionben felbukkanó helyszín csak a mentés után válik a Project világának részévé.
+      </p>
+
+      <label
+        >Név<input
+          class="session-summary__story-editor"
+          type="text"
+          maxlength="100"
+          aria-label="Helyszín neve"
+          [value]="locationNameDraft()"
+          [disabled]="locationApprovalStatus() === 'saving' || locationApprovalStatus() === 'saved'"
+          (input)="updateLocationDraft('name', $event)"
+      /></label>
+      <label
+        >Rövid leírás<textarea
+          class="session-summary__story-editor"
+          rows="3"
+          maxlength="500"
+          aria-label="Helyszín rövid leírása"
+          [value]="locationDescriptionDraft()"
+          [disabled]="locationApprovalStatus() === 'saving' || locationApprovalStatus() === 'saved'"
+          (input)="updateLocationDraft('description', $event)"
+        ></textarea>
+      </label>
+
+      <div class="session-summary__story-editor-actions">
+        <button
+          type="button"
+          class="session-summary__section-action"
+          [disabled]="locationApprovalStatus() === 'saving' || locationApprovalStatus() === 'saved'"
+          (click)="discardLocation()"
+        >
+          Csak ebben a Sessionben marad
+        </button>
+        <button
+          type="button"
+          class="session-summary__section-action session-summary__section-action--primary"
+          [disabled]="
+            !locationNameDraft().trim() ||
+            !locationDescriptionDraft().trim() ||
+            locationApprovalStatus() === 'saving' ||
+            locationApprovalStatus() === 'saved'
+          "
+          (click)="approveLocation()"
+        >
+          {{
+            locationApprovalStatus() === 'saving'
+              ? 'Mentés...'
+              : locationApprovalStatus() === 'saved'
+                ? 'Project Helyszínként mentve'
+                : 'Mentés Project Helyszínként'
+          }}
+        </button>
+      </div>
+
+      @if (locationApprovalStatus() === 'error') {
+        <p class="session-summary__story-error" role="alert">A Helyszín mentése nem sikerült.</p>
       }
     </section>
 
