@@ -52,6 +52,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: ':projectId/locations',
+        loadComponent: () =>
+          import('./features/locations/pages/location-list-page/location-list-page.component').then(
+            (module) => module.LocationListPageComponent,
+          ),
+      },
+      {
         path: ':projectId/collection/:rewardId',
         loadComponent: () =>
           import('./features/collection/pages/reward-detail-page/reward-detail-page.component').then(

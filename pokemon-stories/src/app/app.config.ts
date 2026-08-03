@@ -13,6 +13,7 @@ import { provideSupabaseInfrastructure } from './infrastructure/supabase/supabas
 import { provideSessionInfrastructure } from './infrastructure/session/session.providers';
 import { provideRewardInfrastructure } from './infrastructure/reward/reward.providers';
 import { provideWorldInfrastructure } from './infrastructure/world/world.providers';
+import { provideLocationInfrastructure } from './infrastructure/location/location.providers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,5 +27,6 @@ export const appConfig: ApplicationConfig = {
     ...provideSessionInfrastructure(),
     ...provideRewardInfrastructure(),
     ...provideWorldInfrastructure(),
+    ...provideLocationInfrastructure(),
   ],
 };
