@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "data:import:poke5e": "node scripts/import-poke5e-reference-data.mjs",
+    "data:migrate:poke5e": "node --env-file-if-exists=.env scripts/migrate-poke5e-reference-data-to-supabase.mjs",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss}\"",
     "format": "prettier --write \"src/**/*.{ts,html,scss}\""
   },

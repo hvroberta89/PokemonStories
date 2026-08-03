@@ -59,9 +59,13 @@ export class SessionPreparationStore {
           (character) => character.status === 'active',
         ),
       );
-      this.preparedRewardsState.set(
-        await this.preparedRewardRepository.findByAdventure(projectId, adventureId),
-      );
+      try {
+        this.preparedRewardsState.set(
+          await this.preparedRewardRepository.findByAdventure(projectId, adventureId),
+        );
+      } catch {
+        this.preparedRewardsState.set([]);
+      }
       this.statusState.set('loaded');
     } catch {
       this.statusState.set('error');

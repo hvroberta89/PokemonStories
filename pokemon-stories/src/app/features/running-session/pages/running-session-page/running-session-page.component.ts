@@ -66,7 +66,13 @@ import { Router } from '@angular/router';
 import { SessionTimelineComponent } from '../../components/session-timeline/session-timeline.component';
 import { SessionEndSheetComponent } from '../../components/session-end-sheet/session-end-sheet.component';
 import { SessionSummaryComponent } from '../../components/session-summary/session-summary.component';
-import type { AdventureReviewDecision } from '../../components/session-summary/session-summary.component';
+import type {
+  AdventureReviewDecision,
+  LocationApprovalDraft,
+  NpcApprovalDraft,
+  StoryGenerationStatus,
+  WorldFactApprovalStatus,
+} from '../../components/session-summary/session-summary.component';
 import { SessionSummaryViewModel } from '../../components/session-summary/session-summary.model';
 import { CompleteAdventureHandler } from '../../../../application/adventure/commands/complete-adventure/complete-adventure.handler';
 import { ADVENTURE_PLAN_REPOSITORY } from '../../../../application/adventure/tokens/adventure-plan.tokens';
@@ -76,7 +82,13 @@ import { CreateWorldFactHandler } from '../../../../application/world/commands/c
 import { WORLD_FACT_REPOSITORY } from '../../../../application/world/tokens/world-fact.tokens';
 import { ID_GENERATOR } from '../../../../application/project/tokens/id-generator.token';
 import { PROJECT_READER } from '../../../../application/project/tokens/project.tokens';
-import type { WorldFactApprovalStatus } from '../../components/session-summary/session-summary.component';
+import { CreateNpcHandler } from '../../../../application/npc/commands/create-npc/create-npc.handler';
+import { NPC_REPOSITORY } from '../../../../application/npc/tokens/npc.tokens';
+import { CreateLocationHandler } from '../../../../application/location/commands/create-location/create-location.handler';
+import { LOCATION_REPOSITORY } from '../../../../application/location/tokens/location.tokens';
+import { GenerateSessionSuggestionsHandler } from '../../../../application/assistant/queries/generate-session-suggestions/generate-session-suggestions.handler';
+import { SESSION_ASSISTANT } from '../../../../application/assistant/tokens/session-assistant.token';
+import { GenerateSessionStoryHandler } from '../../../../application/assistant/queries/generate-session-story/generate-session-story.handler';
 
 @Component({
   selector: 'app-running-session-page',
@@ -124,6 +136,22 @@ export class RunningSessionPageComponent {
     inject(WORLD_FACT_REPOSITORY),
     inject(ID_GENERATOR),
   );
+  private readonly createNpc = new CreateNpcHandler(
+    async (id) => Boolean(await this.projectReader.findById(id)),
+    inject(NPC_REPOSITORY),
+    inject(ID_GENERATOR),
+  );
+  private readonly createLocation = new CreateLocationHandler(
+    async (id) => Boolean(await this.projectReader.findById(id)),
+    inject(LOCATION_REPOSITORY),
+    inject(ID_GENERATOR),
+  );
+  private readonly generateSessionSuggestions = new GenerateSessionSuggestionsHandler(
+    inject(SESSION_ASSISTANT),
+  );
+  private readonly generateSessionStory = new GenerateSessionStoryHandler(
+    inject(SESSION_ASSISTANT),
+  );
 
   protected readonly adventureTitle = computed(
     () => this.store.session().adventureTitle ?? 'Az eltűnt Napviráglevél',
@@ -147,8 +175,6 @@ export class RunningSessionPageComponent {
   private rewardToastTimeoutId: number | null = null;
 
   private assistantToastTimeoutId: number | null = null;
-
-  private assistantPromptTimeoutId: number | null = null;
 
   constructor() {
     this.destroyRef.onDestroy(() => {
@@ -201,6 +227,14 @@ export class RunningSessionPageComponent {
 
   protected readonly worldFactApprovalStatus = signal<WorldFactApprovalStatus>('idle');
 
+  protected readonly npcApprovalStatus = signal<WorldFactApprovalStatus>('idle');
+
+  protected readonly locationApprovalStatus = signal<WorldFactApprovalStatus>('idle');
+
+  protected readonly aiStoryDraft = signal<string | null>(null);
+
+  protected readonly storyGenerationStatus = signal<StoryGenerationStatus>('idle');
+
   // ---------------------------------------------------------------------------
   // Overlay state
   // ---------------------------------------------------------------------------
@@ -247,6 +281,8 @@ export class RunningSessionPageComponent {
   protected readonly isAssistantPromptOpen = signal(false);
 
   protected readonly isAssistantPromptLoading = signal(false);
+
+  protected readonly assistantPromptError = signal<string | null>(null);
 
   protected readonly isAssistantResultsOpen = signal(false);
 
@@ -482,6 +518,7 @@ export class RunningSessionPageComponent {
     const prompt = this.createAssistantPrompt(type);
 
     this.selectedAssistantPrompt.set(prompt);
+    this.assistantPromptError.set(null);
 
     this.closeAssistant();
 
@@ -491,6 +528,7 @@ export class RunningSessionPageComponent {
   protected closeAssistantPrompt(): void {
     this.isAssistantPromptOpen.set(false);
     this.isAssistantPromptLoading.set(false);
+    this.assistantPromptError.set(null);
     this.selectedAssistantPrompt.set(null);
   }
 
@@ -498,26 +536,45 @@ export class RunningSessionPageComponent {
     this.isAssistantPromptOpen.set(false);
     this.isAssistantPromptLoading.set(false);
     this.selectedAssistantPrompt.set(null);
+    this.assistantPromptError.set(null);
 
     this.openAssistant();
   }
 
-  protected submitAssistantPrompt(draft: AssistantPromptDraft): void {
+  protected async submitAssistantPrompt(draft: AssistantPromptDraft): Promise<void> {
     this.isAssistantPromptLoading.set(true);
-
-    this.clearAssistantPromptTimeout();
-
-    this.assistantPromptTimeoutId = window.setTimeout(() => {
-      this.assistantPromptTimeoutId = null;
-
-      this.assistantResults.set(this.createMockAssistantResults(draft));
-
+    this.assistantPromptError.set(null);
+    try {
+      const session = this.store.session();
+      const suggestions = await this.generateSessionSuggestions.execute(draft.type, {
+        adventureTitle: session.adventureTitle ?? 'Névtelen kaland',
+        locationName: session.viewModel.story.locationName,
+        goal: session.viewModel.goal.title,
+        recentEvents: session.viewModel.recentEvents.events
+          .slice(0, 5)
+          .map((event) => `${event.title}: ${event.content}`),
+        userContext: draft.context,
+      });
+      this.assistantResults.set({
+        type: draft.type,
+        eyebrow: 'Kalandsegítő',
+        title: 'Három új ötlet',
+        description: 'Válaszd ki és alakítsd tovább azt, amelyik a legjobban illik a Sessionhöz.',
+        suggestions: suggestions.map((suggestion, index) => ({
+          id: crypto.randomUUID(),
+          ...suggestion,
+          icon: this.assistantSuggestionIcon(draft.type, index),
+        })),
+      });
       this.isAssistantPromptLoading.set(false);
-
       this.isAssistantPromptOpen.set(false);
-
       this.isAssistantResultsOpen.set(true);
-    }, 800);
+    } catch {
+      this.assistantPromptError.set(
+        'Az AI segítő most nem érhető el. Próbáld újra, vagy folytasd kézi ötlettel.',
+      );
+      this.isAssistantPromptLoading.set(false);
+    }
   }
 
   protected closeAssistantResults(): void {
@@ -672,6 +729,25 @@ export class RunningSessionPageComponent {
     this.store.saveSessionStory(story);
   }
 
+  protected async generateAiStory(): Promise<void> {
+    const summary = this.sessionSummary();
+    this.storyGenerationStatus.set('generating');
+    try {
+      const story = await this.generateSessionStory.execute({
+        adventureTitle: summary.adventureTitle,
+        locationName: summary.locationName,
+        events: summary.events.map((event) => `${event.title}: ${event.content}`),
+        rewards: [...summary.queuedRewards, ...summary.givenRewards].map(
+          (reward) => `${reward.recipientName} megkapta: ${reward.amount} db ${reward.rewardLabel}`,
+        ),
+      });
+      this.aiStoryDraft.set(story);
+      this.storyGenerationStatus.set('idle');
+    } catch {
+      this.storyGenerationStatus.set('error');
+    }
+  }
+
   protected async approveWorldFact(text: string): Promise<void> {
     const session = this.store.session();
     if (!session.projectId) {
@@ -688,6 +764,42 @@ export class RunningSessionPageComponent {
       this.worldFactApprovalStatus.set(result.isSuccess ? 'saved' : 'error');
     } catch {
       this.worldFactApprovalStatus.set('error');
+    }
+  }
+
+  protected async approveNpc(draft: NpcApprovalDraft): Promise<void> {
+    const session = this.store.session();
+    if (!session.projectId) {
+      this.npcApprovalStatus.set('error');
+      return;
+    }
+    this.npcApprovalStatus.set('saving');
+    try {
+      const result = await this.createNpc.execute({
+        projectId: projectId(session.projectId),
+        ...draft,
+      });
+      this.npcApprovalStatus.set(result.isSuccess ? 'saved' : 'error');
+    } catch {
+      this.npcApprovalStatus.set('error');
+    }
+  }
+
+  protected async approveLocation(draft: LocationApprovalDraft): Promise<void> {
+    const session = this.store.session();
+    if (!session.projectId) {
+      this.locationApprovalStatus.set('error');
+      return;
+    }
+    this.locationApprovalStatus.set('saving');
+    try {
+      const result = await this.createLocation.execute({
+        projectId: projectId(session.projectId),
+        ...draft,
+      });
+      this.locationApprovalStatus.set(result.isSuccess ? 'saved' : 'error');
+    } catch {
+      this.locationApprovalStatus.set('error');
     }
   }
 
@@ -735,103 +847,12 @@ export class RunningSessionPageComponent {
     }
   }
 
-  private createMockAssistantResults(draft: AssistantPromptDraft): AssistantResultsViewModel {
-    switch (draft.type) {
-      case 'event':
-        return {
-          type: 'event',
-          eyebrow: 'Kalandsegítő',
-          title: 'Három eseményötlet',
-          description: 'Válassz egy eseményt, amelyik legjobban illik a jelenlegi kalandhoz.',
-          suggestions: [
-            {
-              id: crypto.randomUUID(),
-              title: 'Mozgás a bokrok között',
-              description:
-                'A közeli bokrok hirtelen megmozdulnak. Egy félénk Pokémon bújik elő, aki láthatóan segítséget keres.',
-              icon: 'environment-forest',
-            },
-            {
-              id: crypto.randomUUID(),
-              title: 'Titokzatos nyomok',
-              description:
-                'Friss lábnyomok jelennek meg az ösvényen, és egy eddig rejtett ösvényhez vezetnek.',
-              icon: 'exploration-footprints',
-            },
-            {
-              id: crypto.randomUUID(),
-              title: 'Váratlan találkozás',
-              description:
-                'Egy izgatott erdei őrző érkezik, aki sürgős segítséget kér a kalandozóktól.',
-              icon: 'npc-dialogue',
-            },
-          ],
-        };
-
-      case 'clue':
-        return {
-          type: 'clue',
-          eyebrow: 'Kalandsegítő',
-          title: 'Három új nyom',
-          description:
-            'Válaszd ki azt a nyomot, amelyik segíti a csapatot anélkül, hogy azonnal elárulná a megoldást.',
-          suggestions: [
-            {
-              id: crypto.randomUUID(),
-              title: 'Aranyló virágpor',
-              description:
-                'A földön apró, aranyló virágporszemek csillognak, és egy keskeny ösvény irányába vezetnek.',
-              icon: 'exploration-footprints',
-            },
-            {
-              id: crypto.randomUUID(),
-              title: 'Letört különleges levél',
-              description:
-                'Az egyik bokor ágán sárga-lila levél akadt fenn, amely nem illik a környező növényekhez.',
-              icon: 'environment-forest',
-            },
-            {
-              id: crypto.randomUUID(),
-              title: 'Távoli Pokémon-hang',
-              description:
-                'A csapat halk Pokémon-hangot hall a fák közül, mintha valaki tudatosan hívná őket.',
-              icon: 'npc-dialogue',
-            },
-          ],
-        };
-
-      case 'character':
-        return {
-          type: 'character',
-          eyebrow: 'Kalandsegítő',
-          title: 'Három szereplőötlet',
-          description:
-            'Válassz egy szereplőt, aki természetesen kapcsolódhat a jelenlegi jelenethez.',
-          suggestions: [
-            {
-              id: crypto.randomUUID(),
-              title: 'Mira, az erdei őrző',
-              description:
-                'Kedves, de óvatos fiatal őrző, aki jól ismeri az erdő titkos ösvényeit és Pokémonjait.',
-              icon: 'new-npc',
-            },
-            {
-              id: crypto.randomUUID(),
-              title: 'Tüsi, a kíváncsi Pokémon',
-              description:
-                'Játékos Pokémon, aki apró tárgyakat rejt el, majd próbára teszi az arra járó kalandozókat.',
-              icon: 'encounter-claw',
-            },
-            {
-              id: crypto.randomUUID(),
-              title: 'Boroszlán bácsi',
-              description:
-                'Idős vándor, aki sok történetet ismer, de a fontos információkat találós kérdésekbe rejti.',
-              icon: 'npc-dialogue',
-            },
-          ],
-        };
-    }
+  private assistantSuggestionIcon(
+    type: AssistantPromptType,
+    index: number,
+  ): 'environment-forest' | 'exploration-footprints' | 'npc-dialogue' | 'new-npc' {
+    if (type === 'character') return index === 0 ? 'new-npc' : 'npc-dialogue';
+    return index === 0 ? 'environment-forest' : 'exploration-footprints';
   }
 
   private createAssistantRecentEvent(
@@ -893,16 +914,6 @@ export class RunningSessionPageComponent {
   private clearTimeouts(): void {
     this.closeRewardToast();
     this.closeAssistantToast();
-    this.clearAssistantPromptTimeout();
-  }
-
-  private clearAssistantPromptTimeout(): void {
-    if (this.assistantPromptTimeoutId === null) {
-      return;
-    }
-
-    window.clearTimeout(this.assistantPromptTimeoutId);
-    this.assistantPromptTimeoutId = null;
   }
 
   private formatDateTime(date: Date): string {

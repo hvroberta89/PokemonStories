@@ -26,3 +26,20 @@ Required component inputs must be provided in every component fixture via `fixtu
 ## Persistence
 
 The active running session is persisted in browser local storage under the `pokemon-stories.running-session` key. The persisted format uses `schemaVersion`; update the decoder and add a migration when its shape changes.
+
+## Poke5e Reference Data
+
+Poke5e reference data is stored as a versioned local snapshot for non-commercial fan use only. The snapshot must be imported from a local Poke5e source checkout before it is migrated:
+
+```bash
+npm run data:import:poke5e -- <path-to-poke5e>
+npm run data:migrate:poke5e -- --dry-run
+```
+
+Apply [20260803040000_create_poke5e_reference_data.sql](supabase/migrations/20260803040000_create_poke5e_reference_data.sql) in the target Supabase project, then run the database migration locally with a service-role key. Do not commit or share that key.
+
+```powershell
+$env:SUPABASE_URL = "https://<project-ref>.supabase.co"
+$env:SUPABASE_SERVICE_ROLE_KEY = "<service-role-key>"
+npm run data:migrate:poke5e
+```

@@ -194,6 +194,7 @@
     <app-assistant-prompt
       [prompt]="prompt"
       [isLoading]="isAssistantPromptLoading()"
+      [errorMessage]="assistantPromptError()"
       (closed)="closeAssistantPrompt()"
       (back)="backToAssistant()"
       (submitted)="submitAssistantPrompt($event)"
@@ -239,8 +240,15 @@
       (timelineSelected)="openSummaryTimeline()"
       (rewardsSelected)="openSummaryRewards()"
       (storySaved)="saveSessionStory($event)"
+      [aiStoryDraft]="aiStoryDraft()"
+      [storyGenerationStatus]="storyGenerationStatus()"
+      (storyGenerationRequested)="generateAiStory()"
       [worldFactApprovalStatus]="worldFactApprovalStatus()"
       (worldFactApproved)="approveWorldFact($event)"
+      [npcApprovalStatus]="npcApprovalStatus()"
+      (npcApproved)="approveNpc($event)"
+      [locationApprovalStatus]="locationApprovalStatus()"
+      (locationApproved)="approveLocation($event)"
       (reviewCompleted)="completeSessionReview($event)"
     />
   }
