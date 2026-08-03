@@ -59,6 +59,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: ':projectId/npcs',
+        loadComponent: () =>
+          import('./features/npcs/pages/npc-list-page/npc-list-page.component').then(
+            (module) => module.NpcListPageComponent,
+          ),
+      },
+      {
         path: ':projectId/collection/:rewardId',
         loadComponent: () =>
           import('./features/collection/pages/reward-detail-page/reward-detail-page.component').then(

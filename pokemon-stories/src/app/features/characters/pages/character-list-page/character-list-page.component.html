@@ -44,22 +44,28 @@
         </header>
         <div class="character-grid">
           @for (character of store.activeCharacters(); track character.id) {
-            <a
-              class="character-card"
-              [routerLink]="['/projects', projectId, 'characters', character.id]"
-            >
-              <div class="character-card__avatar">{{ initials(character.name) }}</div>
-              <div>
-                <span>Aktív trainer</span>
-                <h2>{{ character.name }}</h2>
-                <p>
-                  {{
-                    character.description || 'Ennek a karakternek még nincs rövid bemutatkozása.'
-                  }}
-                </p>
-              </div>
-              <ps-icon name="success-check" [size]="26" />
-            </a>
+            <article class="character-card">
+              <a [routerLink]="['/projects', projectId, 'characters', character.id]">
+                <div class="character-card__avatar">{{ initials(character.name) }}</div>
+                <div>
+                  <span>Aktív trainer</span>
+                  <h2>{{ character.name }}</h2>
+                  <p>
+                    {{
+                      character.description || 'Ennek a karakternek még nincs rövid bemutatkozása.'
+                    }}
+                  </p>
+                </div>
+                <ps-icon name="success-check" [size]="26" />
+              </a>
+              <button
+                type="button"
+                [disabled]="store.saving()"
+                (click)="characterToArchive.set(character)"
+              >
+                Archiválás
+              </button>
+            </article>
           }
         </div>
       </section>
@@ -136,6 +142,38 @@
         <ps-icon name="saved-scroll" [size]="22" />
         {{ store.saving() ? 'Mentés…' : 'Karakter létrehozása' }}
       </button>
+    </section>
+  </div>
+}
+@if (characterToArchive(); as character) {
+  <div class="character-dialog__backdrop" (click)="characterToArchive.set(null)">
+    <section
+      class="character-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="archive-character-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header>
+        <div>
+          <p>Karakter archiválása</p>
+          <h2 id="archive-character-title">{{ character.name }} visszavonul?</h2>
+        </div>
+        <button type="button" aria-label="Bezárás" (click)="characterToArchive.set(null)">×</button>
+      </header>
+      <p>
+        A kalandok, Pokémonok, jutalmak és kampánytörténet megmaradnak. A karakter csak az aktív
+        választásokból kerül ki.
+      </p>
+      @if (store.errorMessage()) {
+        <p class="character-dialog__error">{{ store.errorMessage() }}</p>
+      }
+      <div class="character-dialog__actions">
+        <button type="button" (click)="characterToArchive.set(null)">Mégse</button
+        ><button type="button" [disabled]="store.saving()" (click)="archiveCharacter()">
+          Archiválás
+        </button>
+      </div>
     </section>
   </div>
 }
