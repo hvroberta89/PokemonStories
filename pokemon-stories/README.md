@@ -56,16 +56,25 @@ Generate or refresh the machine-translated Hungarian overlays with:
 npm run data:translate:poke5e:hu
 ```
 
+The command preserves existing translation fields, including manually reviewed terminology and Technical Machine records, and adds only missing records. Use `--overwrite` only when the generated core translations should replace existing ones; it deliberately removes Technical Machine records, so regenerate them immediately afterwards:
+
+```bash
+npm run data:translate:poke5e:hu -- --overwrite
+npm run data:translate:poke5e-tms:hu
+```
+
 Review game terminology and amend the generated values in `hu.json` before publishing. Validate the complete dataset locally with:
 
 ```bash
 npm run data:migrate:poke5e -- --dry-run
 ```
 
-Apply both reference-data migrations in the target Supabase project before publishing translations:
+Apply all reference-data migrations in the target Supabase project before publishing translations:
 
 - [20260803040000_create_poke5e_reference_data.sql](supabase/migrations/20260803040000_create_poke5e_reference_data.sql)
 - [20260803043000_create_poke5e_reference_translations.sql](supabase/migrations/20260803043000_create_poke5e_reference_translations.sql)
+- [20260803050000_add_poke5e_trainer_origins.sql](supabase/migrations/20260803050000_add_poke5e_trainer_origins.sql)
+- [20260803053000_add_poke5e_contest_reference.sql](supabase/migrations/20260803053000_add_poke5e_contest_reference.sql)
 
 Then upload the reference snapshot and Hungarian translations:
 
@@ -73,4 +82,4 @@ Then upload the reference snapshot and Hungarian translations:
 npm run data:migrate:poke5e
 ```
 
-After publishing, start the application with `npm start`, open `/library`, choose `Magyar`, and check the list, search, detail, favorite, Adventure, and Session workflows. Technical Machines currently use their English source values because they do not yet have localized records.
+After publishing, start the application with `npm start`, open `/library`, choose `Magyar`, and check the list, search, detail, favorite, Adventure, and Session workflows. Technical Machines inherit the Hungarian names of their associated Moves.

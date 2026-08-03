@@ -7,8 +7,8 @@ import { GameMasterLibraryStore } from '../../services/game-master-library.store
 import { LibrarySessionSelectionService, SessionPokemonRole } from '../../services/library-session-selection.service';
 import { LibraryAdventureSelectionService } from '../../services/library-adventure-selection.service';
 
-const sections: readonly LibrarySection[] = ['pokemon', 'moves', 'abilities', 'items', 'tms'];
-const titles: Record<LibraryView, string> = { pokemon: 'Pokémon', moves: 'Move-ok', abilities: 'Képességek', items: 'Tárgyak', tms: 'Technical Machines', favorites: 'Kedvencek', recent: 'Legutóbb megnyitott' };
+const sections: readonly LibrarySection[] = ['pokemon', 'moves', 'abilities', 'items', 'tms', 'origins'];
+const titles: Record<LibraryView, string> = { pokemon: 'Pokémon', moves: 'Move-ok', abilities: 'Képességek', items: 'Tárgyak', tms: 'Technical Machines', origins: 'Trainer Originek', favorites: 'Kedvencek', recent: 'Legutóbb megnyitott' };
 
 @Component({
   selector: 'app-game-master-library-page', standalone: true, imports: [RouterLink, PsIconComponent],

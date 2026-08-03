@@ -10,6 +10,9 @@ const REQUIRED_DATASETS = [
   ['abilities', 'abilities.json'],
   ['items', 'items.json'],
   ['technical-machines', 'technical-machines.json'],
+  ['origins', 'origins.json'],
+  ['contest', 'contest.json'],
+  ['contest-effects', 'contest-effects.json'],
 ];
 const TRANSLATION_LOCALES = ['hu'];
 const BATCH_SIZE = 250;
@@ -141,7 +144,7 @@ function validateManifest(manifest) {
 }
 
 function validateTranslation(item, locale) {
-  const datasets = new Set(['pokemon', 'moves', 'abilities', 'items', 'tms']);
+  const datasets = new Set(['pokemon', 'moves', 'abilities', 'items', 'tms', 'origins', 'contest-effects']);
   if (
     !item ||
     typeof item !== 'object' ||
