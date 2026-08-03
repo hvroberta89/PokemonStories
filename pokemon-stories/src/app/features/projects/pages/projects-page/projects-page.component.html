@@ -11,6 +11,10 @@
     </a>
 
     <button class="projects-page__sign-out" type="button" (click)="signOut()">Kijelentkezés</button>
+    <a class="projects-page__library" routerLink="/library">
+      <ps-icon name="adventures-book" [size]="20" />
+      Library
+    </a>
     <button class="projects-page__create" type="button" (click)="openCreateProject()">
       <ps-icon name="add-spark" [size]="22" />
       Új projekt

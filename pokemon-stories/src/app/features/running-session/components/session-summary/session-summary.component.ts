@@ -70,6 +70,8 @@ export class SessionSummaryComponent {
 
   readonly storyGenerationStatus = input<StoryGenerationStatus>('idle');
 
+  readonly reviewError = input<string | null>(null);
+
   protected readonly storyCopied = signal(false);
 
   protected readonly copyError = signal<string | null>(null);

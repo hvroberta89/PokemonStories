@@ -4,6 +4,15 @@ import { signedOutGuard } from './features/auth/guards/signed-out.guard';
 
 export const routes: Routes = [
   {
+    path: 'library',
+    canActivate: [authenticatedGuard],
+    children: [
+      { path: '', loadComponent: () => import('./features/game-master-library/pages/game-master-library-page/game-master-library-page.component').then((module) => module.GameMasterLibraryPageComponent) },
+      { path: ':section', loadComponent: () => import('./features/game-master-library/pages/game-master-library-page/game-master-library-page.component').then((module) => module.GameMasterLibraryPageComponent) },
+      { path: ':section/:id', loadComponent: () => import('./features/game-master-library/pages/game-master-library-page/game-master-library-page.component').then((module) => module.GameMasterLibraryPageComponent) },
+    ],
+  },
+  {
     path: 'auth',
     canActivate: [signedOutGuard],
     loadComponent: () =>

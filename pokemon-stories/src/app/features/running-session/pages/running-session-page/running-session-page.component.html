@@ -55,7 +55,7 @@
   <section class="session-meta" aria-label="Kaland állapota">
     <span class="session-meta__type">
       <span aria-hidden="true">🌿</span>
-      Felfedezés
+      {{ currentScenePokemonName() ? 'Pokémon: ' + currentScenePokemonName() : 'Felfedezés' }}
     </span>
 
     <div class="session-meta__progress" aria-label="Kaland előrehaladása">
@@ -232,6 +232,7 @@
       (storySaved)="saveSessionStory($event)"
       [aiStoryDraft]="aiStoryDraft()"
       [storyGenerationStatus]="storyGenerationStatus()"
+      [reviewError]="reviewError()"
       (storyGenerationRequested)="generateAiStory()"
       [worldFactApprovalStatus]="worldFactApprovalStatus()"
       (worldFactApproved)="approveWorldFact($event)"

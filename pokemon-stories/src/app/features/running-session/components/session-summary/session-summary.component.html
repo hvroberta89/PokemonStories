@@ -551,6 +551,9 @@
     </section>
 
     <div class="session-summary__actions">
+      @if (reviewError(); as error) {
+        <p class="session-summary__story-error" role="alert">{{ error }}</p>
+      }
       <button
         type="button"
         class="session-summary__button session-summary__button--secondary"

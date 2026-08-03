@@ -84,6 +84,16 @@
   cursor: pointer;
   font-weight: 750;
 }
+.projects-page__library {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--color-primary-strong);
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-decoration: none;
+}
 
 .projects-page__intro {
   max-width: 48rem;

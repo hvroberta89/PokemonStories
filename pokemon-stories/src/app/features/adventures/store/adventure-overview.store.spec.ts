@@ -1,11 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ADVENTURE_PLAN_READER } from '../../../application/adventure/tokens/adventure-plan.tokens';
+import { ADVENTURE_PLAN_REPOSITORY } from '../../../application/adventure/tokens/adventure-plan.tokens';
 import { ProjectSessionReader } from '../../../application/session/ports/project-session-reader';
 import { PROJECT_SESSION_READER } from '../../../application/session/tokens/project-session.tokens';
 import { AudienceProfile } from '../../../domain/audience/models/audience-profile';
 import { AgeRange } from '../../../domain/audience/value-objects/age-range';
 import { AdventurePlan } from '../../../domain/adventure/models/adventure-plan';
+import { adventureSceneId } from '../../../domain/adventure/value-objects/adventure-scene-id';
 import { adventurePlanId } from '../../../domain/adventure/value-objects/adventure-plan-id';
 import { projectId } from '../../../domain/project/value-objects/project-id';
 import { InMemoryAdventurePlanRepository } from '../../../infrastructure/adventure/repositories/in-memory-adventure-plan.repository';
@@ -36,6 +38,7 @@ describe('AdventureOverviewStore', () => {
       providers: [
         AdventureOverviewStore,
         { provide: ADVENTURE_PLAN_READER, useValue: adventures },
+        { provide: ADVENTURE_PLAN_REPOSITORY, useValue: adventures },
         { provide: PROJECT_SESSION_READER, useValue: sessions },
       ],
     });
@@ -59,6 +62,7 @@ describe('AdventureOverviewStore', () => {
       providers: [
         AdventureOverviewStore,
         { provide: ADVENTURE_PLAN_READER, useValue: adventures },
+        { provide: ADVENTURE_PLAN_REPOSITORY, useValue: adventures },
         { provide: PROJECT_SESSION_READER, useValue: sessions },
       ],
     });
@@ -67,6 +71,31 @@ describe('AdventureOverviewStore', () => {
     await store.load(projectId('other-project'), adventurePlanId('adventure-1'));
 
     expect(store.isNotFound()).toBe(true);
+  });
+
+  it('marks a ready Adventure as playable from its overview', async () => {
+    const adventures = new InMemoryAdventurePlanRepository();
+    const adventure = withOpeningScene(createAdventure());
+    await adventures.save(adventure);
+    const sessions: ProjectSessionReader = {
+      findByProject: async () => null,
+      findCompletedById: async () => null,
+      listCompletedByProject: async () => [],
+    };
+    TestBed.configureTestingModule({
+      providers: [
+        AdventureOverviewStore,
+        { provide: ADVENTURE_PLAN_READER, useValue: adventures },
+        { provide: ADVENTURE_PLAN_REPOSITORY, useValue: adventures },
+        { provide: PROJECT_SESSION_READER, useValue: sessions },
+      ],
+    });
+    const store = TestBed.inject(AdventureOverviewStore);
+
+    await store.load(projectId('project-1'), adventurePlanId('adventure-1'));
+
+    expect(await store.markReady(projectId('project-1'), adventurePlanId('adventure-1'))).toBe(true);
+    expect(store.adventure()?.status).toBe('ready');
   });
 });
 
@@ -92,4 +121,15 @@ function createAdventure(): AdventurePlan {
   });
   if (!result.isSuccess) throw result.error;
   return result.value;
+}
+
+function withOpeningScene(adventure: AdventurePlan): AdventurePlan {
+  const scene = adventure.addScene({
+    id: adventureSceneId('scene-1'),
+    title: 'Az oreg hid',
+    description: 'Egy rejtelyes nyom varja a csapatot.',
+    goal: 'Talaljatok meg az elso nyomot.',
+  });
+  if (!scene.isSuccess) throw scene.error;
+  return scene.value;
 }

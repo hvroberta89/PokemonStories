@@ -2,14 +2,16 @@ import type { RewardHistoryItemViewModel } from '../components/reward-history/re
 import type { RewardQueueItemViewModel } from '../components/reward-queue/reward-queue.model';
 import type { RunningSessionViewModel } from './running-session-view.model';
 import type { PreparedRewardProps } from '../../../domain/reward/models/prepared-reward';
+import type { SessionStatus } from '../../../domain/session/models/session';
 
-export type RunningSessionStatus = 'running' | 'review-pending' | 'completed';
+export type RunningSessionStatus = SessionStatus;
 
 export interface RunningSessionScene {
   readonly id: string;
   readonly title: string;
   readonly description: string;
   readonly goal: string;
+  readonly pokemonReferenceId?: string;
 }
 
 export interface RunningSessionParticipant {

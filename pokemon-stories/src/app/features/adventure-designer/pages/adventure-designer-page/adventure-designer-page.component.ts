@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { AudienceAgePresetId } from '../../../../domain/audience/presets/audience-age-preset';
 import { audienceAgePresets } from '../../../../domain/audience/presets/audience-age-presets';
@@ -11,6 +11,7 @@ import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
 import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 import { AdventureDesignerStore } from '../../store/adventure-designer.store';
 import type { RewardType } from '../../../../domain/reward/models/reward-grant';
+import { LibraryAdventureSelectionService } from '../../../game-master-library/services/library-adventure-selection.service';
 
 @Component({
   selector: 'app-adventure-designer-page',
@@ -23,6 +24,8 @@ import type { RewardType } from '../../../../domain/reward/models/reward-grant';
 })
 export class AdventureDesignerPageComponent {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly librarySelection = inject(LibraryAdventureSelectionService);
   protected readonly store = inject(AdventureDesignerStore);
   protected readonly projectId = projectId(this.route.snapshot.paramMap.get('projectId') ?? '');
   protected readonly adventureId = adventurePlanId(
@@ -39,6 +42,7 @@ export class AdventureDesignerPageComponent {
   protected readonly sceneTitle = signal('');
   protected readonly sceneDescription = signal('');
   protected readonly sceneGoal = signal('');
+  protected readonly scenePokemonReferenceId = signal<string | undefined>(undefined);
   protected readonly sceneDirection = signal('');
   protected readonly sceneSubmitted = signal(false);
   protected readonly editingSceneId = signal<AdventureSceneId | null>(null);
@@ -56,6 +60,11 @@ export class AdventureDesignerPageComponent {
   protected readonly rewardSubmitted = signal(false);
 
   constructor() {
+    const selection = this.librarySelection.consume();
+    if (selection) {
+      this.scenePokemonReferenceId.set(selection.id);
+      this.sceneFormOpen.set(true);
+    }
     void this.load();
   }
 
@@ -117,6 +126,7 @@ export class AdventureDesignerPageComponent {
       title: this.sceneTitle(),
       description: this.sceneDescription(),
       goal: this.sceneGoal(),
+      pokemonReferenceId: this.scenePokemonReferenceId(),
     };
     const editingId = this.editingSceneId();
     const success = editingId
@@ -134,6 +144,7 @@ export class AdventureDesignerPageComponent {
       this.sceneTitle.set('');
       this.sceneDescription.set('');
       this.sceneGoal.set('');
+      this.scenePokemonReferenceId.set(undefined);
       this.editingSceneId.set(null);
       this.store.clearSceneSuggestions();
     }
@@ -144,6 +155,7 @@ export class AdventureDesignerPageComponent {
     this.sceneTitle.set('');
     this.sceneDescription.set('');
     this.sceneGoal.set('');
+    this.scenePokemonReferenceId.set(undefined);
     this.sceneDirection.set('');
     this.store.clearSceneSuggestions();
     this.sceneSubmitted.set(false);
@@ -155,6 +167,7 @@ export class AdventureDesignerPageComponent {
     this.sceneTitle.set(scene.title);
     this.sceneDescription.set(scene.description);
     this.sceneGoal.set(scene.goal);
+    this.scenePokemonReferenceId.set(scene.pokemonReferenceId);
     this.sceneDirection.set('');
     this.store.clearSceneSuggestions();
     this.sceneSubmitted.set(false);
@@ -183,6 +196,14 @@ export class AdventureDesignerPageComponent {
     this.sceneDescription.set(suggestion.description);
     this.sceneGoal.set(suggestion.goal);
     this.sceneSubmitted.set(false);
+  }
+
+  protected openPokemonLibrary(): void {
+    void this.router.navigate(['/library/pokemon'], { queryParams: { use: 'designer' } });
+  }
+
+  protected pokemonName(referenceId: string): string {
+    return referenceId.split('-').map((word) => word[0].toUpperCase() + word.slice(1)).join(' ');
   }
 
   protected moveScene(sceneId: AdventureSceneId, direction: 'up' | 'down'): void {

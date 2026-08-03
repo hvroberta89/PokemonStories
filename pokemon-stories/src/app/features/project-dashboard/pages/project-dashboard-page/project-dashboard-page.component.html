@@ -28,9 +28,14 @@
         <span aria-hidden="true">←</span>
         Projektváltás
       </a>
-      <button type="button" class="dashboard-page__settings" aria-label="Projekt archiválása" (click)="archiveConfirmOpen.set(true)">
-        <ps-icon name="archive-box" [size]="25" />
-      </button>
+      <div class="dashboard-page__header-actions">
+        <button type="button" class="dashboard-page__settings" aria-label="Projekt szerkesztése" (click)="openEdit()">
+          <ps-icon name="edit-quill" [size]="25" />
+        </button>
+        <button type="button" class="dashboard-page__settings" aria-label="Projekt archiválása" (click)="archiveConfirmOpen.set(true)">
+          <ps-icon name="archive-box" [size]="25" />
+        </button>
+      </div>
     </header>
 
     <section class="dashboard-page__context">
@@ -175,6 +180,21 @@
       <div>
         <button type="button" (click)="archiveConfirmOpen.set(false)">Mégse</button>
         <button type="button" (click)="archiveProject()">Archiválás</button>
+      </div>
+    </section>
+  </div>
+}
+@if (editOpen()) {
+  <div class="archive-confirm__backdrop" (click)="editOpen.set(false)">
+    <section class="archive-confirm project-editor" role="dialog" aria-modal="true" aria-labelledby="project-editor-title" (click)="$event.stopPropagation()">
+      <ps-icon name="edit-quill" [size]="44" />
+      <h2 id="project-editor-title">Projekt szerkesztése</h2>
+      <label>Név<input type="text" maxlength="80" [value]="editName()" (input)="editName.set($any($event.target).value)" /></label>
+      <label>Rövid leírás<textarea psVoiceInput rows="5" maxlength="500" [value]="editDescription()" (input)="editDescription.set($any($event.target).value)"></textarea></label>
+      @if (editError(); as error) { <p class="archive-confirm__error" role="alert">{{ error }}</p> }
+      <div>
+        <button type="button" (click)="editOpen.set(false)">Mégse</button>
+        <button type="button" (click)="saveProject()">Mentés</button>
       </div>
     </section>
   </div>

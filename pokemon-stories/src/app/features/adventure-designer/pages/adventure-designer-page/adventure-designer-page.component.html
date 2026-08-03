@@ -290,6 +290,9 @@
                   </div>
                   <p>{{ scene.description }}</p>
                   <strong><ps-icon name="goal-target" [size]="22" /> {{ scene.goal }}</strong>
+                  @if (scene.pokemonReferenceId) {
+                    <small><ps-icon name="play-pokeball" [size]="18" /> Kapcsolt Pokémon: {{ pokemonName(scene.pokemonReferenceId) }}</small>
+                  }
                   <div class="scene-card__actions">
                     <button
                       type="button"
@@ -459,6 +462,7 @@
             @if (sceneSubmitted() && !sceneGoal().trim()) {
               <p class="error" role="alert">Adj egy rövid, cselekvő célt.</p>
             }
+            <div class="scene-library"><span>{{ scenePokemonReferenceId() ? 'Kiválasztott Pokémon: ' + scenePokemonReferenceId() : 'Nincs Pokémon referencia a jelenethez.' }}</span><button type="button" (click)="openPokemonLibrary()"><ps-icon name="play-pokeball" [size]="18" /> Pokémon kiválasztása</button></div>
             <div class="scene-dialog__actions">
               <button type="button" (click)="sceneFormOpen.set(false)">Mégse</button
               ><button type="submit" [disabled]="store.isSaving()">

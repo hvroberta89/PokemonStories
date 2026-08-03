@@ -162,6 +162,21 @@ describe('AdventurePlan', () => {
     expect(result.isSuccess).toBe(false);
   });
 
+  it('should reject an invalid Pokemon Library reference without throwing', () => {
+    const adventureResult = createAdventurePlan();
+    if (!adventureResult.isSuccess) throw adventureResult.error;
+
+    const result = adventureResult.value.addScene({
+      id: adventureSceneId('scene-1'),
+      title: 'Virágos tisztás',
+      description: 'Egy összetört fészek hever az öreg fa alatt.',
+      goal: 'Találjátok meg az eltűnt tojást.',
+      pokemonReferenceId: 'pikachu/invalid',
+    });
+
+    expect(result.isSuccess).toBe(false);
+  });
+
   it('should reorder scenes without changing the opening scene', () => {
     const adventureResult = createAdventurePlan();
     if (!adventureResult.isSuccess) throw adventureResult.error;

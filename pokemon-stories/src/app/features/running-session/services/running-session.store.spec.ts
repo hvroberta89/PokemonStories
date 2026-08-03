@@ -90,6 +90,24 @@ describe('RunningSessionStore', () => {
     ]);
   });
 
+  it('records a Library Pokemon by reference in the Session timeline', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        RunningSessionStore,
+        { provide: RunningSessionStorageService, useValue: { load: () => null, save: () => undefined, clear: () => undefined } },
+      ],
+    });
+    const store = TestBed.inject(RunningSessionStore);
+
+    store.addLibraryPokemon('pikachu', 'Pikachu', 'wild');
+
+    expect(store.viewModel().recentEvents.events[0]).toMatchObject({
+      type: 'encounter',
+      title: 'Pikachu bekerült a jelenetbe',
+      content: 'wild: Library referencia (pikachu).',
+    });
+  });
+
   it('marks a queued reward as printed without changing its ownership state', () => {
     TestBed.configureTestingModule({
       providers: [

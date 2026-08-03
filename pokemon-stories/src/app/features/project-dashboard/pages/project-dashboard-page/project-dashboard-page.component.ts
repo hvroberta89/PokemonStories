@@ -4,11 +4,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
 import { ProjectDashboardStore } from '../../store/project-dashboard.store';
 import { AdventurePlanId } from '../../../../domain/adventure/value-objects/adventure-plan-id';
+import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 
 @Component({
   selector: 'app-project-dashboard-page',
   standalone: true,
-  imports: [PsIconComponent, RouterLink],
+  imports: [PsIconComponent, RouterLink, PsVoiceInputDirective],
   templateUrl: './project-dashboard-page.component.html',
   styleUrl: './project-dashboard-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,6 +21,10 @@ export class ProjectDashboardPageComponent implements OnInit {
   protected readonly store = inject(ProjectDashboardStore);
   protected readonly archiveConfirmOpen = signal(false);
   protected readonly archiveError = signal<string | null>(null);
+  protected readonly editOpen = signal(false);
+  protected readonly editName = signal('');
+  protected readonly editDescription = signal('');
+  protected readonly editError = signal<string | null>(null);
 
   ngOnInit(): void {
     void this.load();
@@ -46,6 +51,32 @@ export class ProjectDashboardPageComponent implements OnInit {
 
   protected resumeSession(): void {
     void this.router.navigate(['/running-session']);
+  }
+
+  protected openEdit(): void {
+    const project = this.store.dashboard()?.project;
+    if (!project) return;
+    this.editName.set(project.name);
+    this.editDescription.set(project.description ?? '');
+    this.editError.set(null);
+    this.editOpen.set(true);
+  }
+
+  protected async saveProject(): Promise<void> {
+    const result = await this.store.update(
+      this.route.snapshot.paramMap.get('projectId') ?? '',
+      this.editName(),
+      this.editDescription(),
+    );
+    if (result === 'saved') {
+      this.editOpen.set(false);
+      return;
+    }
+    this.editError.set(
+      result === 'invalid'
+        ? 'Adj meg legfeljebb 80 karakteres projektnevet és 500 karakteres leírást.'
+        : 'A projekt módosításait most nem sikerült elmenteni.',
+    );
   }
 
   protected async archiveProject(): Promise<void> {

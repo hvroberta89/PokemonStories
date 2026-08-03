@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { ProjectsStore } from '../../store/projects.store';
 import { ProjectCardComponent } from '../../components/project-card/project-card.component';
@@ -11,7 +11,7 @@ import { AuthStore } from '../../../auth/services/auth.store';
 @Component({
   selector: 'app-projects-page',
   standalone: true,
-  imports: [ProjectCardComponent, PsEmptyStateComponent, PsIconComponent],
+  imports: [ProjectCardComponent, PsEmptyStateComponent, PsIconComponent, RouterLink],
   templateUrl: './projects-page.component.html',
   styleUrl: './projects-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
