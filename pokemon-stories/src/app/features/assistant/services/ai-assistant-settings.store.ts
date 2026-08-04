@@ -1,7 +1,15 @@
 import { Injectable, signal } from '@angular/core';
 
 export type AiAssistantTone = 'playful' | 'mysterious' | 'calm';
-export type AiProvider = 'openai' | 'anthropic';
+export type AiProvider =
+  | 'openai'
+  | 'anthropic'
+  | 'google'
+  | 'mistral'
+  | 'groq'
+  | 'openrouter'
+  | 'together'
+  | 'perplexity';
 
 export interface AiAssistantSettings {
   readonly enabled: boolean;
@@ -82,5 +90,14 @@ function isTone(value: unknown): value is AiAssistantTone {
 }
 
 function isProvider(value: unknown): value is AiProvider {
-  return value === 'openai' || value === 'anthropic';
+  return [
+    'openai',
+    'anthropic',
+    'google',
+    'mistral',
+    'groq',
+    'openrouter',
+    'together',
+    'perplexity',
+  ].includes(String(value));
 }
