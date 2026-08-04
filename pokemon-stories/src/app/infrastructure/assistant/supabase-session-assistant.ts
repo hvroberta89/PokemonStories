@@ -17,16 +17,18 @@ import type {
   SessionStoryContext,
 } from '../../application/assistant/ports/session-assistant';
 import { SUPABASE_CLIENT } from '../supabase/supabase-client.token';
+import { AiAssistantSettingsStore } from '../../features/assistant/services/ai-assistant-settings.store';
 
 @Injectable()
 export class SupabaseSessionAssistant implements SessionAssistant, AdventureAssistant {
   private readonly supabase = inject(SUPABASE_CLIENT);
+  private readonly assistantSettings = inject(AiAssistantSettingsStore);
 
   async generateFoundationSuggestions(
     context: AdventureFoundationContext,
   ): Promise<readonly AdventureFoundationSuggestion[]> {
     const { data, error } = await this.supabase.functions.invoke('generate-session-suggestions', {
-      body: { action: 'foundation', context },
+      body: { action: 'foundation', context: this.withAssistantSettings(context) },
     });
     if (error) throw new Error('Az AI segítő most nem érhető el.');
     if (!isFoundationSuggestionResponse(data)) throw new Error('Az AI segítő hibás választ adott.');
@@ -37,7 +39,7 @@ export class SupabaseSessionAssistant implements SessionAssistant, AdventureAssi
     context: AdventureSceneSuggestionContext,
   ): Promise<readonly AdventureSceneSuggestion[]> {
     const { data, error } = await this.supabase.functions.invoke('generate-session-suggestions', {
-      body: { action: 'scene', context },
+      body: { action: 'scene', context: this.withAssistantSettings(context) },
     });
     if (error) throw new Error('Az AI segítő most nem érhető el.');
     if (!isSceneSuggestionResponse(data)) throw new Error('Az AI segítő hibás választ adott.');
@@ -48,7 +50,7 @@ export class SupabaseSessionAssistant implements SessionAssistant, AdventureAssi
     context: AdventureStorySuggestionContext,
   ): Promise<readonly AdventureStorySuggestion[]> {
     const { data, error } = await this.supabase.functions.invoke('generate-session-suggestions', {
-      body: { action: 'adventure-story', context },
+      body: { action: 'adventure-story', context: this.withAssistantSettings(context) },
     });
     if (error) throw new Error('Az AI segítő most nem érhető el.');
     if (!isAdventureStorySuggestionResponse(data)) throw new Error('Az AI segítő hibás választ adott.');
@@ -60,7 +62,7 @@ export class SupabaseSessionAssistant implements SessionAssistant, AdventureAssi
     context: SessionAssistantContext,
   ): Promise<readonly SessionAssistantSuggestion[]> {
     const { data, error } = await this.supabase.functions.invoke('generate-session-suggestions', {
-      body: { action, context },
+      body: { action, context: this.withAssistantSettings(context) },
     });
     if (error) throw new Error('Az AI segítő most nem érhető el.');
     if (!isSuggestionResponse(data)) throw new Error('Az AI segítő hibás választ adott.');
@@ -71,17 +73,39 @@ export class SupabaseSessionAssistant implements SessionAssistant, AdventureAssi
     const { data, error } = await this.supabase.functions.invoke('generate-session-suggestions', {
       body: {
         action: 'summary',
-        context: {
+        context: this.withAssistantSettings({
           ...context,
           goal: 'A Session fontos pillanatainak megőrzése.',
           recentEvents: context.events,
           userContext: '',
-        },
+        }),
       },
     });
     if (error) throw new Error('Az AI segítő most nem érhető el.');
     if (!isStoryResponse(data)) throw new Error('Az AI segítő hibás választ adott.');
     return data.summary;
+  }
+
+  private withAssistantSettings<T extends object>(context: T): T & { assistantProfile: unknown } {
+    const settings = this.assistantSettings.settings();
+    const connection = this.assistantSettings.requestConfiguration();
+    if (!settings.enabled) {
+      throw new Error('Az AI kreatív társ ki van kapcsolva a beállításokban.');
+    }
+    if (!connection.apiKey) {
+      throw new Error('Add meg az AI szolgáltató API-kulcsát a Kalandsegítő beállításaiban.');
+    }
+    return {
+      ...context,
+      assistantProfile: {
+        enabled: settings.enabled,
+        name: settings.name,
+        tone: settings.tone,
+        proactive: settings.proactive,
+        guidance: settings.guidance,
+      },
+      aiConnection: connection,
+    };
   }
 }
 

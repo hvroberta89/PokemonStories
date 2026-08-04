@@ -40,7 +40,7 @@
     <div class="designer__layout">
       <nav aria-label="Kaland szakaszai">
         <a href="#foundation" class="active"
-          ><ps-icon name="world-map" [size]="28" /><span>Foundation<small>Kész</small></span></a
+          ><ps-icon name="world-map" [size]="28" /><span>Alapok<small>Kész</small></span></a
         >
         <a href="#story">
           <ps-icon name="document-scroll" [size]="28" /><span
@@ -76,7 +76,7 @@
           <div class="designer__panel-heading">
             <div>
               <p class="eyebrow">Alapok</p>
-              <h2>Foundation</h2>
+              <h2>Alapok</h2>
               <p>Az identitás és az irány, amelyre a teljes kaland épül.</p>
             </div>
             <span><ps-icon name="success-check" [size]="22" /> Kötelező mezők kitöltve</span>
@@ -86,7 +86,7 @@
               <div>
                 <p class="eyebrow">AI kreatív társ</p>
                 <h3>Induljunk egy ötletből</h3>
-                <p>Három különböző Foundation-javaslatot kapsz. Csak a kiválasztott változat kerül a szerkesztőbe.</p>
+                <p>Három különböző kalandalap-javaslatot kapsz. Csak a kiválasztott változat kerül a szerkesztőbe.</p>
               </div>
               <label>Kiinduló ötlet
                 <textarea psVoiceInput rows="3" maxlength="1000" placeholder="Például: Egy eltűnt Pokémon tojás nyomai az erdőbe vezetnek." [value]="foundationIdea()" (input)="foundationIdea.set($any($event.target).value)"></textarea>
@@ -95,6 +95,9 @@
                 <ps-icon name="add-spark" [size]="21" />
                 {{ store.isGeneratingFoundationSuggestions() ? 'Javaslatok készülnek…' : 'Három ötlet kérése' }}
               </button>
+              @if (store.errorMessage(); as error) {
+                <div class="designer__error" role="alert">{{ error }} A szerkesztésed megmaradt.</div>
+              }
               @if (store.foundationSuggestions().length) {
                 <div class="foundation-ai__suggestions" aria-live="polite">
                   @for (suggestion of store.foundationSuggestions(); track suggestion.title) {
@@ -119,7 +122,7 @@
               <p class="error" role="alert">Adj címet a kalandnak.</p>
             }
             <label
-              >Premise <span>{{ premise().length }}/1000</span
+              >Alapötlet <span>{{ premise().length }}/1000</span
               ><textarea
                 psVoiceInput
                 rows="7"
@@ -153,9 +156,6 @@
                 </select></label
               >
             </div>
-            @if (store.errorMessage(); as error) {
-              <div class="designer__error" role="alert">{{ error }} A szerkesztésed megmaradt.</div>
-            }
             <div class="designer__actions">
               <button type="submit" [disabled]="store.isSaving()">
                 <ps-icon name="saved-scroll" [size]="23" /> Módosítások mentése

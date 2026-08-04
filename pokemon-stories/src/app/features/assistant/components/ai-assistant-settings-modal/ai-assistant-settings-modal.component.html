@@ -1,0 +1,69 @@
+<div class="assistant-settings__backdrop" (click)="closed.emit()"></div>
+
+<section class="assistant-settings" role="dialog" aria-modal="true" aria-labelledby="assistant-settings-title">
+  <header>
+    <div class="assistant-settings__heading">
+      <span><ps-icon name="ai-crystal" [size]="30" /></span>
+      <div>
+        <p class="eyebrow">AI kreatív társ</p>
+        <h2 id="assistant-settings-title">Kalandsegítő beállításai</h2>
+      </div>
+    </div>
+    <button type="button" class="assistant-settings__close" aria-label="Beállítások bezárása" (click)="closed.emit()">×</button>
+  </header>
+
+  <form (submit)="$event.preventDefault(); save()">
+    <label class="assistant-settings__switch">
+      <span>
+        <strong>Segítsen a kaland során</strong>
+        <small>Javaslatokat készít, de minden történetbeli döntés a tiéd marad.</small>
+      </span>
+      <input type="checkbox" [checked]="enabled()" (change)="enabled.set($any($event.target).checked)" />
+    </label>
+
+    <fieldset [disabled]="!enabled()">
+      <label>AI szolgáltató
+        <select [value]="provider()" (change)="setProvider($event)">
+          <option value="openai">OpenAI</option>
+          <option value="anthropic">Anthropic Claude</option>
+        </select>
+      </label>
+      <label>Modell
+        <input maxlength="100" [value]="model()" (input)="model.set($any($event.target).value)" />
+      </label>
+      <label>API-kulcs
+        <input type="password" autocomplete="off" placeholder="Csak ebben a böngészőmunkamenetben tároljuk" [value]="apiKey()" (input)="apiKey.set($any($event.target).value)" />
+        <span>A kulcs nem kerül mentésre és kijelentkezéskor törlődik.</span>
+      </label>
+      <label>Az asszisztens neve
+        <input maxlength="60" [value]="name()" (input)="name.set($any($event.target).value)" />
+      </label>
+      <label>Hangulat
+        <select [value]="tone()" (change)="setTone($event)">
+          <option value="playful">Játékos és lelkes</option>
+          <option value="mysterious">Rejtélyes és kíváncsi</option>
+          <option value="calm">Nyugodt és támogató</option>
+        </select>
+      </label>
+      <label class="assistant-settings__switch">
+        <span>
+          <strong>Kezdeményezzen ötleteket</strong>
+          <small>Az AI a váratlan fordulatokhoz is kínáljon lehetséges irányokat.</small>
+        </span>
+        <input type="checkbox" [checked]="proactive()" (change)="proactive.set($any($event.target).checked)" />
+      </label>
+      <label>Mesélői irány <span>opcionális</span>
+        <textarea rows="4" maxlength="500" placeholder="Például: A barátság és a felfedezés legyen a történetek középpontjában." [value]="guidance()" (input)="guidance.set($any($event.target).value)"></textarea>
+      </label>
+    </fieldset>
+
+    <p class="assistant-settings__note"><ps-icon name="info-orb" [size]="20" /> Az AI minden válasza javaslat, és nem módosítja automatikusan a Projectet.</p>
+    @if (saved()) {
+      <p class="assistant-settings__saved" role="status">A beállítások elmentve.</p>
+    }
+    <div class="assistant-settings__actions">
+      <button type="button" class="assistant-settings__cancel" (click)="closed.emit()">Mégse</button>
+      <button type="submit" class="assistant-settings__save"><ps-icon name="saved-scroll" [size]="21" /> Mentés</button>
+    </div>
+  </form>
+</section>

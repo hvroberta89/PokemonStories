@@ -1,1 +1,22 @@
 <router-outlet />
+
+@if (auth.isAuthenticated()) {
+<footer class="app-footer">
+	<div>
+		<span>AI kreatív társ</span>
+		<small>{{ assistantSettings.settings().enabled ? assistantSettings.settings().name : 'Kikapcsolva' }}</small>
+	</div>
+	<ps-icon-button
+		icon="settings-gear"
+		label="AI kreatív társ beállításai"
+		tooltip="AI kreatív társ beállításai"
+		variant="parchment"
+		size="sm"
+		(pressed)="settingsOpen.set(true)"
+	/>
+</footer>
+}
+
+@if (auth.isAuthenticated() && settingsOpen()) {
+	<app-ai-assistant-settings-modal (closed)="settingsOpen.set(false)" />
+}

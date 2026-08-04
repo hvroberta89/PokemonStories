@@ -21,16 +21,16 @@ export class AuthStore {
   constructor() {
     this.ready = this.restoreSession();
     this.supabase.auth.onAuthStateChange((_event, session) => {
-      this.userState.set(session?.user ?? null);
-      this.loadingState.set(false);
+      this.updateSession(session);
     });
   }
 
   async signIn(email: string, password: string): Promise<void> {
-    const { error } = await this.supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await this.supabase.auth.signInWithPassword({ email, password });
     if (error) {
       throw error;
     }
+    this.updateSession(data.session);
   }
 
   async signUp(email: string, password: string): Promise<SignUpResult> {
@@ -54,7 +54,11 @@ export class AuthStore {
       this.loadingState.set(false);
       throw error;
     }
-    this.userState.set(data.session?.user ?? null);
+    this.updateSession(data.session);
+  }
+
+  private updateSession(session: { user: User } | null): void {
+    this.userState.set(session?.user ?? null);
     this.loadingState.set(false);
   }
 }
