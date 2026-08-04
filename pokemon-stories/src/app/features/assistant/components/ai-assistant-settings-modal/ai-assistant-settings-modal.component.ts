@@ -52,6 +52,19 @@ export class AiAssistantSettingsModalComponent {
   protected setProvider(event: Event): void {
     const provider = (event.target as HTMLSelectElement).value as AiProvider;
     this.provider.set(provider);
-    this.model.set(provider === 'openai' ? 'gpt-4.1-mini' : 'claude-3-5-haiku-latest');
+    this.model.set(defaultModelFor(provider));
   }
+}
+
+function defaultModelFor(provider: AiProvider): string {
+  return {
+    openai: 'gpt-4.1-mini',
+    anthropic: 'claude-3-5-haiku-latest',
+    google: 'gemini-2.0-flash',
+    mistral: 'mistral-small-latest',
+    groq: 'llama-3.3-70b-versatile',
+    openrouter: 'google/gemini-2.0-flash-001',
+    together: 'meta-llama/Llama-3.3-70B-Instruct-Turbo',
+    perplexity: 'sonar',
+  }[provider];
 }

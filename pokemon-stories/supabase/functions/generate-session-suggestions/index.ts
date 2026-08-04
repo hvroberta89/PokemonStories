@@ -59,6 +59,30 @@ async function requestProvider(input: { action: Action; context: Context }): Pro
       body: JSON.stringify({ model: connection.model || 'claude-3-5-haiku-latest', max_tokens: 2400, system: 'Kizárólag érvényes JSON-t adj vissza, Markdown formázás nélkül.', messages: [{ role: 'user', content: prompt }] }),
     });
   }
+  if (connection.provider === 'google') {
+    return fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(connection.model || 'gemini-2.0-flash')}:generateContent`,
+      {
+        method: 'POST',
+        headers: { 'x-goog-api-key': connection.apiKey, 'content-type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: { responseMimeType: 'application/json' },
+        }),
+      },
+    );
+  }
+  if (isOpenAiCompatibleProvider(connection.provider)) {
+    return fetch(openAiCompatibleUrlFor(connection.provider), {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${connection.apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: connection.model,
+        messages: [{ role: 'user', content: `${prompt}\n\nCsak érvényes JSON-t adj vissza, Markdown nélkül.` }],
+        response_format: { type: 'json_object' },
+      }),
+    });
+  }
   return fetch('https://api.openai.com/v1/responses', {
       method: 'POST',
       headers: {
@@ -93,6 +117,14 @@ async function parseProviderResponse(response: Response, provider: unknown): Pro
   if (provider === 'anthropic') {
     const data = await response.json() as { content?: { text?: string }[] };
     return JSON.parse(data.content?.[0]?.text ?? '');
+  }
+  if (provider === 'google') {
+    const data = await response.json() as { candidates?: { content?: { parts?: { text?: string }[] } }[] };
+    return JSON.parse(data.candidates?.[0]?.content?.parts?.[0]?.text ?? '');
+  }
+  if (isOpenAiCompatibleProvider(provider)) {
+    const data = await response.json() as { choices?: { message?: { content?: string } }[] };
+    return JSON.parse(data.choices?.[0]?.message?.content ?? '');
   }
   const data = await response.json() as { output_text?: string };
   return JSON.parse(data.output_text ?? '');
@@ -161,11 +193,44 @@ interface Context {
     proactive?: boolean;
     guidance?: string;
   };
-  aiConnection?: { provider: 'openai' | 'anthropic'; model: string; apiKey: string };
+  aiConnection?: { provider: AiProvider; model: string; apiKey: string };
 }
 
-function isAiProvider(value: unknown): value is 'openai' | 'anthropic' {
-  return value === 'openai' || value === 'anthropic';
+type AiProvider =
+  | 'openai'
+  | 'anthropic'
+  | 'google'
+  | 'mistral'
+  | 'groq'
+  | 'openrouter'
+  | 'together'
+  | 'perplexity';
+
+function isAiProvider(value: unknown): value is AiProvider {
+  return [
+    'openai',
+    'anthropic',
+    'google',
+    'mistral',
+    'groq',
+    'openrouter',
+    'together',
+    'perplexity',
+  ].includes(String(value));
+}
+
+function isOpenAiCompatibleProvider(value: unknown): value is Exclude<AiProvider, 'openai' | 'anthropic' | 'google'> {
+  return ['mistral', 'groq', 'openrouter', 'together', 'perplexity'].includes(String(value));
+}
+
+function openAiCompatibleUrlFor(provider: Exclude<AiProvider, 'openai' | 'anthropic' | 'google'>): string {
+  return {
+    mistral: 'https://api.mistral.ai/v1/chat/completions',
+    groq: 'https://api.groq.com/openai/v1/chat/completions',
+    openrouter: 'https://openrouter.ai/api/v1/chat/completions',
+    together: 'https://api.together.xyz/v1/chat/completions',
+    perplexity: 'https://api.perplexity.ai/chat/completions',
+  }[provider];
 }
 
 function validateRequest(value: unknown): { action: Action; context: Context } {
