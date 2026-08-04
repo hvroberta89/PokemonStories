@@ -1,5 +1,6 @@
 import { PsIconName } from '../../../../shared/ui/public-api';
 import type { RewardPhysicalStatus, RewardType } from '../../../../domain/reward/models/reward-grant';
+import type { LibrarySection } from '../../../game-master-library/models/library-reference.model';
 
 export type RewardRecipientScope = 'character' | 'multiple' | 'everyone' | 'project' | 'unassigned';
 
@@ -23,6 +24,8 @@ export interface RewardDraft {
   readonly recipientName: string;
   readonly physicalStatus: RewardPhysicalStatus;
   readonly preparedRewardId?: string;
+  readonly referenceId?: string;
+  readonly referenceSection?: LibrarySection;
 }
 
 export type { RewardType };

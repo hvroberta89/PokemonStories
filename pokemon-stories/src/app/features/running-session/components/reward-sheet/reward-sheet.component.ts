@@ -20,12 +20,15 @@ import {
   RewardType,
 } from './reward-sheet.model';
 import type { PreparedRewardProps } from '../../../../domain/reward/models/prepared-reward';
+import { RewardReferencePickerComponent } from '../../../game-master-library/components/reward-reference-picker/reward-reference-picker.component';
+import { LibraryReference } from '../../../game-master-library/models/library-reference.model';
 
 @Component({
   selector: 'app-reward-sheet',
   standalone: true,
   imports: [
     PsIconComponent,
+    RewardReferencePickerComponent,
   ],
   templateUrl: './reward-sheet.component.html',
   styleUrl: './reward-sheet.component.scss',
@@ -63,6 +66,8 @@ export class RewardSheetComponent {
     signal<RewardType>('item');
 
   protected readonly rewardName = signal('');
+  protected readonly selectedReference = signal<LibraryReference | null>(null);
+  protected readonly referencePickerOpen = signal(false);
   protected readonly selectedPreparedRewardId = signal<string | undefined>(undefined);
 
   protected readonly recipientScope = signal<RewardRecipientScope>('character');
@@ -95,6 +100,7 @@ export class RewardSheetComponent {
     rewardType: RewardType,
   ): void {
     this.selectedPreparedRewardId.set(undefined);
+    this.selectedReference.set(null);
     this.selectedRewardType.set(rewardType);
   }
 
@@ -115,6 +121,14 @@ export class RewardSheetComponent {
 
   protected updateRewardName(event: Event): void {
     this.rewardName.set((event.target as HTMLInputElement).value);
+    this.selectedReference.set(null);
+  }
+
+  protected selectReference(reference: LibraryReference): void {
+    this.selectedReference.set(reference);
+    this.selectedRewardType.set(reference.section === 'pokemon' ? 'pokemon' : 'item');
+    this.rewardName.set(reference.name);
+    this.referencePickerOpen.set(false);
   }
 
   protected selectPreparedReward(reward: PreparedRewardProps): void {
@@ -152,6 +166,8 @@ export class RewardSheetComponent {
       recipientName: recipient.name,
       physicalStatus: this.physicalStatus(),
       preparedRewardId: this.selectedPreparedRewardId(),
+      referenceId: this.selectedReference()?.id,
+      referenceSection: this.selectedReference()?.section,
     })));
   }
 

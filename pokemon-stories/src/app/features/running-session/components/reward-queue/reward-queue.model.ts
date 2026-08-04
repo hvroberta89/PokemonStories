@@ -2,6 +2,7 @@ import type {
   PsIconName,
 } from '../../../../shared/ui/icon/ps-icon.registry';
 import type { RewardPhysicalStatus, RewardType } from '../../../../domain/reward/models/reward-grant';
+import type { LibrarySection } from '../../../game-master-library/models/library-reference.model';
 
 export type RewardQueueStatus =
   | 'unlocked'
@@ -19,4 +20,6 @@ export interface RewardQueueItemViewModel {
   readonly status: RewardQueueStatus;
   readonly physicalStatus: RewardPhysicalStatus;
   readonly preparedRewardId?: string;
+  readonly referenceId?: string;
+  readonly referenceSection?: LibrarySection;
 }

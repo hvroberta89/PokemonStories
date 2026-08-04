@@ -1,6 +1,7 @@
 import {
   PsIconName,
 } from '../../../../shared/ui/public-api';
+import type { LibrarySection } from '../../../game-master-library/models/library-reference.model';
 
 export type RecentEventType =
   | 'encounter'
@@ -16,6 +17,9 @@ export interface RecentEventItemViewModel {
   readonly content: string;
   readonly timeLabel: string;
   readonly icon: PsIconName;
+  readonly referenceId?: string;
+  readonly referenceSection?: LibrarySection;
+  readonly referenceName?: string;
 }
 
 export interface RecentEventsViewModel {

@@ -91,6 +91,7 @@ import { GenerateSessionSuggestionsHandler } from '../../../../application/assis
 import { SESSION_ASSISTANT } from '../../../../application/assistant/tokens/session-assistant.token';
 import { GenerateSessionStoryHandler } from '../../../../application/assistant/queries/generate-session-story/generate-session-story.handler';
 import { SessionPokemonLibraryDrawerComponent } from '../../../game-master-library/components/session-pokemon-library-drawer/session-pokemon-library-drawer.component';
+import { PsIconName } from '../../../../shared/ui/icon/ps-icon.registry';
 
 const sessionQuickActionMenu: QuickActionMenuVm = {
   title: 'Mit szeretnél hozzáadni?',
@@ -998,11 +999,29 @@ export class RunningSessionPageComponent {
       rewardType: reward.rewardType,
       rewardLabel: reward.rewardLabel,
       amount: reward.amount,
-      icon: 'reward-gift',
+      icon: this.rewardIcon(reward.rewardType),
       status: 'unlocked',
       physicalStatus: reward.physicalStatus,
       preparedRewardId: reward.preparedRewardId,
+      referenceId: reward.referenceId,
+      referenceSection: reward.referenceSection,
     };
+  }
+
+  private rewardIcon(rewardType: RewardType): PsIconName {
+    const icons: Record<RewardType, PsIconName> = {
+      pokemon: 'pokemon-sticker',
+      item: 'items-potion',
+      badge: 'badge-medal',
+      outfit: 'clothing-shirt',
+      achievement: 'achievement-star',
+      'quest-item': 'quest-card',
+      card: 'npc-card',
+      sticker: 'reward-gift',
+      narrative: 'timeline-scroll',
+      custom: 'reward-box',
+    };
+    return icons[rewardType];
   }
 
   private addRecentEvent(recentEvent: RecentEventItemViewModel): void {

@@ -1,0 +1,12 @@
+<div class="reward-reference-picker__backdrop" (click)="closed.emit()">
+  <section class="reward-reference-picker" role="dialog" aria-modal="true" aria-labelledby="reward-reference-picker-title" (click)="$event.stopPropagation()">
+    <header><div><p>Jutalom referencia</p><h2 id="reward-reference-picker-title">Mit kaptak?</h2></div><button type="button" aria-label="Bezárás" (click)="closed.emit()">×</button></header>
+    <div class="reward-reference-picker__controls"><label>Referenciaanyag<select [value]="section()" (change)="updateSection($event)">@for (sectionItem of sections; track sectionItem) { <option [value]="sectionItem">{{ sectionLabels[sectionItem] }}</option> }</select></label><label>Keresés<input type="search" autofocus placeholder="Név, típus vagy leírás" [value]="query()" (input)="updateQuery($event)" /></label></div>
+    @if (error(); as message) { <p class="reward-reference-picker__state reward-reference-picker__state--error" role="alert">{{ message }}</p>
+    } @else if (isLoading()) { <p class="reward-reference-picker__state">Referenciák betöltése…</p>
+    } @else if (results().length === 0) { <p class="reward-reference-picker__state">Nincs találat.</p>
+    } @else { <div class="reward-reference-picker__results">@for (entry of results(); track entry.key) {
+      <button type="button" (click)="select(entry)">@if (entry.artworkPath) { <img [src]="entry.artworkPath" [alt]="entry.name" /> } @else { <ps-icon [name]="entry.section === 'pokemon' ? 'pokemon-sticker' : 'items-potion'" [size]="30" /> }<span><strong>{{ entry.name }}</strong><small>{{ entry.tags.join(' · ') }}</small></span><span class="reward-reference-picker__choose">Kiválasztás</span></button>
+    }</div> }
+  </section>
+</div>

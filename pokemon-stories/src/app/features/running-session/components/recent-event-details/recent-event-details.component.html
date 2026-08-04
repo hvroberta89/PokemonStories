@@ -64,6 +64,13 @@
     </p>
   </div>
 
+  @if (event().referenceName; as referenceName) {
+    <section class="event-details__reference">
+      <ps-icon [name]="event().referenceSection === 'pokemon' ? 'pokemon-sticker' : 'items-potion'" [size]="22" />
+      <span><small>Kapcsolt referencia</small><strong>{{ referenceName }}</strong></span>
+    </section>
+  }
+
   <footer class="event-details__footer">
     <button
       type="button"

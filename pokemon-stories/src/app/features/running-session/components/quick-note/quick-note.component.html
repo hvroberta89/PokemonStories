@@ -78,6 +78,11 @@
     </span>
   </label>
 
+  <button type="button" class="quick-note__reference" (click)="referencePickerOpen.set(true)">
+    <ps-icon name="adventures-book" [size]="19" />
+    {{ selectedReference() ? 'Kapcsolt referencia: ' + selectedReference()!.name : 'Pokémon vagy tárgy kapcsolása' }}
+  </button>
+
   <footer class="quick-note__footer">
     <button
       type="button"
@@ -103,3 +108,7 @@
     </button>
   </footer>
 </section>
+
+@if (referencePickerOpen()) {
+  <app-reward-reference-picker (selected)="selectReference($event)" (closed)="referencePickerOpen.set(false)" />
+}

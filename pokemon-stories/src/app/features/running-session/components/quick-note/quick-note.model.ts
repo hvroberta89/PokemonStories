@@ -7,4 +7,7 @@ export type QuickNoteType =
 export interface QuickNoteDraft {
   readonly type: QuickNoteType;
   readonly content: string;
+  readonly referenceId?: string;
+  readonly referenceSection?: import('../../../game-master-library/models/library-reference.model').LibrarySection;
+  readonly referenceName?: string;
 }

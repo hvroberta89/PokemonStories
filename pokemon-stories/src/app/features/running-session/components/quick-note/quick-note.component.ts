@@ -11,6 +11,8 @@ import {
 import {
   PsIconComponent,
 } from '../../../../shared/ui/icon/ps-icon.component';
+import { RewardReferencePickerComponent } from '../../../game-master-library/components/reward-reference-picker/reward-reference-picker.component';
+import { LibraryReference } from '../../../game-master-library/models/library-reference.model';
 import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 import {
   QuickNoteDraft,
@@ -24,6 +26,7 @@ import {
     FormsModule,
     PsIconComponent,
     PsVoiceInputDirective,
+    RewardReferencePickerComponent,
   ],
   templateUrl:
     './quick-note.component.html',
@@ -44,6 +47,10 @@ export class QuickNoteComponent {
 
   protected readonly content =
     signal('');
+
+  protected readonly selectedReference = signal<LibraryReference | null>(null);
+
+  protected readonly referencePickerOpen = signal(false);
 
   protected readonly noteTypes:
     readonly {
@@ -80,6 +87,11 @@ export class QuickNoteComponent {
     this.content.set(value);
   }
 
+  protected selectReference(reference: LibraryReference): void {
+    this.selectedReference.set(reference);
+    this.referencePickerOpen.set(false);
+  }
+
   protected save(): void {
     const content =
       this.content().trim();
@@ -91,6 +103,9 @@ export class QuickNoteComponent {
     this.saved.emit({
       type: this.selectedType(),
       content,
+      referenceId: this.selectedReference()?.id,
+      referenceSection: this.selectedReference()?.section,
+      referenceName: this.selectedReference()?.name,
     });
   }
 
