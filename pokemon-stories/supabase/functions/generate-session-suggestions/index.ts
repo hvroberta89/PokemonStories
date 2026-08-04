@@ -27,15 +27,47 @@ Deno.serve(async (request) => {
 
   try {
     const input = validateRequest(await request.json());
-    const openAiResponse = await fetch('https://api.openai.com/v1/responses', {
+    const providerResponse = await requestProvider(input);
+    if (!providerResponse.ok) {
+      console.error('AI provider request failed:', await providerResponse.text());
+      return response({ error: 'Az AI szolgáltató most nem érhető el.' }, 502);
+    }
+    const result = await parseProviderResponse(providerResponse, input.context.aiConnection?.provider);
+    if (input.action === 'summary') return response({ summary: validateStory(result) });
+    if (input.action === 'foundation') {
+      return response({ suggestions: validateFoundationSuggestions(result) });
+    }
+    if (input.action === 'scene') return response({ suggestions: validateSceneSuggestions(result) });
+    if (input.action === 'adventure-story') {
+      return response({ suggestions: validateAdventureStorySuggestions(result) });
+    }
+    return response({ suggestions: validateSuggestions(result) });
+  } catch (error) {
+    console.error('Session suggestion generation failed:', error);
+    return response({ error: 'Az AI kérés nem feldolgozható.' }, 400);
+  }
+});
+
+async function requestProvider(input: { action: Action; context: Context }): Promise<Response> {
+  const connection = input.context.aiConnection;
+  if (!connection?.apiKey || !isAiProvider(connection.provider)) throw new Error('AI szolgáltató beállítása hiányzik.');
+  const prompt = createPrompt(input);
+  if (connection.provider === 'anthropic') {
+    return fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'x-api-key': connection.apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+      body: JSON.stringify({ model: connection.model || 'claude-3-5-haiku-latest', max_tokens: 2400, system: 'Kizárólag érvényes JSON-t adj vissza, Markdown formázás nélkül.', messages: [{ role: 'user', content: prompt }] }),
+    });
+  }
+  return fetch('https://api.openai.com/v1/responses', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${requiredEnvironment('OPENAI_API_KEY')}`,
+        Authorization: `Bearer ${connection.apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: Deno.env.get('OPENAI_MODEL') ?? 'gpt-4.1-mini',
-        input: createPrompt(input),
+        model: connection.model || 'gpt-4.1-mini',
+        input: prompt,
         text: {
           format: {
             type: 'json_schema',
@@ -55,29 +87,19 @@ Deno.serve(async (request) => {
         },
       }),
     });
-    if (!openAiResponse.ok) {
-      console.error('OpenAI request failed:', await openAiResponse.text());
-      return response({ error: 'Az AI segítő most nem érhető el.' }, 502);
-    }
-    const openAiData = (await openAiResponse.json()) as { output_text?: string };
-    const result = JSON.parse(openAiData.output_text ?? '');
-    if (input.action === 'summary') return response({ summary: validateStory(result) });
-    if (input.action === 'foundation') {
-      return response({ suggestions: validateFoundationSuggestions(result) });
-    }
-    if (input.action === 'scene')
-      return response({ suggestions: validateSceneSuggestions(result) });
-    if (input.action === 'adventure-story') {
-      return response({ suggestions: validateAdventureStorySuggestions(result) });
-    }
-    return response({ suggestions: validateSuggestions(result) });
-  } catch (error) {
-    console.error('Session suggestion generation failed:', error);
-    return response({ error: 'Az AI kérés nem feldolgozható.' }, 400);
+}
+
+async function parseProviderResponse(response: Response, provider: unknown): Promise<unknown> {
+  if (provider === 'anthropic') {
+    const data = await response.json() as { content?: { text?: string }[] };
+    return JSON.parse(data.content?.[0]?.text ?? '');
   }
-});
+  const data = await response.json() as { output_text?: string };
+  return JSON.parse(data.output_text ?? '');
+}
 
 function createPrompt(input: { action: Action; context: Context }): string {
+  const { aiConnection: _aiConnection, ...promptContext } = input.context;
   const actionInstructions: Record<Action, string> = {
     event: 'Adj három rövid, játékos eseményötletet.',
     clue: 'Adj három rövid, fokozatosan felfedhető nyomötletet.',
@@ -105,8 +127,19 @@ function createPrompt(input: { action: Action; context: Context }): string {
           : input.action === 'adventure-story'
             ? 'A három történetív legyen érdemben különböző. Minden mező legfeljebb 1500 karakter lehet.'
             : 'A három ötlet legyen érdemben különböző, címük legfeljebb 120, leírásuk legfeljebb 500 karakter.',
-    `Kontextus: ${JSON.stringify(input.context)}`,
+    assistantDirection(input.context.assistantProfile),
+    `Kontextus: ${JSON.stringify(promptContext)}`,
   ].join('\n\n');
+}
+
+function assistantDirection(profile: Context['assistantProfile']): string {
+  if (!profile?.enabled) return 'Az AI kreatív társ jelenleg ki van kapcsolva; csak a kért tartalmat add meg.';
+  return [
+    `A kreatív társ neve: ${profile.name?.trim() || 'Kalandsegítő'}.`,
+    `Hangulata: ${profile.tone ?? 'playful'}.`,
+    profile.proactive ? 'Kínálj kezdeményező, választható történeti irányokat is.' : 'Csak a közvetlenül kért javaslatokra szorítkozz.',
+    profile.guidance?.trim() ? `Mesélői irány: ${profile.guidance.trim()}` : '',
+  ].filter(Boolean).join(' ');
 }
 
 interface Context {
@@ -121,6 +154,18 @@ interface Context {
   audienceLabel?: string;
   sessionLengthMinutes?: number;
   direction?: string;
+  assistantProfile?: {
+    enabled: boolean;
+    name?: string;
+    tone?: string;
+    proactive?: boolean;
+    guidance?: string;
+  };
+  aiConnection?: { provider: 'openai' | 'anthropic'; model: string; apiKey: string };
+}
+
+function isAiProvider(value: unknown): value is 'openai' | 'anthropic' {
+  return value === 'openai' || value === 'anthropic';
 }
 
 function validateRequest(value: unknown): { action: Action; context: Context } {

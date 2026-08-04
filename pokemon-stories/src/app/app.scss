@@ -2,3 +2,17 @@
   display: block;
   min-height: 100%;
 }
+
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(100% - (var(--page-padding) * 2), var(--content-width));
+  margin: 0 auto;
+  padding: 1rem 0 1.4rem;
+  color: var(--color-text-secondary);
+}
+
+.app-footer div { display: grid; gap: 0.1rem; }
+.app-footer span { color: var(--color-primary-strong); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.app-footer small { font-size: 0.8rem; }
