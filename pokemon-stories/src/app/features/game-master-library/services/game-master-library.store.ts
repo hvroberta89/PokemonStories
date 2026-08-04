@@ -21,8 +21,8 @@ interface ReferenceTranslation {
   readonly recordId: string;
   readonly payload: Readonly<Record<string, unknown>>;
 }
-const sections: readonly LibrarySection[] = ['pokemon', 'moves', 'abilities', 'items', 'tms', 'origins'];
-const files: Record<LibrarySection, string> = { pokemon: 'pokemon.json', moves: 'moves.json', abilities: 'abilities.json', items: 'items.json', tms: 'technical-machines.json', origins: 'origins.json' };
+const sections: readonly LibrarySection[] = ['pokemon', 'moves', 'abilities', 'items', 'tms', 'origins', 'types', 'rules'];
+const files: Record<LibrarySection, string> = { pokemon: 'pokemon.json', moves: 'moves.json', abilities: 'abilities.json', items: 'items.json', tms: 'technical-machines.json', origins: 'origins.json', types: 'types.json', rules: 'rules.json' };
 const favoritesKey = 'pokemon-stories.library.favorites';
 const recentKey = 'pokemon-stories.library.recent';
 const localeKey = 'pokemon-stories.library.locale';
@@ -144,10 +144,10 @@ export class GameMasterLibraryStore {
   private toReference(section: LibrarySection, item: Record<string, unknown>, translation?: Readonly<Record<string, unknown>>, evolutions: readonly EvolutionReference[] = [], names = new Map<string, string>(), contestData: ContestData | null = null, translations: ReadonlyMap<string, Readonly<Record<string, unknown>>> = new Map()): LibraryReference {
     const localizedItem = translation ? { ...item, ...translation } : item;
     const id = String(localizedItem['id']);
-    const description = Array.isArray(localizedItem['description']) ? localizedItem['description'].join(' ') : typeof localizedItem['description'] === 'string' ? localizedItem['description'] : section === 'tms' ? `Move hivatkozás: ${String(localizedItem['moveName'] ?? localizedItem['moveId'])}` : 'Nincs leírás.';
-    const tags = section === 'pokemon' ? [`#${String(localizedItem['number'])}`, ...((localizedItem['types'] as readonly string[] | undefined) ?? []), `SR ${String(localizedItem['sr'])}`] : section === 'moves' ? [String(localizedItem['type']), `${String(localizedItem['powerPoints'])} PP`, String(localizedItem['range'])] : section === 'items' ? [String(localizedItem['type']), localizedItem['cost'] ? `${String(localizedItem['cost'])} P` : 'Ár nélkül'] : section === 'tms' ? [`Move: ${String(localizedItem['moveName'] ?? localizedItem['moveId'])}`, `${String(localizedItem['cost'])} P`] : section === 'origins' ? ['Trainer Origin'] : ['Képesség'];
+    const description = Array.isArray(localizedItem['description']) ? localizedItem['description'].join(' ') : typeof localizedItem['description'] === 'string' ? localizedItem['description'] : section === 'tms' ? `Move hivatkozás: ${String(localizedItem['moveName'] ?? localizedItem['moveId'])}` : section === 'types' ? 'A Pokémon típusa meghatározza a sebzéstípusokkal szembeni gyengeségeit, ellenállásait és immunitásait.' : 'Nincs leírás.';
+    const tags = section === 'pokemon' ? [`#${String(localizedItem['number'])}`, ...((localizedItem['types'] as readonly string[] | undefined) ?? []), `SR ${String(localizedItem['sr'])}`] : section === 'moves' ? [String(localizedItem['type']), `${String(localizedItem['powerPoints'])} PP`, String(localizedItem['range'])] : section === 'items' ? [String(localizedItem['type']), localizedItem['cost'] ? `${String(localizedItem['cost'])} P` : 'Ár nélkül'] : section === 'tms' ? [`Move: ${String(localizedItem['moveName'] ?? localizedItem['moveId'])}`, `${String(localizedItem['cost'])} P`] : section === 'origins' ? ['Trainer Origin'] : section === 'types' ? ['Típusmátrix'] : section === 'rules' ? [String(localizedItem['category'])] : ['Képesség'];
     const detailGroups = this.detailGroups(section, localizedItem, evolutions, names, contestData, translations);
-    return { key: `${section}:${id}`, section, id, name: section === 'tms' ? `TM${id}` : String(localizedItem['name']), description, artworkPath: section === 'pokemon' ? `/assets/pokemon-artwork/${String(localizedItem['number'])}.png` : undefined, tags, detailRows: detailGroups[0]?.rows ?? [], detailGroups };
+    return { key: `${section}:${id}`, section, id, name: section === 'tms' ? `TM${id}` : String(localizedItem['name']), description, artworkPath: section === 'pokemon' ? `/assets/pokemon-artwork/${String(localizedItem['number'])}.png` : undefined, sourceUrl: typeof localizedItem['sourceUrl'] === 'string' ? localizedItem['sourceUrl'] : section === 'types' ? 'https://poke5e.app/reference/damage-types' : undefined, tags, detailRows: detailGroups[0]?.rows ?? [], detailGroups };
   }
   private detailGroups(section: LibrarySection, item: Record<string, unknown>, evolutions: readonly EvolutionReference[], names: ReadonlyMap<string, string>, contestData: ContestData | null, translations: ReadonlyMap<string, Readonly<Record<string, unknown>>>): readonly LibraryDetailGroup[] {
     if (section === 'pokemon') return this.pokemonDetailGroups(item, evolutions, names);
@@ -155,7 +155,13 @@ export class GameMasterLibraryStore {
     if (section === 'items') return this.groups([['Adatok', [['Kategória', item['type']], ['Ár', item['cost'] ? `${String(item['cost'])} P` : 'Ár nélkül'], ['Béta tartalom', item['beta'] === true ? 'Igen' : 'Nem']]]]);
     if (section === 'tms') return this.groups([['Adatok', [['Kapcsolt Move', item['moveName'] ?? item['moveId']], ['Ár', `${String(item['cost'])} P`]]]]);
     if (section === 'origins') return this.originDetailGroups(item);
+    if (section === 'types') return this.typeDetailGroups(item, names);
+    if (section === 'rules') return this.groups([['Szabályrészletek', (item['details'] as readonly Record<string, unknown>[] | undefined)?.map((detail) => [String(detail['label']), detail['value']] as const) ?? []]]);
     return this.groups([['Adatok', [['Kategória', 'Képesség']]]]);
+  }
+  private typeDetailGroups(item: Record<string, unknown>, names: ReadonlyMap<string, string>): readonly LibraryDetailGroup[] {
+    const typeName = (value: unknown) => names.get(String(value)) ?? String(value);
+    return this.groups([['Típuselőnyök', [['Sebezhető', this.listValues(item['vulnerableTo'], typeName)], ['Ellenáll', this.listValues(item['resistantTo'], typeName)], ['Immunis', this.listValues(item['immuneTo'], typeName)]]]]);
   }
   private originDetailGroups(item: Record<string, unknown>): readonly LibraryDetailGroup[] {
     const abilityScores = item['abilityScores'] as Record<string, unknown> | undefined;

@@ -14,6 +14,8 @@ const datasets = [
   { dataset: 'items', filename: 'items.json', fields: ['name', 'type', 'description'] },
   { dataset: 'origins', filename: 'origins.json', fields: ['name', 'description', 'abilityScores', 'proficiencies', 'feats', 'languages'] },
   { dataset: 'contest-effects', filename: 'contest-effects.json', fields: ['name', 'effect'] },
+  { dataset: 'types', filename: 'types.json', fields: ['name'] },
+  { dataset: 'rules', filename: 'rules.json', fields: ['name', 'category', 'description', 'details'] },
 ];
 
 const sourceDatasets = await Promise.all(
