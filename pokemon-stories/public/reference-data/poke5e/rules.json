@@ -478,6 +478,71 @@
         { "label": "Duration", "value": "A temporary change without a stated duration normally ends after a long rest." }
       ],
       "sourceUrl": "https://poke5e.app/reference/damage-types"
+    },
+    {
+      "id": "trainer-class-core-traits",
+      "name": "Trainer Class Core Traits",
+      "category": "Trainer Progression",
+      "description": "Every player character uses the Trainer class, whose primary ability is Charisma.",
+      "details": [
+        { "label": "Hit Points", "value": "Use a d6 per Trainer level; at level 1, HP is 6 + Constitution modifier." },
+        { "label": "Saving throw", "value": "Trainers are proficient in Charisma saving throws." },
+        { "label": "Skills", "value": "Gain Animal Handling and choose two additional skills from the Trainer list." },
+        { "label": "Tools", "value": "Trainers are proficient with Poké Balls, but not armor or weapons." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/trainer-class"
+    },
+    {
+      "id": "trainer-starting-kit",
+      "name": "Trainer Starting Kit",
+      "category": "Trainer Progression",
+      "description": "A new Trainer starts with the equipment and authorization needed to begin a Pokémon journey.",
+      "details": [
+        { "label": "Equipment", "value": "Start with 5 Poké Balls, 1 Potion, a Trainer License, and a Pokédex." },
+        { "label": "Starter", "value": "Choose one unevolved Pokémon of SR 1/2 or lower, with a chosen nature and non-hidden Ability." },
+        { "label": "Funds", "value": "Start with ₽1,000 plus ₽100 × 4d4." },
+        { "label": "License", "value": "A license authorizes captures and access to selected Pokécenter and Poké Mart services." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/trainer-class"
+    },
+    {
+      "id": "trainer-class-milestones",
+      "name": "Trainer Class Milestones",
+      "category": "Trainer Progression",
+      "description": "Trainer features arrive at specific levels, expanding Pokémon capacity, control, and personal expertise.",
+      "details": [
+        { "label": "Level 1", "value": "Gain a Starter Pokémon and a Specialization." },
+        { "label": "Level 2", "value": "Choose a Trainer Path; Path features follow at levels 5, 9, and 15." },
+        { "label": "Growth", "value": "Gain Control Upgrades at levels 3, 6, 8, 11, 14, and 17, and Ability Score Improvements at 4, 8, 12, and 16." },
+        { "label": "Pokéslots", "value": "Carry 3 Pokémon at level 1, then gain one additional slot at levels 5, 10, and 15." },
+        { "label": "High levels", "value": "Gain Trainer's Resolve at 10, Pokémon Tracker at 13, an Epic Boon at 19, and Master Trainer at 20." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/trainer-class"
+    },
+    {
+      "id": "trainer-leveling-methods",
+      "name": "Trainer Leveling Methods",
+      "category": "Trainer Progression",
+      "description": "The Game Master can tie Trainer progression to Pokémon levels, story milestones, or Pokédex discoveries.",
+      "details": [
+        { "label": "Pokémon levels", "value": "Use the total level of the Trainer's highest-level Pokémon, up to their current Pokéslot count." },
+        { "label": "Milestones", "value": "Advance the group after major story achievements, such as earning a Gym Badge." },
+        { "label": "Pokédex entries", "value": "Use the number of registered Pokémon to reward discovery-focused play." },
+        { "label": "Level-up benefit", "value": "On every Trainer level, gain HP from a hit-die roll plus Constitution modifier; higher Constitution applies retroactively." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/trainer-leveling"
+    },
+    {
+      "id": "trainer-paths",
+      "name": "Trainer Paths",
+      "category": "Trainer Progression",
+      "description": "At level 2, a Trainer chooses a Path that expresses their long-term goal and grants features through level 15.",
+      "details": [
+        { "label": "Feature levels", "value": "A Path grants its first feature at level 2, then additional features at levels 5, 9, and 15." },
+        { "label": "Examples", "value": "Ace Trainer, Researcher, Nurse, Type Master, Ranger, Tactician, and Pokémon Collector are core Paths." },
+        { "label": "Supplements", "value": "Commander and Pokémon Breeder use the Bonds and Breeding supplements respectively." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/trainer-paths"
     }
   ]
 }

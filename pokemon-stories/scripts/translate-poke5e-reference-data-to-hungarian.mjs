@@ -15,6 +15,7 @@ const datasets = [
   { dataset: 'origins', filename: 'origins.json', fields: ['name', 'description', 'abilityScores', 'proficiencies', 'feats', 'languages'] },
   { dataset: 'contest-effects', filename: 'contest-effects.json', fields: ['name', 'effect'] },
   { dataset: 'types', filename: 'types.json', fields: ['name'] },
+  { dataset: 'specializations', filename: 'specializations.json', fields: ['name', 'type', 'trainerBenefit'] },
   { dataset: 'rules', filename: 'rules.json', fields: ['name', 'category', 'description', 'details'] },
 ];
 

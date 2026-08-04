@@ -38019,6 +38019,303 @@
           }
         ]
       }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "trainer-class-core-traits",
+      "payload": {
+        "name": "A Trainer osztály alapértékei",
+        "category": "Trainer fejlődés",
+        "description": "Minden játékoskarakter a Trainer osztályt használja, amelynek elsődleges attribútuma a Karizma.",
+        "details": [
+          {
+            "label": "Életpontok",
+            "value": "Trainer szintenként d6-ot használj; 1. szinten a HP 6 + Alkotmány módosító."
+          },
+          {
+            "label": "Mentődobás",
+            "value": "A Trainer jártas a Karizma mentődobásokban."
+          },
+          {
+            "label": "Képességek",
+            "value": "Állatkezelést kapsz, és a Trainer listából további két képességet választasz."
+          },
+          {
+            "label": "Eszközök",
+            "value": "A Trainer jártas a Poké Ballok használatában, de nem páncélokban vagy fegyverekben."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "trainer-starting-kit",
+      "payload": {
+        "name": "Trainer kezdőfelszerelés",
+        "category": "Trainer fejlődés",
+        "description": "Egy új Trainer a Pokémon-utazás megkezdéséhez szükséges felszereléssel és engedéllyel indul.",
+        "details": [
+          {
+            "label": "Felszerelés",
+            "value": "5 Poké Ballal, 1 Potionnel, Trainer License-szel és Pokédexszel kezdesz."
+          },
+          {
+            "label": "Kezdő Pokémon",
+            "value": "Válassz egy nem fejlődött, legfeljebb SR 1/2 értékű Pokémont választott természettel és nem rejtett képességgel."
+          },
+          {
+            "label": "Kezdőtőke",
+            "value": "₽1 000 + ₽100 × 4d4 összeggel kezdesz."
+          },
+          {
+            "label": "Engedély",
+            "value": "A Trainer License engedélyezi a befogást és hozzáférést ad egyes Pokécenter- és Poké Mart-szolgáltatásokhoz."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "trainer-class-milestones",
+      "payload": {
+        "name": "Trainer osztály mérföldkövei",
+        "category": "Trainer fejlődés",
+        "description": "A Trainer képességei meghatározott szinteken érkeznek, bővítve a Pokémon-kapacitást, az irányítást és a személyes szakértelmet.",
+        "details": [
+          {
+            "label": "1. szint",
+            "value": "Kapsz egy kezdő Pokémont és egy Specializationt."
+          },
+          {
+            "label": "2. szint",
+            "value": "Válassz egy Trainer utat; annak képességei az 5., 9. és 15. szinten folytatódnak."
+          },
+          {
+            "label": "Növekedés",
+            "value": "Control Upgrade-et a 3., 6., 8., 11., 14. és 17. szinten, Ability Score Improvementet a 4., 8., 12. és 16. szinten kapsz."
+          },
+          {
+            "label": "Pokéslotok",
+            "value": "Az 1. szinten 3 Pokémont hordozhatsz, majd az 5., 10. és 15. szinten további egy Pokéslotot kapsz."
+          },
+          {
+            "label": "Magas szintek",
+            "value": "A 10. szinten Trainer's Resolve-ot, a 13.-on Pokémon Trackert, a 19.-en Epic Boont, a 20.-on Master Trainert kapsz."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "trainer-leveling-methods",
+      "payload": {
+        "name": "Trainer szintlépési módszerek",
+        "category": "Trainer fejlődés",
+        "description": "A Game Master a Trainer fejlődését Pokémon-szintekhez, történeti mérföldkövekhez vagy Pokédex-felfedezésekhez kötheti.",
+        "details": [
+          {
+            "label": "Pokémon szintek",
+            "value": "A Trainer legmagasabb szintű Pokémonjainak összesített szintjét használd, a jelenlegi Pokéslotok számáig."
+          },
+          {
+            "label": "Mérföldkövek",
+            "value": "A nagy történeti eredmények, például egy Gym Badge megszerzése után léptesd szintet a csoportot."
+          },
+          {
+            "label": "Pokédex bejegyzések",
+            "value": "Használd a regisztrált Pokémonok számát a felfedezésre összpontosító játék jutalmazására."
+          },
+          {
+            "label": "Szintlépés előnye",
+            "value": "Minden Trainer szinten dobj HP-t a hit die-jal, és add hozzá az Alkotmány módosítót; a magasabb Alkotmány visszamenőleg is számít."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "trainer-paths",
+      "payload": {
+        "name": "Trainer utak",
+        "category": "Trainer fejlődés",
+        "description": "A 2. szinten a Trainer olyan utat választ, amely kifejezi hosszú távú célját, és a 15. szintig képességeket ad.",
+        "details": [
+          {
+            "label": "Képességszintek",
+            "value": "Az út első képességét a 2. szinten adja, majd továbbiakat az 5., 9. és 15. szinten."
+          },
+          {
+            "label": "Példák",
+            "value": "Az Ace Trainer, Researcher, Nurse, Type Master, Ranger, Tactician és Pokémon Collector alap utak."
+          },
+          {
+            "label": "Kiegészítők",
+            "value": "A Commander és a Pokémon Breeder a Bonds, illetve Breeding kiegészítőt használja."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "poke-fan",
+      "payload": {
+        "name": "Poké-rajongó",
+        "type": "Normál",
+        "trainerBenefit": "Növeld a Karizmád 1-gyel, legfeljebb 20-ig."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "black-belt",
+      "payload": {
+        "name": "Fekete öves",
+        "type": "Harci",
+        "trainerBenefit": "Atlétika jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy benne."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "bird-keeper",
+      "payload": {
+        "name": "Madárgondozó",
+        "type": "Repülő",
+        "trainerBenefit": "Észlelés jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy benne."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "punk",
+      "payload": {
+        "name": "Punk",
+        "type": "Méreg",
+        "trainerBenefit": "Kézügyesség jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy benne."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "camper",
+      "payload": {
+        "name": "Táborozó",
+        "type": "Föld",
+        "trainerBenefit": "Túlélés jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy benne."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "hiker",
+      "payload": {
+        "name": "Túrázó",
+        "type": "Kő",
+        "trainerBenefit": "Növeld az Állóképességed 1-gyel, legfeljebb 20-ig."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "bug-maniac",
+      "payload": {
+        "name": "Rovarrajongó",
+        "type": "Rovar",
+        "trainerBenefit": "Természetismeret jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy benne."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "mystic",
+      "payload": {
+        "name": "Misztikus",
+        "type": "Szellem",
+        "trainerBenefit": "Vallás jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy benne."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "worker",
+      "payload": {
+        "name": "Munkás",
+        "type": "Acél",
+        "trainerBenefit": "Növeld az Erődet 1-gyel, legfeljebb 20-ig."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "kindler",
+      "payload": {
+        "name": "Tűzmester",
+        "type": "Tűz",
+        "trainerBenefit": "Megfélemlítés jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy benne."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "swimmer",
+      "payload": {
+        "name": "Úszó",
+        "type": "Víz",
+        "trainerBenefit": "Növeld az Ügyességed 1-gyel, legfeljebb 20-ig."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "gardener",
+      "payload": {
+        "name": "Kertész",
+        "type": "Fű",
+        "trainerBenefit": "Gyógyítás jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy benne."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "engineer",
+      "payload": {
+        "name": "Mérnök",
+        "type": "Elektromos",
+        "trainerBenefit": "Növeld az Intelligenciád 1-gyel, legfeljebb 20-ig."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "psychic",
+      "payload": {
+        "name": "Pszichikus",
+        "type": "Pszichikus",
+        "trainerBenefit": "Arkánum jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy benne."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "skier",
+      "payload": {
+        "name": "Síelő",
+        "type": "Jég",
+        "trainerBenefit": "Akrobatika jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy benne."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "dragon-tamer",
+      "payload": {
+        "name": "Sárkányszelídítő",
+        "type": "Sárkány",
+        "trainerBenefit": "Növeld a Bölcsességed 1-gyel, legfeljebb 20-ig."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "delinquent",
+      "payload": {
+        "name": "Csibész",
+        "type": "Sötét",
+        "trainerBenefit": "Lopakodás jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy benne."
+      }
+    },
+    {
+      "dataset": "specializations",
+      "recordId": "actor",
+      "payload": {
+        "name": "Színész",
+        "type": "Tündér",
+        "trainerBenefit": "Előadás jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy benne."
+      }
     }
   ]
 }

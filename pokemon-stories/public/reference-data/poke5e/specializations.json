@@ -1,0 +1,22 @@
+{
+  "items": [
+    {"id":"poke-fan","name":"Poké Fan","type":"normal","trainerBenefit":"Increase Charisma by 1, to a maximum of 20."},
+    {"id":"black-belt","name":"Black Belt","type":"fighting","trainerBenefit":"Gain Athletics proficiency, or Expertise if already proficient."},
+    {"id":"bird-keeper","name":"Bird Keeper","type":"flying","trainerBenefit":"Gain Perception proficiency, or Expertise if already proficient."},
+    {"id":"punk","name":"Punk","type":"poison","trainerBenefit":"Gain Sleight of Hand proficiency, or Expertise if already proficient."},
+    {"id":"camper","name":"Camper","type":"ground","trainerBenefit":"Gain Survival proficiency, or Expertise if already proficient."},
+    {"id":"hiker","name":"Hiker","type":"rock","trainerBenefit":"Increase Constitution by 1, to a maximum of 20."},
+    {"id":"bug-maniac","name":"Bug Maniac","type":"bug","trainerBenefit":"Gain Nature proficiency, or Expertise if already proficient."},
+    {"id":"mystic","name":"Mystic","type":"ghost","trainerBenefit":"Gain Religion proficiency, or Expertise if already proficient."},
+    {"id":"worker","name":"Worker","type":"steel","trainerBenefit":"Increase Strength by 1, to a maximum of 20."},
+    {"id":"kindler","name":"Kindler","type":"fire","trainerBenefit":"Gain Intimidation proficiency, or Expertise if already proficient."},
+    {"id":"swimmer","name":"Swimmer","type":"water","trainerBenefit":"Increase Dexterity by 1, to a maximum of 20."},
+    {"id":"gardener","name":"Gardener","type":"grass","trainerBenefit":"Gain Medicine proficiency, or Expertise if already proficient."},
+    {"id":"engineer","name":"Engineer","type":"electric","trainerBenefit":"Increase Intelligence by 1, to a maximum of 20."},
+    {"id":"psychic","name":"Psychic","type":"psychic","trainerBenefit":"Gain Arcana proficiency, or Expertise if already proficient."},
+    {"id":"skier","name":"Skier","type":"ice","trainerBenefit":"Gain Acrobatics proficiency, or Expertise if already proficient."},
+    {"id":"dragon-tamer","name":"Dragon Tamer","type":"dragon","trainerBenefit":"Increase Wisdom by 1, to a maximum of 20."},
+    {"id":"delinquent","name":"Delinquent","type":"dark","trainerBenefit":"Gain Stealth proficiency, or Expertise if already proficient."},
+    {"id":"actor","name":"Actor","type":"fairy","trainerBenefit":"Gain Performance proficiency, or Expertise if already proficient."}
+  ]
+}

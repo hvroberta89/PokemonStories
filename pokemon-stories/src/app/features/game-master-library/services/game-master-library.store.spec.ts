@@ -117,6 +117,25 @@ describe('GameMasterLibraryStore', () => {
     expect(entry?.sourceUrl).toBe('https://poke5e.app/reference/damage-types');
   });
 
+  it('renders localized Specialization benefits with the Poke5e source link', async () => {
+    localStorage.setItem(localeKey, 'hu');
+    mockReferenceFetch({
+      '/reference-data/poke5e/specializations.json': {
+        items: [{ id: 'kindler', name: 'Kindler', type: 'fire', trainerBenefit: 'Gain Intimidation proficiency, or Expertise if already proficient.' }],
+      },
+      '/reference-data/poke5e/translations/hu.json': {
+        items: [{ dataset: 'specializations', recordId: 'kindler', payload: { name: 'Tűzmester', type: 'Tűz', trainerBenefit: 'Fenyegetés jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy.' } }],
+      },
+    });
+
+    const entry = await new GameMasterLibraryStore().find('specializations', 'kindler');
+
+    expect(entry?.name).toBe('Tűzmester');
+    expect(entry?.tags).toEqual(['Tűz', 'Specialization']);
+    expect(entry?.detailGroups[0]?.rows).toContainEqual({ label: 'Trainer előny', value: 'Fenyegetés jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy.' });
+    expect(entry?.sourceUrl).toBe('https://poke5e.app/reference/specializations');
+  });
+
   it('renders localized rule details and retains the Poke5e source link', async () => {
     localStorage.setItem(localeKey, 'hu');
     mockReferenceFetch({

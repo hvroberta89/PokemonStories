@@ -1,0 +1,18 @@
+{
+  "items": [
+    {"id":"able-bodied","name":"Able-Bodied","category":"Pokémon Feat","description":"The Pokémon recovers from status conditions more slowly.","benefit":"Extend its status-condition grace period by 2 rounds."},
+    {"id":"ac-up","name":"AC Up","category":"Pokémon Feat","description":"The Pokémon gains a permanent defensive improvement.","benefit":"Increase AC by 2; this bonus carries through evolution."},
+    {"id":"ambidextrous","name":"Ambidextrous","category":"Pokémon Feat","description":"The Pokémon can manage more equipment at once.","benefit":"It can hold one additional held item.","limit":"This feat can be taken only once."},
+    {"id":"combo-master","name":"Combo Master","category":"Pokémon Feat","description":"The Pokémon is more reliable with multi-hit Moves.","benefit":"After a successful attack roll for a qualifying multi-hit Move, it is guaranteed to hit at least twice."},
+    {"id":"extra-move","name":"Extra Move","category":"Pokémon Feat","description":"The Pokémon expands its known Move capacity.","benefit":"Increase the number of known Moves by 1.","limit":"It may be chosen again, up to a maximum of 6 known Moves."},
+    {"id":"gifted","name":"Gifted","category":"Pokémon Feat","description":"The Pokémon can push one attribute beyond the usual limit.","benefit":"Increase one ability score by 1 and raise its maximum to 22.","prerequisite":"Pokémon level 10 or higher."},
+    {"id":"hidden-ability","name":"Hidden Ability","category":"Pokémon Feat","description":"The Pokémon unlocks the Hidden Ability shown in its stat block.","benefit":"It gains access to its Hidden Ability in addition to its current standard Ability."},
+    {"id":"melee-master","name":"Melee Master","category":"Pokémon Feat","description":"The Pokémon excels in close-range physical combat.","benefit":"Gain advantage on opportunity attacks and add Proficiency bonus damage to a qualifying Strength-based melee Move once per turn."},
+    {"id":"natural-mount","name":"Natural Mount","category":"Pokémon Feat","description":"The Pokémon protects itself and its rider while serving as a mount.","benefit":"It can redirect attacks from its rider to itself and improve selected Dexterity save outcomes for itself or its rider."},
+    {"id":"power-sculpter","name":"Power Sculpter","category":"Pokémon Feat","description":"The Pokémon can shape area-of-effect Moves around allies.","benefit":"Choose allies within range to automatically succeed on saving throws against its qualifying area Moves."},
+    {"id":"ranged-master","name":"Ranged Master","category":"Pokémon Feat","description":"The Pokémon is skilled at attacking from a distance.","benefit":"Ranged Move attacks ignore half and three-quarters cover and do not have disadvantage from an adjacent enemy."},
+    {"id":"terrain-adept","name":"Terrain Adept","category":"Pokémon Feat","description":"The Pokémon fights especially well in one chosen terrain.","benefit":"Gain +3 to attack rolls while in the chosen terrain.","choice":"Coastal, Swamp, Forest, Arctic, Desert, Grassland, Hill, Mountain, or Underwater."},
+    {"id":"tireless","name":"Tireless","category":"Pokémon Feat","description":"The Pokémon sustains its Moves for longer.","benefit":"Increase PP by 1 for every current Move; replacement Moves receive the same bonus."},
+    {"id":"wrangler","name":"Wrangler","category":"Pokémon Feat","description":"The Pokémon specializes in grappling and controlling nearby foes.","benefit":"Gain advantage against grappled targets and may attempt a grapple after a qualifying Strength-based single-target melee Move once per turn."}
+  ]
+}
