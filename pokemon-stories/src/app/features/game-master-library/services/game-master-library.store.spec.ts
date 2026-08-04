@@ -71,6 +71,34 @@ describe('GameMasterLibraryStore', () => {
     expect(entry?.detailGroups.find((group) => group.title === 'Különleges képesség')?.rows).toContainEqual({ label: 'Név', value: 'A Different Bond' });
   });
 
+  it('renders localized Trainer Path milestones with the Poke5e source link', async () => {
+    localStorage.setItem(localeKey, 'hu');
+    mockReferenceFetch({
+      '/reference-data/poke5e/paths.json': {
+        items: [{
+          id: 'ace-trainer', name: 'Ace Trainer', description: 'A battle-focused path.',
+          details: [{ label: 'Level 2: Ace Trainer', value: 'Pokémon gain +1 to attack and damage rolls.' }],
+          sourceUrl: 'https://poke5e.app/reference/trainer-paths',
+        }],
+      },
+      '/reference-data/poke5e/translations/hu.json': {
+        items: [{
+          dataset: 'paths', recordId: 'ace-trainer', payload: {
+            name: 'Ász Trainer', description: 'Harcra összpontosító Path.',
+            details: [{ label: '2. szint: Ász Trainer', value: 'A Pokémonok +1-et kapnak a támadás- és sebzésdobásokra.' }],
+          },
+        }],
+      },
+    });
+
+    const entry = await new GameMasterLibraryStore().find('paths', 'ace-trainer');
+
+    expect(entry?.name).toBe('Ász Trainer');
+    expect(entry?.tags).toEqual(['Trainer Path']);
+    expect(entry?.sourceUrl).toBe('https://poke5e.app/reference/trainer-paths');
+    expect(entry?.detailGroups[0]?.rows).toContainEqual({ label: '2. szint: Ász Trainer', value: 'A Pokémonok +1-et kapnak a támadás- és sebzésdobásokra.' });
+  });
+
   it('shows Hungarian Contest mechanics on a Move detail', async () => {
     localStorage.setItem(localeKey, 'hu');
     mockReferenceFetch({
@@ -117,6 +145,68 @@ describe('GameMasterLibraryStore', () => {
     expect(entry?.sourceUrl).toBe('https://poke5e.app/reference/damage-types');
   });
 
+  it('renders localized Specialization benefits with the Poke5e source link', async () => {
+    localStorage.setItem(localeKey, 'hu');
+    mockReferenceFetch({
+      '/reference-data/poke5e/specializations.json': {
+        items: [{ id: 'kindler', name: 'Kindler', type: 'fire', trainerBenefit: 'Gain Intimidation proficiency, or Expertise if already proficient.' }],
+      },
+      '/reference-data/poke5e/translations/hu.json': {
+        items: [{ dataset: 'specializations', recordId: 'kindler', payload: { name: 'Tűzmester', type: 'Tűz', trainerBenefit: 'Fenyegetés jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy.' } }],
+      },
+    });
+
+    const entry = await new GameMasterLibraryStore().find('specializations', 'kindler');
+
+    expect(entry?.name).toBe('Tűzmester');
+    expect(entry?.tags).toEqual(['Tűz', 'Specialization']);
+    expect(entry?.detailGroups[0]?.rows).toContainEqual({ label: 'Trainer előny', value: 'Fenyegetés jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy.' });
+    expect(entry?.sourceUrl).toBe('https://poke5e.app/reference/specializations');
+  });
+
+  it('renders localized Pokémon Feat details with the Poke5e source link', async () => {
+    localStorage.setItem(localeKey, 'hu');
+    mockReferenceFetch({
+      '/reference-data/poke5e/feats.json': {
+        items: [{ id: 'gifted', name: 'Gifted', category: 'Pokémon Feat', description: 'Improve an attribute beyond its normal limit.', benefit: 'Increase one ability score by 1 and raise its maximum to 22.', prerequisite: 'Pokémon level 10 or higher.' }],
+      },
+      '/reference-data/poke5e/translations/hu.json': {
+        items: [{ dataset: 'feats', recordId: 'gifted', payload: { name: 'Tehetséges', category: 'Pokémon Feat', description: 'Egy attribútum a szokásos határ fölé nőhet.', benefit: 'Növeld egy attribútum értékét 1-gyel, és annak maximumát 22-re.', prerequisite: 'Legalább 10. szintű Pokémon.' } }],
+      },
+    });
+
+    const entry = await new GameMasterLibraryStore().find('feats', 'gifted');
+
+    expect(entry?.name).toBe('Tehetséges');
+    expect(entry?.detailGroups[0]?.rows).toContainEqual({ label: 'Előny', value: 'Növeld egy attribútum értékét 1-gyel, és annak maximumát 22-re.' });
+    expect(entry?.detailGroups[0]?.rows).toContainEqual({ label: 'Előfeltétel', value: 'Legalább 10. szintű Pokémon.' });
+    expect(entry?.sourceUrl).toBe('https://poke5e.app/reference/feats');
+  });
+
+  it('renders Nature attribute modifiers and its Poke5e source link', async () => {
+    localStorage.setItem(localeKey, 'hu');
+    mockReferenceFetch({
+      '/reference-data/poke5e/natures.json': {
+        items: [
+          { id: 'brave', name: 'Brave', roll: '9-12', increase: 'str', decrease: 'dex' },
+          { id: 'hardy', name: 'Hardy', roll: '1-4', increase: null, decrease: null },
+        ],
+      },
+      '/reference-data/poke5e/translations/hu.json': {
+        items: [{ dataset: 'natures', recordId: 'brave', payload: { name: 'Bátor' } }],
+      },
+    });
+
+    const brave = await new GameMasterLibraryStore().find('natures', 'brave');
+    const hardy = await new GameMasterLibraryStore().find('natures', 'hardy');
+
+    expect(brave?.name).toBe('Bátor');
+    expect(brave?.detailGroups[0]?.rows).toContainEqual({ label: 'Növelt attribútum', value: '+1 Erő' });
+    expect(brave?.detailGroups[0]?.rows).toContainEqual({ label: 'Csökkentett attribútum', value: '-1 Ügyesség' });
+    expect(hardy?.detailGroups[0]?.rows).toContainEqual({ label: 'Növelt attribútum', value: 'Nincs módosító' });
+    expect(brave?.sourceUrl).toBe('https://poke5e.app/reference/natures');
+  });
+
   it('renders localized rule details and retains the Poke5e source link', async () => {
     localStorage.setItem(localeKey, 'hu');
     mockReferenceFetch({
@@ -137,6 +227,27 @@ describe('GameMasterLibraryStore', () => {
     expect(entry?.tags).toEqual(['Harc']);
     expect(entry?.sourceUrl).toBe('https://poke5e.app/reference/combat');
     expect(entry?.detailGroups[0]?.rows).toContainEqual({ label: 'Bónusz', value: 'Add hozzá a jártassági bónuszt.' });
+  });
+
+  it('lists individually localized Poké Balls without loading unrelated items', async () => {
+    localStorage.setItem(localeKey, 'hu');
+    mockReferenceFetch({
+      '/reference-data/poke5e/items.json': {
+        items: [
+          { id: 'poke-ball', name: 'Poke Ball', type: 'pokeball', cost: 200, description: 'A capture item.', beta: false },
+          { id: 'potion', name: 'Potion', type: 'medicine', cost: 300, description: 'A healing item.', beta: false },
+        ],
+      },
+      '/reference-data/poke5e/translations/hu.json': {
+        items: [{ dataset: 'items', recordId: 'poke-ball', payload: { name: 'Poké Ball', description: 'Befogásra szolgáló labda.' } }],
+      },
+    });
+
+    const entries = await new GameMasterLibraryStore().entries('pokeballs');
+
+    expect(entries).toHaveLength(1);
+    expect(entries[0]).toMatchObject({ section: 'pokeballs', id: 'poke-ball', name: 'Poké Ball', description: 'Befogásra szolgáló labda.' });
+    expect(entries[0]?.tags).toEqual(['pokeball', '200 P']);
   });
 });
 

@@ -196,10 +196,13 @@
       "category": "Catching",
       "description": "Use the Throw Pokéball action to attempt a capture of an eligible wild Pokémon.",
       "details": [
-        { "label": "Check", "value": "Make an Animal Handling check against the capture DC; several status conditions grant advantage." },
+        { "label": "Throw Pokéball", "value": "Costs 1 action, has 60-foot range, and consumes one Poké Ball variant." },
+        { "label": "Check", "value": "Make an Animal Handling check against the capture DC; poisoned, restrained, asleep, burned, confused, paralyzed, and frozen targets grant advantage." },
         { "label": "Base DC", "value": "10 + the Pokémon's Species Rating rounded down + its level." },
         { "label": "Health", "value": "Reduce the DC by 5 below half HP and by another 5 below 10% of maximum HP." },
-        { "label": "Limits", "value": "A fainted Pokémon or one with a higher level than the Trainer cannot be caught with a Pokéball." }
+        { "label": "Limits", "value": "A fainted Pokémon, a Pokémon above the Trainer's level, or a Pokémon already registered to another Trainer cannot be caught with a Poké Ball." },
+        { "label": "On capture", "value": "The Pokémon retains its level, current HP, and status effects. If Pokéslots are full, send one Pokémon to the PC." },
+        { "label": "On failure", "value": "The Poké Ball is destroyed." }
       ],
       "sourceUrl": "https://poke5e.app/reference/catching-pokemon"
     },
@@ -207,12 +210,15 @@
       "id": "pokeball-variants",
       "name": "Pokéball Variants",
       "category": "Catching",
-      "description": "Pokéball variants alter a capture attempt or provide a benefit to the Pokémon they hold.",
+      "description": "Poké Ball variants can reduce a capture DC, change how a capture is attempted, or benefit the Pokémon they hold.",
       "details": [
-        { "label": "Capture modifiers", "value": "Great and Ultra Balls lower capture DC; specialized Balls apply their bonus in matching circumstances." },
-        { "label": "Master Ball", "value": "The capture attempt succeeds automatically." },
-        { "label": "Failed attempt", "value": "A Pokéball is destroyed when its capture attempt fails." },
-        { "label": "Held Pokémon", "value": "Some Balls provide rest or hit-die benefits to the Pokémon residing in them." }
+        { "label": "Standard Balls", "value": "Poké Ball has no modifier; Great Ball reduces DC by 5; Ultra Ball by 10; Master Ball succeeds automatically." },
+        { "label": "Target and environment", "value": "Safari, Level, Lure, Heavy, Net, Dive, Nest, Repeat, Moon, and Dusk Balls reduce DC when their named target, level, size, habitat, time, or history condition applies." },
+        { "label": "Trainer modifiers", "value": "Safari, Friend, and Sport Balls reduce DC by the Trainer's Nature, Persuasion, or Athletics modifier; Love Ball uses twice the active Pokémon's Charisma modifier." },
+        { "label": "Combat timing", "value": "Fast Ball can be thrown as a reaction at a fleeing Pokémon; Quick Ball reduces DC by 15 in the first combat round; Dream Ball reduces DC by 5 against an Asleep Pokémon." },
+        { "label": "Timer Ball", "value": "Concentrate before throwing to reduce DC by 1 per turn, up to 10." },
+        { "label": "Held Pokémon", "value": "Luxury Ball grants +1 maximum hit die; Heal Ball lets its resident roll hit dice twice on a short rest and keep the higher result; Premier Ball has no mechanical effect." },
+        { "label": "Failed attempt", "value": "A Poké Ball is destroyed when its capture attempt fails." }
       ],
       "sourceUrl": "https://poke5e.app/reference/catching-pokemon"
     },
@@ -225,7 +231,8 @@
         { "label": "Sanctioned battle", "value": "All damage is non-lethal; a downed Pokémon does not make death saving throws." },
         { "label": "Other battles", "value": "A downed Pokémon makes death saving throws until stabilized." },
         { "label": "Inside a Pokéball", "value": "Death saves are not required; ten uninterrupted minutes inside stabilizes the Pokémon at 0 HP." },
-        { "label": "Trainer reaction", "value": "The Trainer may recall the Pokémon and send out another one immediately." }
+        { "label": "Trainer reaction", "value": "The Trainer may recall the Pokémon and send out another one immediately." },
+        { "label": "Pokémon death", "value": "A Pokémon dies after its third failed death saving throw. The rules provide no general way to revive a deceased Pokémon." }
       ],
       "sourceUrl": "https://poke5e.app/reference/fainting-resting-and-healing"
     },
@@ -252,6 +259,32 @@
         { "label": "Moves", "value": "A Pokémon knows at most four Moves; new Move choices occur at levels 2, 6, 10, 14, and 18." },
         { "label": "Ability scores", "value": "Ability Score Improvements occur at levels 4, 8, 12, and 16." },
         { "label": "Damage", "value": "Damaging Moves increase at levels 5, 10, and 17 when their description provides an increase." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/pokemon-leveling"
+    },
+    {
+      "id": "pokemon-experience",
+      "name": "Pokémon Experience",
+      "category": "Progression",
+      "description": "Pokémon gain experience from battles, captures, and Game Master awards for meaningful challenges.",
+      "details": [
+        { "label": "Defeat award", "value": "A defeated Pokémon awards experience equal to 200 × its level × its Species Rating." },
+        { "label": "Capture award", "value": "Catching a Pokémon grants one fifth of its normal experience award." },
+        { "label": "Eligibility", "value": "Experience can be assigned freely among a Trainer's Pokémon, but only Pokémon that took part in the battle can receive it; fainted participants remain eligible." },
+        { "label": "Other awards", "value": "The Game Master may also award experience for difficult challenges and Trainer Battles." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/pokemon-leveling"
+    },
+    {
+      "id": "pokemon-ability-score-improvements",
+      "name": "Pokémon Ability Score Improvements",
+      "category": "Progression",
+      "description": "Ability Score Improvements reflect a Pokémon's long-term growth and may be exchanged in part for Feats.",
+      "details": [
+        { "label": "Levels", "value": "Gain an Ability Score Improvement at levels 4, 8, 12, and 16." },
+        { "label": "Points", "value": "A one-, two-, or three-stage evolutionary line receives 4, 3, or 2 points respectively, normally to a maximum score of 20." },
+        { "label": "Feats", "value": "Up to 2 points from an Ability Score Improvement may be used to acquire a Pokémon Feat." },
+        { "label": "Peak Power", "value": "At level 20, gain another improvement with a maximum score of 22, or 30 for Pokémon with SR 15 or higher." }
       ],
       "sourceUrl": "https://poke5e.app/reference/pokemon-leveling"
     },
@@ -283,11 +316,14 @@
       "id": "z-moves-and-dynamax",
       "name": "Z-Moves and Dynamax",
       "category": "Transformations",
-      "description": "Z-Power and Dynamax offer powerful temporary options with different equipment and level requirements.",
+      "description": "Z-Moves create a single decisive Move, while Dynamax grants a short-lived increase in size and endurance.",
       "details": [
-        { "label": "Z-Move", "value": "Requires level 6, a matching Z-Crystal, and a Trainer with a Z-Ring; it empowers one matching known Move." },
-        { "label": "Dynamax", "value": "Requires level 10, adequate space, and a Dynamax Band; it grants temporary HP equal to current HP and Gargantuan size." },
-        { "label": "Frequency", "value": "A Pokémon can undergo only one transformation per long rest; a Trainer can induce each transformation kind once per long rest." }
+        { "label": "Z-Move requirements", "value": "Requires level 6, a Z-Crystal matching a known Move's type, and a Trainer with a Z-Ring." },
+        { "label": "Z-Move effect", "value": "Choose a matching known Move. It cannot miss, its save DC increases by 5, and its damage or healing dice and Move bonus are doubled." },
+        { "label": "Dynamax requirements", "value": "Requires level 10, enough space for a Gargantuan creature, and a Trainer with a Dynamax Band." },
+        { "label": "Dynamax effect", "value": "Gain temporary HP equal to current HP, become Gargantuan, gain immunity to volatile status conditions, cannot switch out, and roll damage twice before choosing a result." },
+        { "label": "Dynamax ends", "value": "Ends after combat, after one minute outside combat, when its temporary HP is depleted, when the Pokémon faints, or when the Trainer loses the Dynamax Band." },
+        { "label": "Frequency", "value": "A Pokémon can undergo only one transformation per long rest; a Trainer can induce each kind of transformation once per long rest." }
       ],
       "sourceUrl": "https://poke5e.app/reference/pokemon-transformations"
     },
@@ -443,6 +479,19 @@
       "sourceUrl": "https://poke5e.app/reference/encounters"
     },
     {
+      "id": "encounter-rewards",
+      "name": "Encounter Rewards",
+      "category": "Encounters",
+      "description": "Award encounter rewards according to participation, the battle's stakes, and the campaign's desired economy.",
+      "details": [
+        { "label": "Wild encounter experience", "value": "The Game Master may distribute experience equally or according to each player character's participation." },
+        { "label": "Trainer battle rewards", "value": "Consider awarding the full party experience and money, alongside experience for each defeated Pokémon." },
+        { "label": "Money baseline", "value": "For a Trainer payout, a useful starting point is the opposing team's highest Pokémon level multiplied by d4 and then by 100 Pokédollars." },
+        { "label": "Other income", "value": "Bounties, jobs, Contests, and Gym Battles can supplement battle rewards." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/encounters"
+    },
+    {
       "id": "damage-type-fundamentals",
       "name": "Damage Type Fundamentals",
       "category": "Damage Types",
@@ -478,6 +527,335 @@
         { "label": "Duration", "value": "A temporary change without a stated duration normally ends after a long rest." }
       ],
       "sourceUrl": "https://poke5e.app/reference/damage-types"
+    },
+    {
+      "id": "trainer-class-core-traits",
+      "name": "Trainer Class Core Traits",
+      "category": "Trainer Progression",
+      "description": "Every player character uses the Trainer class, whose primary ability is Charisma.",
+      "details": [
+        { "label": "Hit Points", "value": "Use a d6 per Trainer level; at level 1, HP is 6 + Constitution modifier." },
+        { "label": "Saving throw", "value": "Trainers are proficient in Charisma saving throws." },
+        { "label": "Skills", "value": "Gain Animal Handling and choose two additional skills from the Trainer list." },
+        { "label": "Tools", "value": "Trainers are proficient with Poké Balls, but not armor or weapons." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/trainer-class"
+    },
+    {
+      "id": "trainer-starting-kit",
+      "name": "Trainer Starting Kit",
+      "category": "Trainer Progression",
+      "description": "A new Trainer starts with the equipment and authorization needed to begin a Pokémon journey.",
+      "details": [
+        { "label": "Equipment", "value": "Start with 5 Poké Balls, 1 Potion, a Trainer License, and a Pokédex." },
+        { "label": "Starter", "value": "Choose one unevolved Pokémon of SR 1/2 or lower, with a chosen nature and non-hidden Ability." },
+        { "label": "Funds", "value": "Start with ₽1,000 plus ₽100 × 4d4." },
+        { "label": "License", "value": "A license authorizes captures and access to selected Pokécenter and Poké Mart services." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/trainer-class"
+    },
+    {
+      "id": "trainer-class-milestones",
+      "name": "Trainer Class Milestones",
+      "category": "Trainer Progression",
+      "description": "Trainer features arrive at specific levels, expanding Pokémon capacity, control, and personal expertise.",
+      "details": [
+        { "label": "Level 1", "value": "Gain a Starter Pokémon and a Specialization." },
+        { "label": "Level 2", "value": "Choose a Trainer Path; Path features follow at levels 5, 9, and 15." },
+        { "label": "Growth", "value": "Gain Control Upgrades at levels 3, 6, 8, 11, 14, and 17, and Ability Score Improvements at 4, 8, 12, and 16." },
+        { "label": "Pokéslots", "value": "Carry 3 Pokémon at level 1, then gain one additional slot at levels 5, 10, and 15." },
+        { "label": "High levels", "value": "Gain Trainer's Resolve at 10, Pokémon Tracker at 13, an Epic Boon at 19, and Master Trainer at 20." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/trainer-class"
+    },
+    {
+      "id": "trainer-control-upgrades",
+      "name": "Trainer Control Upgrades",
+      "category": "Trainer Progression",
+      "description": "Control Upgrades determine the maximum Species Rating of Pokémon a Trainer can reliably command.",
+      "details": [
+        { "label": "Maximum SR", "value": "The control limit is SR 2 at levels 1-2, then SR 5, 8, 10, 12, 14, and 15 at levels 3, 6, 8, 11, 14, and 17 respectively." },
+        { "label": "Above the limit", "value": "A Pokémon above the Trainer's current control limit refuses to leave its Poké Ball or obey commands." },
+        { "label": "Pokéslots", "value": "A Trainer carries 3 Pokémon at level 1, 4 at level 5, 5 at level 10, and 6 at level 15." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/trainer-class"
+    },
+    {
+      "id": "trainer-class-high-level-features",
+      "name": "High-Level Trainer Features",
+      "category": "Trainer Progression",
+      "description": "At high levels, a Trainer gains stronger resilience, wild Pokémon knowledge, and master-level support.",
+      "details": [
+        { "label": "Level 10: Trainer's Resolve", "value": "Become immune to Frightened and gain proficiency in a second saving throw." },
+        { "label": "Level 13: Pokémon Tracker", "value": "Once per long rest, learn which wild Pokémon are nearby and gain Animal Handling expertise." },
+        { "label": "Level 19: Epic Boon", "value": "Choose an Epic Boon or another Feat for which you qualify." },
+        { "label": "Level 20: Master Trainer", "value": "Twice per long rest, turn a failed saving throw by you or one of your Pokémon into a success." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/trainer-class"
+    },
+    {
+      "id": "trainer-leveling-methods",
+      "name": "Trainer Leveling Methods",
+      "category": "Trainer Progression",
+      "description": "The Game Master can tie Trainer progression to Pokémon levels, story milestones, or Pokédex discoveries.",
+      "details": [
+        { "label": "Pokémon levels", "value": "Use the total level of the Trainer's highest-level Pokémon, up to their current Pokéslot count." },
+        { "label": "Milestones", "value": "Advance the group after major story achievements, such as earning a Gym Badge." },
+        { "label": "Pokédex entries", "value": "Use the number of registered Pokémon to reward discovery-focused play." },
+        { "label": "Level-up benefit", "value": "On every Trainer level, gain HP from a hit-die roll plus Constitution modifier; higher Constitution applies retroactively." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/trainer-leveling"
+    },
+    {
+      "id": "trainer-paths",
+      "name": "Trainer Paths",
+      "category": "Trainer Progression",
+      "description": "At level 2, a Trainer chooses a Path that expresses their long-term goal and grants features through level 15.",
+      "details": [
+        { "label": "Feature levels", "value": "A Path grants its first feature at level 2, then additional features at levels 5, 9, and 15." },
+        { "label": "Examples", "value": "Ace Trainer, Researcher, Nurse, Type Master, Ranger, Tactician, and Pokémon Collector are core Paths." },
+        { "label": "Supplements", "value": "Commander and Pokémon Breeder use the Bonds and Breeding supplements respectively." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/trainer-paths"
+    },
+    {
+      "id": "optional-supplements",
+      "name": "Optional Supplements",
+      "category": "Supplements",
+      "description": "Pokémon 5e can use any combination of optional community supplements alongside its Core Rules.",
+      "details": [
+        { "label": "Character options", "value": "Trainer Origins and Pokémon Feats expand character identity and long-term progression." },
+        { "label": "Pokémon relationships", "value": "Bonds and Breeding add relationship, egg, and hatchling systems; Commander and Pokémon Breeder Paths require them." },
+        { "label": "Game Master tools", "value": "Contests, Building Encounters, and Legendary Battles offer additional session and battle structures." },
+        { "label": "Pokémon variants", "value": "Transformations and Shiny Pokémon add optional rare forms and dramatic moments." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/supplements"
+    },
+    {
+      "id": "bond-levels",
+      "name": "Bond Levels",
+      "category": "Bonds",
+      "description": "The Bond Level describes the evolving relationship between a Pokémon and its Trainer.",
+      "details": [
+        { "label": "Range", "value": "Bond Levels range from -3 to +3 and may affect obedience, evolution, and Bond Points." },
+        { "label": "Starting bond", "value": "Most newly caught Pokémon begin at +0 or lower; they rarely begin above +1." },
+        { "label": "Narrative decision", "value": "The Trainer and Game Master agree when a Bond Level changes." },
+        { "label": "Examples", "value": "Time together, favored food, and difficult victories may raise a bond; neglect or cruel treatment may lower it." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/bonds"
+    },
+    {
+      "id": "bond-points",
+      "name": "Bond Points",
+      "category": "Bonds",
+      "description": "Pokémon with a positive Bond Level receive Bond Points equal to that level.",
+      "details": [
+        { "label": "Points", "value": "At Bond Level +1, +2, or +3, a Pokémon has 1, 2, or 3 Bond Points respectively." },
+        { "label": "Recovery", "value": "All spent Bond Points return at the end of a long rest." },
+        { "label": "Advantage", "value": "Spend 1 Bond Point after rolling a d20 ability check, attack roll, or saving throw to gain advantage." },
+        { "label": "Protection", "value": "Spend 1 Bond Point when a creature attacks the Pokémon to impose disadvantage on that attack roll." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/bonds"
+    },
+    {
+      "id": "negative-bond-levels",
+      "name": "Negative Bond Levels",
+      "category": "Bonds",
+      "description": "A negative Bond Level reflects an upset, indifferent, or disloyal Pokémon.",
+      "details": [
+        { "label": "Level -1", "value": "An upset Pokémon holds a grudge that affects it in battle." },
+        { "label": "Level -2", "value": "When commanded, roll a d20. On 10 or lower, the Pokémon hesitates and follows the command with disadvantage." },
+        { "label": "Level -3", "value": "When commanded, roll a d20. On 10 or lower, the Pokémon disobeys by doing nothing or acting on its own." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/bonds"
+    },
+    {
+      "id": "pokemon-eggs-and-breeding",
+      "name": "Pokémon Eggs and Breeding",
+      "category": "Breeding",
+      "description": "At the end of an in-game day, eligible Pokémon may attempt to create an egg.",
+      "details": [
+        { "label": "Trainer relationship", "value": "The Pokémon must share a Trainer, or their Trainers must be in the same party." },
+        { "label": "Bond", "value": "Each parent needs Bond Level +2 or higher." },
+        { "label": "Compatibility", "value": "The parents need opposite genders and a shared Egg Group; Undiscovered Pokémon cannot breed." },
+        { "label": "Pokéslot", "value": "The Trainer needs an open Pokéslot for the egg." },
+        { "label": "Breeding check", "value": "Roll a straight d20 against a DC set by the parents' combined Bond Levels." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/breeding"
+    },
+    {
+      "id": "egg-incubation",
+      "name": "Egg Incubation",
+      "category": "Breeding",
+      "description": "A new egg receives a Hatch Time counter based on the Pokémon's Species Rating.",
+      "details": [
+        { "label": "Progress", "value": "At the start of each in-game day or session, roll 1d100 + 50 and reduce the remaining counter by the result." },
+        { "label": "Care", "value": "Progress is possible only when the Trainer carried the egg through the night or much of the previous session." },
+        { "label": "Fragility", "value": "An egg has AC 8 and 10 HP; at 0 HP it breaks and the Pokémon inside is lost." },
+        { "label": "Incubators", "value": "Basic, Plus, and Super Incubators reduce Hatch Time by an additional 1d20, 2d20, or 3d20 per day." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/breeding"
+    },
+    {
+      "id": "hatching-pokemon",
+      "name": "Hatching a Pokémon",
+      "category": "Breeding",
+      "description": "When Hatch Time reaches 0, determine the hatched Pokémon's initial species, traits, Moves, and bond.",
+      "details": [
+        { "label": "Species", "value": "Use the female parent's lowest evolutionary form at its minimum found level." },
+        { "label": "Nature and gender", "value": "Roll a d100 on the Nature table and against the species' Gender Rate." },
+        { "label": "Moves", "value": "Choose starting Moves and add eligible Egg Moves or shared parent Moves as described by the breeding rules." },
+        { "label": "Ability", "value": "Flip a coin: heads inherits the female parent's Ability; tails selects randomly from the hatched Pokémon's stat block." },
+        { "label": "Bond", "value": "The hatchling begins at Bond Level +1, or +2 if it spent the full incubation period in the Trainer's party." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/breeding"
+    },
+    {
+      "id": "breeding-special-cases",
+      "name": "Breeding Special Cases",
+      "category": "Breeding",
+      "description": "Some Egg Groups and species follow special rules when breeding.",
+      "details": [
+        { "label": "Ditto", "value": "Ditto can breed with any Pokémon regardless of gender or Egg Group; the non-Ditto parent determines the hatched species." },
+        { "label": "Undiscovered", "value": "Baby and Legendary Pokémon in the Undiscovered Egg Group cannot breed." },
+        { "label": "Gendered species", "value": "Species with separate gender stat blocks may produce either species; use the hatchling's Gender Rate to decide." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/breeding"
+    },
+    {
+      "id": "legendary-boss-battles",
+      "name": "Legendary Boss Battles",
+      "category": "Legendary Battles",
+      "description": "The Game Master can give a major enemy Legendary Abilities to make a boss encounter more dangerous and memorable.",
+      "details": [
+        { "label": "Purpose", "value": "Use these abilities for unusually difficult enemies, such as a dangerous wild threat or a Legendary Pokémon." },
+        { "label": "Selection", "value": "Choose abilities that reinforce the boss's narrative role and intended battlefield behavior." },
+        { "label": "Reward", "value": "Consider awarding additional experience for defeating a creature with one or more Legendary Abilities." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/legendary-battles"
+    },
+    {
+      "id": "legendary-defense",
+      "name": "Legendary Defensive Abilities",
+      "category": "Legendary Battles",
+      "description": "Defensive Legendary Abilities help a boss endure decisive player turns.",
+      "details": [
+        { "label": "Legendary Grit", "value": "A limited number of times per day, the Pokémon can turn a failed saving throw into a success." },
+        { "label": "Legendary Resistance", "value": "A limited number of times per day, the Pokémon can halve damage from a Move." },
+        { "label": "Legendary Resilience", "value": "The Pokémon can sacrifice its action to remove a negative status effect from itself." },
+        { "label": "Legendary Armor", "value": "As a reaction a limited number of times per day, the Pokémon can increase AC enough to turn an attack into a miss." },
+        { "label": "Legendary Toughness", "value": "Base HP on the maximum hit-die roll for every level." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/legendary-battles"
+    },
+    {
+      "id": "legendary-offense-and-energy",
+      "name": "Legendary Offense and Energy",
+      "category": "Legendary Battles",
+      "description": "Offensive and energy abilities let a boss create sustained pressure in battle.",
+      "details": [
+        { "label": "Legendary Attack I", "value": "Trade the current action for two attacks next turn, or make two attacks now and sacrifice the next action." },
+        { "label": "Legendary Attack II", "value": "Make two attacks on each turn." },
+        { "label": "Legendary Attack III", "value": "Use a signature Move twice in one turn." },
+        { "label": "Legendary Energy I", "value": "Sacrifice an action to restore all PP for one Move." },
+        { "label": "Legendary Energy II", "value": "Every Move has double its normal PP." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/legendary-battles"
+    },
+    {
+      "id": "legendary-mobility-and-utility",
+      "name": "Legendary Mobility and Utility",
+      "category": "Legendary Battles",
+      "description": "Mobility and utility abilities make a boss harder to contain and more tactically flexible.",
+      "details": [
+        { "label": "Legendary Nimbleness", "value": "Move up to speed without provoking opportunity attacks." },
+        { "label": "Legendary Speed", "value": "A limited number of times per day, double movement." },
+        { "label": "Legendary Reflexes", "value": "Use two reactions in a combat round." },
+        { "label": "Legendary Knowledge", "value": "Choose Moves from anywhere in the Pokémon's Move list regardless of level." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/legendary-battles"
+    },
+    {
+      "id": "shiny-pokemon",
+      "name": "Shiny Pokémon",
+      "category": "Shiny Pokémon",
+      "description": "A Shiny Pokémon has an unusual coloration for its species and is prized for its rarity.",
+      "details": [
+        { "label": "Game effect", "value": "A Shiny Pokémon has no notable mechanical advantage over a usual member of its species." },
+        { "label": "Game Master choice", "value": "When the party encounters a wild Pokémon, the Game Master may roll to decide whether it is Shiny." },
+        { "label": "Presentation", "value": "Use its distinctive coloration and the encounter's narrative context to make the discovery memorable." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/shiny-pokemon"
+    },
+    {
+      "id": "shiny-encounter-odds",
+      "name": "Shiny Encounter Odds",
+      "category": "Shiny Pokémon",
+      "description": "Choose a Shiny encounter rate that matches how often wild Pokémon appear in the campaign.",
+      "details": [
+        { "label": "1 in 100", "value": "Recommended for most tabletop games: roll a d100, and the Pokémon is Shiny on a 100." },
+        { "label": "1 in 1,000", "value": "For games with many wild encounters: roll three d10s, and the Pokémon is Shiny if every die shows 10." },
+        { "label": "1 in 4,096", "value": "For canon-inspired rarity: roll four d8s, and the Pokémon is Shiny if every die shows 8." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/shiny-pokemon"
+    },
+    {
+      "id": "pokemon-level-table",
+      "name": "Pokémon Level Table",
+      "category": "Progression Tables",
+      "description": "Level 1-20 reference for Pokémon experience, proficiency, and level-up choices.",
+      "details": [
+        { "label": "Level 1", "value": "0 XP | +2 Proficiency | Starting level." },
+        { "label": "Level 2", "value": "300 XP | +2 Proficiency | Choose a new Move." },
+        { "label": "Level 3", "value": "900 XP | +2 Proficiency | -" },
+        { "label": "Level 4", "value": "2,700 XP | +2 Proficiency | Ability Score Improvement." },
+        { "label": "Level 5", "value": "6,500 XP | +3 Proficiency | Damaging Moves improve when stated." },
+        { "label": "Level 6", "value": "14,000 XP | +3 Proficiency | Choose a new Move." },
+        { "label": "Level 7", "value": "23,000 XP | +3 Proficiency | -" },
+        { "label": "Level 8", "value": "34,000 XP | +3 Proficiency | Ability Score Improvement." },
+        { "label": "Level 9", "value": "48,000 XP | +4 Proficiency | -" },
+        { "label": "Level 10", "value": "64,000 XP | +4 Proficiency | Choose a new Move; damaging Moves improve when stated." },
+        { "label": "Level 11", "value": "85,000 XP | +4 Proficiency | -" },
+        { "label": "Level 12", "value": "100,000 XP | +4 Proficiency | Ability Score Improvement." },
+        { "label": "Level 13", "value": "120,000 XP | +5 Proficiency | -" },
+        { "label": "Level 14", "value": "140,000 XP | +5 Proficiency | Choose a new Move." },
+        { "label": "Level 15", "value": "165,000 XP | +5 Proficiency | -" },
+        { "label": "Level 16", "value": "195,000 XP | +5 Proficiency | Ability Score Improvement." },
+        { "label": "Level 17", "value": "225,000 XP | +6 Proficiency | Damaging Moves improve when stated." },
+        { "label": "Level 18", "value": "265,000 XP | +6 Proficiency | Choose a new Move." },
+        { "label": "Level 19", "value": "305,000 XP | +6 Proficiency | -" },
+        { "label": "Level 20", "value": "355,000 XP | +6 Proficiency | Peak Power Ability Score Improvement." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/pokemon-leveling"
+    },
+    {
+      "id": "trainer-level-table",
+      "name": "Trainer Level Table",
+      "category": "Progression Tables",
+      "description": "Level 1-20 reference for Trainer features, Pokéslots, and maximum controllable Species Rating.",
+      "details": [
+        { "label": "Level 1", "value": "+2 Proficiency | 3 Pokéslots | Max SR 2 | Starter Pokémon, Specialization." },
+        { "label": "Level 2", "value": "+2 Proficiency | 3 Pokéslots | Max SR 2 | Choose a Trainer Path." },
+        { "label": "Level 3", "value": "+2 Proficiency | 3 Pokéslots | Max SR 5 | Control Upgrade." },
+        { "label": "Level 4", "value": "+2 Proficiency | 3 Pokéslots | Max SR 5 | Ability Score Improvement." },
+        { "label": "Level 5", "value": "+3 Proficiency | 4 Pokéslots | Max SR 5 | Trainer Path feature." },
+        { "label": "Level 6", "value": "+3 Proficiency | 4 Pokéslots | Max SR 8 | Control Upgrade." },
+        { "label": "Level 7", "value": "+3 Proficiency | 4 Pokéslots | Max SR 8 | -" },
+        { "label": "Level 8", "value": "+3 Proficiency | 4 Pokéslots | Max SR 10 | Ability Score Improvement, Control Upgrade." },
+        { "label": "Level 9", "value": "+4 Proficiency | 4 Pokéslots | Max SR 10 | Trainer Path feature." },
+        { "label": "Level 10", "value": "+4 Proficiency | 5 Pokéslots | Max SR 10 | Trainer's Resolve." },
+        { "label": "Level 11", "value": "+4 Proficiency | 5 Pokéslots | Max SR 12 | Control Upgrade." },
+        { "label": "Level 12", "value": "+4 Proficiency | 5 Pokéslots | Max SR 12 | Ability Score Improvement." },
+        { "label": "Level 13", "value": "+5 Proficiency | 5 Pokéslots | Max SR 12 | Pokémon Tracker." },
+        { "label": "Level 14", "value": "+5 Proficiency | 5 Pokéslots | Max SR 14 | Control Upgrade." },
+        { "label": "Level 15", "value": "+5 Proficiency | 6 Pokéslots | Max SR 14 | Trainer Path feature." },
+        { "label": "Level 16", "value": "+5 Proficiency | 6 Pokéslots | Max SR 14 | Ability Score Improvement." },
+        { "label": "Level 17", "value": "+6 Proficiency | 6 Pokéslots | Max SR 15 | Control Upgrade." },
+        { "label": "Level 18", "value": "+6 Proficiency | 6 Pokéslots | Max SR 15 | -" },
+        { "label": "Level 19", "value": "+6 Proficiency | 6 Pokéslots | Max SR 15 | Epic Boon." },
+        { "label": "Level 20", "value": "+6 Proficiency | 6 Pokéslots | Max SR 15 | Master Trainer." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/trainer-class"
     }
   ]
 }

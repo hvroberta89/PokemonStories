@@ -77,6 +77,10 @@ Apply all reference-data migrations in the target Supabase project before publis
 - [20260803053000_add_poke5e_contest_reference.sql](supabase/migrations/20260803053000_add_poke5e_contest_reference.sql)
 - [20260804090000_add_library_rules_reference.sql](supabase/migrations/20260804090000_add_library_rules_reference.sql)
 - [20260804093000_add_library_types_reference.sql](supabase/migrations/20260804093000_add_library_types_reference.sql)
+- [20260804094500_add_library_specializations_reference.sql](supabase/migrations/20260804094500_add_library_specializations_reference.sql)
+- [20260804100000_add_library_feats_reference.sql](supabase/migrations/20260804100000_add_library_feats_reference.sql)
+- [20260804101500_add_library_natures_reference.sql](supabase/migrations/20260804101500_add_library_natures_reference.sql)
+- [20260804103000_add_library_paths_reference.sql](supabase/migrations/20260804103000_add_library_paths_reference.sql)
 
 Then upload the reference snapshot and Hungarian translations:
 

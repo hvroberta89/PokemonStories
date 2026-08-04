@@ -8,6 +8,12 @@ import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
 import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 import { CreateAdventureStore } from '../../store/create-adventure.store';
 
+const oaksParcelTemplate = {
+  title: 'Oak csomagja - kezdő kalandvázlat',
+  premise: 'Kezdő Trainerek egy professzor megbízásából elhoznak egy fontos csomagot a szomszédos városból. Az út során vad Pokémonokkal találkoznak, kipróbálják a befogást, majd egy tolvajcsapat fenyegetése próbára teszi az együttműködésüket.',
+  sessionLengthMinutes: 120,
+} as const;
+
 @Component({
   selector: 'app-create-adventure-page',
   standalone: true,
@@ -43,6 +49,14 @@ export class CreateAdventurePageComponent {
 
   protected updateAudience(event: Event): void {
     this.audiencePresetId.set((event.target as HTMLSelectElement).value as AudienceAgePresetId);
+  }
+
+  protected applyOaksParcelTemplate(): void {
+    this.title.set(oaksParcelTemplate.title);
+    this.premise.set(oaksParcelTemplate.premise);
+    this.sessionLengthMinutes.set(oaksParcelTemplate.sessionLengthMinutes);
+    this.submitted.set(false);
+    this.store.clearError();
   }
 
   protected updateLength(event: Event): void {

@@ -11,9 +11,13 @@ const REQUIRED_DATASETS = [
   ['items', 'items.json'],
   ['technical-machines', 'technical-machines.json'],
   ['origins', 'origins.json'],
+  ['paths', 'paths.json'],
   ['contest', 'contest.json'],
   ['contest-effects', 'contest-effects.json'],
   ['types', 'types.json'],
+  ['specializations', 'specializations.json'],
+  ['natures', 'natures.json'],
+  ['feats', 'feats.json'],
   ['rules', 'rules.json'],
 ];
 const TRANSLATION_LOCALES = ['hu'];
@@ -146,7 +150,7 @@ function validateManifest(manifest) {
 }
 
 function validateTranslation(item, locale) {
-  const datasets = new Set(['pokemon', 'moves', 'abilities', 'items', 'tms', 'origins', 'contest-effects', 'types', 'rules']);
+  const datasets = new Set(['pokemon', 'moves', 'abilities', 'items', 'tms', 'origins', 'paths', 'contest-effects', 'types', 'specializations', 'natures', 'feats', 'rules']);
   if (
     !item ||
     typeof item !== 'object' ||

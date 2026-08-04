@@ -13,8 +13,12 @@ const datasets = [
   { dataset: 'abilities', filename: 'abilities.json', fields: ['name', 'description'] },
   { dataset: 'items', filename: 'items.json', fields: ['name', 'type', 'description'] },
   { dataset: 'origins', filename: 'origins.json', fields: ['name', 'description', 'abilityScores', 'proficiencies', 'feats', 'languages'] },
+  { dataset: 'paths', filename: 'paths.json', fields: ['name', 'description', 'prerequisite', 'details'] },
   { dataset: 'contest-effects', filename: 'contest-effects.json', fields: ['name', 'effect'] },
   { dataset: 'types', filename: 'types.json', fields: ['name'] },
+  { dataset: 'specializations', filename: 'specializations.json', fields: ['name', 'type', 'trainerBenefit'] },
+  { dataset: 'natures', filename: 'natures.json', fields: ['name'] },
+  { dataset: 'feats', filename: 'feats.json', fields: ['name', 'category', 'description', 'benefit', 'prerequisite', 'choice', 'limit'] },
   { dataset: 'rules', filename: 'rules.json', fields: ['name', 'category', 'description', 'details'] },
 ];
 
