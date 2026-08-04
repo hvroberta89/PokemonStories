@@ -298,16 +298,6 @@ export const mockQuickActionMenu:
         icon:
           'ai-crystal',
       },
-      {
-        type:
-          'item',
-        label:
-          'Tárgy',
-        description:
-          'Adj tárgyat vagy felszerelést.',
-        icon:
-          'items-potion',
-      },
     ],
   };
 

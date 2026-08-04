@@ -23,7 +23,7 @@ export class AiAssistantSettingsModalComponent {
   readonly guidance = signal(this.settings.guidance);
   readonly provider = signal<AiProvider>(this.settings.provider);
   readonly model = signal(this.settings.model);
-  readonly apiKey = signal('');
+  readonly apiKey = signal(this.settingsStore.apiKey());
   readonly saved = signal(false);
 
   @HostListener('document:keydown.escape')

@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   input,
   output,
   signal,
@@ -35,11 +36,14 @@ export class RewardSheetComponent {
   readonly recipients =
     input.required<readonly RewardRecipient[]>();
   readonly preparedRewards = input<readonly PreparedRewardProps[]>([]);
+  readonly initialRewardType = input<RewardType>('item');
+  readonly suggestedRewardLabel = input<string | null>(null);
 
   readonly dismissed =
     output<void>();
 
   readonly saved = output<readonly RewardDraft[]>();
+  readonly aiRequested = output<void>();
 
   protected readonly rewardOptions:
     readonly RewardOption[] = [
@@ -78,6 +82,14 @@ export class RewardSheetComponent {
         this.hasValidRecipients() &&
         this.amount() > 0,
     );
+
+  constructor() {
+    effect(() => {
+      this.selectedRewardType.set(this.initialRewardType());
+      const label = this.suggestedRewardLabel();
+      if (label) this.rewardName.set(label);
+    });
+  }
 
   protected selectReward(
     rewardType: RewardType,

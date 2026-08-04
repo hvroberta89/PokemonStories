@@ -1,0 +1,38 @@
+<div class="pokemon-picker__backdrop" (click)="closed.emit()">
+  <section class="pokemon-picker" role="dialog" aria-modal="true" aria-labelledby="pokemon-picker-title" (click)="$event.stopPropagation()">
+    <header>
+      <div>
+        <p>Jelenet referencia</p>
+        <h2 id="pokemon-picker-title">Pokémon kiválasztása</h2>
+      </div>
+      <button type="button" class="pokemon-picker__close" aria-label="Bezárás" (click)="closed.emit()">×</button>
+    </header>
+
+    <label class="pokemon-picker__search">
+      Keresés
+      <input type="search" autofocus placeholder="Név vagy típus" [value]="query()" (input)="updateQuery($event)" />
+    </label>
+
+    @if (error(); as message) {
+      <p class="pokemon-picker__state pokemon-picker__state--error" role="alert">{{ message }}</p>
+    } @else if (isLoading()) {
+      <p class="pokemon-picker__state">Pokémonok betöltése…</p>
+    } @else if (results().length === 0) {
+      <p class="pokemon-picker__state">Nincs ilyen Pokémon a referenciák között.</p>
+    } @else {
+      <div class="pokemon-picker__results">
+        @for (entry of results(); track entry.key) {
+          <button type="button" class="pokemon-picker__item" (click)="select(entry)">
+            @if (entry.artworkPath) {
+              <img [src]="entry.artworkPath" [alt]="entry.name" />
+            } @else {
+              <ps-icon name="play-pokeball" [size]="32" />
+            }
+            <span><strong>{{ entry.name }}</strong><small>{{ entry.tags.join(' · ') }}</small></span>
+            <span class="pokemon-picker__choose">Kiválasztás</span>
+          </button>
+        }
+      </div>
+    }
+  </section>
+</div>

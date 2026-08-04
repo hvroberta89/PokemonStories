@@ -35,6 +35,7 @@ import { PREPARED_REWARD_REPOSITORY } from '../../../application/reward/tokens/p
 import { PreparedReward } from '../../../domain/reward/models/prepared-reward';
 import type { RewardType } from '../../../domain/reward/models/reward-grant';
 import type { AdventureSceneId } from '../../../domain/adventure/value-objects/adventure-scene-id';
+import { FeedbackToastStore } from '../../../shared/ui/feedback-toast/feedback-toast.store';
 
 export type DesignerStatus =
   'idle' | 'loading' | 'ready' | 'saving' | 'saved' | 'not-found' | 'error';
@@ -57,6 +58,7 @@ export class AdventureDesignerStore {
   private readonly storySuggestionsHandler = new GenerateStorySuggestionsHandler(
     inject(ADVENTURE_ASSISTANT),
   );
+  private readonly feedback = inject(FeedbackToastStore);
   private readonly getHandler = new GetAdventurePlanHandler(inject(ADVENTURE_PLAN_READER));
   private readonly updateHandler = new UpdateAdventureFoundationHandler(
     inject(ADVENTURE_PLAN_REPOSITORY),
@@ -104,12 +106,14 @@ export class AdventureDesignerStore {
   async generateFoundationSuggestions(context: AdventureFoundationContext): Promise<void> {
     this.generatingFoundationSuggestionsState.set(true);
     this.errorState.set(null);
+    this.feedback.show({ kind: 'progress', title: 'Ötletek készülnek', message: 'A Kalandsegítő három lehetséges irányt keres.', icon: 'play-pokeball' }, 0);
     try {
       this.foundationSuggestionsState.set(await this.foundationSuggestionsHandler.execute(context));
+      this.feedback.show({ kind: 'success', title: 'Megérkeztek az ötletek', message: 'Válassz egy kalandalapot, vagy finomítsd tovább.', icon: 'success-check' });
     } catch (error) {
-      this.errorState.set(
-        error instanceof Error ? error.message : 'Az AI javaslatokat most nem sikerült elkészíteni.',
-      );
+      const message = error instanceof Error ? error.message : 'Az AI javaslatokat most nem sikerült elkészíteni.';
+      this.errorState.set(message);
+      this.feedback.show({ kind: 'error', title: 'Az ötletek nem készültek el', message, icon: 'error-cross' }, 7_000);
     } finally {
       this.generatingFoundationSuggestionsState.set(false);
     }
@@ -118,12 +122,14 @@ export class AdventureDesignerStore {
   async generateSceneSuggestions(context: AdventureSceneSuggestionContext): Promise<void> {
     this.generatingSceneSuggestionsState.set(true);
     this.errorState.set(null);
+    this.feedback.show({ kind: 'progress', title: 'Jelenetötletek készülnek', message: 'A Kalandsegítő három jelenetet állít össze.', icon: 'play-pokeball' }, 0);
     try {
       this.sceneSuggestionsState.set(await this.sceneSuggestionsHandler.execute(context));
+      this.feedback.show({ kind: 'success', title: 'Megérkeztek a jelenetötletek', message: 'Válassz egyet kiindulópontnak.', icon: 'success-check' });
     } catch (error) {
-      this.errorState.set(
-        error instanceof Error ? error.message : 'Az AI javaslatokat most nem sikerült elkészíteni.',
-      );
+      const message = error instanceof Error ? error.message : 'Az AI javaslatokat most nem sikerült elkészíteni.';
+      this.errorState.set(message);
+      this.feedback.show({ kind: 'error', title: 'A jelenetötletek nem készültek el', message, icon: 'error-cross' }, 7_000);
     } finally {
       this.generatingSceneSuggestionsState.set(false);
     }
@@ -136,12 +142,14 @@ export class AdventureDesignerStore {
   async generateStorySuggestions(context: AdventureStorySuggestionContext): Promise<void> {
     this.generatingStorySuggestionsState.set(true);
     this.errorState.set(null);
+    this.feedback.show({ kind: 'progress', title: 'Történetívek készülnek', message: 'A Kalandsegítő három narratív irányt dolgoz ki.', icon: 'play-pokeball' }, 0);
     try {
       this.storySuggestionsState.set(await this.storySuggestionsHandler.execute(context));
+      this.feedback.show({ kind: 'success', title: 'Megérkeztek a történetívek', message: 'Válassz egy irányt a történethez.', icon: 'success-check' });
     } catch (error) {
-      this.errorState.set(
-        error instanceof Error ? error.message : 'Az AI javaslatokat most nem sikerült elkészíteni.',
-      );
+      const message = error instanceof Error ? error.message : 'Az AI javaslatokat most nem sikerült elkészíteni.';
+      this.errorState.set(message);
+      this.feedback.show({ kind: 'error', title: 'A történetívek nem készültek el', message, icon: 'error-cross' }, 7_000);
     } finally {
       this.generatingStorySuggestionsState.set(false);
     }

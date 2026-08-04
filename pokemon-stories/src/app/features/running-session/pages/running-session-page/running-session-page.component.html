@@ -132,6 +132,13 @@
     />
   }
 
+  @if (isPokemonLibraryOpen()) {
+    <app-session-pokemon-library-drawer
+      (selected)="addPokemonFromLibrary($event)"
+      (closed)="isPokemonLibraryOpen.set(false)"
+    />
+  }
+
   @if (isQuickNoteOpen()) {
     <app-quick-note (saved)="saveQuickNote($event)" (dismissed)="closeQuickNote()" />
   }
@@ -140,7 +147,10 @@
     <app-reward-sheet
       [recipients]="rewardRecipients()"
       [preparedRewards]="preparedRewards()"
+      [initialRewardType]="rewardSheetType()"
+      [suggestedRewardLabel]="rewardSuggestion()"
       (dismissed)="closeRewardSheet()"
+      (aiRequested)="requestRewardSuggestions()"
       (saved)="saveReward($event)"
     />
   }

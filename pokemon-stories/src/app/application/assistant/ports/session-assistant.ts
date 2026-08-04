@@ -1,4 +1,4 @@
-export type SessionAssistantAction = 'event' | 'clue' | 'character';
+export type SessionAssistantAction = 'event' | 'clue' | 'character' | 'reward';
 
 export interface SessionAssistantContext {
   readonly adventureTitle: string;

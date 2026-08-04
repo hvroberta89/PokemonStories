@@ -38,8 +38,8 @@
         <input maxlength="100" [value]="model()" (input)="model.set($any($event.target).value)" />
       </label>
       <label>API-kulcs
-        <input type="password" autocomplete="off" placeholder="Csak ebben a böngészőmunkamenetben tároljuk" [value]="apiKey()" (input)="apiKey.set($any($event.target).value)" />
-        <span>A kulcs nem kerül mentésre és kijelentkezéskor törlődik.</span>
+        <input type="password" autocomplete="off" placeholder="A kiválasztott szolgáltató API-kulcsa" [value]="apiKey()" (input)="apiKey.set($any($event.target).value)" />
+        <span>A kulcs tartósan ebben a böngészőprofilban tárolódik.</span>
       </label>
       <label>Az asszisztens neve
         <input maxlength="60" [value]="name()" (input)="name.set($any($event.target).value)" />

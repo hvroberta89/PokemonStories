@@ -7,7 +7,7 @@ const corsHeaders = {
 };
 
 type Action =
-  'event' | 'clue' | 'character' | 'summary' | 'foundation' | 'scene' | 'adventure-story';
+  'event' | 'clue' | 'character' | 'reward' | 'summary' | 'foundation' | 'scene' | 'adventure-story';
 type Suggestion = { title: string; description: string };
 
 Deno.serve(async (request) => {
@@ -117,18 +117,36 @@ async function requestProvider(input: { action: Action; context: Context }): Pro
 async function parseProviderResponse(response: Response, provider: unknown): Promise<unknown> {
   if (provider === 'anthropic') {
     const data = await response.json() as { content?: { text?: string }[] };
-    return JSON.parse(data.content?.[0]?.text ?? '');
+    return parseJsonOutput(data.content?.map((item) => item.text ?? '').join('') ?? '');
   }
   if (provider === 'google') {
     const data = await response.json() as { candidates?: { content?: { parts?: { text?: string }[] } }[] };
-    return JSON.parse(data.candidates?.[0]?.content?.parts?.[0]?.text ?? '');
+    return parseJsonOutput(data.candidates?.[0]?.content?.parts?.map((item) => item.text ?? '').join('') ?? '');
   }
   if (isOpenAiCompatibleProvider(provider)) {
     const data = await response.json() as { choices?: { message?: { content?: string } }[] };
-    return JSON.parse(data.choices?.[0]?.message?.content ?? '');
+    return parseJsonOutput(data.choices?.[0]?.message?.content ?? '');
   }
-  const data = await response.json() as { output_text?: string };
-  return JSON.parse(data.output_text ?? '');
+  const data = await response.json() as {
+    output_text?: string;
+    output?: { content?: { type?: string; text?: string }[] }[];
+  };
+  const outputText = data.output_text
+    ?? data.output?.flatMap((item) => item.content ?? [])
+      .filter((item) => item.type === 'output_text')
+      .map((item) => item.text ?? '')
+      .join('');
+  return parseJsonOutput(outputText ?? '');
+}
+
+function parseJsonOutput(output: string): unknown {
+  const json = output.trim().replace(/^```json\s*/i, '').replace(/\s*```$/, '');
+  if (!json) throw new Error('Az AI szolgáltató nem adott vissza feldolgozható JSON-választ. Próbálj másik modellt.');
+  try {
+    return JSON.parse(json);
+  } catch {
+    throw new Error('Az AI szolgáltató nem a várt JSON-választ adta. Próbálj másik modellt.');
+  }
 }
 
 function createPrompt(input: { action: Action; context: Context }): string {
@@ -137,6 +155,7 @@ function createPrompt(input: { action: Action; context: Context }): string {
     event: 'Adj három rövid, játékos eseményötletet.',
     clue: 'Adj három rövid, fokozatosan felfedhető nyomötletet.',
     character: 'Adj három emlékezetes, gyerekbarát NPC-ötletet.',
+    reward: 'Adj három konkrét, örömteli, a történethez illő jutalomötletet. A cím maga a jutalom rövid neve legyen, a leírás pedig mesélje el, miért érdemelték ki.',
     foundation:
       'Adj három jelentősen eltérő kalandalapot címmel és rövid premise-szel: játékos, rejtélyes és érzelmes irányban.',
     scene:
@@ -259,7 +278,7 @@ function validateRequest(value: unknown): { action: Action; context: Context } {
   if (typeof value !== 'object' || value === null) throw new Error('Invalid request.');
   const request = value as { action?: unknown; context?: unknown };
   if (
-    !['event', 'clue', 'character', 'summary', 'foundation', 'scene', 'adventure-story'].includes(
+    !['event', 'clue', 'character', 'reward', 'summary', 'foundation', 'scene', 'adventure-story'].includes(
       String(request.action),
     )
   )

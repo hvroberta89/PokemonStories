@@ -34,9 +34,10 @@ const defaultSettings: AiAssistantSettings = {
 @Injectable({ providedIn: 'root' })
 export class AiAssistantSettingsStore {
   private readonly storageKey = 'pokemon-stories.ai-assistant-settings';
+  private readonly apiKeyStorageKey = 'pokemon-stories.ai-assistant-api-key';
   private readonly settingsState = signal<AiAssistantSettings>(this.load());
-  private readonly apiKeyState = signal('');
-  private readonly hasApiKeyState = signal(false);
+  private readonly apiKeyState = signal(this.loadApiKey());
+  private readonly hasApiKeyState = signal(this.apiKeyState().length > 0);
 
   readonly settings = this.settingsState.asReadonly();
   readonly hasApiKey = this.hasApiKeyState.asReadonly();
@@ -52,13 +53,24 @@ export class AiAssistantSettingsStore {
   }
 
   setApiKey(apiKey: string): void {
-    this.apiKeyState.set(apiKey.trim());
-    this.hasApiKeyState.set(apiKey.trim().length > 0);
+    const value = apiKey.trim();
+    this.apiKeyState.set(value);
+    this.hasApiKeyState.set(value.length > 0);
+    if (value) {
+      globalThis.localStorage?.setItem(this.apiKeyStorageKey, value);
+    } else {
+      globalThis.localStorage?.removeItem(this.apiKeyStorageKey);
+    }
   }
 
   clearApiKey(): void {
     this.apiKeyState.set('');
     this.hasApiKeyState.set(false);
+    globalThis.localStorage?.removeItem(this.apiKeyStorageKey);
+  }
+
+  apiKey(): string {
+    return this.apiKeyState();
   }
 
   requestConfiguration(): { readonly provider: AiProvider; readonly model: string; readonly apiKey: string } {
@@ -82,6 +94,10 @@ export class AiAssistantSettingsStore {
     } catch {
       return defaultSettings;
     }
+  }
+
+  private loadApiKey(): string {
+    return globalThis.localStorage?.getItem(this.apiKeyStorageKey)?.trim() ?? '';
   }
 }
 

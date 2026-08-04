@@ -95,9 +95,6 @@
                 <ps-icon name="add-spark" [size]="21" />
                 {{ store.isGeneratingFoundationSuggestions() ? 'Javaslatok készülnek…' : 'Három ötlet kérése' }}
               </button>
-              @if (store.errorMessage(); as error) {
-                <div class="designer__error" role="alert">{{ error }} A szerkesztésed megmaradt.</div>
-              }
               @if (store.foundationSuggestions().length) {
                 <div class="foundation-ai__suggestions" aria-live="polite">
                   @for (suggestion of store.foundationSuggestions(); track suggestion.title) {
@@ -462,7 +459,13 @@
             @if (sceneSubmitted() && !sceneGoal().trim()) {
               <p class="error" role="alert">Adj egy rövid, cselekvő célt.</p>
             }
-            <div class="scene-library"><span>{{ scenePokemonReferenceId() ? 'Kiválasztott Pokémon: ' + scenePokemonReferenceId() : 'Nincs Pokémon referencia a jelenethez.' }}</span><button type="button" (click)="openPokemonLibrary()"><ps-icon name="play-pokeball" [size]="18" /> Pokémon kiválasztása</button></div>
+            <div class="scene-dialog__actions">
+              <span>{{ scenePokemonReferenceId() ? 'Kiválasztott Pokémon: ' + pokemonName(scenePokemonReferenceId()!) : 'Nincs Pokémon referencia a jelenethez.' }}</span>
+              <button type="button" (click)="pokemonPickerOpen.set(true)">
+                <ps-icon name="play-pokeball" [size]="18" />
+                Pokémon kiválasztása
+              </button>
+            </div>
             <div class="scene-dialog__actions">
               <button type="button" (click)="sceneFormOpen.set(false)">Mégse</button
               ><button type="submit" [disabled]="store.isSaving()">
@@ -473,6 +476,12 @@
           </form>
         </section>
       </div>
+    }
+    @if (pokemonPickerOpen()) {
+      <app-pokemon-reference-picker
+        (selected)="selectScenePokemon($event)"
+        (closed)="pokemonPickerOpen.set(false)"
+      />
     }
     @if (deletingSceneId()) {
       <div class="scene-dialog-backdrop">
