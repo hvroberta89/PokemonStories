@@ -36977,6 +36977,1048 @@
         "name": "Jól működik, ha a felhasználó fel van szívva.",
         "effect": "4 fellebbezési pont, ha a Pokémon fel van pumpálva az előző körből, 1 fellebbezési pont, ha nem."
       }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "combat-basics",
+      "payload": {
+        "name": "Harc alapjai",
+        "category": "Harc",
+        "description": "A Pokémon 5e D&D 5e harcot használ, további szabályokkal az oktatókra és Pokémonjaikra.",
+        "details": [
+          {
+            "label": "Kezdeményezés",
+            "value": "Dobj kezdeményezést minden egyes Pokémonnak a csatában; a Trainer az első Pokémonjukkal cselekszik."
+          },
+          {
+            "label": "Parancsok",
+            "value": "Műveletként egy oktató legfeljebb két parancsot adhat ki, és minden Pokémonhoz legfeljebb egy parancsot adhat."
+          },
+          {
+            "label": "Sok aktív Pokémon",
+            "value": "Három vagy több aktív Pokémon esetén kettőnek is kiadható a parancs; a többiek csak mozoghatnak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "move-power",
+      "payload": {
+        "name": "Move Power",
+        "category": "Harc",
+        "description": "A Move Power meghatározza a Move támadási, sebzési és mentési dobásszámításaihoz használt képességmódosítót.",
+        "details": [
+          {
+            "label": "Támadás bónusz",
+            "value": "Move Power módosító + jártassági bónusz"
+          },
+          {
+            "label": "Kárbónusz",
+            "value": "Move Power módosító + STAB"
+          },
+          {
+            "label": "Mentse a DC-t",
+            "value": "8 + Move Power módosító + jártassági bónusz"
+          },
+          {
+            "label": "Többféle hatalom",
+            "value": "Válasszon egy Move Power listát, ha egy Move egynél többet kínál."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "stab",
+      "payload": {
+        "name": "Azonos típusú támadási bónusz (STAB)",
+        "category": "Harc",
+        "description": "Egy Pokémon STAB-ot kap, ha a Move-je megosztja az egyik típusát.",
+        "details": [
+          {
+            "label": "Bónusz",
+            "value": "Add hozzá a Pokémon's Proficiency bónuszt a sebzéshez."
+          },
+          {
+            "label": "Limit",
+            "value": "A STAB nem lehet negatív, és célonkénti mozgásonként csak egyszer kerül hozzáadásra."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "switching-pokemon",
+      "payload": {
+        "name": "Pokémon váltás",
+        "category": "Harc",
+        "description": "Az oktatók akcióként visszahívhatják és elengedhetik a Pokémonokat; egy ájult Pokémon cseréje reakció lehet.",
+        "details": [
+          {
+            "label": "Művelet kapcsoló",
+            "value": "Hívjon vissza legfeljebb két Pokémont 60 lábon belül, és engedjen el cseréket 15 lábon belül és látótávolságon belül."
+          },
+          {
+            "label": "Elájult kapcsoló",
+            "value": "Az ájult Pokémon reakcióként azonnal váltható, soron kívül."
+          },
+          {
+            "label": "Bekapcsolás után",
+            "value": "A bekapcsolt Pokémon ebben a körben nem mozoghat, nem hajthat végre akciókat, reakciókat vagy bónuszakciókat, hacsak nem kezd új kört."
+          },
+          {
+            "label": "Poké Ball",
+            "value": "A Koncentráció és a Mozgás vagy a tárgyak buffja véget ér, amikor egy Pokémon visszatér; állapot feltételei megmaradnak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "air-and-burrow-movement",
+      "payload": {
+        "name": "Repülés, lebegés és barangolás",
+        "category": "Harc",
+        "description": "A különleges mozgás megváltoztatja a Pokémonok célpontját, esését és áthaladását a csatatéren.",
+        "details": [
+          {
+            "label": "Távolsági támadások repülés közben",
+            "value": "A fél hatótávon túl a távolsági támadódobások hátrányosak; a célpontok előnyt jelentenek a dobások megvédésében."
+          },
+          {
+            "label": "Esés",
+            "value": "Egy repülő Pokémon leesik, amikor a repülési sebessége nulla lesz; egy lebegő Pokémon esési sérülés nélkül esik le."
+          },
+          {
+            "label": "Burrowing",
+            "value": "A közvetlenül a megfelelő talaj alá történő beásás továbbra is célozható. A mélyebb ásás nehéz terep, és nehéz terep alagutat hagy maga után."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "raised-and-grounded",
+      "payload": {
+        "name": "Felemelve és földelve",
+        "category": "Harc",
+        "description": "Egyes mozdulatok eltérően hatnak a felemelt és földelt lényekre.",
+        "details": [
+          {
+            "label": "Felemelt",
+            "value": "Repülési vagy lebegési sebességet használó lény, Levitate, Air Balloon, Magnet Rise vagy Telekinesis funkcióval."
+          },
+          {
+            "label": "Földelve",
+            "value": "Olyan lény, amely nem használ repülési vagy lebegési sebességet, vagy olyan, amely hajlamos, vagy amelynek repülési vagy lebegési sebessége nullára csökkent."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "opportunity-attacks-and-readying",
+      "payload": {
+        "name": "Lehetőségi támadások és felkészülés",
+        "category": "Harc",
+        "description": "A Pokémon reagálhat a közelharci tartományból kilépő ellenségre, vagy előkészíthet egy mozdulatot a ravaszthoz.",
+        "details": [
+          {
+            "label": "Lehetőség támadás",
+            "value": "A közelharci tartomány elhagyása Disengage nélkül lehetővé teszi a reakciót egy 1 akciós közelharci Move segítségével; a normál PP-be kerül."
+          },
+          {
+            "label": "Readied Move",
+            "value": "Válassza az Áthelyezés, költsön el PP-t, és határozzon meg egy triggert. A felkészülés koncentrációt igényel; elvesztése elveszti a PP-t."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "status-overview",
+      "payload": {
+        "name": "Állapotfeltételek áttekintése",
+        "category": "Állapot feltételei",
+        "description": "Egy Pokémonnak egyszerre egy nem illékony és egy illékony állapotállapota lehet.",
+        "details": [
+          {
+            "label": "Nem illékony",
+            "value": "Egy Pokémon nem szerezhet újabb nem illékony állapotot, amíg a jelenlegi állapota meg nem gyógyul."
+          },
+          {
+            "label": "Illékony",
+            "value": "Az ingadozó körülmények a harcon kívül vagy a Pokémon kikapcsolásával érnek véget."
+          },
+          {
+            "label": "Türelmi időszak",
+            "value": "A gyógyulás után egy Pokémon csak a következő köre után kaphatja meg ugyanazt a feltételt."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "asleep",
+      "payload": {
+        "name": "alszik",
+        "category": "Nem illékony állapot",
+        "description": "A Pokémon cselekvőképtelen és három körig visszatartott.",
+        "details": [
+          {
+            "label": "A dobások mentése",
+            "value": "Minden védődobás hátrányos helyzetbe kerül."
+          },
+          {
+            "label": "Helyreállítás",
+            "value": "Minden kör végén vagy kényszermozgás után dobjon egy d20-at; 11 vagy újabb napon a feltétel véget ér."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "burned",
+      "payload": {
+        "name": "Leégett",
+        "category": "Nem illékony állapot",
+        "description": "A megégett Pokémonok gyengébb sebzést és folyamatos sebzést szenvednek.",
+        "details": [
+          {
+            "label": "Sérülés tekercs",
+            "value": "Minden sérült tekercset kétszer dobjon, és használja az alacsonyabb eredményt."
+          },
+          {
+            "label": "Folyamatos kár",
+            "value": "A jártassági bónusznak megfelelő sebzést okoz minden kör végén, amíg meg nem gyógyul vagy eszméletlenné válik."
+          },
+          {
+            "label": "Immunitás",
+            "value": "A tűz típusú Pokémonok immunisak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "frozen",
+      "payload": {
+        "name": "Fagyott",
+        "category": "Nem illékony állapot",
+        "description": "A fagyasztott Pokémonok cselekvőképtelenek és visszatartottak, amíg ki nem szabadulnak vagy fel nem olvadnak.",
+        "details": [
+          {
+            "label": "Időtartam",
+            "value": "Egy óráig tart."
+          },
+          {
+            "label": "Helyreállítás",
+            "value": "A kör végén végezz Erőmentést a DC 10 + a forrás jártassági bónusza ellen; tűzkár is véget vethet."
+          },
+          {
+            "label": "Immunitás",
+            "value": "A jég típusú Pokémonok immunisak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "paralysis",
+      "payload": {
+        "name": "Bénulás",
+        "category": "Nem illékony állapot",
+        "description": "A bénulás akadályozza a mozgást, és rövid időre cselekvőképtelenné tehet egy Pokémont.",
+        "details": [
+          {
+            "label": "Büntetések",
+            "value": "Az erőt és az ügyességet megtakarító dobásoknak van hátránya; a sebesség felére csökken."
+          },
+          {
+            "label": "Kapcsolja be a csekket",
+            "value": "Minden kör elején dobj egy d4-et. 1-jén a Pokémon cselekvőképtelenné válik, és visszatartják a következő körig."
+          },
+          {
+            "label": "Immunitás",
+            "value": "Az elektromos típusú Pokémonok immunisak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "poisoned",
+      "payload": {
+        "name": "Megmérgezve",
+        "category": "Nem illékony állapot",
+        "description": "A mérgezett Pokémonok csökkentik a hatékonyságot, és folyamatosan sebződnek.",
+        "details": [
+          {
+            "label": "Büntetések",
+            "value": "A képességellenőrzések és a támadódobások hátrányai vannak."
+          },
+          {
+            "label": "Folyamatos kár",
+            "value": "A jártassági bónusznak megfelelő sebzést okoz minden kör végén, amíg meg nem gyógyul vagy eszméletlenné válik."
+          },
+          {
+            "label": "Immunitás",
+            "value": "A méreg- és acél típusú Pokémonok immunisak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "badly-poisoned",
+      "payload": {
+        "name": "Rosszul mérgezett",
+        "category": "Nem illékony állapot",
+        "description": "A Badly Poisoned a Poisoned erősebb formája.",
+        "details": [
+          {
+            "label": "Büntetések",
+            "value": "A képességellenőrzések és a támadódobások hátrányai vannak."
+          },
+          {
+            "label": "Folyamatos kár",
+            "value": "Sebzés kétszerese jártassági bónusznak minden kör végén, amíg meg nem gyógyul vagy eszméletlen."
+          },
+          {
+            "label": "Immunitás",
+            "value": "A méreg- és acél típusú Pokémonok immunisak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "confused",
+      "payload": {
+        "name": "Zavart",
+        "category": "Illékony állapot",
+        "description": "A zavarodott Pokémon nem képes reagálni és minden kör elején d8-at dobni.",
+        "details": [
+          {
+            "label": "1-2",
+            "value": "Használd a Struggle-t önmaga vagy a legközelebbi érvényes Pokémon célpont ellen."
+          },
+          {
+            "label": "3",
+            "value": "Nem mozoghat és nem végezhet műveleteket."
+          },
+          {
+            "label": "4-7",
+            "value": "Válassza ki a viselkedését normálisan."
+          },
+          {
+            "label": "8",
+            "value": "Az állapot véget ér."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "flinched",
+      "payload": {
+        "name": "Összerezzent",
+        "category": "Illékony állapot",
+        "description": "Az összerezzent Pokémonok kevésbé hatékonyak a következő körük végéig.",
+        "details": [
+          {
+            "label": "Büntetések",
+            "value": "A támadódobások, a képességellenőrzések és a hárító dobások hátrányai vannak."
+          },
+          {
+            "label": "Mentés dobás Mozdul",
+            "value": "A célpontok előnyt élveznek egy hárító dobásnál, amelyet a Flinched Pokémon akciója okoz."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "catching-pokemon",
+      "payload": {
+        "name": "Pokémon elkapása",
+        "category": "Fogás",
+        "description": "Használd a Dobj Pokéballt akciót egy alkalmas vad Pokémon elfogására.",
+        "details": [
+          {
+            "label": "Ellenőrizze",
+            "value": "Végezzen állatkezelési ellenőrzést a rögzítő DC-vel; több státuszfeltétel is előnyt biztosít."
+          },
+          {
+            "label": "Alap DC",
+            "value": "10 + a Pokémon fajbesorolása lefelé kerekítve + szintje."
+          },
+          {
+            "label": "Egészség",
+            "value": "Csökkentse a DC-t 5-tel a fele HP alá, és további 5-tel a maximális HP 10%-a alá."
+          },
+          {
+            "label": "Korlátok",
+            "value": "Egy elájult vagy a Trainernél magasabb szintű Pokémont nem lehet Pokéballal elkapni."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "pokeball-variants",
+      "payload": {
+        "name": "Pokéball változatok",
+        "category": "Fogás",
+        "description": "A Pokéball-változatok megváltoztatják a befogási kísérletet, vagy előnyt jelentenek a birtokukban lévő Pokémonoknak.",
+        "details": [
+          {
+            "label": "Capture módosítók",
+            "value": "Nagy és Ultra Balls alsó rögzítő DC; A specializált labdák megfelelő körülmények között alkalmazzák bónuszukat."
+          },
+          {
+            "label": "Mesterlabda",
+            "value": "A rögzítési kísérlet automatikusan sikerül."
+          },
+          {
+            "label": "Sikertelen kísérlet",
+            "value": "A Pokéball megsemmisül, ha elfogási kísérlete kudarcot vall."
+          },
+          {
+            "label": "Pokémonokat tartott",
+            "value": "Egyes golyók pihenést vagy ütéseket biztosítanak a bennük lakó Pokémonoknak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "zero-hit-points",
+      "payload": {
+        "name": "0 LE elérése",
+        "category": "Helyreállítás",
+        "description": "A 0 HP-s Pokémon kimenetele a csatától és attól függ, hogy stabilizálódott-e.",
+        "details": [
+          {
+            "label": "Szankcionált csata",
+            "value": "Minden sérülés nem halálos; egy lecsapott Pokémon nem végez halált megmentő dobásokat."
+          },
+          {
+            "label": "Más csaták",
+            "value": "Egy lezuhant Pokémon halált mentő dobásokat hajt végre, amíg stabilizálódik."
+          },
+          {
+            "label": "Egy Pokéball belsejében",
+            "value": "Halálos mentés nem szükséges; tíz megszakítás nélküli perc bent 0 HP-n stabilizálja a Pokémont."
+          },
+          {
+            "label": "Edző reakciója",
+            "value": "A kiképző visszahívhatja a Pokémont, és azonnal kiküldhet egy másikat."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "healing-and-resting",
+      "payload": {
+        "name": "Gyógyulás és pihenés",
+        "category": "Helyreállítás",
+        "description": "A Pokémonok helyreállításának fő módjai a Pokécenterek, pihenők és tárgyak.",
+        "details": [
+          {
+            "label": "Pokécenter",
+            "value": "30 percen belül visszaállítja a HP-t és gyógyítja az állapotokat, de nem állítja vissza a PP-t vagy a dobókockákat."
+          },
+          {
+            "label": "Rövid pihenő",
+            "value": "30 percig tarthat, és a normál 5e szabályok szerint visszaállítja a HP-t; nem állít vissza sem PP-t, sem elájult Pokémont."
+          },
+          {
+            "label": "Hosszú pihenő",
+            "value": "Legalább nyolc órát vesz igénybe, és visszaállítja a HP-t, az állapotokat és a PP-t."
+          },
+          {
+            "label": "Tételek és élelmiszerek",
+            "value": "Visszaállíthatja a HP, PP vagy gyógyulási állapotot, ha műveletként adják, vagy ahol megengedett, reakcióként fogyasztják."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "pokemon-leveling",
+      "payload": {
+        "name": "Pokémon szintezés",
+        "category": "Haladás",
+        "description": "A csoportok tapasztalatokat, mérföldköveket vagy az oktatók által egyeztetett szinteket használhatnak a Pokémon fejlődéséhez.",
+        "details": [
+          {
+            "label": "HP",
+            "value": "Minden szinten szerezz HP-t egy dobókockával és egy alkotmánymódosítóval."
+          },
+          {
+            "label": "Mozdul",
+            "value": "Egy Pokémon legfeljebb négy mozdulatot tud; Az új áthelyezési lehetőségek a 2., 6., 10., 14. és 18. szinten fordulnak elő."
+          },
+          {
+            "label": "Képesség pontszámok",
+            "value": "A képességpontszám javulása a 4., 8., 12. és 16. szinten történik."
+          },
+          {
+            "label": "Kár",
+            "value": "A károsító mozgások száma az 5., 10. és 17. szinten nő, ha a leírásuk növekedést mutat."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "pokemon-evolution",
+      "payload": {
+        "name": "Pokémon Evolution",
+        "category": "Haladás",
+        "description": "A Pokémon azután fejlődhet, hogy teljesíti a statblokkjában látható feltételt.",
+        "details": [
+          {
+            "label": "Előnyök",
+            "value": "Az Evolution a felsorolt képesség-pontszámokat, a Pokémon szintjének megduplázását HP bónuszként, valamint a kifejlesztett forma alapvető statisztikáit adja."
+          },
+          {
+            "label": "Mozdul",
+            "value": "Az ismert áthelyezések megmaradnak, de a jövőbeli áthelyezési lehetőségek csak a továbbfejlesztett űrlap áthelyezési listáját használják."
+          },
+          {
+            "label": "Időzítés",
+            "value": "Előfordulhat, hogy az evolúció késik, de miután lelassította, a Pokémonoknak újabb szintet kell nyerniük, mielőtt fejlődnének."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "mega-evolution",
+      "payload": {
+        "name": "Mega Evolúció",
+        "category": "Átváltozások",
+        "description": "Az utolsó szakaszban lévő Pokémon átmenetileg túllépheti normál határait a Mega Evolution révén.",
+        "details": [
+          {
+            "label": "Követelmények",
+            "value": "Utolsó evolúciós szakasz, legalább 10-es szint, egy Megalit és egy kulcskővel rendelkező tréner."
+          },
+          {
+            "label": "Előnyök",
+            "value": "Az AC 2-vel nő, a képességmódosítók pedig megduplázódnak támadások, sebzések, hárító dobások és mentési DC-k esetében."
+          },
+          {
+            "label": "Véget ér",
+            "value": "Harc után ér véget, tíz percnyi külső harc után, amikor a Pokémon elájul, vagy amikor a Trainer elveszíti a Kulcskövet."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "z-moves-and-dynamax",
+      "payload": {
+        "name": "Z-Moves és Dynamax",
+        "category": "Átváltozások",
+        "description": "A Z-Power és a Dynamax erőteljes ideiglenes opciókat kínál különböző felszereltséggel és szintigényekkel.",
+        "details": [
+          {
+            "label": "Z-Move",
+            "value": "6-os szint, hozzáillő Z-kristály és Z-gyűrűs tréner szükséges; felhatalmazza a megfelelő ismert Mozgást."
+          },
+          {
+            "label": "Dynamax",
+            "value": "10-es szint, megfelelő hely és Dynamax Band szükséges; a jelenlegi HP és Gargantuan méretnek megfelelő ideiglenes HP-t biztosít."
+          },
+          {
+            "label": "Frekvencia",
+            "value": "Egy Pokémon csak egy átalakuláson mehet keresztül hosszú pihenőnként; a tréner minden transzformációs fajtát egyszer indukálhat hosszú pihenőnként."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "terastallization",
+      "payload": {
+        "name": "Terastallizáció",
+        "category": "Átváltozások",
+        "description": "A Terastallization egy Pokémon aktív típusát rövid időre Tera Type-re változtatja.",
+        "details": [
+          {
+            "label": "Követelmények",
+            "value": "A Pokémonnak legalább 6-os szintűnek kell lennie, és a kiképzőjének rendelkeznie kell egy Tera Orbbal."
+          },
+          {
+            "label": "Típus és STAB",
+            "value": "Típusa Tera Type lesz, miközben megtartja az eredeti STAB-ot; a megfelelő Tera Type megduplázza ezt a STAB bónuszt."
+          },
+          {
+            "label": "Véget ér",
+            "value": "Harc után ér véget, egy perc külső harc után, amikor a Pokémon elájul, vagy amikor a Trainer elveszíti a Tera Orbot."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "harsh-sunlight",
+      "payload": {
+        "name": "Kemény napfény",
+        "category": "Környezet",
+        "description": "Az erős napfény felerősíti a tűz típusú mozgásokat és gyengíti a víz típusú mozgásokat.",
+        "details": [
+          {
+            "label": "Tűz mozog",
+            "value": "A sérült tekercsek előnye."
+          },
+          {
+            "label": "A víz mozog",
+            "value": "A sérült tekercsek hátrányai vannak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "rain",
+      "payload": {
+        "name": "Eső",
+        "category": "Környezet",
+        "description": "Az eső felerősíti a víz típusú mozgásokat és gyengíti a tűz típusú mozgásokat.",
+        "details": [
+          {
+            "label": "A víz mozog",
+            "value": "A sérült tekercsek előnye."
+          },
+          {
+            "label": "Tűz mozog",
+            "value": "A sérült tekercsek hátrányai vannak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "sandstorm",
+      "payload": {
+        "name": "Homokvihar",
+        "category": "Környezet",
+        "description": "A homokvihar eltakarja a csatateret, és idővel károsíthatja a lényeket.",
+        "details": [
+          {
+            "label": "Láthatóság",
+            "value": "A terület enyhén homályos."
+          },
+          {
+            "label": "Rock típusú Pokémon",
+            "value": "Nyerj +1 AC."
+          },
+          {
+            "label": "Mozgás által keltett vihar",
+            "value": "Körönként a kiváltó Pokémon szintjének felével megegyező kő típusú sebzést okoz."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "hail-and-snow",
+      "payload": {
+        "name": "Jégeső és hó",
+        "category": "Környezet",
+        "description": "A jeges időjárás hidegkárosodást okozhat, vagy megerősítheti a jég típusú Pokémonok védelmét.",
+        "details": [
+          {
+            "label": "Üdv",
+            "value": "Amikor egy Pokémon hozza létre, minden körben jég típusú sebzést okoz, ami a Pokémon szintjének a fele."
+          },
+          {
+            "label": "hó",
+            "value": "Jég típusú Pokémon nyereség +1 AC; a Move magasabb bónuszt biztosíthat."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "fog",
+      "payload": {
+        "name": "Köd",
+        "category": "Környezet",
+        "description": "A köd élesen korlátozza a láthatóságot a csatatéren.",
+        "details": [
+          {
+            "label": "Láthatóság",
+            "value": "A terület erősen homályos."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "electric-terrain",
+      "payload": {
+        "name": "Elektromos terep",
+        "category": "Környezet",
+        "description": "Az elektromos terep felhatalmazza az elektromos típusú mozgást és megvédi a földelt lényeket az alvástól.",
+        "details": [
+          {
+            "label": "Kár",
+            "value": "Egy lény megduplázhatja mozgásmódosítóját a terepen tett elektromos típusú mozgási sebzési dobásokon."
+          },
+          {
+            "label": "Földelt lények",
+            "value": "Nem lehet alvóvá válni."
+          },
+          {
+            "label": "Tipikus kiterjedés",
+            "value": "40 láb sugár 3 körre, ha egy Mozgatással hozza létre."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "grassy-terrain",
+      "payload": {
+        "name": "Füves terep",
+        "category": "Környezet",
+        "description": "A Grassy Terrain felhatalmazza a Grass-típust Megmozgatja és meggyógyítja a földön lévő lényeket.",
+        "details": [
+          {
+            "label": "Kár",
+            "value": "Egy lény megduplázhatja a mozgásmódosítóját a terepen tett fű típusú mozgási sebzési dobásokon."
+          },
+          {
+            "label": "Földelt lények",
+            "value": "Szerezzen vissza HP-t a jártassági bónuszával megegyezően, amikor a terepen egy fordulót befejez."
+          },
+          {
+            "label": "Tipikus kiterjedés",
+            "value": "40 láb sugár 3 körre, ha egy Mozgatással hozza létre."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "misty-terrain",
+      "payload": {
+        "name": "Ködös terep",
+        "category": "Környezet",
+        "description": "A Misty Terrain megvédi a földelt lényeket a Sárkány típusú sérülésektől és az új állapotviszonyoktól.",
+        "details": [
+          {
+            "label": "Sárkány sérülés",
+            "value": "A földelt lények ellenállnak a Sárkány típusú sérüléseknek; a sebezhetőség helyett normál károsodás lesz."
+          },
+          {
+            "label": "Földelt lények",
+            "value": "Nem szerezhet új állapotfeltételeket."
+          },
+          {
+            "label": "Tipikus kiterjedés",
+            "value": "60 láb sugár 3 körre, ha egy Mozgatással hozza létre."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "psychic-terrain",
+      "payload": {
+        "name": "Pszichikus terep",
+        "category": "Környezet",
+        "description": "A Psychic Terrain felhatalmazza a Psychic típusú mozgásokat, de korlátozza a földelt lényeket.",
+        "details": [
+          {
+            "label": "Kár",
+            "value": "Egy lény megduplázhatja mozgásmódosítóját a terepen belül tett Psychic típusú mozgási sebzési dobásokon."
+          },
+          {
+            "label": "Földelt lények",
+            "value": "Bónusz akciók nem használhatók."
+          },
+          {
+            "label": "Tipikus kiterjedés",
+            "value": "40 láb sugár 3 körre, ha egy Mozgatással hozza létre."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "wild-pokemon-encounters",
+      "payload": {
+        "name": "Vad Pokémon találkozások",
+        "category": "Találkozások",
+        "description": "A vad találkozások támogatják a felfedezést, az elfogást és a csatát anélkül, hogy minden ellenségnek meg kellene felelnie a csapat erejének.",
+        "details": [
+          {
+            "label": "Szintek",
+            "value": "Keverje össze az alacsonyabb és magasabb szinteket csoportokban; a fajok besorolása helyett a szinteket használd elsődleges nehézségi útmutatóként."
+          },
+          {
+            "label": "Szándék",
+            "value": "Használj több alacsonyabb szintű Pokémont az elfogó expedíciókhoz, és erősebb Pokémont a harcra összpontosító találkozásokhoz."
+          },
+          {
+            "label": "Élőhelyek",
+            "value": "Használja a Pokémon-statisztikákban felsorolt életközösségeket a találkozások földeléséhez az aktuális helyen."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "trainer-battles",
+      "payload": {
+        "name": "Edzőcsaták",
+        "category": "Találkozások",
+        "description": "Az oktatói találkozások szándékos Pokémon csapatokat és egyeztetett harci szabályokat használnak.",
+        "details": [
+          {
+            "label": "Ellentétes csapatok",
+            "value": "Az oktató Pokémon bravúrokat, specializációs előnyöket, TM mozgásokat és erősebb statisztikákat használhat."
+          },
+          {
+            "label": "Harci feltételek",
+            "value": "Lejátszás előtt állítsa be a formátumot és az elemszabályokat; az ellenfél Trainer Pokémont nem lehet elkapni."
+          },
+          {
+            "label": "Az edző biztonsága",
+            "value": "A szankcionált oktatói csaták nem teszik lehetővé az oktatóknak, hogy közvetlenül más trénerekkel harcoljanak vagy célba vegyenek."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "gym-battles",
+      "payload": {
+        "name": "Tornatermi csaták",
+        "category": "Találkozások",
+        "description": "A Gym Battles hivatalos, nagy téttel járó edzői kihívások, amelyekben a teljes asztal részt kell vennie.",
+        "details": [
+          {
+            "label": "téma",
+            "value": "Az edzőtermek vezetői általában egy Pokémon-típus vagy egy világos téma köré építenek csapatokat."
+          },
+          {
+            "label": "Formátumok",
+            "value": "Használjon csapatos párosokat, teljes csapatos csatákat vagy párhuzamos egyéni küzdelmeket a csoport és a találkozás céljának megfelelően."
+          },
+          {
+            "label": "Jutalmak",
+            "value": "A győzelem jelvényt, pénz- vagy TM-jutalmat és tapasztalatot adhat a legyőzött Pokémonokért."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "normal",
+      "payload": {
+        "name": "Normál"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "fire",
+      "payload": {
+        "name": "Tűz"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "water",
+      "payload": {
+        "name": "Víz"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "grass",
+      "payload": {
+        "name": "Fű"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "electric",
+      "payload": {
+        "name": "Elektromos"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "ice",
+      "payload": {
+        "name": "Jég"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "fighting",
+      "payload": {
+        "name": "Harci"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "poison",
+      "payload": {
+        "name": "Méreg"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "ground",
+      "payload": {
+        "name": "Föld"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "flying",
+      "payload": {
+        "name": "Repülő"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "psychic",
+      "payload": {
+        "name": "Pszichikai"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "bug",
+      "payload": {
+        "name": "Rovar"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "rock",
+      "payload": {
+        "name": "Kő"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "ghost",
+      "payload": {
+        "name": "Szellem"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "dragon",
+      "payload": {
+        "name": "Sárkány"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "dark",
+      "payload": {
+        "name": "Sötét"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "steel",
+      "payload": {
+        "name": "Acél"
+      }
+    },
+    {
+      "dataset": "types",
+      "recordId": "fairy",
+      "payload": {
+        "name": "Tündér"
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "damage-type-fundamentals",
+      "payload": {
+        "name": "Sebzéstípusok alapjai",
+        "category": "Sebzéstípusok",
+        "description": "A Pokémon 5e a szokásos D&D-sebzéstípusok helyett Pokémon-sebzéstípusokat használ.",
+        "details": [
+          {
+            "label": "Ellenállás",
+            "value": "Egy ellenálló Pokémon fél sebzést szenved el."
+          },
+          {
+            "label": "Sebezhetőség",
+            "value": "Egy sebezhető Pokémon dupla sebzést szenved el."
+          },
+          {
+            "label": "Kettős típus",
+            "value": "A kettős típus nem jelent kétszeres ellenállást vagy kétszeres sebezhetőséget."
+          },
+          {
+            "label": "Alkalmazás sorrendje",
+            "value": "Az ellenállást vagy sebezhetőséget minden más sebzésmódosító után alkalmazd."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "damage-type-immunity",
+      "payload": {
+        "name": "Immunitás sebzéstípusokra",
+        "category": "Sebzéstípusok",
+        "description": "Az immunitás a sebzést és az ahhoz kötődő másodlagos hatásokat akadályozza meg, nem egy Move minden hatását.",
+        "details": [
+          {
+            "label": "Sebzést okozó Move-ok",
+            "value": "Az immunis Pokémon nem szenved sebzést, és figyelmen kívül hagyja a sebzéshez kötődő másodlagos hatásokat."
+          },
+          {
+            "label": "Nem sebző Move-ok",
+            "value": "Az azonos típusú, nem sebző Move továbbra is hathat a Pokémonra."
+          },
+          {
+            "label": "Mágikus fizikai sebzés",
+            "value": "A mágikus zúzó-, vágó- vagy szúrósebzés megkerüli az ilyen D&D-sebzéstípusokkal szembeni immunitást."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "changing-pokemon-type",
+      "payload": {
+        "name": "Egy Pokémon típusának megváltoztatása",
+        "category": "Sebzéstípusok",
+        "description": "A megváltozott típus frissíti a Pokémon típuselőnyeit és a STAB számítását.",
+        "details": [
+          {
+            "label": "Védelmek",
+            "value": "Az ellenállások, sebezhetőségek és immunitások az új típushoz igazodnak."
+          },
+          {
+            "label": "STAB",
+            "value": "A STAB-ot az új típus alapján számítsd ki."
+          },
+          {
+            "label": "Időtartam",
+            "value": "A megadott időtartam nélküli átmeneti változás általában hosszú pihenő után ér véget."
+          }
+        ]
+      }
     }
   ]
 }

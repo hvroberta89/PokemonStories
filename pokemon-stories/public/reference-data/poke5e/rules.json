@@ -1,0 +1,483 @@
+{
+  "items": [
+    {
+      "id": "combat-basics",
+      "name": "Combat Basics",
+      "category": "Combat",
+      "description": "Pokémon 5e uses D&D 5e combat with additional rules for Trainers and their Pokémon.",
+      "details": [
+        { "label": "Initiative", "value": "Roll initiative separately for each Pokémon in battle; the Trainer acts with their first Pokémon." },
+        { "label": "Commands", "value": "As an action, a Trainer may issue up to two commands, with no more than one command for each Pokémon." },
+        { "label": "Many active Pokémon", "value": "With three or more Pokémon active, commands may be issued to two; the others may move only." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/combat"
+    },
+    {
+      "id": "move-power",
+      "name": "Move Power",
+      "category": "Combat",
+      "description": "Move Power determines the ability modifier used for a Move's attack, damage, and saving throw calculations.",
+      "details": [
+        { "label": "Attack bonus", "value": "Move Power modifier + Proficiency bonus" },
+        { "label": "Damage bonus", "value": "Move Power modifier + STAB" },
+        { "label": "Save DC", "value": "8 + Move Power modifier + Proficiency bonus" },
+        { "label": "Multiple powers", "value": "Choose one listed Move Power when a Move offers more than one." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/combat"
+    },
+    {
+      "id": "stab",
+      "name": "Same-Type Attack Bonus (STAB)",
+      "category": "Combat",
+      "description": "A Pokémon gains STAB when its Move shares one of its types.",
+      "details": [
+        { "label": "Bonus", "value": "Add the Pokémon's Proficiency bonus to damage." },
+        { "label": "Limit", "value": "STAB cannot be negative and is added only once per Move per target." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/combat"
+    },
+    {
+      "id": "switching-pokemon",
+      "name": "Switching Pokémon",
+      "category": "Combat",
+      "description": "Trainers may recall and release Pokémon as an action; switching a fainted Pokémon may be a reaction.",
+      "details": [
+        { "label": "Action switch", "value": "Recall up to two Pokémon within 60 feet and release replacements within 15 feet and line of sight." },
+        { "label": "Fainted switch", "value": "A fainted Pokémon can be switched immediately as a reaction, out of turn." },
+        { "label": "After switching in", "value": "A switched-in Pokémon cannot move or take actions, reactions, or bonus actions this round unless it starts a new round." },
+        { "label": "Poké Ball", "value": "Concentration and Move or item buffs end when a Pokémon returns; status conditions remain." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/combat"
+    },
+    {
+      "id": "air-and-burrow-movement",
+      "name": "Flying, Hovering, and Burrowing",
+      "category": "Combat",
+      "description": "Special movement changes how Pokémon target, fall, and travel across the battlefield.",
+      "details": [
+        { "label": "Ranged attacks in flight", "value": "Beyond half range, ranged attack rolls have disadvantage; targets have advantage on saving throws." },
+        { "label": "Falling", "value": "A flying Pokémon falls when its flight speed becomes zero; a hovering Pokémon falls without fall damage." },
+        { "label": "Burrowing", "value": "Burrowing just below suitable ground remains targetable. Deeper burrowing is difficult terrain and leaves a difficult-terrain tunnel." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/combat"
+    },
+    {
+      "id": "raised-and-grounded",
+      "name": "Raised and Grounded",
+      "category": "Combat",
+      "description": "Some Moves affect Raised and Grounded creatures differently.",
+      "details": [
+        { "label": "Raised", "value": "A creature using fly or hover speed, with Levitate, an Air Balloon, Magnet Rise, or Telekinesis." },
+        { "label": "Grounded", "value": "A creature not using fly or hover speed, or one that is prone or has its fly or hover speed reduced to zero." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/combat"
+    },
+    {
+      "id": "opportunity-attacks-and-readying",
+      "name": "Opportunity Attacks and Readying",
+      "category": "Combat",
+      "description": "Pokémon can react to a foe leaving melee range or prepare a Move for a trigger.",
+      "details": [
+        { "label": "Opportunity attack", "value": "Leaving melee range without Disengage allows a reaction using a 1-action melee Move; it costs its normal PP." },
+        { "label": "Readied Move", "value": "Choose the Move, spend PP, and define a trigger. Readying requires concentration; losing it loses the PP." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/combat"
+    },
+    {
+      "id": "status-overview",
+      "name": "Status Conditions Overview",
+      "category": "Status Conditions",
+      "description": "A Pokémon may have one non-volatile and one volatile status condition at the same time.",
+      "details": [
+        { "label": "Non-volatile", "value": "A Pokémon cannot gain another non-volatile condition until its current one is cured." },
+        { "label": "Volatile", "value": "Volatile conditions end outside combat or when the Pokémon is switched out." },
+        { "label": "Grace period", "value": "After recovering, a Pokémon cannot receive the same condition until after the end of its next turn." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/status-conditions"
+    },
+    {
+      "id": "asleep",
+      "name": "Asleep",
+      "category": "Non-volatile Condition",
+      "description": "The Pokémon is incapacitated and restrained for up to three rounds.",
+      "details": [
+        { "label": "Saving throws", "value": "All saving throws are made with disadvantage." },
+        { "label": "Recovery", "value": "At the end of each turn or after forced movement, roll a d20; on 11 or higher, the condition ends." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/status-conditions"
+    },
+    {
+      "id": "burned",
+      "name": "Burned",
+      "category": "Non-volatile Condition",
+      "description": "Burned Pokémon suffer weaker damage rolls and ongoing damage.",
+      "details": [
+        { "label": "Damage rolls", "value": "Roll each damage roll twice and use the lower result." },
+        { "label": "Ongoing damage", "value": "Take damage equal to Proficiency bonus at the end of each turn until cured or unconscious." },
+        { "label": "Immunity", "value": "Fire-type Pokémon are immune." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/status-conditions"
+    },
+    {
+      "id": "frozen",
+      "name": "Frozen",
+      "category": "Non-volatile Condition",
+      "description": "Frozen Pokémon are incapacitated and restrained until they break free or are thawed.",
+      "details": [
+        { "label": "Duration", "value": "Lasts up to one hour." },
+        { "label": "Recovery", "value": "At the end of a turn, make a Strength save against DC 10 + the source's Proficiency bonus; fire damage can also end it." },
+        { "label": "Immunity", "value": "Ice-type Pokémon are immune." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/status-conditions"
+    },
+    {
+      "id": "paralysis",
+      "name": "Paralysis",
+      "category": "Non-volatile Condition",
+      "description": "Paralysis impairs movement and can briefly incapacitate a Pokémon.",
+      "details": [
+        { "label": "Penalties", "value": "Strength and Dexterity saving throws have disadvantage; speed is halved." },
+        { "label": "Turn check", "value": "At the start of each turn, roll a d4. On 1, the Pokémon is incapacitated and restrained until its next turn." },
+        { "label": "Immunity", "value": "Electric-type Pokémon are immune." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/status-conditions"
+    },
+    {
+      "id": "poisoned",
+      "name": "Poisoned",
+      "category": "Non-volatile Condition",
+      "description": "Poisoned Pokémon have reduced effectiveness and take ongoing damage.",
+      "details": [
+        { "label": "Penalties", "value": "Ability checks and attack rolls have disadvantage." },
+        { "label": "Ongoing damage", "value": "Take damage equal to Proficiency bonus at the end of each turn until cured or unconscious." },
+        { "label": "Immunity", "value": "Poison- and Steel-type Pokémon are immune." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/status-conditions"
+    },
+    {
+      "id": "badly-poisoned",
+      "name": "Badly Poisoned",
+      "category": "Non-volatile Condition",
+      "description": "Badly Poisoned is a stronger form of Poisoned.",
+      "details": [
+        { "label": "Penalties", "value": "Ability checks and attack rolls have disadvantage." },
+        { "label": "Ongoing damage", "value": "Take damage equal to twice Proficiency bonus at the end of each turn until cured or unconscious." },
+        { "label": "Immunity", "value": "Poison- and Steel-type Pokémon are immune." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/status-conditions"
+    },
+    {
+      "id": "confused",
+      "name": "Confused",
+      "category": "Volatile Condition",
+      "description": "Confused Pokémon cannot take reactions and roll a d8 at the start of each turn.",
+      "details": [
+        { "label": "1-2", "value": "Use Struggle against itself or the nearest valid Pokémon target." },
+        { "label": "3", "value": "Cannot move or take actions." },
+        { "label": "4-7", "value": "Choose its behavior normally." },
+        { "label": "8", "value": "The condition ends." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/status-conditions"
+    },
+    {
+      "id": "flinched",
+      "name": "Flinched",
+      "category": "Volatile Condition",
+      "description": "Flinched Pokémon are less effective until the end of their next turn.",
+      "details": [
+        { "label": "Penalties", "value": "Attack rolls, ability checks, and saving throws have disadvantage." },
+        { "label": "Saving throw Moves", "value": "Targets have advantage on a saving throw caused by the Flinched Pokémon's action." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/status-conditions"
+    },
+    {
+      "id": "catching-pokemon",
+      "name": "Catching Pokémon",
+      "category": "Catching",
+      "description": "Use the Throw Pokéball action to attempt a capture of an eligible wild Pokémon.",
+      "details": [
+        { "label": "Check", "value": "Make an Animal Handling check against the capture DC; several status conditions grant advantage." },
+        { "label": "Base DC", "value": "10 + the Pokémon's Species Rating rounded down + its level." },
+        { "label": "Health", "value": "Reduce the DC by 5 below half HP and by another 5 below 10% of maximum HP." },
+        { "label": "Limits", "value": "A fainted Pokémon or one with a higher level than the Trainer cannot be caught with a Pokéball." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/catching-pokemon"
+    },
+    {
+      "id": "pokeball-variants",
+      "name": "Pokéball Variants",
+      "category": "Catching",
+      "description": "Pokéball variants alter a capture attempt or provide a benefit to the Pokémon they hold.",
+      "details": [
+        { "label": "Capture modifiers", "value": "Great and Ultra Balls lower capture DC; specialized Balls apply their bonus in matching circumstances." },
+        { "label": "Master Ball", "value": "The capture attempt succeeds automatically." },
+        { "label": "Failed attempt", "value": "A Pokéball is destroyed when its capture attempt fails." },
+        { "label": "Held Pokémon", "value": "Some Balls provide rest or hit-die benefits to the Pokémon residing in them." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/catching-pokemon"
+    },
+    {
+      "id": "zero-hit-points",
+      "name": "Reaching 0 HP",
+      "category": "Recovery",
+      "description": "The outcome for a Pokémon at 0 HP depends on the battle and whether it is stabilized.",
+      "details": [
+        { "label": "Sanctioned battle", "value": "All damage is non-lethal; a downed Pokémon does not make death saving throws." },
+        { "label": "Other battles", "value": "A downed Pokémon makes death saving throws until stabilized." },
+        { "label": "Inside a Pokéball", "value": "Death saves are not required; ten uninterrupted minutes inside stabilizes the Pokémon at 0 HP." },
+        { "label": "Trainer reaction", "value": "The Trainer may recall the Pokémon and send out another one immediately." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/fainting-resting-and-healing"
+    },
+    {
+      "id": "healing-and-resting",
+      "name": "Healing and Resting",
+      "category": "Recovery",
+      "description": "Pokécenters, rests, and items are the main ways to restore a Pokémon.",
+      "details": [
+        { "label": "Pokécenter", "value": "Restores HP and cures statuses in under 30 minutes, but does not restore PP or hit dice." },
+        { "label": "Short rest", "value": "May take 30 minutes and restores HP by normal 5e rules; it restores neither PP nor a fainted Pokémon." },
+        { "label": "Long rest", "value": "Takes at least eight hours and restores HP, statuses, and PP." },
+        { "label": "Items and food", "value": "May restore HP, PP, or cure status when given as an action or, where allowed, consumed as a reaction." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/fainting-resting-and-healing"
+    },
+    {
+      "id": "pokemon-leveling",
+      "name": "Pokémon Leveling",
+      "category": "Progression",
+      "description": "Groups may use experience, milestones, or Trainer-matched levels for Pokémon progression.",
+      "details": [
+        { "label": "HP", "value": "On each level, gain HP from a hit-die roll plus Constitution modifier." },
+        { "label": "Moves", "value": "A Pokémon knows at most four Moves; new Move choices occur at levels 2, 6, 10, 14, and 18." },
+        { "label": "Ability scores", "value": "Ability Score Improvements occur at levels 4, 8, 12, and 16." },
+        { "label": "Damage", "value": "Damaging Moves increase at levels 5, 10, and 17 when their description provides an increase." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/pokemon-leveling"
+    },
+    {
+      "id": "pokemon-evolution",
+      "name": "Pokémon Evolution",
+      "category": "Progression",
+      "description": "A Pokémon may evolve after meeting the condition shown in its stat block.",
+      "details": [
+        { "label": "Benefits", "value": "Evolution grants the listed ability-score points, double the Pokémon's level as an HP bonus, and the evolved form's core statistics." },
+        { "label": "Moves", "value": "Known Moves remain, but future Move choices use only the evolved form's Move list." },
+        { "label": "Timing", "value": "Evolution may be delayed, but after declining it the Pokémon must gain another level before evolving." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/pokemon-leveling"
+    },
+    {
+      "id": "mega-evolution",
+      "name": "Mega Evolution",
+      "category": "Transformations",
+      "description": "A final-stage Pokémon can temporarily exceed its normal limits through Mega Evolution.",
+      "details": [
+        { "label": "Requirements", "value": "Final evolutionary stage, at least level 10, a Megalite, and a Trainer with a Key Stone." },
+        { "label": "Benefits", "value": "AC increases by 2 and ability modifiers are doubled for attack, damage, saving throws, and save DCs." },
+        { "label": "Ends", "value": "Ends after combat, after ten minutes outside combat, when the Pokémon faints, or when the Trainer loses the Key Stone." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/pokemon-transformations"
+    },
+    {
+      "id": "z-moves-and-dynamax",
+      "name": "Z-Moves and Dynamax",
+      "category": "Transformations",
+      "description": "Z-Power and Dynamax offer powerful temporary options with different equipment and level requirements.",
+      "details": [
+        { "label": "Z-Move", "value": "Requires level 6, a matching Z-Crystal, and a Trainer with a Z-Ring; it empowers one matching known Move." },
+        { "label": "Dynamax", "value": "Requires level 10, adequate space, and a Dynamax Band; it grants temporary HP equal to current HP and Gargantuan size." },
+        { "label": "Frequency", "value": "A Pokémon can undergo only one transformation per long rest; a Trainer can induce each transformation kind once per long rest." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/pokemon-transformations"
+    },
+    {
+      "id": "terastallization",
+      "name": "Terastallization",
+      "category": "Transformations",
+      "description": "Terastallization changes a Pokémon's active type to its Tera Type for a short time.",
+      "details": [
+        { "label": "Requirements", "value": "The Pokémon must be at least level 6 and its Trainer must possess a Tera Orb." },
+        { "label": "Type and STAB", "value": "Its type becomes its Tera Type while retaining original STAB; matching Tera Type doubles that STAB bonus." },
+        { "label": "Ends", "value": "Ends after combat, after one minute outside combat, when the Pokémon faints, or when the Trainer loses the Tera Orb." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/pokemon-transformations"
+    },
+    {
+      "id": "harsh-sunlight",
+      "name": "Harsh Sunlight",
+      "category": "Environment",
+      "description": "Harsh sunlight amplifies Fire-type Moves and weakens Water-type Moves.",
+      "details": [
+        { "label": "Fire Moves", "value": "Damage rolls have advantage." },
+        { "label": "Water Moves", "value": "Damage rolls have disadvantage." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/weather"
+    },
+    {
+      "id": "rain",
+      "name": "Rain",
+      "category": "Environment",
+      "description": "Rain amplifies Water-type Moves and weakens Fire-type Moves.",
+      "details": [
+        { "label": "Water Moves", "value": "Damage rolls have advantage." },
+        { "label": "Fire Moves", "value": "Damage rolls have disadvantage." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/weather"
+    },
+    {
+      "id": "sandstorm",
+      "name": "Sandstorm",
+      "category": "Environment",
+      "description": "A sandstorm obscures the battlefield and can damage creatures over time.",
+      "details": [
+        { "label": "Visibility", "value": "The area is lightly obscured." },
+        { "label": "Rock-type Pokémon", "value": "Gain +1 AC." },
+        { "label": "Move-created storm", "value": "Deals Rock-type damage each turn equal to half the triggering Pokémon's level." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/weather"
+    },
+    {
+      "id": "hail-and-snow",
+      "name": "Hail and Snow",
+      "category": "Environment",
+      "description": "Icy weather can inflict cold damage or strengthen Ice-type Pokémon defenses.",
+      "details": [
+        { "label": "Hail", "value": "When created by a Pokémon, it deals Ice-type damage each turn equal to half that Pokémon's level." },
+        { "label": "Snow", "value": "Ice-type Pokémon gain +1 AC; a Move may provide a higher bonus." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/weather"
+    },
+    {
+      "id": "fog",
+      "name": "Fog",
+      "category": "Environment",
+      "description": "Fog sharply restricts visibility across the battlefield.",
+      "details": [
+        { "label": "Visibility", "value": "The area is heavily obscured." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/weather"
+    },
+    {
+      "id": "electric-terrain",
+      "name": "Electric Terrain",
+      "category": "Environment",
+      "description": "Electric Terrain empowers Electric-type Moves and protects grounded creatures from sleep.",
+      "details": [
+        { "label": "Damage", "value": "A creature may double its Move modifier on Electric-type Move damage rolls made inside the terrain." },
+        { "label": "Grounded creatures", "value": "Cannot become Asleep." },
+        { "label": "Typical extent", "value": "40-foot radius for 3 rounds when created by a Move." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/terrain-effects"
+    },
+    {
+      "id": "grassy-terrain",
+      "name": "Grassy Terrain",
+      "category": "Environment",
+      "description": "Grassy Terrain empowers Grass-type Moves and heals grounded creatures.",
+      "details": [
+        { "label": "Damage", "value": "A creature may double its Move modifier on Grass-type Move damage rolls made inside the terrain." },
+        { "label": "Grounded creatures", "value": "Recover HP equal to their Proficiency bonus when ending a turn in the terrain." },
+        { "label": "Typical extent", "value": "40-foot radius for 3 rounds when created by a Move." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/terrain-effects"
+    },
+    {
+      "id": "misty-terrain",
+      "name": "Misty Terrain",
+      "category": "Environment",
+      "description": "Misty Terrain protects grounded creatures from Dragon-type damage and new status conditions.",
+      "details": [
+        { "label": "Dragon damage", "value": "Grounded creatures are resistant to Dragon-type damage; a vulnerability becomes normal damage instead." },
+        { "label": "Grounded creatures", "value": "Cannot gain new status conditions." },
+        { "label": "Typical extent", "value": "60-foot radius for 3 rounds when created by a Move." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/terrain-effects"
+    },
+    {
+      "id": "psychic-terrain",
+      "name": "Psychic Terrain",
+      "category": "Environment",
+      "description": "Psychic Terrain empowers Psychic-type Moves but restricts grounded creatures.",
+      "details": [
+        { "label": "Damage", "value": "A creature may double its Move modifier on Psychic-type Move damage rolls made inside the terrain." },
+        { "label": "Grounded creatures", "value": "Cannot use bonus actions." },
+        { "label": "Typical extent", "value": "40-foot radius for 3 rounds when created by a Move." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/terrain-effects"
+    },
+    {
+      "id": "wild-pokemon-encounters",
+      "name": "Wild Pokémon Encounters",
+      "category": "Encounters",
+      "description": "Wild encounters support exploration, capture, and battle without requiring every foe to match party strength.",
+      "details": [
+        { "label": "Levels", "value": "Mix lower and higher levels in groups; use levels rather than Species Rating as the primary difficulty guide." },
+        { "label": "Intent", "value": "Use several lower-level Pokémon for capture expeditions and stronger Pokémon for battle-focused encounters." },
+        { "label": "Habitats", "value": "Use the biomes listed on Pokémon stat blocks to ground encounters in the current Location." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/encounters"
+    },
+    {
+      "id": "trainer-battles",
+      "name": "Trainer Battles",
+      "category": "Encounters",
+      "description": "Trainer encounters use deliberate Pokémon teams and agreed battle rules.",
+      "details": [
+        { "label": "Opposing teams", "value": "Trainer Pokémon may use feats, specialization benefits, TM Moves, and stronger statistics." },
+        { "label": "Battle terms", "value": "Set the format and item rules before play; opposing Trainer Pokémon cannot be caught." },
+        { "label": "Trainer safety", "value": "Sanctioned Trainer battles do not permit Trainers to fight or target other Trainers directly." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/encounters"
+    },
+    {
+      "id": "gym-battles",
+      "name": "Gym Battles",
+      "category": "Encounters",
+      "description": "Gym Battles are official high-stakes Trainer challenges that should keep the full table involved.",
+      "details": [
+        { "label": "Theme", "value": "Gym Leaders commonly build teams around a Pokémon type or a clear theme." },
+        { "label": "Formats", "value": "Use teamed doubles, full-team battles, or parallel one-on-ones according to the group and encounter goal." },
+        { "label": "Rewards", "value": "A victory can grant a Badge, a monetary or TM reward, and experience for defeated Pokémon." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/encounters"
+    },
+    {
+      "id": "damage-type-fundamentals",
+      "name": "Damage Type Fundamentals",
+      "category": "Damage Types",
+      "description": "Pokémon 5e uses Pokémon damage types in place of the standard D&D damage types.",
+      "details": [
+        { "label": "Resistance", "value": "A resistant Pokémon takes half damage." },
+        { "label": "Vulnerability", "value": "A vulnerable Pokémon takes double damage." },
+        { "label": "Dual types", "value": "Dual types do not create double resistance or double vulnerability." },
+        { "label": "Order", "value": "Apply resistance or vulnerability after all other damage effects." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/damage-types"
+    },
+    {
+      "id": "damage-type-immunity",
+      "name": "Damage Type Immunity",
+      "category": "Damage Types",
+      "description": "Immunity prevents damage and damage-linked secondary effects, not every effect of a Move.",
+      "details": [
+        { "label": "Damaging Moves", "value": "An immune Pokémon takes no damage and ignores secondary effects tied to the damage." },
+        { "label": "Non-damaging Moves", "value": "A non-damaging Move of the same type may still affect the Pokémon." },
+        { "label": "Magical physical damage", "value": "Magical bludgeoning, slashing, or piercing damage bypasses an immunity to those D&D damage types." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/damage-types"
+    },
+    {
+      "id": "changing-pokemon-type",
+      "name": "Changing a Pokémon's Type",
+      "category": "Damage Types",
+      "description": "A changed type updates a Pokémon's matchup profile and STAB calculation.",
+      "details": [
+        { "label": "Defenses", "value": "Resistances, vulnerabilities, and immunities become those of the new type." },
+        { "label": "STAB", "value": "Calculate STAB from the new type." },
+        { "label": "Duration", "value": "A temporary change without a stated duration normally ends after a long rest." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/damage-types"
+    }
+  ]
+}

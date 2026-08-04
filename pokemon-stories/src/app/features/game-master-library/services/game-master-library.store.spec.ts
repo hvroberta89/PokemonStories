@@ -87,6 +87,57 @@ describe('GameMasterLibraryStore', () => {
     expect(contestRows).toContainEqual({ label: 'Effektus', value: 'Látványos támadás' });
     expect(contestRows).toContainEqual({ label: 'Szabály', value: 'Magyar szabályleírás.' });
   });
+
+  it('renders localized type matchups with the Poke5e source link', async () => {
+    localStorage.setItem(localeKey, 'hu');
+    mockReferenceFetch({
+      '/reference-data/poke5e/types.json': {
+        items: [
+          { id: 'fire', name: 'Fire', vulnerableTo: ['water', 'ground'], resistantTo: ['fire', 'grass'], immuneTo: [] },
+          { id: 'water', name: 'Water', vulnerableTo: [], resistantTo: [], immuneTo: [] },
+          { id: 'ground', name: 'Ground', vulnerableTo: [], resistantTo: [], immuneTo: [] },
+          { id: 'grass', name: 'Grass', vulnerableTo: [], resistantTo: [], immuneTo: [] },
+        ],
+      },
+      '/reference-data/poke5e/translations/hu.json': {
+        items: [
+          { dataset: 'types', recordId: 'fire', payload: { name: 'Tűz' } },
+          { dataset: 'types', recordId: 'water', payload: { name: 'Víz' } },
+          { dataset: 'types', recordId: 'ground', payload: { name: 'Föld' } },
+          { dataset: 'types', recordId: 'grass', payload: { name: 'Fű' } },
+        ],
+      },
+    });
+
+    const entry = await new GameMasterLibraryStore().find('types', 'fire');
+
+    expect(entry?.name).toBe('Tűz');
+    expect(entry?.detailGroups[0]?.rows).toContainEqual({ label: 'Sebezhető', value: 'Víz, Föld' });
+    expect(entry?.detailGroups[0]?.rows).toContainEqual({ label: 'Ellenáll', value: 'Tűz, Fű' });
+    expect(entry?.sourceUrl).toBe('https://poke5e.app/reference/damage-types');
+  });
+
+  it('renders localized rule details and retains the Poke5e source link', async () => {
+    localStorage.setItem(localeKey, 'hu');
+    mockReferenceFetch({
+      '/reference-data/poke5e/rules.json': {
+        items: [{
+          id: 'stab', name: 'Same-Type Attack Bonus', category: 'Combat', description: 'A shared type grants a bonus.',
+          details: [{ label: 'Bonus', value: 'Add Proficiency bonus.' }], sourceUrl: 'https://poke5e.app/reference/combat',
+        }],
+      },
+      '/reference-data/poke5e/translations/hu.json': {
+        items: [{ dataset: 'rules', recordId: 'stab', payload: { name: 'Azonos típusú támadásbónusz', category: 'Harc', description: 'Az azonos típus bónuszt ad.', details: [{ label: 'Bónusz', value: 'Add hozzá a jártassági bónuszt.' }] } }],
+      },
+    });
+
+    const entry = await new GameMasterLibraryStore().find('rules', 'stab');
+
+    expect(entry?.name).toBe('Azonos típusú támadásbónusz');
+    expect(entry?.tags).toEqual(['Harc']);
+    expect(entry?.sourceUrl).toBe('https://poke5e.app/reference/combat');
+    expect(entry?.detailGroups[0]?.rows).toContainEqual({ label: 'Bónusz', value: 'Add hozzá a jártassági bónuszt.' });
+  });
 });
 
 function pokemon(id: string, name: string): Record<string, unknown> {

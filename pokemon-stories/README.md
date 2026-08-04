@@ -75,6 +75,8 @@ Apply all reference-data migrations in the target Supabase project before publis
 - [20260803043000_create_poke5e_reference_translations.sql](supabase/migrations/20260803043000_create_poke5e_reference_translations.sql)
 - [20260803050000_add_poke5e_trainer_origins.sql](supabase/migrations/20260803050000_add_poke5e_trainer_origins.sql)
 - [20260803053000_add_poke5e_contest_reference.sql](supabase/migrations/20260803053000_add_poke5e_contest_reference.sql)
+- [20260804090000_add_library_rules_reference.sql](supabase/migrations/20260804090000_add_library_rules_reference.sql)
+- [20260804093000_add_library_types_reference.sql](supabase/migrations/20260804093000_add_library_types_reference.sql)
 
 Then upload the reference snapshot and Hungarian translations:
 

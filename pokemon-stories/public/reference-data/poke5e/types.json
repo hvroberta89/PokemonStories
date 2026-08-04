@@ -1,0 +1,22 @@
+{
+  "items": [
+    {"id":"normal","name":"Normal","vulnerableTo":["fighting"],"resistantTo":[],"immuneTo":["ghost"]},
+    {"id":"fire","name":"Fire","vulnerableTo":["water","ground","rock"],"resistantTo":["fire","grass","ice","bug","steel","fairy"],"immuneTo":[]},
+    {"id":"water","name":"Water","vulnerableTo":["electric","grass"],"resistantTo":["fire","water","ice","steel"],"immuneTo":[]},
+    {"id":"grass","name":"Grass","vulnerableTo":["fire","ice","poison","flying","bug"],"resistantTo":["water","electric","grass","ground"],"immuneTo":[]},
+    {"id":"electric","name":"Electric","vulnerableTo":["ground"],"resistantTo":["electric","flying","steel"],"immuneTo":[]},
+    {"id":"ice","name":"Ice","vulnerableTo":["fire","fighting","rock","steel"],"resistantTo":["ice"],"immuneTo":[]},
+    {"id":"fighting","name":"Fighting","vulnerableTo":["flying","psychic","fairy"],"resistantTo":["bug","rock","dark"],"immuneTo":[]},
+    {"id":"poison","name":"Poison","vulnerableTo":["ground","psychic"],"resistantTo":["grass","fighting","poison","bug","fairy"],"immuneTo":[]},
+    {"id":"ground","name":"Ground","vulnerableTo":["water","grass","ice"],"resistantTo":["poison","rock"],"immuneTo":["electric"]},
+    {"id":"flying","name":"Flying","vulnerableTo":["electric","ice","rock"],"resistantTo":["grass","fighting","bug"],"immuneTo":["ground"]},
+    {"id":"psychic","name":"Psychic","vulnerableTo":["bug","ghost","dark"],"resistantTo":["fighting","psychic"],"immuneTo":[]},
+    {"id":"bug","name":"Bug","vulnerableTo":["fire","flying","rock"],"resistantTo":["grass","fighting","ground"],"immuneTo":[]},
+    {"id":"rock","name":"Rock","vulnerableTo":["water","grass","fighting","ground","steel"],"resistantTo":["normal","fire","poison","flying"],"immuneTo":[]},
+    {"id":"ghost","name":"Ghost","vulnerableTo":["ghost","dark"],"resistantTo":["poison","bug"],"immuneTo":["normal","fighting"]},
+    {"id":"dragon","name":"Dragon","vulnerableTo":["ice","dragon","fairy"],"resistantTo":["fire","water","electric","grass"],"immuneTo":[]},
+    {"id":"dark","name":"Dark","vulnerableTo":["fighting","bug","fairy"],"resistantTo":["ghost","dark"],"immuneTo":["psychic"]},
+    {"id":"steel","name":"Steel","vulnerableTo":["fire","fighting","ground"],"resistantTo":["normal","grass","ice","flying","psychic","bug","rock","dragon","steel","fairy"],"immuneTo":["poison"]},
+    {"id":"fairy","name":"Fairy","vulnerableTo":["poison","steel"],"resistantTo":["fighting","bug","dark"],"immuneTo":["dragon"]}
+  ]
+}
