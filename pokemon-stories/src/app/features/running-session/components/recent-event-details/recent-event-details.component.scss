@@ -304,3 +304,5 @@ h2 {
     width: 100%;
   }
 }
+
+.event-details__reference { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.75rem; padding: 0.7rem 0.8rem; border: 1px solid rgb(105 137 54 / 26%); border-radius: 0.8rem; background: #eef4de; color: var(--color-primary-strong); }.event-details__reference span { display: grid; gap: 0.1rem; }.event-details__reference small { color: var(--color-text-secondary); font-size: 0.65rem; font-weight: 800; }.event-details__reference strong { font-size: 0.8rem; }

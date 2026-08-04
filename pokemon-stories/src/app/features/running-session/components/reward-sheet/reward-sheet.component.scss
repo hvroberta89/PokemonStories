@@ -93,6 +93,8 @@
   cursor: pointer;
 }
 
+.reward-sheet__reference { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 2.35rem; margin-top: 0.55rem; padding: 0.45rem 0.65rem; border: 1px solid rgb(177 153 109 / 28%); border-radius: 0.7rem; background: rgb(255 255 255 / 58%); color: var(--color-primary-strong); font: inherit; font-size: 0.75rem; font-weight: 800; cursor: pointer; }
+
 .reward-sheet__options {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));

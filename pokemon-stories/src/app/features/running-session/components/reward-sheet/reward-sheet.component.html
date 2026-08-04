@@ -91,6 +91,12 @@
       <span>Jutalom neve</span>
       <input type="text" maxlength="120" placeholder="Például: Erdei segítő jelvény" [value]="rewardName()" (input)="updateRewardName($event)" />
     </label>
+    @if (selectedRewardType() === 'pokemon' || selectedRewardType() === 'item') {
+      <button type="button" class="reward-sheet__reference" (click)="referencePickerOpen.set(true)">
+        <ps-icon name="adventures-book" [size]="19" />
+        {{ selectedReference() ? 'Referencia módosítása: ' + selectedReference()!.name : 'Választás a referenciaanyagból' }}
+      </button>
+    }
   </div>
 
   <div class="reward-sheet__section">
@@ -189,3 +195,7 @@
     Jutalom feloldása
   </button>
 </section>
+
+@if (referencePickerOpen()) {
+  <app-reward-reference-picker (selected)="selectReference($event)" (closed)="referencePickerOpen.set(false)" />
+}

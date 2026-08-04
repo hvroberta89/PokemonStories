@@ -28,6 +28,9 @@ export class RecentEventFactory {
       content: note.content,
       timeLabel: 'Most',
       icon: 'add-note',
+      referenceId: note.referenceId,
+      referenceSection: note.referenceSection,
+      referenceName: note.referenceName,
     };
   }
 
@@ -43,6 +46,9 @@ export class RecentEventFactory {
         `${reward.recipientName} jutalma: ${reward.amount} × ${reward.rewardLabel}.`,
       timeLabel: 'Most',
       icon: 'reward-gift',
+      referenceId: reward.referenceId,
+      referenceSection: reward.referenceSection,
+      referenceName: reward.referenceId ? reward.rewardLabel : undefined,
     };
   }
 

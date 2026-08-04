@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   ElementRef,
+  inject,
   input,
   output,
   signal,
@@ -16,10 +17,14 @@ import type { RewardQueueItemViewModel } from '../reward-queue/reward-queue.mode
 import type { RewardCenterTab } from './reward-center.model';
 import { RewardHistoryComponent } from '../reward-history/reward-history.component';
 import { RewardHistoryItemViewModel } from '../reward-history/reward-history.model';
+import { GameMasterLibraryStore } from '../../../game-master-library/services/game-master-library.store';
+import { PsIconName } from '../../../../shared/ui/icon/ps-icon.registry';
+import { RewardType } from '../../../../domain/reward/models/reward-grant';
 
 type PrintableRewardViewModel = Pick<
   RewardQueueItemViewModel,
   'id' | 'recipientName' | 'rewardType' | 'rewardLabel' | 'amount' | 'icon'
+  | 'referenceId' | 'referenceSection'
 >;
 
 type RewardImageFormat = 'jpeg' | 'png';
@@ -33,6 +38,7 @@ type RewardImageFormat = 'jpeg' | 'png';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RewardCenterComponent {
+  private readonly library = inject(GameMasterLibraryStore);
   readonly items = input.required<readonly RewardQueueItemViewModel[]>();
 
   readonly historyItems = input.required<readonly RewardHistoryItemViewModel[]>();
@@ -85,6 +91,8 @@ export class RewardCenterComponent {
 
   protected readonly exportError = signal<string | null>(null);
 
+  protected readonly pokemonArtworkByRewardId = signal<Readonly<Record<string, string>>>({});
+
   private readonly previewElements = viewChildren<ElementRef<HTMLElement>>('printPreview');
 
   protected selectTab(tab: RewardCenterTab): void {
@@ -93,10 +101,12 @@ export class RewardCenterComponent {
 
   protected openPreview(item: RewardQueueItemViewModel): void {
     this.previewedItems.set([item]);
+    void this.loadPokemonArtwork([item]);
   }
 
   protected openBatchPreview(): void {
     this.previewedItems.set(this.printableItems());
+    void this.loadPokemonArtwork(this.printableItems());
   }
 
   protected markAllAsPrinted(): void {
@@ -105,6 +115,23 @@ export class RewardCenterComponent {
 
   protected openReprintPreview(item: RewardHistoryItemViewModel): void {
     this.previewedItems.set([item]);
+    void this.loadPokemonArtwork([item]);
+  }
+
+  protected rewardIcon(item: PrintableRewardViewModel): PsIconName {
+    const icons: Record<RewardType, PsIconName> = {
+      pokemon: 'pokemon-sticker',
+      item: 'items-potion',
+      badge: 'badge-medal',
+      outfit: 'clothing-shirt',
+      achievement: 'achievement-star',
+      'quest-item': 'quest-card',
+      card: 'npc-card',
+      sticker: 'reward-gift',
+      narrative: 'timeline-scroll',
+      custom: 'reward-box',
+    };
+    return icons[item.rewardType];
   }
 
   protected closePreview(): void {
@@ -138,6 +165,20 @@ export class RewardCenterComponent {
   private createImage(element: HTMLElement, format: RewardImageFormat): Promise<string> {
     const options = { backgroundColor: '#f6cf69', pixelRatio: 2 };
     return format === 'png' ? toPng(element, options) : toJpeg(element, options);
+  }
+
+  private async loadPokemonArtwork(items: readonly PrintableRewardViewModel[]): Promise<void> {
+    const pokemonRewards = items.filter((item) => item.rewardType === 'pokemon');
+    if (pokemonRewards.length === 0) return;
+    const entries = await this.library.entries('pokemon');
+    const artwork = Object.fromEntries(
+      pokemonRewards.flatMap((reward) => {
+        const entry = entries.find((item) => item.id === reward.referenceId)
+          ?? entries.find((item) => item.name.localeCompare(reward.rewardLabel, 'hu', { sensitivity: 'base' }) === 0);
+        return entry?.artworkPath ? [[reward.id, entry.artworkPath]] : [];
+      }),
+    );
+    this.pokemonArtworkByRewardId.update((current) => ({ ...current, ...artwork }));
   }
 
   private downloadImage(

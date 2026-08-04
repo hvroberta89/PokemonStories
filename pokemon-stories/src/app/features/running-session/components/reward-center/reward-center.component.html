@@ -112,7 +112,11 @@
             @for (item of printableItems(); track item.id) {
               <article class="reward-center__print-item">
                 <span class="reward-center__print-icon">
-                  <ps-icon [name]="item.icon" [size]="30" />
+                  @if (pokemonArtworkByRewardId()[item.id]; as artworkPath) {
+                    <img [src]="artworkPath" [alt]="item.rewardLabel" />
+                  } @else {
+                    <ps-icon [name]="rewardIcon(item)" [size]="30" />
+                  }
                 </span>
 
                 <div>
@@ -184,7 +188,11 @@
       @for (item of previewedItems(); track item.id) {
         <article #printPreview class="reward-center__print-preview">
           <div class="reward-center__print-preview-icon">
-            <ps-icon [name]="item.icon" [size]="76" />
+            @if (pokemonArtworkByRewardId()[item.id]; as artworkPath) {
+              <img [src]="artworkPath" [alt]="item.rewardLabel" />
+            } @else {
+              <ps-icon [name]="rewardIcon(item)" [size]="76" />
+            }
           </div>
           <span class="reward-center__print-preview-type">{{ item.rewardType }}</span>
           <h3>{{ item.rewardLabel }}</h3>
