@@ -1,0 +1,67 @@
+<div class="session-library__backdrop" (click)="closed.emit()">
+  <aside class="session-library" role="dialog" aria-modal="true" aria-labelledby="session-library-title" (click)="$event.stopPropagation()">
+    <header class="session-library__header">
+      <div>
+        <p>Session referencia</p>
+        <h2 id="session-library-title">Referencia könyvtár</h2>
+      </div>
+      <button type="button" class="session-library__close" aria-label="Könyvtár bezárása" (click)="closed.emit()">×</button>
+    </header>
+
+    @if (detail(); as entry) {
+      <div class="session-library__detail">
+        <button type="button" class="session-library__back" (click)="detail.set(null)">Vissza a {{ sectionLabels[section()] }} listához</button>
+        @if (entry.artworkPath) { <img class="session-library__artwork" [src]="entry.artworkPath" [alt]="entry.name" /> }
+        <h3>{{ entry.name }}</h3>
+        <p>{{ entry.description }}</p>
+        @for (group of entry.detailGroups; track group.title) {
+          <section class="session-library__detail-group"><h4>{{ group.title }}</h4><dl>@for (row of group.rows; track row.label) { <div><dt>{{ row.label }}</dt><dd>{{ row.value }}</dd></div> }</dl></section>
+        }
+        @if (entry.section === 'pokemon') {
+          <label class="session-library__role">
+            Szerep a jelenetben
+            <select [value]="role()" (change)="updateRole($event)">
+              <option value="friendly">Barátságos</option><option value="wild">Vad</option><option value="enemy">Ellenfél</option><option value="companion">Társ</option>
+            </select>
+          </label>
+          <button type="button" class="session-library__add" (click)="select(entry)"><ps-icon name="play-pokeball" [size]="20" /> Hozzáadás a Sessionhöz</button>
+        }
+      </div>
+    } @else {
+      <div class="session-library__controls">
+        <label>
+          Referenciaanyag
+          <select [value]="section()" (change)="updateSection($event)">
+            @for (sectionItem of sections; track sectionItem) { <option [value]="sectionItem">{{ sectionLabels[sectionItem] }}</option> }
+          </select>
+        </label>
+        <label>
+          Keresés
+          <input type="search" autofocus placeholder="Név, típus vagy leírás" [value]="query()" (input)="updateQuery($event)" />
+        </label>
+      </div>
+
+      @if (error(); as message) {
+      <p class="session-library__state session-library__state--error" role="alert">{{ message }}</p>
+      } @else if (isLoading()) {
+      <p class="session-library__state">Pokémonok betöltése…</p>
+      } @else if (results().length === 0) {
+      <p class="session-library__state">Nincs ilyen Pokémon a referenciák között.</p>
+      } @else {
+      <div class="session-library__results">
+        @for (entry of results(); track entry.key) {
+          <button type="button" class="session-library__item" (click)="openDetail(entry)">
+            @if (entry.artworkPath) {
+              <img [src]="entry.artworkPath" [alt]="entry.name" />
+            } @else {
+              <ps-icon name="play-pokeball" [size]="32" />
+            }
+            <span><strong>{{ entry.name }}</strong><small>{{ entry.tags.join(' · ') }}</small></span>
+            <ps-icon [name]="entry.section === 'pokemon' ? 'play-pokeball' : 'adventures-book'" [size]="20" />
+          </button>
+        }
+      </div>
+      }
+    }
+  </aside>
+</div>

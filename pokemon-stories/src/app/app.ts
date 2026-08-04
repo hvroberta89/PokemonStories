@@ -5,10 +5,11 @@ import { AiAssistantSettingsStore } from './features/assistant/services/ai-assis
 import { AiAssistantSettingsModalComponent } from './features/assistant/components/ai-assistant-settings-modal/ai-assistant-settings-modal.component';
 import { PsIconButtonComponent } from './shared/ui/icon-button/ps-icon-button.component';
 import { AuthStore } from './features/auth/services/auth.store';
+import { AppFeedbackToastComponent } from './shared/ui/feedback-toast/app-feedback-toast.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, PsIconButtonComponent, AiAssistantSettingsModalComponent],
+  imports: [RouterOutlet, PsIconButtonComponent, AiAssistantSettingsModalComponent, AppFeedbackToastComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,7 +22,6 @@ export class App {
   constructor() {
     effect(() => {
       if (!this.auth.isAuthenticated()) {
-        this.assistantSettings.clearApiKey();
         this.settingsOpen.set(false);
       }
     });

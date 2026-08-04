@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { AudienceAgePresetId } from '../../../../domain/audience/presets/audience-age-preset';
 import { audienceAgePresets } from '../../../../domain/audience/presets/audience-age-presets';
@@ -11,12 +11,13 @@ import { PsIconComponent } from '../../../../shared/ui/icon/ps-icon.component';
 import { PsVoiceInputDirective } from '../../../../shared/ui/voice-input/ps-voice-input.directive';
 import { AdventureDesignerStore } from '../../store/adventure-designer.store';
 import type { RewardType } from '../../../../domain/reward/models/reward-grant';
-import { LibraryAdventureSelectionService } from '../../../game-master-library/services/library-adventure-selection.service';
+import { PokemonReferencePickerComponent } from '../../../game-master-library/components/pokemon-reference-picker/pokemon-reference-picker.component';
+import { LibraryReference } from '../../../game-master-library/models/library-reference.model';
 
 @Component({
   selector: 'app-adventure-designer-page',
   standalone: true,
-  imports: [RouterLink, PsIconComponent, PsVoiceInputDirective],
+  imports: [RouterLink, PsIconComponent, PsVoiceInputDirective, PokemonReferencePickerComponent],
   templateUrl: './adventure-designer-page.component.html',
   styleUrl: './adventure-designer-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,8 +25,6 @@ import { LibraryAdventureSelectionService } from '../../../game-master-library/s
 })
 export class AdventureDesignerPageComponent {
   private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly librarySelection = inject(LibraryAdventureSelectionService);
   protected readonly store = inject(AdventureDesignerStore);
   protected readonly projectId = projectId(this.route.snapshot.paramMap.get('projectId') ?? '');
   protected readonly adventureId = adventurePlanId(
@@ -44,6 +43,7 @@ export class AdventureDesignerPageComponent {
   protected readonly sceneGoal = signal('');
   protected readonly scenePokemonReferenceId = signal<string | undefined>(undefined);
   protected readonly sceneDirection = signal('');
+  protected readonly pokemonPickerOpen = signal(false);
   protected readonly sceneSubmitted = signal(false);
   protected readonly editingSceneId = signal<AdventureSceneId | null>(null);
   protected readonly deletingSceneId = signal<AdventureSceneId | null>(null);
@@ -60,11 +60,6 @@ export class AdventureDesignerPageComponent {
   protected readonly rewardSubmitted = signal(false);
 
   constructor() {
-    const selection = this.librarySelection.consume();
-    if (selection) {
-      this.scenePokemonReferenceId.set(selection.id);
-      this.sceneFormOpen.set(true);
-    }
     void this.load();
   }
 
@@ -198,8 +193,9 @@ export class AdventureDesignerPageComponent {
     this.sceneSubmitted.set(false);
   }
 
-  protected openPokemonLibrary(): void {
-    void this.router.navigate(['/library/pokemon'], { queryParams: { use: 'designer' } });
+  protected selectScenePokemon(reference: LibraryReference): void {
+    this.scenePokemonReferenceId.set(reference.id);
+    this.pokemonPickerOpen.set(false);
   }
 
   protected pokemonName(referenceId: string): string {
@@ -315,6 +311,7 @@ export class AdventureDesignerPageComponent {
     if (!adventure) return;
     this.title.set(adventure.title);
     this.premise.set(adventure.premise);
+    this.foundationIdea.set(adventure.premise);
     this.sessionLengthMinutes.set(adventure.audienceProfile.sessionLengthMinutes);
     const preset = audienceAgePresets.find((item) =>
       item.ageRange.equals(adventure.audienceProfile.ageRange),

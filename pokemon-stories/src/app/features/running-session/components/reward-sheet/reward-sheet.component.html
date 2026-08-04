@@ -33,6 +33,11 @@
     </button>
   </header>
 
+  <button type="button" class="reward-sheet__ai" (click)="aiRequested.emit()">
+    <ps-icon name="ai-crystal" [size]="20" />
+    Kérj jutalomötleteket
+  </button>
+
   <div class="reward-sheet__options">
     @for (
       reward of rewardOptions;

@@ -40,6 +40,7 @@ import { RewardSheetComponent } from '../../components/reward-sheet/reward-sheet
 import type {
   RewardDraft,
   RewardRecipient,
+  RewardType,
 } from '../../components/reward-sheet/reward-sheet.model';
 
 import { StoryCardComponent } from '../../components/story-card/story-card.component';
@@ -89,7 +90,7 @@ import { LOCATION_REPOSITORY } from '../../../../application/location/tokens/loc
 import { GenerateSessionSuggestionsHandler } from '../../../../application/assistant/queries/generate-session-suggestions/generate-session-suggestions.handler';
 import { SESSION_ASSISTANT } from '../../../../application/assistant/tokens/session-assistant.token';
 import { GenerateSessionStoryHandler } from '../../../../application/assistant/queries/generate-session-story/generate-session-story.handler';
-import { LibrarySessionSelectionService } from '../../../game-master-library/services/library-session-selection.service';
+import { SessionPokemonLibraryDrawerComponent } from '../../../game-master-library/components/session-pokemon-library-drawer/session-pokemon-library-drawer.component';
 
 const sessionQuickActionMenu: QuickActionMenuVm = {
   title: 'Mit szeretnél hozzáadni?',
@@ -100,7 +101,6 @@ const sessionQuickActionMenu: QuickActionMenuVm = {
     { type: 'event', label: 'Esemény', description: 'Adj új fordulatot.', icon: 'quick-event-dice' },
     { type: 'reward', label: 'Jutalom', description: 'Oldj fel jutalmat.', icon: 'reward-gift' },
     { type: 'ai', label: 'AI segítség', description: 'Kérj improvizációs ötleteket.', icon: 'ai-crystal' },
-    { type: 'item', label: 'Tárgy', description: 'Adj tárgyat vagy felszerelést.', icon: 'items-potion' },
     { type: 'library', label: 'Pokémon Library', description: 'Válassz Pokémon referenciát a jelenethez.', icon: 'play-pokeball' },
   ],
 };
@@ -127,6 +127,7 @@ const sessionQuickActionMenu: QuickActionMenuVm = {
     SessionTimelineComponent,
     SessionEndSheetComponent,
     SessionSummaryComponent,
+    SessionPokemonLibraryDrawerComponent,
     PsIconComponent,
   ],
   templateUrl: './running-session-page.component.html',
@@ -142,7 +143,6 @@ export class RunningSessionPageComponent {
 
   private readonly store = inject(RunningSessionStore);
   private readonly router = inject(Router);
-  private readonly librarySelection = inject(LibrarySessionSelectionService);
   private readonly completeAdventure = new CompleteAdventureHandler(
     inject(ADVENTURE_PLAN_REPOSITORY),
   );
@@ -226,10 +226,6 @@ export class RunningSessionPageComponent {
   private elapsedTimerId: number | null = null;
 
   constructor() {
-    const selection = this.librarySelection.consume();
-    if (selection) {
-      this.store.addLibraryPokemon(selection.reference.id, selection.reference.name, selection.role);
-    }
     this.elapsedTimerId = window.setInterval(() => this.now.set(Date.now()), 1_000);
     this.destroyRef.onDestroy(() => {
       this.clearTimeouts();
@@ -317,9 +313,15 @@ export class RunningSessionPageComponent {
 
   protected readonly isQuickActionMenuOpen = signal(false);
 
+  protected readonly isPokemonLibraryOpen = signal(false);
+
   protected readonly isQuickNoteOpen = signal(false);
 
   protected readonly isRewardSheetOpen = signal(false);
+
+  protected readonly rewardSheetType = signal<RewardType>('item');
+
+  protected readonly rewardSuggestion = signal<string | null>(null);
 
   protected readonly isRewardCenterOpen = signal(false);
 
@@ -468,7 +470,7 @@ export class RunningSessionPageComponent {
         return;
 
       case 'reward':
-        this.openRewardSheet();
+        this.openRewardSheet('item');
         return;
 
       case 'ai':
@@ -483,13 +485,15 @@ export class RunningSessionPageComponent {
         this.openAssistantPrompt('event');
         return;
 
-      case 'item':
-        return;
-
       case 'library':
-        void this.router.navigate(['/library/pokemon'], { queryParams: { use: 'session' } });
+        this.isPokemonLibraryOpen.set(true);
         return;
     }
+  }
+
+  protected addPokemonFromLibrary(selection: { readonly reference: { readonly id: string; readonly name: string }; readonly role: 'friendly' | 'wild' | 'enemy' | 'companion' }): void {
+    this.store.addLibraryPokemon(selection.reference.id, selection.reference.name, selection.role);
+    this.isPokemonLibraryOpen.set(false);
   }
 
   // ---------------------------------------------------------------------------
@@ -512,12 +516,19 @@ export class RunningSessionPageComponent {
   // Reward sheet
   // ---------------------------------------------------------------------------
 
-  protected openRewardSheet(): void {
+  protected openRewardSheet(rewardType: RewardType = 'item'): void {
+    this.rewardSheetType.set(rewardType);
     this.isRewardSheetOpen.set(true);
   }
 
   protected closeRewardSheet(): void {
     this.isRewardSheetOpen.set(false);
+    this.rewardSuggestion.set(null);
+  }
+
+  protected requestRewardSuggestions(): void {
+    this.isRewardSheetOpen.set(false);
+    this.openAssistantPrompt('reward');
   }
 
   protected saveReward(rewards: readonly RewardDraft[]): void {
@@ -587,7 +598,7 @@ export class RunningSessionPageComponent {
     switch (action) {
       case 'reward':
         this.closeAssistant();
-        this.openRewardSheet();
+        this.openRewardSheet('item');
         return;
 
       case 'event':
@@ -680,6 +691,12 @@ export class RunningSessionPageComponent {
   }
 
   protected selectAssistantSuggestion(selection: AssistantSuggestionSelection): void {
+    if (selection.type === 'reward') {
+      this.rewardSuggestion.set(selection.suggestion.title);
+      this.closeAssistantResults();
+      this.openRewardSheet('item');
+      return;
+    }
     const recentEvent = this.createAssistantRecentEvent(selection);
 
     this.addRecentEvent(recentEvent);
@@ -936,13 +953,26 @@ export class RunningSessionPageComponent {
           icon: 'new-npc',
           submitLabel: 'Adj 3 szereplőötletet',
         };
+
+      case 'reward':
+        return {
+          type: 'reward',
+          eyebrow: 'Kalandsegítő',
+          title: 'Találj ki egy jutalmat',
+          description:
+            'Adj meg egy rövid helyzetet vagy hangulatot, és az asszisztens három történethez illő jutalomötletet készít.',
+          placeholder: 'Például: A csapat segített egy eltévedt Pichunak hazatalálni...',
+          icon: 'reward-gift',
+          submitLabel: 'Adj 3 jutalomötletet',
+        };
     }
   }
 
   private assistantSuggestionIcon(
     type: AssistantPromptType,
     index: number,
-  ): 'environment-forest' | 'exploration-footprints' | 'npc-dialogue' | 'new-npc' {
+  ): 'environment-forest' | 'exploration-footprints' | 'npc-dialogue' | 'new-npc' | 'reward-gift' {
+    if (type === 'reward') return 'reward-gift';
     if (type === 'character') return index === 0 ? 'new-npc' : 'npc-dialogue';
     return index === 0 ? 'environment-forest' : 'exploration-footprints';
   }

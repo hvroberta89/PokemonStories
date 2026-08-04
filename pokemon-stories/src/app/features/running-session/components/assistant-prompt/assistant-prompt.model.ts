@@ -5,7 +5,8 @@ import type {
 export type AssistantPromptType =
   | 'event'
   | 'clue'
-  | 'character';
+  | 'character'
+  | 'reward';
 
 export interface AssistantPromptViewModel {
   readonly type: AssistantPromptType;

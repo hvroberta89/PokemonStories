@@ -1,0 +1,10 @@
+:host { position: fixed; z-index: 110; right: 1rem; bottom: 1rem; display: block; width: min(24rem, calc(100vw - 2rem)); }
+.feedback-toast { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.7rem; padding: 0.8rem; border: 1px solid var(--color-border-strong); border-left: 0.35rem solid var(--color-primary); border-radius: var(--radius-small); background: var(--color-surface-strong); box-shadow: var(--shadow-floating); animation: feedback-toast-in 180ms ease-out; }
+.feedback-toast--success { border-left-color: var(--color-primary); }
+.feedback-toast--progress { border-left-color: var(--color-accent-strong); }
+.feedback-toast--error { border-left-color: var(--color-danger); }
+.feedback-toast div { display: grid; min-width: 0; gap: 0.15rem; }
+.feedback-toast strong { color: var(--color-text-primary); font-size: 0.88rem; }
+.feedback-toast span { color: var(--color-text-secondary); font-size: 0.78rem; line-height: 1.35; }
+.feedback-toast button { display: grid; width: 1.8rem; height: 1.8rem; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--color-text-secondary); font: inherit; font-size: 1.2rem; cursor: pointer; }
+@keyframes feedback-toast-in { from { opacity: 0; transform: translateY(0.65rem); } }
