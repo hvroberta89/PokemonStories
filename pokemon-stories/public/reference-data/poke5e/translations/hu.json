@@ -37342,25 +37342,37 @@
       "dataset": "rules",
       "recordId": "catching-pokemon",
       "payload": {
-        "name": "Pokémon elkapása",
-        "category": "Fogás",
-        "description": "Használd a Dobj Pokéballt akciót egy alkalmas vad Pokémon elfogására.",
+        "name": "Pokémon befogása",
+        "category": "Befogás",
+        "description": "A Throw Pokéball akcióval megpróbálhatsz befogni egy alkalmas vad Pokémont.",
         "details": [
           {
-            "label": "Ellenőrizze",
-            "value": "Végezzen állatkezelési ellenőrzést a rögzítő DC-vel; több státuszfeltétel is előnyt biztosít."
+            "label": "Throw Pokéball",
+            "value": "1 akcióba kerül, hatótávja 60 láb, és elhasznál egy Poké Ball-változatot."
+          },
+          {
+            "label": "Próba",
+            "value": "Animal Handling próbát dobj a befogási DC ellen; a Poisoned, Restrained, Asleep, Burned, Confused, Paralyzed vagy Frozen célpont előnyt ad."
           },
           {
             "label": "Alap DC",
-            "value": "10 + a Pokémon fajbesorolása lefelé kerekítve + szintje."
+            "value": "10 + a Pokémon Species Ratingje (SR), lefelé kerekítve + a Pokémon szintje."
           },
           {
-            "label": "Egészség",
-            "value": "Csökkentse a DC-t 5-tel a fele HP alá, és további 5-tel a maximális HP 10%-a alá."
+            "label": "HP",
+            "value": "A befogási DC 5-tel csökken fél HP alatt, és további 5-tel a maximális HP 10%-a alatt."
           },
           {
             "label": "Korlátok",
-            "value": "Egy elájult vagy a Trainernél magasabb szintű Pokémont nem lehet Pokéballal elkapni."
+            "value": "Elájult, a Trainernél magasabb szintű, vagy már más Trainerhez regisztrált Pokémon nem fogható be Poké Ball-lal."
+          },
+          {
+            "label": "Sikeres befogás",
+            "value": "A Pokémon megtartja a szintjét, aktuális HP-jét és állapothatásait. Ha minden Pokéslot foglalt, egy Pokémont a PC-be kell küldened."
+          },
+          {
+            "label": "Sikertelen befogás",
+            "value": "A Poké Ball megsemmisül."
           }
         ]
       }
@@ -37369,25 +37381,37 @@
       "dataset": "rules",
       "recordId": "pokeball-variants",
       "payload": {
-        "name": "Pokéball változatok",
-        "category": "Fogás",
-        "description": "A Pokéball-változatok megváltoztatják a befogási kísérletet, vagy előnyt jelentenek a birtokukban lévő Pokémonoknak.",
+        "name": "Poké Ball-változatok",
+        "category": "Befogás",
+        "description": "A Poké Ball-változatok csökkenthetik a befogási DC-t, megváltoztathatják a befogás módját, vagy előnyt adhatnak a bennük tartott Pokémonnak.",
         "details": [
           {
-            "label": "Capture módosítók",
-            "value": "Nagy és Ultra Balls alsó rögzítő DC; A specializált labdák megfelelő körülmények között alkalmazzák bónuszukat."
+            "label": "Alaplabdák",
+            "value": "A Poké Ball nem ad módosítót; a Great Ball 5-tel, az Ultra Ball 10-zel csökkenti a DC-t; a Master Ball automatikusan sikeres."
           },
           {
-            "label": "Mesterlabda",
-            "value": "A rögzítési kísérlet automatikusan sikerül."
+            "label": "Célpont és környezet",
+            "value": "A Safari, Level, Lure, Heavy, Net, Dive, Nest, Repeat, Moon és Dusk Ball akkor csökkenti a DC-t, ha teljesül a nevükhöz kötött célpont-, szint-, méret-, élőhely-, idő- vagy előzményfeltétel."
           },
           {
-            "label": "Sikertelen kísérlet",
-            "value": "A Pokéball megsemmisül, ha elfogási kísérlete kudarcot vall."
+            "label": "Trainer módosítók",
+            "value": "A Safari, Friend és Sport Ball a Trainer Nature, Persuasion vagy Athletics módosítójával csökkenti a DC-t; a Love Ball az aktív Pokémon Karizma módosítójának kétszeresével."
           },
           {
-            "label": "Pokémonokat tartott",
-            "value": "Egyes golyók pihenést vagy ütéseket biztosítanak a bennük lakó Pokémonoknak."
+            "label": "Harci időzítés",
+            "value": "A Fast Ball reakcióként dobható menekülő Pokémonra; a Quick Ball az első harci körben 15-tel csökkenti a DC-t; a Dream Ball 5-tel csökkenti azt Asleep Pokémon ellen."
+          },
+          {
+            "label": "Timer Ball",
+            "value": "Dobás előtt koncentrálhatsz: körönként 1-gyel, legfeljebb 10-zel csökkenti a DC-t."
+          },
+          {
+            "label": "Benn tartott Pokémon",
+            "value": "A Luxury Ball +1 maximális Hit Die-t ad; a Heal Ballban lévő Pokémon rövid pihenőn kétszer dobhat Hit Die-t, és a nagyobb eredményt használja; a Premier Ballnak nincs mechanikai hatása."
+          },
+          {
+            "label": "Sikertelen befogás",
+            "value": "A Poké Ball megsemmisül."
           }
         ]
       }
@@ -37396,25 +37420,29 @@
       "dataset": "rules",
       "recordId": "zero-hit-points",
       "payload": {
-        "name": "0 LE elérése",
-        "category": "Helyreállítás",
-        "description": "A 0 HP-s Pokémon kimenetele a csatától és attól függ, hogy stabilizálódott-e.",
+        "name": "0 HP elérése",
+        "category": "Gyógyulás",
+        "description": "A 0 HP-ra esett Pokémon sorsa a csata típusától és a stabilizálásától függ.",
         "details": [
           {
             "label": "Szankcionált csata",
-            "value": "Minden sérülés nem halálos; egy lecsapott Pokémon nem végez halált megmentő dobásokat."
+            "value": "Minden sebzés nem halálos; a 0 HP-ra esett Pokémon nem dob halálmentő dobást."
           },
           {
             "label": "Más csaták",
-            "value": "Egy lezuhant Pokémon halált mentő dobásokat hajt végre, amíg stabilizálódik."
+            "value": "A 0 HP-ra esett Pokémon halálmentő dobásokat tesz, amíg stabilizálódik."
           },
           {
-            "label": "Egy Pokéball belsejében",
-            "value": "Halálos mentés nem szükséges; tíz megszakítás nélküli perc bent 0 HP-n stabilizálja a Pokémont."
+            "label": "Poké Ballban",
+            "value": "Nincs szükség halálmentő dobásra; tíz megszakítás nélküli perc a Poké Ballban 0 HP-n stabilizálja a Pokémont."
           },
           {
-            "label": "Edző reakciója",
-            "value": "A kiképző visszahívhatja a Pokémont, és azonnal kiküldhet egy másikat."
+            "label": "Trainer reakciója",
+            "value": "A Trainer visszahívhatja a Pokémont, és azonnal kiküldhet egy másikat."
+          },
+          {
+            "label": "Pokémon halála",
+            "value": "A Pokémon a harmadik sikertelen halálmentő dobása után meghal. A szabályok nem adnak általános módot egy elhunyt Pokémon feltámasztására."
           }
         ]
       }
@@ -37525,19 +37553,31 @@
       "payload": {
         "name": "Z-Moves és Dynamax",
         "category": "Átváltozások",
-        "description": "A Z-Power és a Dynamax erőteljes ideiglenes opciókat kínál különböző felszereltséggel és szintigényekkel.",
+        "description": "A Z-Move egyetlen döntő Move-ot erősít fel, a Dynamax pedig rövid időre méretet és ellenállóképességet ad.",
         "details": [
           {
-            "label": "Z-Move",
-            "value": "6-os szint, hozzáillő Z-kristály és Z-gyűrűs tréner szükséges; felhatalmazza a megfelelő ismert Mozgást."
+            "label": "Z-Move követelményei",
+            "value": "Legalább 6. szint, egy ismert Move típusához illő Z-kristály és egy Z-Gyűrűvel rendelkező Trainer szükséges."
           },
           {
-            "label": "Dynamax",
-            "value": "10-es szint, megfelelő hely és Dynamax Band szükséges; a jelenlegi HP és Gargantuan méretnek megfelelő ideiglenes HP-t biztosít."
+            "label": "Z-Move hatása",
+            "value": "Válassz egy illő ismert Move-ot. Nem téveszthet célt, a mentődobás DC-je +5, a sebzés- vagy gyógyításkockák és a Move-bónusz pedig megduplázódnak."
+          },
+          {
+            "label": "Dynamax követelményei",
+            "value": "Legalább 10. szint, egy Gargantuan lényhez elég hely és egy Dynamax Banddel rendelkező Trainer szükséges."
+          },
+          {
+            "label": "Dynamax hatása",
+            "value": "A jelenlegi HP-val megegyező ideiglenes HP-t kapsz, Gargantuan méretűvé válsz, immunis leszel az illékony állapothatásokra, nem cserélhetsz, és a sebzésre kétszer dobsz, majd választasz az eredmények közül."
+          },
+          {
+            "label": "Dynamax vége",
+            "value": "Harc után, harcon kívül egy perc elteltével, az ideiglenes HP elfogyásakor, elájuláskor vagy a Dynamax Band elvesztésekor ér véget."
           },
           {
             "label": "Frekvencia",
-            "value": "Egy Pokémon csak egy átalakuláson mehet keresztül hosszú pihenőnként; a tréner minden transzformációs fajtát egyszer indukálhat hosszú pihenőnként."
+            "value": "Egy Pokémon hosszú pihenőnként csak egy átváltozáson eshet át; a Trainer minden átváltozástípusát egyszer idézheti elő hosszú pihenőnként."
           }
         ]
       }
@@ -38934,6 +38974,612 @@
             "label": "Legendás tudás",
             "value": "A Pokémon Move-listájáról szintkorlátozás nélkül választhat Move-okat."
           }
+        ]
+      }
+    },
+    {
+      "dataset": "paths",
+      "recordId": "ace-trainer",
+      "payload": {
+        "name": "Ász Trainer",
+        "description": "Harcra összpontosító Trainer Path, amely az egész csapat támadóerejét növeli.",
+        "details": [
+          {
+            "label": "2. szint: Ász Trainer",
+            "value": "Minden Pokémonod +1 bónuszt kap a támadás- és sebzésdobásokra."
+          },
+          {
+            "label": "5. szint: Battle Master",
+            "value": "Korlátozott számú d6 harci kockát adhatsz egy Pokémon támadás- vagy sebzésdobásához; a készlet hosszú pihenő után feltöltődik."
+          },
+          {
+            "label": "9. szint: Taktikai elsajátítás",
+            "value": "Egy kiválasztott attribútum minden jelenlegi és jövőbeli Pokémonodnál 1-gyel nő; a harci kockák d8-ra javulnak."
+          },
+          {
+            "label": "15. szint: Gyors váltás",
+            "value": "A csatába cserélt Pokémon abban a körben egy akciót vagy mozgást végezhet; a harci kockák d10-re javulnak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "paths",
+      "recordId": "hobbyist",
+      "payload": {
+        "name": "Hobbista",
+        "description": "Sokoldalú Trainer Path, amely szélesíti a Trainer és a Pokémonok jártasságait.",
+        "details": [
+          {
+            "label": "2. szint: Hobbi",
+            "value": "Válassz egy további Specializationt, és szerezz két új Trainer-jártasságot."
+          },
+          {
+            "label": "5. szint: Sokoldalú",
+            "value": "Korlátozott számú d6 képzettségi kockát adhatsz egy Pokémon képzettségpróbájához vagy mentődobásához."
+          },
+          {
+            "label": "9. szint: Generalista",
+            "value": "Te és Pokémonjaid a jártasság nélkül végzett képzettségpróbákra fél jártassági bónuszt kaptok; a képzettségi kockák d8-ra javulnak."
+          },
+          {
+            "label": "15. szint: Sokoldalú tehetség",
+            "value": "Minden Pokémon egy választott képzettségben jártasságot szerez; a képzettségi kockák d10-re javulnak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "paths",
+      "recordId": "poke-mentor",
+      "payload": {
+        "name": "Poké Mentor",
+        "description": "Tanításközpontú Trainer Path, amely javítja a TM-használatot és a Move-ok fejlesztését.",
+        "details": [
+          {
+            "label": "2. szint: Poké Mentor",
+            "value": "A TM-ek kétszer használhatók, mielőtt eltörnek."
+          },
+          {
+            "label": "5. szint: Megtartás",
+            "value": "Az Extra Move feat egy ASI-pontba kerül kettő helyett."
+          },
+          {
+            "label": "9. szint: Pompomlány",
+            "value": "Egyszer rövid pihenőnként használj egy bónuszakciót a szövetséges támadódobások, sebzésdobások vagy AC-k növelésére a következő körödig."
+          },
+          {
+            "label": "15. szint: Mestertanár",
+            "value": "A Pokémonok minden hosszú pihenőkor megtanulhatnak és elfelejthetnek Move-okat, nem csak szintlépéskor."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "paths",
+      "recordId": "researcher",
+      "payload": {
+        "name": "Kutató",
+        "description": "Tudásközpontú Trainer Path a Pokémonok és fejlődésük kutatásához.",
+        "details": [
+          {
+            "label": "2. szint: Kutató",
+            "value": "Hosszú pihenőnként korlátozott számú alkalommal add hozzá az Intelligencia módosítódat egy Pokémon képzettségpróbájához."
+          },
+          {
+            "label": "5. szint: Elemző",
+            "value": "Sikeres szembenálló Investigation próbával megtudhatod a célpont Abilityjét és egy Move-ját."
+          },
+          {
+            "label": "9. szint: Evolúciós szakértő",
+            "value": "Egy Pokémon fejlődésekor két Evolution Pointot Featre költhetsz."
+          },
+          {
+            "label": "15. szint: Professzor",
+            "value": "Az Analystet bónuszakcióként használhatod, és egy további Abilityt vagy Move-ot fedsz fel."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "paths",
+      "recordId": "pokemon-collector",
+      "payload": {
+        "name": "Pokémon gyűjtő",
+        "description": "Gyűjtésközpontú Trainer Path a Pokémonok befogásához, védelméhez és nyomon követéséhez.",
+        "details": [
+          {
+            "label": "2. szint: Pokémon gyűjtő",
+            "value": "Szakértelmet szerzel az Animal Handling képzettségben."
+          },
+          {
+            "label": "5. szint: Kapd el mindet",
+            "value": "Hosszú pihenőnként egyszer előnnyel dobhatsz Animal Handling próbát befogáskor."
+          },
+          {
+            "label": "9. szint: Fegyelmezett csapások",
+            "value": "Ha egy sebző találat elájultatna egy Pokémont, dönthetsz úgy, hogy 1 HP-n marad."
+          },
+          {
+            "label": "15. szint: Expert Tracker",
+            "value": "A Pokémon Trackert hosszú pihenőnként kétszer használhatod, és sikeres próbával kiválasztott vad Pokémont kereshetsz."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "paths",
+      "recordId": "nurse",
+      "payload": {
+        "name": "Nővér",
+        "description": "Gyógyításközpontú Trainer Path, amely erősíti a Pokémonok felépülését és az orvosi támogatást.",
+        "details": [
+          {
+            "label": "2. szint: Nővér",
+            "value": "Medicine jártasságot szerzel; egy Pokémon gyógyításakor további, a Wisdom módosítóddal egyező HP-t állítasz vissza."
+          },
+          {
+            "label": "5. szint: Pokéchef",
+            "value": "Korlátozott számú gyógyító finomságot készíthetsz, amelyek 2d4 + 2 HP-t állítanak vissza."
+          },
+          {
+            "label": "9. szint: Tábori gyógyító",
+            "value": "Medicine próbával meggyógyíthatod egy szomszédos Pokémon nem illékony állapothatását; a finomságok 3d10 + 6 HP-t gyógyítanak."
+          },
+          {
+            "label": "15. szint: Csúcsforma",
+            "value": "Pokémonjaid előnyt kapnak a negatív állapothatások elleni mentődobásokra; a finomságok 4d12 + 10 HP-t gyógyítanak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "paths",
+      "recordId": "type-master",
+      "payload": {
+        "name": "Típusmester",
+        "description": "Típusokra szakosodott Trainer Path, amely erősíti a Specializationjeidhez illő Pokémonokat.",
+        "details": [
+          {
+            "label": "2. szint: Típusmester",
+            "value": "A Specializationöd típusához illő Pokémonok STAB-ja +1; kettős egyezésnél +2."
+          },
+          {
+            "label": "5. szint: Erőmerítés",
+            "value": "Az illő típusú Pokémonok +2 bónuszt kapnak a támadásdobásokra."
+          },
+          {
+            "label": "9. szint: Erőtárolás",
+            "value": "Az illő típusú, hordozott Pokémonok ellenállást kapnak egy választott Specialization-típussal szemben."
+          },
+          {
+            "label": "15. szint: Erő felszabadítása",
+            "value": "Az illő típusú Pokémonok a STAB-ot egy más típusú sebző Move-ra is alkalmazhatják."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "paths",
+      "recordId": "commander",
+      "payload": {
+        "name": "Parancsnok",
+        "description": "A Bonds kiegészítő Trainer Pathja, amely a csapat Bond Leveljeit és Bond Pointjait fejleszti.",
+        "prerequisite": "A Bonds kiegészítő szükséges.",
+        "details": [
+          {
+            "label": "2. szint: Parancsnok",
+            "value": "A kezdő Pokémonod Bond Levelje +2 lesz, a pozitív Bond Levelű Pokémonok pedig 1 további Bond Pointot kapnak."
+          },
+          {
+            "label": "5. szint: Kövess engem",
+            "value": "Az újonnan befogott vagy kikelt Pokémonok +1 Bond Levelt kapnak, és a csatavesztés nem csökkenti a Bond Levelt."
+          },
+          {
+            "label": "9. szint: Mutasd, mit tudsz",
+            "value": "Pokémononként hosszú pihenőnként egyszer elkölthetsz egy Bond Pointot egy, az aktuális tierénél eggyel magasabb Move használatához."
+          },
+          {
+            "label": "15. szint: Egy csapat vagyunk",
+            "value": "Reakcióként lehetővé teheted, hogy egy Pokémon egy Bond Point előnyét egy szövetséges Pokémonra is alkalmazza."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "paths",
+      "recordId": "grunt",
+      "payload": {
+        "name": "Grunt",
+        "description": "Gonosz csapatokhoz illő Trainer Path, amely Shadow Pointokat költ bomlasztó harctéri taktikákra.",
+        "details": [
+          {
+            "label": "2. szint: Grunt",
+            "value": "A Trainer szinteddel egyenlő, hosszú pihenő után feltöltődő Shadow Point készletet kapsz, és Sabotage-zsal egy találat értékét csökkentheted, hogy az célt tévesszen."
+          },
+          {
+            "label": "5. szint: Sötét előny",
+            "value": "Shadow Pointokért előnyt adhatsz egy Trainer vagy Pokémon képzettségpróbájára, támadás- vagy mentődobására."
+          },
+          {
+            "label": "9. szint: Baljós kitérés",
+            "value": "Reakcióként Shadow Pointokat költhetsz, hogy javítsd egy Pokémon ellenállását egy sebző Move ellen."
+          },
+          {
+            "label": "15. szint: Aljas megingatás",
+            "value": "Shadow Pointokért a Flinched állapothatás helyett Stunned állapothatást okozhatsz."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "paths",
+      "recordId": "tactician",
+      "payload": {
+        "name": "Taktikus",
+        "description": "Harcirányító Trainer Path, amely Tactical Pointokat költ gyógyításra, támadásra és védekezésre.",
+        "details": [
+          {
+            "label": "2. szint: Taktikus",
+            "value": "A Trainer szinteddel egyenlő, hosszú pihenő után feltöltődő Tactical Point készletet kapsz; pontokkal növelheted a Pokémon-gyógyítást."
+          },
+          {
+            "label": "5. szint: Irányított csapás",
+            "value": "Tactical Pointokért kétszer dobhatod egy támadás sebzését, és a magasabb eredményt tartod meg."
+          },
+          {
+            "label": "9. szint: Védelem emelése",
+            "value": "Reakcióként Tactical Pointokat költhetsz egy Pokémon AC-jének vagy mentődobásának növelésére, ha ez megváltoztatja az eredményt."
+          },
+          {
+            "label": "15. szint: Ezúttal nem",
+            "value": "Tactical Pointokért növelheted egy Move mentődobásának DC-jét, ha ettől a mentés sikertelen lesz."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "paths",
+      "recordId": "ranger",
+      "payload": {
+        "name": "Ranger",
+        "description": "Vadonterepre való Trainer Path utazáshoz, nyomkövetéshez, befogáshoz és egy választott Pokémon-partnerhez.",
+        "details": [
+          {
+            "label": "2. szint: Ranger",
+            "value": "Nature és Survival jártasságot, gyorsabb gyalogos sebességet, valamint mászó- és úszósebességet szerzel."
+          },
+          {
+            "label": "5. szint: Capture Styler",
+            "value": "Ha a mozgásoddal körbezársz egy Pokémont, +10 bónuszt kapsz a befogására."
+          },
+          {
+            "label": "9. szint: Partnerek",
+            "value": "Minden hosszú pihenő után választasz egy napi partner Pokémont, amely hozzáadja a Wisdom módosítódat képzettségpróbáihoz és vad Pokémonok elleni támadásaihoz."
+          },
+          {
+            "label": "15. szint: Poké Assist",
+            "value": "A partnered típusaival egyező Move-ok támadásdobásaira és az ilyen típusú Pokémonok befogására előnyt kapsz."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "paths",
+      "recordId": "guru",
+      "payload": {
+        "name": "Guru",
+        "description": "Kapcsolatközpontú Trainer Path, amely a Pokémonok mentális, fizikai és spirituális erejét fejleszti.",
+        "details": [
+          {
+            "label": "2. szint: Guru",
+            "value": "A tartósan irányítható maximális SR-ed 1-gyel nő."
+          },
+          {
+            "label": "5. szint: Elme",
+            "value": "Pokémonjaid Wisdom mentődobás-jártasságot kapnak, és Confused állapotban kedvezőbb eredményt érnek el."
+          },
+          {
+            "label": "9. szint: Test",
+            "value": "Pokémonjaid két Abilityhez férhetnek hozzá, a Tireless Feat pedig kevesebb ASI pontba kerül."
+          },
+          {
+            "label": "15. szint: Szellem",
+            "value": "Hosszú pihenőnként korlátozott számú alkalommal a Wisdom módosítódat minden Pokémon-támadás- vagy sebzésdobáshoz hozzáadhatod egy körig."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "paths",
+      "recordId": "pokemon-breeder",
+      "payload": {
+        "name": "Pokémon tenyésztő",
+        "description": "A Breeding kiegészítő Trainer Pathja a keltetés, az öröklődés és a tojások eredményének javításához.",
+        "prerequisite": "A Breeding kiegészítő szükséges.",
+        "details": [
+          {
+            "label": "2. szint: Pokémon tenyésztő",
+            "value": "Két Pokémon tenyésztésekor hozzáadhatod a Wisdom módosítódat a sikeres próbához dobott d20-hoz."
+          },
+          {
+            "label": "5. szint: Gyengéd szeretet és gondoskodás",
+            "value": "Előnnyel dobsz minden olyan próbára, amely csökkenti egy Pokémon-tojás Inkubációs számlálóját."
+          },
+          {
+            "label": "9. szint: Jó gének",
+            "value": "A kikelt Pokémonok két pontot kapnak attribútumaik növelésére vagy Featre."
+          },
+          {
+            "label": "15. szint: Fokozott sokszínűség",
+            "value": "A jövőben kikelt Pokémonok örökölhetnek egy, a szülő által ismert és a feltételeknek megfelelő Move-ot."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "shiny-pokemon",
+      "payload": {
+        "name": "Fényes Pokémon",
+        "category": "Fényes Pokémon",
+        "description": "A fényes Pokémonok fajához képest szokatlan színezetűek, és ritkasága miatt nagyra becsülik.",
+        "details": [
+          {
+            "label": "Játékhatás",
+            "value": "A fényes Pokémonnak nincs jelentős mechanikai előnye faja szokásos tagjával szemben."
+          },
+          {
+            "label": "Játékmester választás",
+            "value": "Amikor a csapat vad Pokémonnal találkozik, a Kalandmester dobással dönthet arról, hogy Fényes-e."
+          },
+          {
+            "label": "Megjelenítés",
+            "value": "A jellegzetes színezettel és a találkozás történeti környezetével tedd emlékezetessé a felfedezést."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "shiny-encounter-odds",
+      "payload": {
+        "name": "Fényes Pokémon találkozási esélyek",
+        "category": "Fényes Pokémon",
+        "description": "Válassz egy fényes találkozási arányt, amely megegyezik a vad Pokémonok megjelenési gyakoriságával a kampányban.",
+        "details": [
+          {
+            "label": "1 a 100-hoz",
+            "value": "A legtöbb asztali játékhoz ajánlott: dobj egy d100-at; 100-as eredménynél a Pokémon Fényes."
+          },
+          {
+            "label": "1 az 1000-hez",
+            "value": "Sok vad találkozást tartalmazó játékhoz: dobj három d10-et; a Pokémon akkor Fényes, ha mindhárom kocka 10-et mutat."
+          },
+          {
+            "label": "1 a 4096-hoz",
+            "value": "A kánon ihlette ritkasághoz: dobj négy d8-at; a Pokémon akkor Fényes, ha mind a négy kocka 8-at mutat."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "encounter-rewards",
+      "payload": {
+        "name": "Találkozási jutalmak",
+        "category": "Találkozások",
+        "description": "A jutalmakat a részvétel, a csata tétje és a kampány kívánt gazdasága alapján határozd meg.",
+        "details": [
+          {
+            "label": "Vad találkozás XP-je",
+            "value": "A Kalandmester az XP-t egyenlően vagy az egyes játékos karakterek részvétele alapján oszthatja szét."
+          },
+          {
+            "label": "Trainer-csata jutalmai",
+            "value": "A teljes csapatnak adhatsz XP-t és pénzt, a legyőzött Pokémonokért járó XP mellett."
+          },
+          {
+            "label": "Pénz kiindulópont",
+            "value": "Trainer kifizetéséhez jó kiindulópont: az ellenfél csapat legerősebb Pokémonjának szintje × d4 × 100 Pokédollár."
+          },
+          {
+            "label": "Egyéb bevétel",
+            "value": "A fejvadászatok, alkalmi munkák, Contests és Gym Battle-ök kiegészíthetik a csaták jutalmait."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "pokemon-experience",
+      "payload": {
+        "name": "Pokémon XP",
+        "category": "Fejlődés",
+        "description": "A Pokémonok csatákból, befogásokból és a Kalandmester jelentős kihívásokért adott jutalmaiból szereznek XP-t.",
+        "details": [
+          {
+            "label": "Legyőzésért járó XP",
+            "value": "Egy legyőzött Pokémonért járó XP: 200 × a Pokémon szintje × Species Ratingje (SR)."
+          },
+          {
+            "label": "Befogásért járó XP",
+            "value": "Egy Pokémon befogása a szokásos XP-jutalom egyötödét adja."
+          },
+          {
+            "label": "Jogosultság",
+            "value": "Az XP szabadon osztható a Trainer Pokémonjai között, de csak a csatában részt vevő Pokémon kaphatja meg; az elájult résztvevők is jogosultak rá."
+          },
+          {
+            "label": "Egyéb jutalmak",
+            "value": "A Kalandmester nehéz kihívásokért és Trainer-csatákért is adhat XP-t."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "pokemon-ability-score-improvements",
+      "payload": {
+        "name": "Pokémon attribútumfejlesztések",
+        "category": "Fejlődés",
+        "description": "Az Ability Score Improvement a Pokémon hosszú távú fejlődését jelzi, és részben Pokémon Featre váltható.",
+        "details": [
+          {
+            "label": "Szintek",
+            "value": "A Pokémon a 4., 8., 12. és 16. szinten kap Ability Score Improvementet."
+          },
+          {
+            "label": "Pontok",
+            "value": "Az egy-, két- vagy háromszakaszos evolúciós vonal rendre 4, 3 vagy 2 pontot kap; az attribútumok normál maximuma 20."
+          },
+          {
+            "label": "Pokémon Feat",
+            "value": "Egy Ability Score Improvement legfeljebb 2 pontja Pokémon Feat megszerzésére használható."
+          },
+          {
+            "label": "Peak Power",
+            "value": "20. szinten újabb fejlesztést kapsz, 22-es attribútummaximummal; SR 15 vagy magasabb értéknél a maximum 30."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "trainer-control-upgrades",
+      "payload": {
+        "name": "Trainer Control Upgrade-ek",
+        "category": "Trainer fejlődés",
+        "description": "A Control Upgrade-ek határozzák meg, hogy a Trainer legfeljebb milyen Species Ratingű (SR) Pokémont irányíthat megbízhatóan.",
+        "details": [
+          {
+            "label": "Maximális SR",
+            "value": "A határ az 1-2. szinten SR 2, majd a 3., 6., 8., 11., 14. és 17. szinten rendre SR 5, 8, 10, 12, 14 és 15."
+          },
+          {
+            "label": "Határ felett",
+            "value": "A Trainer aktuális határa feletti Pokémon nem hajlandó elhagyni a Poké Ballját, és nem engedelmeskedik a parancsoknak."
+          },
+          {
+            "label": "Pokéslotok",
+            "value": "Egy Trainer az 1. szinten 3, az 5. szinten 4, a 10. szinten 5, a 15. szinten pedig 6 Pokémont hordozhat."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "trainer-class-high-level-features",
+      "payload": {
+        "name": "Magas szintű Trainer-képességek",
+        "category": "Trainer fejlődés",
+        "description": "Magas szinteken a Trainer nagyobb ellenállóképességet, vad Pokémon-ismeretet és mesterszintű támogatást kap.",
+        "details": [
+          {
+            "label": "10. szint: Trainer's Resolve",
+            "value": "Immunis leszel a Frightened állapothatásra, és jártasságot szerzel egy második mentődobásban."
+          },
+          {
+            "label": "13. szint: Pokémon Tracker",
+            "value": "Hosszú pihenőnként egyszer megtudhatod, mely vad Pokémonok találhatók a közelben, és szakértelmet szerzel az Animal Handling képzettségben."
+          },
+          {
+            "label": "19. szint: Epic Boon",
+            "value": "Válassz egy Epic Boont vagy egy másik Featet, amelynek megfelelsz az előfeltételeinek."
+          },
+          {
+            "label": "20. szint: Master Trainer",
+            "value": "Hosszú pihenőnként kétszer sikerré változtathatod egy saját vagy az egyik Pokémonod sikertelen mentődobását."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "optional-supplements",
+      "payload": {
+        "name": "Választható kiegészítők",
+        "category": "Kiegészítők",
+        "description": "A Pokémon 5e az alapszabályai mellett az opcionális közösségi kiegészítők bármilyen kombinációját használhatja.",
+        "details": [
+          {
+            "label": "Karakter opciók",
+            "value": "A Trainer Originök és a Pokémon Featek bővítik a karakterazonosság és a hosszú távú fejlődés lehetőségeit."
+          },
+          {
+            "label": "Pokémon kapcsolatok",
+            "value": "A Bonds és a Breeding kapcsolat-, tojás- és kikelésrendszereket ad; a Commander és Pokémon Breeder Pathok ezeket igénylik."
+          },
+          {
+            "label": "Kalandmesteri eszközök",
+            "value": "A Contests, Building Encounters és Legendary Battles további Session- és harci struktúrákat adnak."
+          },
+          {
+            "label": "Pokémon változatok",
+            "value": "A Transformations és a Fényes Pokémonok opcionális ritka formákat és drámai pillanatokat adnak."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "pokemon-level-table",
+      "payload": {
+        "name": "Pokémon szinttábla",
+        "category": "Fejlődési táblák",
+        "description": "1-20. szintű áttekintő a Pokémonok tapasztalatáról, jártassági bónuszáról és szintlépési választásairól.",
+        "details": [
+          { "label": "1. szint", "value": "0 XP | +2 jártassági bónusz | Kezdőszint." },
+          { "label": "2. szint", "value": "300 XP | +2 jártassági bónusz | Válassz új Move-ot." },
+          { "label": "3. szint", "value": "900 XP | +2 jártassági bónusz | -" },
+          { "label": "4. szint", "value": "2 700 XP | +2 jártassági bónusz | Attribútumérték-növelés." },
+          { "label": "5. szint", "value": "6 500 XP | +3 jártassági bónusz | A sebző Move-ok javulnak, ha a leírásuk jelzi." },
+          { "label": "6. szint", "value": "14 000 XP | +3 jártassági bónusz | Válassz új Move-ot." },
+          { "label": "7. szint", "value": "23 000 XP | +3 jártassági bónusz | -" },
+          { "label": "8. szint", "value": "34 000 XP | +3 jártassági bónusz | Attribútumérték-növelés." },
+          { "label": "9. szint", "value": "48 000 XP | +4 jártassági bónusz | -" },
+          { "label": "10. szint", "value": "64 000 XP | +4 jártassági bónusz | Új Move; a sebző Move-ok javulnak, ha a leírásuk jelzi." },
+          { "label": "11. szint", "value": "85 000 XP | +4 jártassági bónusz | -" },
+          { "label": "12. szint", "value": "100 000 XP | +4 jártassági bónusz | Attribútumérték-növelés." },
+          { "label": "13. szint", "value": "120 000 XP | +5 jártassági bónusz | -" },
+          { "label": "14. szint", "value": "140 000 XP | +5 jártassági bónusz | Válassz új Move-ot." },
+          { "label": "15. szint", "value": "165 000 XP | +5 jártassági bónusz | -" },
+          { "label": "16. szint", "value": "195 000 XP | +5 jártassági bónusz | Attribútumérték-növelés." },
+          { "label": "17. szint", "value": "225 000 XP | +6 jártassági bónusz | A sebző Move-ok javulnak, ha a leírásuk jelzi." },
+          { "label": "18. szint", "value": "265 000 XP | +6 jártassági bónusz | Válassz új Move-ot." },
+          { "label": "19. szint", "value": "305 000 XP | +6 jártassági bónusz | -" },
+          { "label": "20. szint", "value": "355 000 XP | +6 jártassági bónusz | Csúcserő attribútumérték-növelés." }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "trainer-level-table",
+      "payload": {
+        "name": "Trainer szinttábla",
+        "category": "Fejlődési táblák",
+        "description": "1-20. szintű áttekintő a Trainer képességeiről, Pokéslotjairól és a vezérelhető maximális Species Ratingről.",
+        "details": [
+          { "label": "1. szint", "value": "+2 jártassági bónusz | 3 Pokéslot | Max. SR 2 | Kezdő Pokémon, Specialization." },
+          { "label": "2. szint", "value": "+2 jártassági bónusz | 3 Pokéslot | Max. SR 2 | Válassz Trainer Pathot." },
+          { "label": "3. szint", "value": "+2 jártassági bónusz | 3 Pokéslot | Max. SR 5 | Irányításfejlesztés." },
+          { "label": "4. szint", "value": "+2 jártassági bónusz | 3 Pokéslot | Max. SR 5 | Attribútumérték-növelés." },
+          { "label": "5. szint", "value": "+3 jártassági bónusz | 4 Pokéslot | Max. SR 5 | Trainer Path képesség." },
+          { "label": "6. szint", "value": "+3 jártassági bónusz | 4 Pokéslot | Max. SR 8 | Irányításfejlesztés." },
+          { "label": "7. szint", "value": "+3 jártassági bónusz | 4 Pokéslot | Max. SR 8 | -" },
+          { "label": "8. szint", "value": "+3 jártassági bónusz | 4 Pokéslot | Max. SR 10 | Attribútumérték-növelés, irányításfejlesztés." },
+          { "label": "9. szint", "value": "+4 jártassági bónusz | 4 Pokéslot | Max. SR 10 | Trainer Path képesség." },
+          { "label": "10. szint", "value": "+4 jártassági bónusz | 5 Pokéslot | Max. SR 10 | Trainer elszántsága." },
+          { "label": "11. szint", "value": "+4 jártassági bónusz | 5 Pokéslot | Max. SR 12 | Irányításfejlesztés." },
+          { "label": "12. szint", "value": "+4 jártassági bónusz | 5 Pokéslot | Max. SR 12 | Attribútumérték-növelés." },
+          { "label": "13. szint", "value": "+5 jártassági bónusz | 5 Pokéslot | Max. SR 12 | Pokémon nyomkövető." },
+          { "label": "14. szint", "value": "+5 jártassági bónusz | 5 Pokéslot | Max. SR 14 | Irányításfejlesztés." },
+          { "label": "15. szint", "value": "+5 jártassági bónusz | 6 Pokéslot | Max. SR 14 | Trainer Path képesség." },
+          { "label": "16. szint", "value": "+5 jártassági bónusz | 6 Pokéslot | Max. SR 14 | Attribútumérték-növelés." },
+          { "label": "17. szint", "value": "+6 jártassági bónusz | 6 Pokéslot | Max. SR 15 | Irányításfejlesztés." },
+          { "label": "18. szint", "value": "+6 jártassági bónusz | 6 Pokéslot | Max. SR 15 | -" },
+          { "label": "19. szint", "value": "+6 jártassági bónusz | 6 Pokéslot | Max. SR 15 | Epikus áldás." },
+          { "label": "20. szint", "value": "+6 jártassági bónusz | 6 Pokéslot | Max. SR 15 | Mester Trainer." }
         ]
       }
     }

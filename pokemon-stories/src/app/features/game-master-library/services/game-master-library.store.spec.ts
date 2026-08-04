@@ -71,6 +71,34 @@ describe('GameMasterLibraryStore', () => {
     expect(entry?.detailGroups.find((group) => group.title === 'Különleges képesség')?.rows).toContainEqual({ label: 'Név', value: 'A Different Bond' });
   });
 
+  it('renders localized Trainer Path milestones with the Poke5e source link', async () => {
+    localStorage.setItem(localeKey, 'hu');
+    mockReferenceFetch({
+      '/reference-data/poke5e/paths.json': {
+        items: [{
+          id: 'ace-trainer', name: 'Ace Trainer', description: 'A battle-focused path.',
+          details: [{ label: 'Level 2: Ace Trainer', value: 'Pokémon gain +1 to attack and damage rolls.' }],
+          sourceUrl: 'https://poke5e.app/reference/trainer-paths',
+        }],
+      },
+      '/reference-data/poke5e/translations/hu.json': {
+        items: [{
+          dataset: 'paths', recordId: 'ace-trainer', payload: {
+            name: 'Ász Trainer', description: 'Harcra összpontosító Path.',
+            details: [{ label: '2. szint: Ász Trainer', value: 'A Pokémonok +1-et kapnak a támadás- és sebzésdobásokra.' }],
+          },
+        }],
+      },
+    });
+
+    const entry = await new GameMasterLibraryStore().find('paths', 'ace-trainer');
+
+    expect(entry?.name).toBe('Ász Trainer');
+    expect(entry?.tags).toEqual(['Trainer Path']);
+    expect(entry?.sourceUrl).toBe('https://poke5e.app/reference/trainer-paths');
+    expect(entry?.detailGroups[0]?.rows).toContainEqual({ label: '2. szint: Ász Trainer', value: 'A Pokémonok +1-et kapnak a támadás- és sebzésdobásokra.' });
+  });
+
   it('shows Hungarian Contest mechanics on a Move detail', async () => {
     localStorage.setItem(localeKey, 'hu');
     mockReferenceFetch({
@@ -199,6 +227,27 @@ describe('GameMasterLibraryStore', () => {
     expect(entry?.tags).toEqual(['Harc']);
     expect(entry?.sourceUrl).toBe('https://poke5e.app/reference/combat');
     expect(entry?.detailGroups[0]?.rows).toContainEqual({ label: 'Bónusz', value: 'Add hozzá a jártassági bónuszt.' });
+  });
+
+  it('lists individually localized Poké Balls without loading unrelated items', async () => {
+    localStorage.setItem(localeKey, 'hu');
+    mockReferenceFetch({
+      '/reference-data/poke5e/items.json': {
+        items: [
+          { id: 'poke-ball', name: 'Poke Ball', type: 'pokeball', cost: 200, description: 'A capture item.', beta: false },
+          { id: 'potion', name: 'Potion', type: 'medicine', cost: 300, description: 'A healing item.', beta: false },
+        ],
+      },
+      '/reference-data/poke5e/translations/hu.json': {
+        items: [{ dataset: 'items', recordId: 'poke-ball', payload: { name: 'Poké Ball', description: 'Befogásra szolgáló labda.' } }],
+      },
+    });
+
+    const entries = await new GameMasterLibraryStore().entries('pokeballs');
+
+    expect(entries).toHaveLength(1);
+    expect(entries[0]).toMatchObject({ section: 'pokeballs', id: 'poke-ball', name: 'Poké Ball', description: 'Befogásra szolgáló labda.' });
+    expect(entries[0]?.tags).toEqual(['pokeball', '200 P']);
   });
 });
 

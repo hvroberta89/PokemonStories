@@ -13,6 +13,18 @@
         tovább.
       </p>
 
+      <section class="adventure-template" aria-labelledby="oaks-parcel-template-title">
+        <div>
+          <p class="eyebrow">Kezdő sablon</p>
+          <h2 id="oaks-parcel-template-title">Oak csomagja</h2>
+          <p>Rövid, szerkeszthető kiindulópont első Sessionhöz: megbízás, utazás, befogás és összecsapás.</p>
+        </div>
+        <div class="adventure-template__actions">
+          <a href="https://poke5e.app/reference/oaks-parcel" target="_blank" rel="noopener noreferrer">Forrás</a>
+          <button type="button" (click)="applyOaksParcelTemplate()">Vázlat betöltése</button>
+        </div>
+      </section>
+
       <form (submit)="$event.preventDefault(); submit()" novalidate>
         <div class="field">
           <div class="field__heading">
