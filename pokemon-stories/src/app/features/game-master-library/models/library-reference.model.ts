@@ -1,4 +1,4 @@
-export type LibrarySection = 'pokemon' | 'moves' | 'abilities' | 'items' | 'tms' | 'origins' | 'types' | 'specializations' | 'rules';
+export type LibrarySection = 'pokemon' | 'moves' | 'abilities' | 'items' | 'tms' | 'origins' | 'types' | 'specializations' | 'natures' | 'feats' | 'rules';
 export type LibraryView = LibrarySection | 'favorites' | 'recent';
 export type LibraryLocale = 'en' | 'hu';
 

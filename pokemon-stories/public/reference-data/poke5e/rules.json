@@ -543,6 +543,150 @@
         { "label": "Supplements", "value": "Commander and Pokémon Breeder use the Bonds and Breeding supplements respectively." }
       ],
       "sourceUrl": "https://poke5e.app/reference/trainer-paths"
+    },
+    {
+      "id": "bond-levels",
+      "name": "Bond Levels",
+      "category": "Bonds",
+      "description": "The Bond Level describes the evolving relationship between a Pokémon and its Trainer.",
+      "details": [
+        { "label": "Range", "value": "Bond Levels range from -3 to +3 and may affect obedience, evolution, and Bond Points." },
+        { "label": "Starting bond", "value": "Most newly caught Pokémon begin at +0 or lower; they rarely begin above +1." },
+        { "label": "Narrative decision", "value": "The Trainer and Game Master agree when a Bond Level changes." },
+        { "label": "Examples", "value": "Time together, favored food, and difficult victories may raise a bond; neglect or cruel treatment may lower it." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/bonds"
+    },
+    {
+      "id": "bond-points",
+      "name": "Bond Points",
+      "category": "Bonds",
+      "description": "Pokémon with a positive Bond Level receive Bond Points equal to that level.",
+      "details": [
+        { "label": "Points", "value": "At Bond Level +1, +2, or +3, a Pokémon has 1, 2, or 3 Bond Points respectively." },
+        { "label": "Recovery", "value": "All spent Bond Points return at the end of a long rest." },
+        { "label": "Advantage", "value": "Spend 1 Bond Point after rolling a d20 ability check, attack roll, or saving throw to gain advantage." },
+        { "label": "Protection", "value": "Spend 1 Bond Point when a creature attacks the Pokémon to impose disadvantage on that attack roll." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/bonds"
+    },
+    {
+      "id": "negative-bond-levels",
+      "name": "Negative Bond Levels",
+      "category": "Bonds",
+      "description": "A negative Bond Level reflects an upset, indifferent, or disloyal Pokémon.",
+      "details": [
+        { "label": "Level -1", "value": "An upset Pokémon holds a grudge that affects it in battle." },
+        { "label": "Level -2", "value": "When commanded, roll a d20. On 10 or lower, the Pokémon hesitates and follows the command with disadvantage." },
+        { "label": "Level -3", "value": "When commanded, roll a d20. On 10 or lower, the Pokémon disobeys by doing nothing or acting on its own." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/bonds"
+    },
+    {
+      "id": "pokemon-eggs-and-breeding",
+      "name": "Pokémon Eggs and Breeding",
+      "category": "Breeding",
+      "description": "At the end of an in-game day, eligible Pokémon may attempt to create an egg.",
+      "details": [
+        { "label": "Trainer relationship", "value": "The Pokémon must share a Trainer, or their Trainers must be in the same party." },
+        { "label": "Bond", "value": "Each parent needs Bond Level +2 or higher." },
+        { "label": "Compatibility", "value": "The parents need opposite genders and a shared Egg Group; Undiscovered Pokémon cannot breed." },
+        { "label": "Pokéslot", "value": "The Trainer needs an open Pokéslot for the egg." },
+        { "label": "Breeding check", "value": "Roll a straight d20 against a DC set by the parents' combined Bond Levels." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/breeding"
+    },
+    {
+      "id": "egg-incubation",
+      "name": "Egg Incubation",
+      "category": "Breeding",
+      "description": "A new egg receives a Hatch Time counter based on the Pokémon's Species Rating.",
+      "details": [
+        { "label": "Progress", "value": "At the start of each in-game day or session, roll 1d100 + 50 and reduce the remaining counter by the result." },
+        { "label": "Care", "value": "Progress is possible only when the Trainer carried the egg through the night or much of the previous session." },
+        { "label": "Fragility", "value": "An egg has AC 8 and 10 HP; at 0 HP it breaks and the Pokémon inside is lost." },
+        { "label": "Incubators", "value": "Basic, Plus, and Super Incubators reduce Hatch Time by an additional 1d20, 2d20, or 3d20 per day." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/breeding"
+    },
+    {
+      "id": "hatching-pokemon",
+      "name": "Hatching a Pokémon",
+      "category": "Breeding",
+      "description": "When Hatch Time reaches 0, determine the hatched Pokémon's initial species, traits, Moves, and bond.",
+      "details": [
+        { "label": "Species", "value": "Use the female parent's lowest evolutionary form at its minimum found level." },
+        { "label": "Nature and gender", "value": "Roll a d100 on the Nature table and against the species' Gender Rate." },
+        { "label": "Moves", "value": "Choose starting Moves and add eligible Egg Moves or shared parent Moves as described by the breeding rules." },
+        { "label": "Ability", "value": "Flip a coin: heads inherits the female parent's Ability; tails selects randomly from the hatched Pokémon's stat block." },
+        { "label": "Bond", "value": "The hatchling begins at Bond Level +1, or +2 if it spent the full incubation period in the Trainer's party." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/breeding"
+    },
+    {
+      "id": "breeding-special-cases",
+      "name": "Breeding Special Cases",
+      "category": "Breeding",
+      "description": "Some Egg Groups and species follow special rules when breeding.",
+      "details": [
+        { "label": "Ditto", "value": "Ditto can breed with any Pokémon regardless of gender or Egg Group; the non-Ditto parent determines the hatched species." },
+        { "label": "Undiscovered", "value": "Baby and Legendary Pokémon in the Undiscovered Egg Group cannot breed." },
+        { "label": "Gendered species", "value": "Species with separate gender stat blocks may produce either species; use the hatchling's Gender Rate to decide." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/breeding"
+    },
+    {
+      "id": "legendary-boss-battles",
+      "name": "Legendary Boss Battles",
+      "category": "Legendary Battles",
+      "description": "The Game Master can give a major enemy Legendary Abilities to make a boss encounter more dangerous and memorable.",
+      "details": [
+        { "label": "Purpose", "value": "Use these abilities for unusually difficult enemies, such as a dangerous wild threat or a Legendary Pokémon." },
+        { "label": "Selection", "value": "Choose abilities that reinforce the boss's narrative role and intended battlefield behavior." },
+        { "label": "Reward", "value": "Consider awarding additional experience for defeating a creature with one or more Legendary Abilities." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/legendary-battles"
+    },
+    {
+      "id": "legendary-defense",
+      "name": "Legendary Defensive Abilities",
+      "category": "Legendary Battles",
+      "description": "Defensive Legendary Abilities help a boss endure decisive player turns.",
+      "details": [
+        { "label": "Legendary Grit", "value": "A limited number of times per day, the Pokémon can turn a failed saving throw into a success." },
+        { "label": "Legendary Resistance", "value": "A limited number of times per day, the Pokémon can halve damage from a Move." },
+        { "label": "Legendary Resilience", "value": "The Pokémon can sacrifice its action to remove a negative status effect from itself." },
+        { "label": "Legendary Armor", "value": "As a reaction a limited number of times per day, the Pokémon can increase AC enough to turn an attack into a miss." },
+        { "label": "Legendary Toughness", "value": "Base HP on the maximum hit-die roll for every level." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/legendary-battles"
+    },
+    {
+      "id": "legendary-offense-and-energy",
+      "name": "Legendary Offense and Energy",
+      "category": "Legendary Battles",
+      "description": "Offensive and energy abilities let a boss create sustained pressure in battle.",
+      "details": [
+        { "label": "Legendary Attack I", "value": "Trade the current action for two attacks next turn, or make two attacks now and sacrifice the next action." },
+        { "label": "Legendary Attack II", "value": "Make two attacks on each turn." },
+        { "label": "Legendary Attack III", "value": "Use a signature Move twice in one turn." },
+        { "label": "Legendary Energy I", "value": "Sacrifice an action to restore all PP for one Move." },
+        { "label": "Legendary Energy II", "value": "Every Move has double its normal PP." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/legendary-battles"
+    },
+    {
+      "id": "legendary-mobility-and-utility",
+      "name": "Legendary Mobility and Utility",
+      "category": "Legendary Battles",
+      "description": "Mobility and utility abilities make a boss harder to contain and more tactically flexible.",
+      "details": [
+        { "label": "Legendary Nimbleness", "value": "Move up to speed without provoking opportunity attacks." },
+        { "label": "Legendary Speed", "value": "A limited number of times per day, double movement." },
+        { "label": "Legendary Reflexes", "value": "Use two reactions in a combat round." },
+        { "label": "Legendary Knowledge", "value": "Choose Moves from anywhere in the Pokémon's Move list regardless of level." }
+      ],
+      "sourceUrl": "https://poke5e.app/reference/legendary-battles"
     }
   ]
 }

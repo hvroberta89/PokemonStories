@@ -1,0 +1,29 @@
+{
+  "items": [
+    {"id":"hardy","name":"Hardy","roll":"1-4","increase":null,"decrease":null},
+    {"id":"lonely","name":"Lonely","roll":"5-8","increase":"str","decrease":"con"},
+    {"id":"brave","name":"Brave","roll":"9-12","increase":"str","decrease":"dex"},
+    {"id":"adamant","name":"Adamant","roll":"13-16","increase":"str","decrease":"wis"},
+    {"id":"naughty","name":"Naughty","roll":"17-20","increase":"str","decrease":"cha"},
+    {"id":"bold","name":"Bold","roll":"21-24","increase":"con","decrease":"str"},
+    {"id":"docile","name":"Docile","roll":"25-28","increase":null,"decrease":null},
+    {"id":"relaxed","name":"Relaxed","roll":"29-32","increase":"con","decrease":"dex"},
+    {"id":"impish","name":"Impish","roll":"33-36","increase":"con","decrease":"wis"},
+    {"id":"lax","name":"Lax","roll":"37-40","increase":"con","decrease":"cha"},
+    {"id":"timid","name":"Timid","roll":"41-44","increase":"dex","decrease":"str"},
+    {"id":"hasty","name":"Hasty","roll":"45-48","increase":"dex","decrease":"con"},
+    {"id":"serious","name":"Serious","roll":"49-52","increase":null,"decrease":null},
+    {"id":"jolly","name":"Jolly","roll":"53-56","increase":"dex","decrease":"wis"},
+    {"id":"naive","name":"Naive","roll":"57-60","increase":"dex","decrease":"cha"},
+    {"id":"modest","name":"Modest","roll":"61-64","increase":"wis","decrease":"str"},
+    {"id":"mild","name":"Mild","roll":"65-68","increase":"wis","decrease":"con"},
+    {"id":"quiet","name":"Quiet","roll":"69-72","increase":"wis","decrease":"dex"},
+    {"id":"bashful","name":"Bashful","roll":"73-76","increase":null,"decrease":null},
+    {"id":"rash","name":"Rash","roll":"77-80","increase":"wis","decrease":"cha"},
+    {"id":"calm","name":"Calm","roll":"81-84","increase":"cha","decrease":"str"},
+    {"id":"gentle","name":"Gentle","roll":"85-88","increase":"cha","decrease":"con"},
+    {"id":"sassy","name":"Sassy","roll":"89-92","increase":"cha","decrease":"dex"},
+    {"id":"careful","name":"Careful","roll":"93-96","increase":"cha","decrease":"wis"},
+    {"id":"quirky","name":"Quirky","roll":"97-100","increase":null,"decrease":null}
+  ]
+}

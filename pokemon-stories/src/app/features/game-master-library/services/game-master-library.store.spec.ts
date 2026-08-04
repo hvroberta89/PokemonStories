@@ -136,6 +136,49 @@ describe('GameMasterLibraryStore', () => {
     expect(entry?.sourceUrl).toBe('https://poke5e.app/reference/specializations');
   });
 
+  it('renders localized Pokémon Feat details with the Poke5e source link', async () => {
+    localStorage.setItem(localeKey, 'hu');
+    mockReferenceFetch({
+      '/reference-data/poke5e/feats.json': {
+        items: [{ id: 'gifted', name: 'Gifted', category: 'Pokémon Feat', description: 'Improve an attribute beyond its normal limit.', benefit: 'Increase one ability score by 1 and raise its maximum to 22.', prerequisite: 'Pokémon level 10 or higher.' }],
+      },
+      '/reference-data/poke5e/translations/hu.json': {
+        items: [{ dataset: 'feats', recordId: 'gifted', payload: { name: 'Tehetséges', category: 'Pokémon Feat', description: 'Egy attribútum a szokásos határ fölé nőhet.', benefit: 'Növeld egy attribútum értékét 1-gyel, és annak maximumát 22-re.', prerequisite: 'Legalább 10. szintű Pokémon.' } }],
+      },
+    });
+
+    const entry = await new GameMasterLibraryStore().find('feats', 'gifted');
+
+    expect(entry?.name).toBe('Tehetséges');
+    expect(entry?.detailGroups[0]?.rows).toContainEqual({ label: 'Előny', value: 'Növeld egy attribútum értékét 1-gyel, és annak maximumát 22-re.' });
+    expect(entry?.detailGroups[0]?.rows).toContainEqual({ label: 'Előfeltétel', value: 'Legalább 10. szintű Pokémon.' });
+    expect(entry?.sourceUrl).toBe('https://poke5e.app/reference/feats');
+  });
+
+  it('renders Nature attribute modifiers and its Poke5e source link', async () => {
+    localStorage.setItem(localeKey, 'hu');
+    mockReferenceFetch({
+      '/reference-data/poke5e/natures.json': {
+        items: [
+          { id: 'brave', name: 'Brave', roll: '9-12', increase: 'str', decrease: 'dex' },
+          { id: 'hardy', name: 'Hardy', roll: '1-4', increase: null, decrease: null },
+        ],
+      },
+      '/reference-data/poke5e/translations/hu.json': {
+        items: [{ dataset: 'natures', recordId: 'brave', payload: { name: 'Bátor' } }],
+      },
+    });
+
+    const brave = await new GameMasterLibraryStore().find('natures', 'brave');
+    const hardy = await new GameMasterLibraryStore().find('natures', 'hardy');
+
+    expect(brave?.name).toBe('Bátor');
+    expect(brave?.detailGroups[0]?.rows).toContainEqual({ label: 'Növelt attribútum', value: '+1 Erő' });
+    expect(brave?.detailGroups[0]?.rows).toContainEqual({ label: 'Csökkentett attribútum', value: '-1 Ügyesség' });
+    expect(hardy?.detailGroups[0]?.rows).toContainEqual({ label: 'Növelt attribútum', value: 'Nincs módosító' });
+    expect(brave?.sourceUrl).toBe('https://poke5e.app/reference/natures');
+  });
+
   it('renders localized rule details and retains the Poke5e source link', async () => {
     localStorage.setItem(localeKey, 'hu');
     mockReferenceFetch({

@@ -38316,6 +38316,626 @@
         "type": "Tündér",
         "trainerBenefit": "Előadás jártasságot kapsz, vagy Szakértelmet, ha már jártas vagy benne."
       }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "able-bodied",
+      "payload": {
+        "name": "Edzett test",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon hosszabb ideig ellenáll az állapotoknak.",
+        "benefit": "Az állapotokhoz tartozó türelmi időszaka 2 körrel nő."
+      }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "ac-up",
+      "payload": {
+        "name": "AC növelés",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon állandó védelmi fejlesztést nyer.",
+        "benefit": "Az AC értéke 2-vel nő; a bónusz evolúció után is megmarad."
+      }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "ambidextrous",
+      "payload": {
+        "name": "Kétkezes",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon több felszerelést is képes kezelni egyszerre.",
+        "benefit": "Egy további kézben tartott tárgyat hordozhat.",
+        "limit": "Ez a Feat csak egyszer választható."
+      }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "combo-master",
+      "payload": {
+        "name": "Kombómester",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon megbízhatóbb a többtalálatos Move-okkal.",
+        "benefit": "Egy sikeres támadódobás után a megfelelő többtalálatos Move legalább kétszer biztosan talál."
+      }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "extra-move",
+      "payload": {
+        "name": "Extra Move",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon több Move-ot ismerhet.",
+        "benefit": "Az ismert Move-ok száma 1-gyel nő.",
+        "limit": "Újra választható, legfeljebb 6 ismert Move-ig."
+      }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "gifted",
+      "payload": {
+        "name": "Tehetséges",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon egy attribútuma a szokásos maximum fölé nőhet.",
+        "benefit": "Növeld egy attribútum értékét 1-gyel, és annak maximumát 22-re.",
+        "prerequisite": "Legalább 10. szintű Pokémon."
+      }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "hidden-ability",
+      "payload": {
+        "name": "Rejtett képesség",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon feloldja a statblokkjában feltüntetett rejtett képességet.",
+        "benefit": "A jelenlegi alap Képessége mellett a rejtett Képességét is használhatja."
+      }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "melee-master",
+      "payload": {
+        "name": "Közelharcmester",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon a közeli fizikai harcban jeleskedik.",
+        "benefit": "Előnyt kap a lehetőségtámadásokra, és körönként egyszer a megfelelő Erő-alapú közelharci Move sebzéséhez hozzáadja a jártassági bónuszát."
+      }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "natural-mount",
+      "payload": {
+        "name": "Természetes hátas",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon hátasként védi magát és a lovasát.",
+        "benefit": "A lovast célzó támadást magára irányíthatja, és javíthatja saját vagy lovasa bizonyos Ügyesség mentődobásainak eredményét."
+      }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "power-sculpter",
+      "payload": {
+        "name": "Erőformáló",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon a hatásterületi Move-okat a szövetségesei köré formálhatja.",
+        "benefit": "A megfelelő területi Move hatótávján belül szövetségeseket választ, akik automatikusan sikerrel járnak a sebzés vagy hatás elleni mentődobáson."
+      }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "ranged-master",
+      "payload": {
+        "name": "Távolsági mester",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon jól tud távolról támadni.",
+        "benefit": "A távolsági Move-támadások figyelmen kívül hagyják a fél és háromnegyed fedezéket, és közeli ellenség sem okoz hátrányt."
+      }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "terrain-adept",
+      "payload": {
+        "name": "Terepszakértő",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon különösen jól harcol egy választott terepen.",
+        "benefit": "A választott terepen a támadódobásaihoz +3 bónuszt kap.",
+        "choice": "Part, Mocsár, Erdő, Sarkvidék, Sivatag, Füves puszta, Domb, Hegy vagy Víz alatt."
+      }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "tireless",
+      "payload": {
+        "name": "Fáradhatatlan",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon hosszabb ideig használhatja a Move-jait.",
+        "benefit": "Minden jelenlegi Move PP-je 1-gyel nő; a lecserélt Move-ok is megkapják ezt a bónuszt."
+      }
+    },
+    {
+      "dataset": "feats",
+      "recordId": "wrangler",
+      "payload": {
+        "name": "Birkózómester",
+        "category": "Pokémon Feat",
+        "description": "A Pokémon a közeli ellenfelek megragadására és irányítására specializálódott.",
+        "benefit": "Előnyt kap a megragadott célpontok ellen, és körönként egyszer megpróbálhat megragadni egy célpontot a megfelelő Erő-alapú, egycélpontos közelharci Move után."
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "hardy",
+      "payload": {
+        "name": "Szívós"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "lonely",
+      "payload": {
+        "name": "Magányos"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "brave",
+      "payload": {
+        "name": "Bátor"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "adamant",
+      "payload": {
+        "name": "Rendíthetetlen"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "naughty",
+      "payload": {
+        "name": "Szemtelen"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "bold",
+      "payload": {
+        "name": "Merész"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "docile",
+      "payload": {
+        "name": "Engedelmes"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "relaxed",
+      "payload": {
+        "name": "Laza"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "impish",
+      "payload": {
+        "name": "Csintalan"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "lax",
+      "payload": {
+        "name": "Hanyag"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "timid",
+      "payload": {
+        "name": "Félénk"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "hasty",
+      "payload": {
+        "name": "Heves"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "serious",
+      "payload": {
+        "name": "Komoly"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "jolly",
+      "payload": {
+        "name": "Vidám"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "naive",
+      "payload": {
+        "name": "Naiv"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "modest",
+      "payload": {
+        "name": "Szerény"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "mild",
+      "payload": {
+        "name": "Szelíd"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "quiet",
+      "payload": {
+        "name": "Csendes"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "bashful",
+      "payload": {
+        "name": "Szemérmes"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "rash",
+      "payload": {
+        "name": "Elhamarkodott"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "calm",
+      "payload": {
+        "name": "Nyugodt"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "gentle",
+      "payload": {
+        "name": "Kedves"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "sassy",
+      "payload": {
+        "name": "Pimasz"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "careful",
+      "payload": {
+        "name": "Óvatos"
+      }
+    },
+    {
+      "dataset": "natures",
+      "recordId": "quirky",
+      "payload": {
+        "name": "Furcsa"
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "bond-levels",
+      "payload": {
+        "name": "Kötődési szintek",
+        "category": "Kötődés",
+        "description": "A kötődési szint a Pokémon és a Trainere közötti kapcsolat alakulását írja le.",
+        "details": [
+          {
+            "label": "Tartomány",
+            "value": "A kötődési szintek -3 és +3 között mozognak, és befolyásolhatják az engedelmességet, az evolúciót és a Kötődési pontokat."
+          },
+          {
+            "label": "Kezdő kötődés",
+            "value": "A legtöbb újonnan elkapott Pokémon +0 vagy alacsonyabb értékről indul; +1 fölötti kezdőérték ritka."
+          },
+          {
+            "label": "Narratív döntés",
+            "value": "A Trainer és a Game Master közösen dönt a kötődési szint változásáról."
+          },
+          {
+            "label": "Példák",
+            "value": "Az együtt töltött idő, a kedvelt ételek és a nehéz győzelmek köteléket erősíthetnek; az elhanyagolás vagy a kegyetlen bánásmód csökkentheti azt."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "bond-points",
+      "payload": {
+        "name": "Kötődési pontok",
+        "category": "Kötődés",
+        "description": "A pozitív kötődési szintű Pokémonok a szintjüknek megfelelő számú Kötődési pontot kapnak.",
+        "details": [
+          {
+            "label": "Pontok",
+            "value": "+1, +2 vagy +3 kötődési szinten a Pokémonnak rendre 1, 2 vagy 3 Kötődési pontja van."
+          },
+          {
+            "label": "Helyreállítás",
+            "value": "Minden elköltött Kötődési pont visszatér a hosszú pihenő végén."
+          },
+          {
+            "label": "Előny",
+            "value": "Költs el 1 Kötődési pontot egy d20 képességpróba, támadódobás vagy mentődobás után, hogy előnyt kapj rá."
+          },
+          {
+            "label": "Védelem",
+            "value": "Költs el 1 Kötődési pontot, amikor egy lény megtámadja a Pokémont, hogy hátrányt kapjon a támadódobására."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "negative-bond-levels",
+      "payload": {
+        "name": "Negatív kötődési szintek",
+        "category": "Kötődés",
+        "description": "A negatív kötődési szint egy sértődött, közömbös vagy engedetlen Pokémont jelez.",
+        "details": [
+          {
+            "label": "Szint -1",
+            "value": "Egy feldúlt Pokémon haragot visel, ami hatással van rá a csatában."
+          },
+          {
+            "label": "Szint -2",
+            "value": "Parancs kiadásakor dobj d20-at. 10 vagy kevesebb esetén a Pokémon tétovázik, és hátránnyal hajtja végre a parancsot."
+          },
+          {
+            "label": "Szint -3",
+            "value": "Parancs kiadásakor dobj d20-at. 10 vagy kevesebb esetén a Pokémon nem engedelmeskedik: nem tesz semmit, vagy önállóan cselekszik."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "pokemon-eggs-and-breeding",
+      "payload": {
+        "name": "Pokémon tojások és szaporítás",
+        "category": "Tenyésztés",
+        "description": "Minden játékon belüli nap végén a feltételeknek megfelelő Pokémonok megpróbálhatnak tojást létrehozni.",
+        "details": [
+          {
+            "label": "Trainerek kapcsolata",
+            "value": "A Pokémonoknak közös Trainerhez kell tartozniuk, vagy a Trainereiknek ugyanabban a csapatban kell lenniük."
+          },
+          {
+            "label": "Kötődés",
+            "value": "Mindkét szülőnek legalább +2 Kötődési szinttel kell rendelkeznie."
+          },
+          {
+            "label": "Kompatibilitás",
+            "value": "A szülőknek ellentétes neműeknek és közös Egg Groupba tartozóknak kell lenniük; az Undiscovered Pokémonok nem szaporodhatnak."
+          },
+          {
+            "label": "Pokéslot",
+            "value": "A Trainernek nyitott Pokéslot kell a tojáshoz."
+          },
+          {
+            "label": "Szaporítási próba",
+            "value": "Dobj módosító nélküli d20-at a szülők összesített Kötődési szintje alapján meghatározott DC ellen."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "egg-incubation",
+      "payload": {
+        "name": "Tojás inkubációja",
+        "category": "Tenyésztés",
+        "description": "Az új tojás a Pokémon Species Ratingje alapján Hatch Time számlálót kap.",
+        "details": [
+          {
+            "label": "Haladás",
+            "value": "Minden játékon belüli nap vagy Session elején dobj 1d100 + 50-et, és ennyivel csökkentsd a számlálót."
+          },
+          {
+            "label": "Gondozás",
+            "value": "Haladás csak akkor történik, ha a Trainer éjszaka vagy az előző Session jelentős részében magánál hordta a tojást."
+          },
+          {
+            "label": "Törékenység",
+            "value": "A tojás AC-je 8, HP-ja 10; 0 HP-nál eltörik, és a benne lévő Pokémon elvész."
+          },
+          {
+            "label": "Inkubátorok",
+            "value": "A Basic, Plus és Super Inkubátor naponta további 1d20, 2d20 vagy 3d20 értékkel csökkenti a Hatch Time-ot."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "hatching-pokemon",
+      "payload": {
+        "name": "Pokémon kikelése",
+        "category": "Tenyésztés",
+        "description": "Amikor a Hatch Time eléri a 0-t, határozd meg a kikelt Pokémon kezdeti faját, tulajdonságait, Move-jait és kötődését.",
+        "details": [
+          {
+            "label": "Faj",
+            "value": "A nőstény szülő legalacsonyabb evolúciós formáját használd, annak minimum megtalálható szintjén."
+          },
+          {
+            "label": "Természet és nem",
+            "value": "Dobj d100-at a Nature táblázaton és a faj Gender Rate értéke alapján."
+          },
+          {
+            "label": "Move-ok",
+            "value": "Válassz kezdő Move-okat, és add hozzá a megfelelő Egg Move-okat vagy mindkét szülő által ismert Move-okat a szaporítási szabályok szerint."
+          },
+          {
+            "label": "Képesség",
+            "value": "Dobj fel egy érmét: fej esetén a nőstény szülő Képességét örökli, írás esetén véletlenszerű Képességet kap a saját statblokkjából."
+          },
+          {
+            "label": "Kötődés",
+            "value": "A kikelő Pokémon +1 Kötődési szinten kezd, vagy +2-n, ha a teljes inkubációt a Trainer csapatában töltötte."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "breeding-special-cases",
+      "payload": {
+        "name": "Tenyésztési különleges esetek",
+        "category": "Tenyésztés",
+        "description": "Egyes Egg Groupok és fajok különleges szabályokat követnek a szaporítás során.",
+        "details": [
+          {
+            "label": "Ditto",
+            "value": "Ditto bármely Pokémonnal szaporodhat, nemtől vagy Egg Grouptól függetlenül; a nem-Ditto szülő határozza meg a kikelt fajt."
+          },
+          {
+            "label": "Undiscovered",
+            "value": "Az Undiscovered Egg Groupba tartozó bébi és legendás Pokémonok nem szaporodhatnak."
+          },
+          {
+            "label": "Nemi változatok",
+            "value": "A különálló nemi statblokkal rendelkező fajok bármelyik változatot létrehozhatják; a fióka Gender Rate értéke dönti el az eredményt."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "legendary-boss-battles",
+      "payload": {
+        "name": "Legendás főellenfél-csaták",
+        "category": "Legendás csaták",
+        "description": "A Kalandmester legendás képességekkel ruházhat fel egy kiemelt ellenfelet, hogy a főellenfél-találkozás veszélyesebb és emlékezetesebb legyen.",
+        "details": [
+          {
+            "label": "Cél",
+            "value": "Ezeket a képességeket szokatlanul nehéz ellenfelekhez használd, például veszélyes vad fenyegetéshez vagy Legendás Pokémonhoz."
+          },
+          {
+            "label": "Kiválasztás",
+            "value": "Olyan képességeket válassz, amelyek erősítik a főellenfél történeti szerepét és tervezett harctéri viselkedését."
+          },
+          {
+            "label": "Jutalom",
+            "value": "Megfontolhatod további tapasztalati pontok adását az egy vagy több legendás képességgel rendelkező lény legyőzéséért."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "legendary-defense",
+      "payload": {
+        "name": "Legendás védekező képességek",
+        "category": "Legendás csaták",
+        "description": "A védekező legendás képességek segítenek a főellenfélnek túlélni a játékosok döntő köreit.",
+        "details": [
+          {
+            "label": "Legendás elszántság",
+            "value": "Naponta korlátozott számú alkalommal a Pokémon sikerré változtathat egy sikertelen mentődobást."
+          },
+          {
+            "label": "Legendás ellenállás",
+            "value": "Naponta korlátozott számú alkalommal a Pokémon felére csökkentheti egy Move sebzését."
+          },
+          {
+            "label": "Legendás állhatatosság",
+            "value": "A Pokémon feláldozhatja az akcióját, hogy eltávolítson magáról egy negatív állapothatást."
+          },
+          {
+            "label": "Legendás Páncél",
+            "value": "Naponta korlátozott számú alkalommal, reakcióként a Pokémon annyival növelheti az AC-jét, hogy egy támadás célt tévesszen."
+          },
+          {
+            "label": "Legendás szívósság",
+            "value": "A HP-t minden szinten a találati kocka maximális értékével számold."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "legendary-offense-and-energy",
+      "payload": {
+        "name": "Legendás támadás és energia",
+        "category": "Legendás csaták",
+        "description": "A támadó és energiaképességek tartós nyomást biztosítanak a főellenfélnek a csatában.",
+        "details": [
+          {
+            "label": "Legendás támadás I",
+            "value": "A jelenlegi akciódat két támadásra cserélheted a következő körben, vagy most hajthatsz végre két támadást, és feláldozhatod a következő akciódat."
+          },
+          {
+            "label": "Legendás támadás II",
+            "value": "Minden körében két támadást hajthat végre."
+          },
+          {
+            "label": "Legendás támadás III",
+            "value": "Egy jellegzetes Move-ot kétszer használhat egy körben."
+          },
+          {
+            "label": "Legendás Energia I",
+            "value": "Egy akció feláldozásával visszaállíthatja egy Move összes PP-jét."
+          },
+          {
+            "label": "Legendás Energia II",
+            "value": "Minden Move PP-je a szokásos érték kétszerese."
+          }
+        ]
+      }
+    },
+    {
+      "dataset": "rules",
+      "recordId": "legendary-mobility-and-utility",
+      "payload": {
+        "name": "Legendás mobilitás és hasznosság",
+        "category": "Legendás csaták",
+        "description": "A mobilitási és segítő képességek miatt a főellenfél nehezebben feltartóztatható, és taktikailag rugalmasabb.",
+        "details": [
+          {
+            "label": "Legendás fürgeség",
+            "value": "A sebességéig mozoghat anélkül, hogy lehetőségi támadást váltana ki."
+          },
+          {
+            "label": "Legendás sebesség",
+            "value": "Naponta korlátozott számú alkalommal megduplázhatja a mozgását."
+          },
+          {
+            "label": "Legendás reflexek",
+            "value": "Egy harci körben két reakciót használhat."
+          },
+          {
+            "label": "Legendás tudás",
+            "value": "A Pokémon Move-listájáról szintkorlátozás nélkül választhat Move-okat."
+          }
+        ]
+      }
     }
   ]
 }
