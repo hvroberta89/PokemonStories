@@ -30,7 +30,7 @@ export class SupabaseSessionAssistant implements SessionAssistant, AdventureAssi
     const { data, error } = await this.supabase.functions.invoke('generate-session-suggestions', {
       body: { action: 'foundation', context: this.withAssistantSettings(context) },
     });
-    if (error) throw new Error('Az AI segítő most nem érhető el.');
+    if (error) throw new Error(await describeFunctionError(error));
     if (!isFoundationSuggestionResponse(data)) throw new Error('Az AI segítő hibás választ adott.');
     return data.suggestions;
   }
@@ -41,7 +41,7 @@ export class SupabaseSessionAssistant implements SessionAssistant, AdventureAssi
     const { data, error } = await this.supabase.functions.invoke('generate-session-suggestions', {
       body: { action: 'scene', context: this.withAssistantSettings(context) },
     });
-    if (error) throw new Error('Az AI segítő most nem érhető el.');
+    if (error) throw new Error(await describeFunctionError(error));
     if (!isSceneSuggestionResponse(data)) throw new Error('Az AI segítő hibás választ adott.');
     return data.suggestions;
   }
@@ -52,7 +52,7 @@ export class SupabaseSessionAssistant implements SessionAssistant, AdventureAssi
     const { data, error } = await this.supabase.functions.invoke('generate-session-suggestions', {
       body: { action: 'adventure-story', context: this.withAssistantSettings(context) },
     });
-    if (error) throw new Error('Az AI segítő most nem érhető el.');
+    if (error) throw new Error(await describeFunctionError(error));
     if (!isAdventureStorySuggestionResponse(data)) throw new Error('Az AI segítő hibás választ adott.');
     return data.suggestions;
   }
@@ -64,7 +64,7 @@ export class SupabaseSessionAssistant implements SessionAssistant, AdventureAssi
     const { data, error } = await this.supabase.functions.invoke('generate-session-suggestions', {
       body: { action, context: this.withAssistantSettings(context) },
     });
-    if (error) throw new Error('Az AI segítő most nem érhető el.');
+    if (error) throw new Error(await describeFunctionError(error));
     if (!isSuggestionResponse(data)) throw new Error('Az AI segítő hibás választ adott.');
     return data.suggestions;
   }
@@ -81,7 +81,7 @@ export class SupabaseSessionAssistant implements SessionAssistant, AdventureAssi
         }),
       },
     });
-    if (error) throw new Error('Az AI segítő most nem érhető el.');
+    if (error) throw new Error(await describeFunctionError(error));
     if (!isStoryResponse(data)) throw new Error('Az AI segítő hibás választ adott.');
     return data.summary;
   }
@@ -107,6 +107,19 @@ export class SupabaseSessionAssistant implements SessionAssistant, AdventureAssi
       aiConnection: connection,
     };
   }
+}
+
+async function describeFunctionError(error: unknown): Promise<string> {
+  if (typeof error === 'object' && error !== null && 'context' in error) {
+    const context = (error as { context?: { clone?: () => Response } }).context;
+    try {
+      const body = await context?.clone?.().json() as { error?: unknown };
+      if (typeof body?.error === 'string' && body.error.trim()) return body.error;
+    } catch {
+      // Fall through to the generic message when the function did not return JSON.
+    }
+  }
+  return 'Az AI segítő most nem érhető el.';
 }
 
 function isStoryResponse(data: unknown): data is { summary: string } {
