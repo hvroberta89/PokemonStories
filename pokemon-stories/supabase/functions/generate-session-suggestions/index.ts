@@ -29,8 +29,9 @@ Deno.serve(async (request) => {
     const input = validateRequest(await request.json());
     const providerResponse = await requestProvider(input);
     if (!providerResponse.ok) {
-      console.error('AI provider request failed:', await providerResponse.text());
-      return response({ error: 'Az AI szolgáltató most nem érhető el.' }, 502);
+      const providerError = await providerResponse.text();
+      console.error('AI provider request failed:', providerError);
+      return response({ error: providerErrorMessage(providerResponse.status, providerError) }, 502);
     }
     const result = await parseProviderResponse(providerResponse, input.context.aiConnection?.provider);
     if (input.action === 'summary') return response({ summary: validateStory(result) });
@@ -44,7 +45,7 @@ Deno.serve(async (request) => {
     return response({ suggestions: validateSuggestions(result) });
   } catch (error) {
     console.error('Session suggestion generation failed:', error);
-    return response({ error: 'Az AI kérés nem feldolgozható.' }, 400);
+    return response({ error: error instanceof Error ? error.message : 'Az AI kérés nem feldolgozható.' }, 400);
   }
 });
 
@@ -231,6 +232,27 @@ function openAiCompatibleUrlFor(provider: Exclude<AiProvider, 'openai' | 'anthro
     together: 'https://api.together.xyz/v1/chat/completions',
     perplexity: 'https://api.perplexity.ai/chat/completions',
   }[provider];
+}
+
+function providerErrorMessage(status: number, providerError: string): string {
+  if (status === 401 || status === 403) return 'Az API-kulcs érvénytelen, vagy nincs jogosultsága a kiválasztott modellhez.';
+  if (status === 429) return 'Az AI szolgáltató elérte a kérési vagy költési korlátot.';
+  const detail = providerErrorDetail(providerError);
+  if (detail) return `Az AI szolgáltató hibát adott vissza: ${detail}`;
+  return `Az AI szolgáltató hibát adott vissza (HTTP ${status}).`;
+}
+
+function providerErrorDetail(providerError: string): string | null {
+  try {
+    const parsed = JSON.parse(providerError) as { error?: { message?: unknown } | unknown; message?: unknown };
+    const message = typeof parsed.error === 'object' && parsed.error !== null && 'message' in parsed.error
+      ? (parsed.error as { message?: unknown }).message
+      : parsed.message;
+    if (typeof message !== 'string' || !message.trim()) return null;
+    return message.trim().slice(0, 300);
+  } catch {
+    return null;
+  }
 }
 
 function validateRequest(value: unknown): { action: Action; context: Context } {
