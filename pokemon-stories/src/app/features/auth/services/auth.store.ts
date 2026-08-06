@@ -34,7 +34,11 @@ export class AuthStore {
   }
 
   async signUp(email: string, password: string): Promise<SignUpResult> {
-    const { data, error } = await this.supabase.auth.signUp({ email, password });
+    const { data, error } = await this.supabase.auth.signUp({
+      email,
+      password,
+      options: { emailRedirectTo: globalThis.location.origin },
+    });
     if (error) {
       throw error;
     }
